@@ -1,0 +1,35 @@
+DEB [20261111-11:54:54.274] thr=1   paramiko.transport: starting thread (client mode): 0x2ed44050
+DEB [20261111-11:54:54.287] thr=1   paramiko.transport: Local version/idstring: SSH-2.0-paramiko_5.1.0
+DEB [20261111-11:54:54.576] thr=1   paramiko.transport: Remote version/idstring: SSH-2.0-OpenSSH_10.2p1 Ubuntu-2ubuntu3.8
+INF [20261111-11:54:54.576] thr=1   paramiko.transport: Connected (version 2.0, client OpenSSH_10.2p1)
+DEB [20261111-11:54:54.591] thr=1   paramiko.transport: === Key exchange possibilities ===
+DEB [20261111-11:54:54.591] thr=1   paramiko.transport: kex algos: mlkem768x25519-sha256, sntrup761x25519-sha512, sntrup761x25519-sha512@openssh.com, curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, ext-info-s, kex-strict-s-v00@openssh.com
+DEB [20261111-11:54:54.599] thr=1   paramiko.transport: server key: rsa-sha2-512, rsa-sha2-256, ecdsa-sha2-nistp256, ssh-ed25519
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: client encrypt: chacha20-poly1305@openssh.com, aes128-gcm@openssh.com, aes256-gcm@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: server encrypt: chacha20-poly1305@openssh.com, aes128-gcm@openssh.com, aes256-gcm@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: client mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: server mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: client compress: none, zlib@openssh.com
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: server compress: none, zlib@openssh.com
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: client lang: <none>
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: server lang: <none>
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: kex follows: False
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: === Key exchange agreements ===
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: Strict kex mode: True
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: Kex: mlkem768x25519-sha256
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: HostKey: ssh-ed25519
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: Cipher: aes128-ctr
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: MAC: hmac-sha2-256
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: Compression: none
+DEB [20261111-11:54:54.600] thr=1   paramiko.transport: === End of kex handshake ===
+DEB [20261111-11:54:55.329] thr=1   paramiko.transport: Resetting outbound seqno after NEWKEYS due to strict mode
+DEB [20261111-11:54:55.329] thr=1   paramiko.transport: kex engine KexMLKEM768X25519 specified hash_algo <built-in function openssl_sha256>
+DEB [20261111-11:54:55.329] thr=1   paramiko.transport: Switch to new keys ...
+DEB [20261111-11:54:55.329] thr=1   paramiko.transport: Resetting inbound seqno after NEWKEYS due to strict mode
+DEB [20261111-11:54:55.330] thr=1   paramiko.transport: Got EXT_INFO: {'server-sig-algs': b'ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256', 'publickey-hostbound@openssh.com': b'0', 'ping@openssh.com': b'0'}
+DEB [20261111-11:54:56.983] thr=1   paramiko.transport: userauth is OK
+DEB [20261111-11:54:57.408] thr=1   paramiko.transport: Authentication type (none) not permitted.
+DEB [20261111-11:54:57.408] thr=1   paramiko.transport: Allowed methods: ['publickey', 'password']
+DEB [20261111-11:54:57.936] thr=1   paramiko.transport: userauth is OK
+INF [20261111-11:55:00.356] thr=1   paramiko.transport: Authentication (password) failed.
+DEB [20261111-11:55:00.357] thr=1   paramiko.transport: EOF in transport thread
