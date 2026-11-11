@@ -33,3 +33,4 @@ class AttendanceLog(Base):
     # Bog'lanishlar
     student = relationship("Student", back_populates="attendance_logs")
     device = relationship("Device", back_populates="attendance_logs")
+

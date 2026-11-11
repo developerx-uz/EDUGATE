@@ -49,3 +49,4 @@ if __name__ == "__main__":
         device_token="edugate_dev_sample_token_here"
     )
     logger.info("Edge Client tayyor.")
+

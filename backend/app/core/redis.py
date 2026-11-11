@@ -76,3 +76,4 @@ class DebounceManager:
 
 
 debounce_manager = DebounceManager()
+

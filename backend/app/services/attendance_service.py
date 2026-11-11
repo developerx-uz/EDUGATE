@@ -118,3 +118,4 @@ class AttendanceService:
             event_time=log.event_time,
             attendance_status=log.status
         )
+

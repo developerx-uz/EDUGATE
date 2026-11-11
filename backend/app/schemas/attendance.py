@@ -41,3 +41,4 @@ class AttendanceLogOut(BaseModel):
 
     class Config:
         from_attributes = True
+

@@ -24,3 +24,4 @@ class Parent(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     students = relationship("Student", secondary=student_parents, back_populates="parents")
+

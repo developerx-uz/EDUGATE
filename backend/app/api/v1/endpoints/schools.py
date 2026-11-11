@@ -34,3 +34,4 @@ async def list_schools(
 ):
     result = await db.execute(select(School))
     return result.scalars().all()
+

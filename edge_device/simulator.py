@@ -44,3 +44,4 @@ if __name__ == "__main__":
         print(f"Takroriy aniqlash #{i+1}...")
         simulate_camera_event("SCH01-2024-001", event_type="ENTRY")
         time.sleep(1)
+

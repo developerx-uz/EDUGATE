@@ -68,3 +68,4 @@ python simulator.py
 * **X-Device-Token:** Har bir kamera alohida xavfsiz token bilan ishlaydi.
 * **Anti-Passback & Debounce:** O'quvchi kamera oldida uzoq turib qolsa, ota-onaga takroriy xabarlar bormaydi (15 daqiqa kesh).
 * **High Performance:** FastAPI asinxron arxitekturasi tufayli bir vaqtning o'zida yuzlab eshiklardagi kameralarni kechikishlarsiz ko'tara oladi.
+

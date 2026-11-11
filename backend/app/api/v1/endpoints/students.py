@@ -41,3 +41,4 @@ async def list_students(
         query = query.filter(Student.class_name == class_name)
     result = await db.execute(query)
     return result.scalars().all()
+

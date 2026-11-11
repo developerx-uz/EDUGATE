@@ -26,3 +26,4 @@ class StudentOut(BaseModel):
 
     class Config:
         from_attributes = True
+

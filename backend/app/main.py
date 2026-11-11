@@ -50,3 +50,4 @@ async def health_check():
         "version": settings.VERSION,
         "database": "sqlite" if settings.USE_SQLITE else "postgresql"
     }
+

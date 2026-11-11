@@ -19,3 +19,4 @@ class School(Base):
     # Bog'lanishlar
     devices = relationship("Device", back_populates="school", cascade="all, delete-orphan")
     students = relationship("Student", back_populates="school", cascade="all, delete-orphan")
+

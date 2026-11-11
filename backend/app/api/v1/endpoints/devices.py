@@ -39,3 +39,4 @@ async def list_devices(
 ):
     result = await db.execute(select(Device).filter(Device.school_id == school_id))
     return result.scalars().all()
+
