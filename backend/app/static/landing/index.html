@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <!-- 2. COMPACT HEADER NAVBAR (NO ADMIN PORTAL - REPLACED WITH PRESENTATION & CALCULATOR) -->
+    <!-- 2. COMPACT HEADER NAVBAR -->
     <header class="sticky top-0 z-50 bg-[#070D1A]/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <!-- Brand Logo -->
@@ -79,14 +79,14 @@
             <nav class="hidden lg:flex items-center gap-0.5 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
                 <a href="#hero" class="nav-link">Bosh Sahifa</a>
                 <a href="#presentation" class="nav-link text-cyan-400 font-bold"><i class="fas fa-play-circle text-[10px] mr-1"></i>Prezentatsiya</a>
-                <a href="#calculator" class="nav-link text-amber-400 font-bold"><i class="fas fa-calculator text-[10px] mr-1"></i>Buyurtma hisoblash</a>
                 <a href="#scanner-hud" class="nav-link">Face ID HUD</a>
+                <a href="#process" class="nav-link">O'tish Zanjiri</a>
                 <a href="#dashboards" class="nav-link">Dasturiy Panellar</a>
                 <a href="#hardware-specs" class="nav-link">Uskunalar</a>
                 <a href="#map-analytics" class="nav-link">14 Viloyat</a>
             </nav>
 
-            <!-- Actions: NO ADMIN - ONLINE PRESENTATION & ORDER CALCULATOR BUTTONS -->
+            <!-- Actions: ONLINE PRESENTATION BUTTON -->
             <div class="hidden sm:flex items-center gap-2">
                 <!-- Language Selector -->
                 <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-[10px] font-mono mr-1">
@@ -95,16 +95,10 @@
                     <button data-lang-btn="en" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">EN</button>
                 </div>
 
-                <!-- 1. Online Presentation Button -->
+                <!-- Online Presentation Button -->
                 <button type="button" data-open-presentation class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.3)] flex items-center gap-1.5">
                     <i class="fas fa-play-circle text-[11px] text-cyan-200"></i>
                     <span>ONLINE PREZENTATSIYA</span>
-                </button>
-
-                <!-- 2. Order Calculator Button -->
-                <button type="button" data-open-calculator class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-[11px] font-mono border-amber-500/40 text-amber-300 hover:border-amber-400 hover:text-white flex items-center gap-1.5">
-                    <i class="fas fa-calculator text-[10px]"></i>
-                    <span>BUYURTMANI HISOBLASH</span>
                 </button>
             </div>
 
@@ -135,7 +129,7 @@
                             <i class="fas fa-signal text-[8px]"></i> 948 Maktab Faol
                         </span>
                         <span class="badge-tech badge-amber text-[8.5px]">
-                            <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Tasdiqlagan
+                            <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Xulosasi
                         </span>
                     </div>
 
@@ -217,9 +211,9 @@
                         <button type="button" data-open-presentation class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center gap-2">
                             <i class="fas fa-play-circle text-[11px]"></i> ONLINE PREZENTATSIYA (9 SLAYD)
                         </button>
-                        <button type="button" data-open-calculator class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center gap-2 border-amber-500/40 text-amber-300 hover:border-amber-400">
-                            <i class="fas fa-calculator text-[10px]"></i> SMETANI HISOBLASH
-                        </button>
+                        <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center gap-2">
+                            <i class="fas fa-laptop-code text-[10px]"></i> TIZIM PANELLARI
+                        </a>
                     </div>
                 </div>
 
@@ -400,138 +394,7 @@
         </div>
     </section>
 
-    <!-- 5. COMPACT EQUIPMENT & ORDER CALCULATOR (BUYURTMANI HISOBLASH) -->
-    <section id="calculator" class="py-12 bg-[#040812] border-b border-slate-800">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="hud-card p-5 sm:p-7 border-amber-500/40 shadow-[0_0_30px_rgba(245,158,11,0.1)]">
-                
-                <div class="text-center max-w-2xl mx-auto mb-6 space-y-1">
-                    <span class="badge-tech badge-amber text-[8.5px]">SMETA & KALKULYATOR</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white">
-                        Maktabingiz Uchun Turniket Tizimi Hisob-Kitobi va Buyurtma
-                    </h2>
-                    <p class="text-slate-400 text-xs">
-                        Maktab o'quvchilari soni va kirish yo'laklariga qarab optimal apparat to'plami va xarajatini hisoblang.
-                    </p>
-                </div>
-
-                <!-- School Category Preset Buttons -->
-                <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
-                    <button type="button" data-calc-preset="600" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900/80 text-xs font-mono hover:border-cyan-400 transition text-slate-300">
-                        <i class="fas fa-school mr-1 text-cyan-400"></i> Kichik maktab (800 gacha)
-                    </button>
-                    <button type="button" data-calc-preset="1200" class="active px-3 py-1.5 rounded-lg border border-cyan-400 bg-cyan-500/20 text-xs font-mono font-bold text-cyan-300 transition">
-                        <i class="fas fa-building-columns mr-1 text-emerald-400"></i> O'rta maktab (800 – 1,500)
-                    </button>
-                    <button type="button" data-calc-preset="2200" class="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900/80 text-xs font-mono hover:border-cyan-400 transition text-slate-300">
-                        <i class="fas fa-city mr-1 text-indigo-400"></i> Katta maktab (1,500+ o'quvchi)
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    
-                    <!-- Left: Slider & Form -->
-                    <div class="lg:col-span-7 space-y-5">
-                        
-                        <!-- Slider box -->
-                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
-                            <div class="flex items-center justify-between mb-2 font-mono">
-                                <label class="text-xs font-bold text-slate-300">
-                                    <i class="fas fa-users text-cyan-400 mr-1.5"></i>O'quvchilar Soni:
-                                </label>
-                                <span id="calcStudentCountVal" class="text-lg font-bold text-cyan-400">1,200</span>
-                            </div>
-                            <input type="range" id="calcStudentSlider" min="200" max="3500" step="50" value="1200" class="w-full">
-                            <div class="flex justify-between text-[9.5px] text-slate-500 font-mono mt-1.5">
-                                <span>200 o'quvchi</span>
-                                <span>1,500 o'quvchi</span>
-                                <span>3,500+ o'quvchi</span>
-                            </div>
-                        </div>
-
-                        <!-- Direct Order Submission Form -->
-                        <form id="calculatorOrderForm" class="space-y-2.5 pt-2">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[9.5px] uppercase font-mono text-cyan-400 font-bold block">
-                                    Rasmiy Tijoriy Taklif va Loyiha Olish:
-                                </span>
-                                <span class="text-[9px] text-slate-400 font-mono"><i class="fas fa-clock text-amber-400 mr-1"></i>15 daqiqada javob</span>
-                            </div>
-
-                            <div>
-                                <input type="text" id="orderSchoolName" name="school_name" required placeholder="Viloyat / Tuman / Maktab raqami (Masalan: Termiz sh., 11-maktab)" 
-                                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono">
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                <input type="text" id="orderContactName" name="contact_name" required placeholder="Mas'ul xodim F.I.Sh" 
-                                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono">
-                                <input type="tel" id="orderPhone" name="phone_number" required placeholder="+998 90 123 45 67" 
-                                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono">
-                            </div>
-
-                            <button type="submit" class="btn-cyber btn-cyber-primary w-full py-2.5 text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)]">
-                                <i class="fas fa-file-invoice-dollar text-[11px]"></i>
-                                <span>BUYURTMA SO'ROVINI YUBORISH (BEPUL SMETA)</span>
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Right: Calculated Breakdown Box -->
-                    <div class="lg:col-span-5 bg-slate-900/95 rounded-xl p-4 sm:p-5 border border-amber-500/40 font-mono space-y-3 shadow-xl">
-                        
-                        <div class="pb-2.5 border-b border-slate-800">
-                            <span class="text-[9px] text-slate-500 uppercase tracking-wider block">Tavsiya Etiladigan Konfiguratsiya:</span>
-                            <h4 id="calcSchoolTypeVal" class="text-xs font-bold text-amber-300 mt-0.5">O'rta Maktab (800 – 1,500 o'quvchi)</h4>
-                        </div>
-
-                        <!-- Hardware itemized breakdown -->
-                        <div class="space-y-2 text-[11px]">
-                            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                                <span class="text-slate-400"><i class="fas fa-door-open text-cyan-400 mr-1.5"></i>Turniketlar:</span>
-                                <span id="calcTurnstilesVal" class="font-bold text-cyan-300">4 ta yo'lak</span>
-                            </div>
-                            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                                <span class="text-slate-400"><i class="fas fa-camera text-indigo-400 mr-1.5"></i>Face ID Terminallar:</span>
-                                <span id="calcCamerasVal" class="font-bold text-cyan-300">8 dona (Kirish/Chiqish)</span>
-                            </div>
-                            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                                <span class="text-slate-400"><i class="fas fa-battery-full text-emerald-400 mr-1.5"></i>SmartUPS Batareya:</span>
-                                <span id="calcUpsVal" class="font-bold text-white">1 komplekt (8 soat)</span>
-                            </div>
-                            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                                <span class="text-slate-400"><i class="fas fa-laptop-code text-amber-400 mr-1.5"></i>Dasturiy Litsenziya:</span>
-                                <span class="font-bold text-emerald-400">Umrbod / Server</span>
-                            </div>
-                            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
-                                <span class="text-slate-400"><i class="fab fa-telegram text-sky-400 mr-1.5"></i>Telegram & SMS Bot:</span>
-                                <span class="font-bold text-sky-300">100% Kiritilgan</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-slate-400"><i class="fas fa-screwdriver-wrench text-rose-400 mr-1.5"></i>Montaj & Kafolat:</span>
-                                <span class="font-bold text-white">3 Yil Rasmiy Kafolat</span>
-                            </div>
-                        </div>
-
-                        <!-- Price calculation -->
-                        <div class="pt-3 border-t border-slate-800">
-                            <span class="text-[9px] text-slate-400 uppercase tracking-wider block">Taxminiy to'liq loyiha qiymati:</span>
-                            <h3 id="calcTotalCostVal" class="text-xl sm:text-2xl font-black text-gradient-cyan mt-0.5">
-                                142,000,000 so'm
-                            </h3>
-                            <p class="text-[9px] text-slate-400 font-sans mt-1">
-                                * Barcha uskunalar, FaceID terminallar, montaj va dasturiy ta'minot ichida.
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. COMPACT PROCESS STEPS -->
+    <!-- 5. COMPACT PROCESS STEPS -->
     <section id="process" class="py-10 bg-[#070D1A]/50 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-8 space-y-1">
@@ -593,7 +456,7 @@
         </div>
     </section>
 
-    <!-- 7. COMPACT DASHBOARDS SHOWCASE (4 PANELS) -->
+    <!-- 6. COMPACT DASHBOARDS SHOWCASE (4 PANELS) -->
     <section id="dashboards" class="py-12 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
@@ -773,7 +636,7 @@
         </div>
     </section>
 
-    <!-- 8. COMPACT 14 REGIONS MAP -->
+    <!-- 7. COMPACT 14 REGIONS MAP -->
     <section id="map-analytics" class="py-10 bg-[#070D1A]/60 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-6 space-y-1">
@@ -841,7 +704,7 @@
         </div>
     </section>
 
-    <!-- 9. COMPACT HARDWARE BLUEPRINT -->
+    <!-- 8. COMPACT HARDWARE BLUEPRINT -->
     <section id="hardware-specs" class="py-12 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-2xl mx-auto mb-8 space-y-1">
@@ -900,7 +763,7 @@
         </div>
     </section>
 
-    <!-- 10. COMPACT FOOTER (NO ADMIN LINKS) -->
+    <!-- 9. COMPACT FOOTER -->
     <footer class="bg-[#040812] border-t border-slate-800 pt-8 pb-6 text-slate-400 text-xs">
         <div class="max-w-6xl mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 pb-6 border-b border-slate-800">
@@ -918,9 +781,9 @@
                     <h4 class="font-bold text-white uppercase text-[10px] tracking-wider mb-2 font-mono">Platforma</h4>
                     <ul class="space-y-1.5 text-[11px]">
                         <li><a href="#presentation" data-open-presentation class="hover:text-cyan-400 transition font-bold text-cyan-300">Online Prezentatsiya (9 Slayd)</a></li>
-                        <li><a href="#calculator" data-open-calculator class="hover:text-amber-400 transition font-bold text-amber-300">Buyurtmani Hisoblash</a></li>
                         <li><a href="#scanner-hud" class="hover:text-cyan-400 transition">Face ID Simulyator</a></li>
                         <li><a href="#dashboards" class="hover:text-cyan-400 transition">Dasturiy Panellar</a></li>
+                        <li><a href="#map-analytics" class="hover:text-cyan-400 transition">14 Viloyat Xaritasi</a></li>
                     </ul>
                 </div>
 
@@ -928,7 +791,6 @@
                     <h4 class="font-bold text-white uppercase text-[10px] tracking-wider mb-2 font-mono">Havolalar</h4>
                     <ul class="space-y-1.5 text-[11px]">
                         <li><a href="#hardware-specs" class="hover:text-cyan-400 transition">Uskunalar Pasporti</a></li>
-                        <li><a href="#map-analytics" class="hover:text-cyan-400 transition">14 Viloyat Xaritasi</a></li>
                         <li><a href="docs" class="hover:text-cyan-400 transition">FastAPI REST Docs</a></li>
                         <li><a href="https://t.me/e_davomatbot" target="_blank" class="hover:text-cyan-400 transition">Telegram Bot</a></li>
                     </ul>
@@ -949,7 +811,7 @@
         </div>
     </footer>
 
-    <!-- 11. FULL-SCREEN ONLINE PRESENTATION MODAL -->
+    <!-- 10. FULL-SCREEN ONLINE PRESENTATION MODAL -->
     <div id="presentationModal" class="modal-overlay hidden">
         <div class="relative max-w-5xl w-full mx-4 hud-card p-4 sm:p-6 bg-slate-950/98 border border-cyan-500/60 shadow-2xl modal-deck">
             
@@ -1044,88 +906,7 @@
         </div>
     </div>
 
-    <!-- 12. FULL EQUIPMENT & ORDER CALCULATOR MODAL -->
-    <div id="calculatorModal" class="modal-overlay hidden">
-        <div class="relative max-w-2xl w-full mx-4 hud-card p-5 sm:p-6 bg-slate-950/98 border border-amber-500/50 shadow-2xl modal-deck">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm sm:text-base font-bold text-white font-mono">
-                            Maktabingiz Uchun Turniket Tizimi Smeta Hisobi
-                        </h3>
-                        <p class="text-[10px] text-slate-400">Tezkor rasmiy tijoriy taklif va loyiha olish</p>
-                    </div>
-                </div>
-
-                <button type="button" id="closeCalculatorModalBtn" class="text-slate-400 hover:text-white text-lg p-1 transition">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Modal Content Form -->
-            <form id="calculatorModalForm" class="space-y-4">
-                
-                <!-- Quick stats summary -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-mono bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-                    <div>
-                        <span class="text-slate-500 block uppercase">Turniketlar:</span>
-                        <span id="modalCalcTurnstiles" class="text-xs font-bold text-cyan-300">4 ta yo'lak</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-500 block uppercase">Face ID:</span>
-                        <span id="modalCalcCameras" class="text-xs font-bold text-cyan-300">8 dona</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-500 block uppercase">SmartUPS:</span>
-                        <span id="modalCalcUps" class="text-xs font-bold text-white">1 komplekt</span>
-                    </div>
-                    <div>
-                        <span class="text-slate-500 block uppercase">Jami Smeta:</span>
-                        <span id="modalCalcTotalCost" class="text-xs font-bold text-amber-400">142,000,000 so'm</span>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <div>
-                        <label class="text-[10.5px] font-mono text-slate-300 block mb-1">
-                            Viloyat / Tuman / Maktab Nomi:
-                        </label>
-                        <input type="text" name="school_name" required placeholder="Masalan: Surxondaryo vil., Termiz sh., 11-maktab" 
-                               class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono">
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div>
-                            <label class="text-[10.5px] font-mono text-slate-300 block mb-1">
-                                Mas'ul Xodim F.I.Sh:
-                            </label>
-                            <input type="text" name="contact_name" required placeholder="F.I.Sh" 
-                                   class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono">
-                        </div>
-                        <div>
-                            <label class="text-[10.5px] font-mono text-slate-300 block mb-1">
-                                Telefon Raqam:
-                            </label>
-                            <input type="tel" name="phone_number" required placeholder="+998 90 123 45 67" 
-                                   class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono">
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-cyber btn-cyber-primary w-full py-2.5 text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.4)] bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700">
-                    <i class="fas fa-paper-plane text-[10px]"></i>
-                    <span>BUYURTMA SO'ROVINI YUBORISH (15 DAQIQADA BOG'LANISH)</span>
-                </button>
-            </form>
-
-        </div>
-    </div>
-
-    <!-- 13. HIGH RESOLUTION MODAL VIEWER -->
+    <!-- 11. HIGH RESOLUTION MODAL VIEWER -->
     <div id="highResModal" class="modal-overlay hidden">
         <div class="relative max-w-4xl w-full mx-4 hud-card p-3 bg-slate-950/95 border border-cyan-500/50 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
@@ -1140,10 +921,9 @@
         </div>
     </div>
 
-    <!-- SCRIPTS (TOTALING THOUSANDS OF UNMINIFIED LINES) -->
+    <!-- SCRIPTS -->
     <script src="js/translations.js"></script>
     <script src="js/presentation.js"></script>
-    <script src="js/calculator.js"></script>
     <script src="js/scanner.js"></script>
     <script src="js/map.js"></script>
     <script src="js/edugate.js"></script>
