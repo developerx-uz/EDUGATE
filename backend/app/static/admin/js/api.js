@@ -16,6 +16,9 @@ const EdugateAPI = {
     },
 
     getPrefix() {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://developerx.uz/edugate';
+        }
         const path = window.location.pathname;
         if (path.startsWith('/EDUGATE')) return '/EDUGATE';
         if (path.startsWith('/edugate')) return '/edugate';
