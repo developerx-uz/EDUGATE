@@ -131,10 +131,11 @@ async def serve_landing_asset(file_path: str):
 async def serve_css(file_path: str):
     landing_css = os.path.join(os.path.dirname(__file__), "static", "landing", "css", file_path)
     admin_css = os.path.join(os.path.dirname(__file__), "static", "admin", "css", file_path)
+    cache_headers = {"Cache-Control": "no-cache, must-revalidate"}
     if os.path.exists(landing_css) and os.path.isfile(landing_css):
-        return FileResponse(landing_css, media_type="text/css; charset=utf-8")
+        return FileResponse(landing_css, media_type="text/css; charset=utf-8", headers=cache_headers)
     if os.path.exists(admin_css) and os.path.isfile(admin_css):
-        return FileResponse(admin_css, media_type="text/css; charset=utf-8")
+        return FileResponse(admin_css, media_type="text/css; charset=utf-8", headers=cache_headers)
     raise HTTPException(status_code=404, detail="CSS not found")
 
 
@@ -143,10 +144,11 @@ async def serve_css(file_path: str):
 async def serve_js(file_path: str):
     landing_js = os.path.join(os.path.dirname(__file__), "static", "landing", "js", file_path)
     admin_js = os.path.join(os.path.dirname(__file__), "static", "admin", "js", file_path)
+    cache_headers = {"Cache-Control": "no-cache, must-revalidate"}
     if os.path.exists(landing_js) and os.path.isfile(landing_js):
-        return FileResponse(landing_js, media_type="application/javascript; charset=utf-8")
+        return FileResponse(landing_js, media_type="application/javascript; charset=utf-8", headers=cache_headers)
     if os.path.exists(admin_js) and os.path.isfile(admin_js):
-        return FileResponse(admin_js, media_type="application/javascript; charset=utf-8")
+        return FileResponse(admin_js, media_type="application/javascript; charset=utf-8", headers=cache_headers)
     raise HTTPException(status_code=404, detail="JS not found")
 
 
