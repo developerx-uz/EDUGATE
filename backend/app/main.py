@@ -89,10 +89,8 @@ if os.path.exists(admin_dir_path):
     js_dir = os.path.join(admin_dir_path, "js")
     if os.path.exists(css_dir):
         app.mount("/admin/css", StaticFiles(directory=css_dir), name="admin-css")
-        app.mount("/css", StaticFiles(directory=css_dir), name="css")
     if os.path.exists(js_dir):
         app.mount("/admin/js", StaticFiles(directory=js_dir), name="admin-js")
-        app.mount("/js", StaticFiles(directory=js_dir), name="js")
 
 
 # Marshrutlar
