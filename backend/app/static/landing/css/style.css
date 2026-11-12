@@ -29,7 +29,7 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 13.5px; /* Compact base scale matching e-davomat */
+    font-size: 16px; /* Scaled up 20% from 13.5px to 16px */
 }
 
 body {
@@ -306,16 +306,16 @@ input[type=range]::-webkit-slider-thumb:hover {
 .nav-link {
     color: #94A3B8;
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: 0.825rem;
     font-weight: 600;
-    padding: 0.35rem 0.65rem;
+    padding: 0.45rem 0.85rem;
     border-radius: 0.5rem;
     transition: all 0.2s ease;
 }
 
 .nav-link:hover, .nav-link.active {
     color: #38BDF8;
-    background: rgba(56, 189, 248, 0.08);
+    background: rgba(56, 189, 248, 0.12);
 }
 
 /* Modal */
