@@ -82,8 +82,6 @@ if os.path.exists(static_dir):
 
 landing_dir = os.path.join(os.path.dirname(__file__), "static", "landing")
 landing_assets_dir = os.path.join(landing_dir, "assets")
-if os.path.exists(landing_assets_dir):
-    app.mount("/assets", StaticFiles(directory=landing_assets_dir), name="landing-assets")
 
 admin_dir_path = os.path.join(os.path.dirname(__file__), "static", "admin")
 if os.path.exists(admin_dir_path):
@@ -130,7 +128,12 @@ async def serve_landing_asset(file_path: str):
     landing_assets = os.path.join(os.path.dirname(__file__), "static", "landing", "assets")
     full_path = os.path.join(landing_assets, file_path)
     if os.path.exists(full_path) and os.path.isfile(full_path):
-        return FileResponse(full_path)
+        media_type = None
+        if full_path.endswith('.css'):
+            media_type = 'text/css; charset=utf-8'
+        elif full_path.endswith('.js'):
+            media_type = 'application/javascript; charset=utf-8'
+        return FileResponse(full_path, media_type=media_type)
     raise HTTPException(status_code=404, detail="Asset not found")
 
 
