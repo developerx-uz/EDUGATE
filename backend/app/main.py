@@ -95,6 +95,13 @@ async def serve_landing():
     if os.path.exists(landing_index):
         with open(landing_index, "r", encoding="utf-8") as f:
             content = f.read()
+        
+        # Har safar sahifa ochilganda yoki refresh qilinganda avtomatik yangi timestamp qo'yish
+        # Natijada brauzer hech qachon eski keshni ishlatmaydi va har doim yangi fayllarni yuklaydi
+        import time, re
+        ts = str(int(time.time()))
+        content = re.sub(r'(\.(?:css|js))\?[tv]=[^"'\s>]+', r'?t=' + ts, content)
+        
         response = HTMLResponse(content=content)
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
         response.headers["Pragma"] = "no-cache"
@@ -122,7 +129,7 @@ async def serve_landing_asset(file_path: str):
             media_type = 'text/css; charset=utf-8'
         elif full_path.endswith('.js'):
             media_type = 'application/javascript; charset=utf-8'
-        return FileResponse(full_path, media_type=media_type)
+        return FileResponse(full_path, media_type=media_type, headers=cache_headers)
     raise HTTPException(status_code=404, detail="Asset not found")
 
 
@@ -131,7 +138,7 @@ async def serve_landing_asset(file_path: str):
 async def serve_css(file_path: str):
     landing_css = os.path.join(os.path.dirname(__file__), "static", "landing", "css", file_path)
     admin_css = os.path.join(os.path.dirname(__file__), "static", "admin", "css", file_path)
-    cache_headers = {"Cache-Control": "no-cache, must-revalidate"}
+    cache_headers = {"Cache-Control": "no-cache, no-store, must-revalidate, max-age=0", "Pragma": "no-cache", "Expires": "0"}
     if os.path.exists(landing_css) and os.path.isfile(landing_css):
         return FileResponse(landing_css, media_type="text/css; charset=utf-8", headers=cache_headers)
     if os.path.exists(admin_css) and os.path.isfile(admin_css):
@@ -144,7 +151,7 @@ async def serve_css(file_path: str):
 async def serve_js(file_path: str):
     landing_js = os.path.join(os.path.dirname(__file__), "static", "landing", "js", file_path)
     admin_js = os.path.join(os.path.dirname(__file__), "static", "admin", "js", file_path)
-    cache_headers = {"Cache-Control": "no-cache, must-revalidate"}
+    cache_headers = {"Cache-Control": "no-cache, no-store, must-revalidate, max-age=0", "Pragma": "no-cache", "Expires": "0"}
     if os.path.exists(landing_js) and os.path.isfile(landing_js):
         return FileResponse(landing_js, media_type="application/javascript; charset=utf-8", headers=cache_headers)
     if os.path.exists(admin_js) and os.path.isfile(admin_js):
