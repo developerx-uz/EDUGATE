@@ -1,0 +1,246 @@
+<!-- VIEW: SCHOOLS -->
+<div x-show="activeTab === 'schools'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+        <button @click="schoolsView = 'schools_list'; selectedSchool = null; selectedClass = null" class="hover:text-indigo-400 transition flex items-center gap-1">
+            <i class="fas fa-school"></i> Barcha Maktablar
+        </button>
+        <span x-show="selectedSchool" class="text-slate-600">/</span>
+        <button x-show="selectedSchool" @click="schoolsView = 'school_classes'; selectedClass = null" class="hover:text-indigo-400 transition font-bold text-indigo-400" x-text="selectedSchool ? selectedSchool.name : ''"></button>
+        <span x-show="selectedClass" class="text-slate-600">/</span>
+        <span x-show="selectedClass" class="text-emerald-400 font-bold" x-text="selectedClass + ' Sinf'"></button>
+    </div>
+
+    <!-- SUBVIEW 1: SCHOOLS LIST -->
+    <div x-show="schoolsView === 'schools_list'" class="space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-white">Tizimdagi Maktablar</h2>
+                <p class="text-xs text-slate-400">Sinflar va o'quvchilar tarkibini ko'rish uchun maktab kartochkasiga bosing</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Search -->
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" x-model="schoolSearchQuery" placeholder="Maktab qidirish..."
+                           class="pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                </div>
+                <!-- Grid / List Switcher -->
+                <div class="flex rounded-xl bg-slate-800 p-1 border border-slate-700">
+                    <button @click="schoolViewMode = 'grid'" :class="schoolViewMode === 'grid' ? 'bg-indigo-600 text-white' : 'text-slate-400'" class="p-1.5 rounded-lg text-xs transition">
+                        <i class="fas fa-grid-2"></i>
+                    </button>
+                    <button @click="schoolViewMode = 'list'" :class="schoolViewMode === 'list' ? 'bg-indigo-600 text-white' : 'text-slate-400'" class="p-1.5 rounded-lg text-xs transition">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                <button @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
+                    <i class="fas fa-plus"></i> Yangi Maktab
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div x-show="schoolViewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <template x-for="sc in filteredSchools" :key="sc.id">
+                <div @click="selectSchool(sc)" class="glass-card p-6 rounded-2xl relative group cursor-pointer hover:border-indigo-500/60 hover:bg-slate-800/80 transition space-y-4">
+                    <div class="flex items-start justify-between">
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold font-mono" x-text="sc.code"></span>
+                        <div class="flex items-center gap-1" @click.stop>
+                            <button @click.stop="editSchoolForm.id = sc.id; schoolForm.name = sc.name; schoolForm.code = sc.code; schoolForm.address = sc.address; schoolForm.phone = sc.phone; showAddSchoolModal = true" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
+                                <i class="fas fa-pen-to-square"></i>
+                            </button>
+                            <button @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
+                                <i class="fas fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition" x-text="sc.name"></h3>
+                        <p class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <i class="fas fa-location-dot text-slate-500"></i> <span x-text="sc.address || 'Manzil kiritilmagan'"></span>
+                        </p>
+                        <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-1.5">
+                            <i class="fas fa-phone text-slate-500"></i> <span x-text="sc.phone || 'Telefon kiritilmagan'"></span>
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/80 text-center">
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">Sinflar</p>
+                            <p class="text-sm font-extrabold text-indigo-400" x-text="sc.classes_count || 0"></p>
+                        </div>
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">O'quvchilar</p>
+                            <p class="text-sm font-extrabold text-blue-400" x-text="sc.students_count || 0"></p>
+                        </div>
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">O'qituvchi</p>
+                            <p class="text-sm font-extrabold text-purple-400" x-text="sc.teachers_count || 0"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold pt-1">
+                        <span>Sinflarni ko'rish</span>
+                        <i class="fas fa-chevron-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- List View -->
+        <div x-show="schoolViewMode === 'list'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Kodi</th>
+                        <th class="px-6 py-4">Maktab Nomi</th>
+                        <th class="px-6 py-4">Manzil</th>
+                        <th class="px-6 py-4">Sinflar</th>
+                        <th class="px-6 py-4">O'quvchilar</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="sc in filteredSchools" :key="sc.id">
+                        <tr @click="selectSchool(sc)" class="hover:bg-slate-800/30 transition cursor-pointer">
+                            <td class="px-6 py-4 font-mono text-xs text-indigo-400 font-bold" x-text="sc.code"></td>
+                            <td class="px-6 py-4 font-semibold text-white" x-text="sc.name"></td>
+                            <td class="px-6 py-4 text-xs text-slate-400" x-text="sc.address || '-'"></td>
+                            <td class="px-6 py-4 text-xs font-bold text-indigo-300" x-text="sc.classes_count || 0"></td>
+                            <td class="px-6 py-4 text-xs font-bold text-blue-400" x-text="sc.students_count || 0"></td>
+                            <td class="px-6 py-4 text-right" @click.stop>
+                                <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SUBVIEW 2: SCHOOL CLASSES -->
+    <div x-show="schoolsView === 'school_classes'" class="space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-6 rounded-2xl">
+            <div>
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold" x-text="selectedSchool?.code"></span>
+                <h2 class="text-2xl font-extrabold text-white mt-1" x-text="selectedSchool?.name"></h2>
+                <p class="text-xs text-slate-400 mt-1" x-text="selectedSchool?.address"></p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button @click="openStudentModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-user-plus"></i> Yangi O'quvchi
+                </button>
+                <button @click="showAddTeacherModal = true" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-chalkboard-user"></i> Yangi O'qituvchi
+                </button>
+                <button @click="showAddDeviceModal = true" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                    <i class="fas fa-video"></i> Kamera Qo'shish
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-bold text-white mb-3">Maktab Sinflari</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <template x-for="cls in schoolClasses" :key="cls.class_name">
+                    <div @click="selectClass(cls.class_name)" class="glass-card p-4 rounded-xl cursor-pointer hover:border-indigo-500 hover:bg-slate-800/90 transition text-center space-y-2 group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-extrabold text-lg mx-auto group-hover:scale-110 transition" x-text="cls.class_name"></div>
+                        <p class="text-xs font-bold text-white" x-text="cls.class_name + ' Sinf'"></p>
+                        <p class="text-[11px] text-slate-400" x-text="cls.students_count + ' ta o\'quvchi'"></p>
+                        <p class="text-[10px] text-indigo-300 truncate" x-text="cls.teacher_name || 'Rahbar biriktirilmagan'"></p>
+                    </div>
+                </template>
+                <div x-show="schoolClasses.length === 0" class="col-span-full glass-card p-8 text-center rounded-xl text-slate-400 text-xs">
+                    Ushbu maktabda hali sinflar yaratilmagan. Yuqoridagi "+ Yangi O'quvchi" tugmasi orqali sinflarni qo'shing.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBVIEW 3: CLASS DETAIL -->
+    <div x-show="schoolsView === 'class_detail'" class="space-y-6">
+        <div class="flex items-center justify-between glass-card p-6 rounded-2xl">
+            <div>
+                <span class="text-xs text-indigo-400 font-bold uppercase tracking-wider" x-text="selectedSchool?.name"></span>
+                <h2 class="text-2xl font-extrabold text-white mt-0.5" x-text="selectedClass + ' Sinf Tarkibi'"></h2>
+            </div>
+            <div class="flex items-center gap-2">
+                <button @click="openStudentModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-user-plus"></i> O'quvchi Qo'shish
+                </button>
+                <button @click="showAddTeacherModal = true" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-chalkboard-user"></i> O'qituvchi Qo'shish
+                </button>
+            </div>
+        </div>
+
+        <div class="flex border-b border-slate-800 space-x-4">
+            <button @click="classDetailTab = 'students'" :class="classDetailTab === 'students' ? 'border-indigo-500 text-indigo-400 font-bold' : 'border-transparent text-slate-400 hover:text-slate-200'" class="py-3 px-2 text-sm border-b-2 transition flex items-center gap-2">
+                <i class="fas fa-graduation-cap"></i> O'quvchilar (<span x-text="classStudents.length"></span>)
+            </button>
+            <button @click="classDetailTab = 'teachers'" :class="classDetailTab === 'teachers' ? 'border-indigo-500 text-indigo-400 font-bold' : 'border-transparent text-slate-400 hover:text-slate-200'" class="py-3 px-2 text-sm border-b-2 transition flex items-center gap-2">
+                <i class="fas fa-chalkboard-user"></i> O'qituvchilar (<span x-text="classTeachers.length"></span>)
+            </button>
+        </div>
+
+        <!-- Class Students Table -->
+        <div x-show="classDetailTab === 'students'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Ism Familiya</th>
+                        <th class="px-6 py-4">O'quvchi Kodi</th>
+                        <th class="px-6 py-4">RFID Karta</th>
+                        <th class="px-6 py-4">Face ID</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="st in classStudents" :key="st.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-semibold text-white" x-text="st.full_name || (st.first_name + ' ' + st.last_name)"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-indigo-300" x-text="st.student_code"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-slate-400" x-text="st.rfid_card_id || '-'"></td>
+                            <td class="px-6 py-4">
+                                <span x-show="st.has_face_encoding || st.face_encoding" class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">Face ID Faol</span>
+                                <span x-show="!st.has_face_encoding && !st.face_encoding" class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-500 text-xs font-medium">Yo'q</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="openEditStudentModal(st)" class="text-indigo-400 hover:text-indigo-300 mr-2"><i class="fas fa-pen"></i></button>
+                                <button @click="deleteStudent(st.id)" class="text-rose-400 hover:text-rose-300"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Class Teachers Table -->
+        <div x-show="classDetailTab === 'teachers'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">O'qituvchi</th>
+                        <th class="px-6 py-4">Fan</th>
+                        <th class="px-6 py-4">Telefon</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="tc in classTeachers" :key="tc.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-semibold text-white" x-text="tc.full_name || (tc.first_name + ' ' + tc.last_name)"></td>
+                            <td class="px-6 py-4 text-indigo-400 font-semibold" x-text="tc.subject || 'O\'qituvchi'"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-slate-300" x-text="tc.phone_number || '-'"></td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="deleteTeacher(tc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<!-- VIEW: TEACHERS -->
+<div x-show="activeTab === 'teachers'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fas fa-chalkboard-user text-purple-400"></i>
+                O'qituvchilar va Sinf Rahbarlari
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Maktablar o'qituvchilar tarkibi va sinf biriktiruvlari</p>
+        </div>
+        <button @click="showAddTeacherModal = true" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-2 transition">
+            <i class="fas fa-plus"></i> Yangi O'qituvchi
+        </button>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="glass-card p-4 rounded-2xl">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+                <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Qidirish</label>
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" x-model="teachersFilter.search" placeholder="Ism, familiya, fan bo'yicha..."
+                           class="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-purple-500">
+                </div>
+            </div>
+            <div>
+                <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Maktab</label>
+                <select x-model="teachersFilter.school_id" class="w-full px-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white text-xs focus:outline-none focus:border-purple-500">
+                    <option value="">Barcha maktablar</option>
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button @click="fetchAllTeachers()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-purple-400 font-semibold rounded-xl text-xs border border-purple-500/20 transition flex items-center justify-center gap-1.5">
+                    <i class="fas fa-filter"></i> Filtrlash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teachers Table -->
+    <div class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">#</th>
+                        <th class="px-6 py-4">O'qituvchi</th>
+                        <th class="px-6 py-4">Maktab</th>
+                        <th class="px-6 py-4">Fan / Lavozim</th>
+                        <th class="px-6 py-4">Telefon</th>
+                        <th class="px-6 py-4">Biriktirilgan Sinf</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="(tc, idx) in filteredTeachers" :key="tc.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 text-slate-500 text-xs" x-text="idx + 1"></td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-bold border border-purple-500/20"
+                                         x-text="(tc.first_name ? tc.first_name.charAt(0) : (tc.full_name ? tc.full_name.charAt(0) : 'O'))"></div>
+                                    <span class="font-semibold text-white" x-text="tc.full_name || (tc.first_name + ' ' + tc.last_name)"></span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-xs text-slate-300" x-text="tc.school_name || getSchoolName(tc.school_id) || '-'"></td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-purple-300 text-xs font-semibold border border-purple-500/20" x-text="tc.subject || 'O\'qituvchi'"></span>
+                            </td>
+                            <td class="px-6 py-4 font-mono text-xs text-slate-400" x-text="tc.phone_number || '-'"></td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold" x-text="tc.class_name ? (tc.class_name + ' Sinf') : 'Umumiy'"></span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="deleteTeacher(tc.id)" class="p-1.5 text-slate-400 hover:text-rose-400 transition" title="O'chirish">
+                                    <i class="fas fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                    <tr x-show="filteredTeachers.length === 0">
+                        <td colspan="7" class="px-6 py-12 text-center text-slate-500 text-xs">
+                            <i class="fas fa-chalkboard-user text-3xl mb-2 block opacity-30"></i>
+                            O'qituvchilar topilmadi
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

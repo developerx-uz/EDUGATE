@@ -4,847 +4,663 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDUGATE — Hokimlik & MMTV Yagona Boshqaruv Markazi</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js 4 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- EDUGATE Custom CSS -->
+    <link rel="stylesheet" href="./css/admin.css">
+    <!-- Alpine.js 3 CDN (defer) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        [x-cloak] { display: none !important; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .sidebar-item { @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer; }
-        .sidebar-item:hover { @apply bg-slate-800/80 text-slate-200; }
-        .sidebar-item.active { @apply bg-indigo-600/20 text-indigo-400 border border-indigo-500/30; }
-        .toast-enter { animation: toastIn 0.3s ease-out; }
-        .toast-leave { animation: toastOut 0.3s ease-in forwards; }
-        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
-        .stat-card { @apply glass-card p-5 rounded-2xl flex items-center gap-4 hover:border-indigo-500/30 transition-all duration-300 cursor-pointer; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-    </style>
 </head>
 <body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         LOGIN MODAL
-         ═══════════════════════════════════════════════════════════════ -->
-    <div x-show="!token" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
-        <!-- Background decoration -->
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+    <!-- LOGIN MODAL -->
+    <!-- LOGIN MODAL COMPONENT -->
+<div x-show="!token" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative glass-card rounded-3xl p-10 w-full max-w-md mx-4 shadow-2xl border border-slate-800">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 rounded-2xl mb-4 border border-indigo-500/30">
+                <i class="fas fa-building-columns text-3xl text-indigo-400"></i>
+            </div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">EDUGATE</h1>
+            <p class="text-slate-400 text-xs mt-1 uppercase tracking-wider font-semibold">Viloyat va Shahar Hokimligi Boshqaruv Markazi</p>
         </div>
 
-        <div class="relative glass-card rounded-3xl p-10 w-full max-w-md mx-4 shadow-2xl shadow-indigo-900/20">
-            <!-- Logo -->
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600/20 rounded-2xl mb-4 border border-indigo-500/30">
-                    <i class="fas fa-graduation-cap text-3xl text-indigo-400"></i>
+        <!-- Login Form -->
+        <form @submit.prevent="login()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Foydalanuvchi nomi</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500"><i class="fas fa-user text-sm"></i></span>
+                    <input type="text" x-model="loginForm.username" required placeholder="admin"
+                           class="w-full pl-10 pr-4 py-3 bg-slate-800/80 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                 </div>
-                <h1 class="text-3xl font-extrabold text-white tracking-tight">EDUGATE</h1>
-                <p class="text-slate-400 text-sm mt-1">Hokimlik & MMTV Yagona Boshqaruv Markazi</p>
             </div>
 
-            <!-- Error -->
-            <div x-show="loginError" x-transition class="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm text-center">
-                <i class="fas fa-exclamation-circle mr-1"></i>
-                <span x-text="loginError"></span>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Parol</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500"><i class="fas fa-lock text-sm"></i></span>
+                    <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="••••••••"
+                           class="w-full pl-10 pr-10 py-3 bg-slate-800/80 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                    <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition">
+                        <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-sm"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Form -->
-            <form @submit.prevent="login()" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Foydalanuvchi nomi</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i class="fas fa-user"></i></span>
-                        <input type="text" x-model="loginForm.username" required
-                               class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-                               placeholder="admin">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-300 mb-2">Parol</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i class="fas fa-lock"></i></span>
-                        <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required
-                               class="w-full bg-slate-800/60 border border-slate-700 rounded-xl py-3 pl-10 pr-12 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-                               placeholder="••••••••">
-                        <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition">
-                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                        </button>
-                    </div>
-                </div>
-                <button type="submit" :disabled="loginLoading"
-                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25">
-                    <i x-show="loginLoading" class="fas fa-spinner fa-spin"></i>
-                    <span x-text="loginLoading ? 'Kirish...' : 'Tizimga Kirish'"></span>
-                </button>
-            </form>
+            <div x-show="authError" class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2">
+                <i class="fas fa-triangle-exclamation"></i>
+                <span x-text="authError"></span>
+            </div>
+
+            <button type="submit" :disabled="loading"
+                    class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50">
+                <i x-show="loading" class="fas fa-circle-notch fa-spin"></i>
+                <span>Tizimga kirish</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- MAIN APP LAYOUT (When Logged In) -->
+    <div x-show="token" class="flex h-screen overflow-hidden">
+
+        <!-- MOBILE OVERLAY BACKDROP -->
+        <div x-show="sidebarOpen" @click="sidebarOpen = false"
+             class="fixed inset-0 bg-black/50 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
+
+        <!-- SIDEBAR -->
+        <!-- SIDEBAR COMPONENT -->
+<aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
+       class="fixed left-0 top-0 h-screen bg-slate-950 border-r border-slate-800 z-30 flex flex-col transition-all duration-300">
+
+    <!-- Logo Area -->
+    <div class="flex items-center gap-3 px-4 py-5 border-b border-slate-800/60">
+        <div class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30">
+            <span class="text-indigo-400 font-extrabold text-lg">E</span>
+        </div>
+        <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
+            <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
+            <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         MAIN LAYOUT
-         ═══════════════════════════════════════════════════════════════ -->
-    <div x-show="token" x-cloak class="flex h-screen overflow-hidden">
+    <!-- Navigation Menu -->
+    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+        <!-- Main Group -->
+        <div @click="activeTab = 'dashboard'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'dashboard'}">
+            <i class="fas fa-chart-pie w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Dashboard</span>
+        </div>
+        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'schools'}">
+            <i class="fas fa-school w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Maktablar</span>
+        </div>
+        <div @click="activeTab = 'students'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'students'}">
+            <i class="fas fa-user-graduate w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">O'quvchilar</span>
+        </div>
+        <div @click="activeTab = 'teachers'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'teachers'}">
+            <i class="fas fa-chalkboard-user w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">O'qituvchilar</span>
+        </div>
 
-        <!-- ───────────────────────────────────────────────────────────
-             MOBILE OVERLAY
-             ─────────────────────────────────────────────────────────── -->
-        <div x-show="sidebarOpen" @click="sidebarOpen = false"
-             x-transition:enter="transition-opacity ease-out duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition-opacity ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="fixed inset-0 bg-black/50 z-20 md:hidden"></div>
+        <div class="border-t border-slate-800/60 my-3"></div>
 
-        <!-- ───────────────────────────────────────────────────────────
-             SIDEBAR
-             ─────────────────────────────────────────────────────────── -->
-        <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-               class="fixed left-0 top-0 h-screen bg-slate-950 border-r border-slate-800 z-30 flex flex-col transition-all duration-300">
+        <!-- Monitoring Group -->
+        <div @click="activeTab = 'attendance'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'attendance'}">
+            <i class="fas fa-clipboard-check w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Davomat</span>
+        </div>
+        <div @click="activeTab = 'devices'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'devices'}">
+            <i class="fas fa-video w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Kameralar</span>
+        </div>
+        <div @click="activeTab = 'parents'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'parents'}">
+            <i class="fas fa-users w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Ota-onalar</span>
+        </div>
 
-            <!-- Logo Area -->
-            <div class="flex items-center gap-3 px-4 py-5 border-b border-slate-800/60">
-                <div class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30">
-                    <span class="text-indigo-400 font-extrabold text-lg">E</span>
-                </div>
-                <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
-                    <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
-                    <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Boshqaruv Markazi</p>
-                </div>
+        <div class="border-t border-slate-800/60 my-3"></div>
+
+        <!-- Reports & Settings Group -->
+        <div @click="activeTab = 'reports'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'reports'}">
+            <i class="fas fa-chart-bar w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Hisobotlar</span>
+        </div>
+        <div @click="activeTab = 'settings'; sidebarOpen = false"
+             class="sidebar-item" :class="{'active': activeTab === 'settings'}">
+            <i class="fas fa-gear w-5 text-center"></i>
+            <span x-show="!sidebarCollapsed">Sozlamalar</span>
+        </div>
+    </nav>
+
+    <!-- Bottom Actions -->
+    <div class="px-3 pb-4 space-y-2 border-t border-slate-800/60 pt-3">
+        <button @click="openSchoolModal()"
+                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
+            <i class="fas fa-plus"></i>
+            <span x-show="!sidebarCollapsed">Yangi Maktab</span>
+        </button>
+
+        <!-- Admin Profile Info -->
+        <div class="flex items-center gap-3 px-3 py-2">
+            <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 text-slate-300">
+                <i class="fas fa-user-shield text-sm"></i>
             </div>
-
-            <!-- Collapse Toggle -->
-            <button @click="sidebarCollapsed = !sidebarCollapsed"
-                    class="hidden md:flex absolute -right-3 top-16 w-6 h-6 bg-slate-800 border border-slate-700 rounded-full items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition z-40">
-                <i :class="sidebarCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'" class="text-[10px]"></i>
-            </button>
-
-            <!-- Navigation -->
-            <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-                <!-- Main -->
-                <div @click="activeTab = 'dashboard'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'dashboard'}">
-                    <i class="fas fa-chart-pie w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Dashboard</span>
-                </div>
-                <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'schools'}">
-                    <i class="fas fa-school w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Maktablar</span>
-                </div>
-                <div @click="activeTab = 'students'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'students'}">
-                    <i class="fas fa-user-graduate w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">O'quvchilar</span>
-                </div>
-                <div @click="activeTab = 'teachers'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'teachers'}">
-                    <i class="fas fa-chalkboard-user w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">O'qituvchilar</span>
-                </div>
-
-                <!-- Separator -->
-                <div class="border-t border-slate-800/60 my-3"></div>
-
-                <div @click="activeTab = 'attendance'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'attendance'}">
-                    <i class="fas fa-clipboard-check w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Davomat</span>
-                </div>
-                <div @click="activeTab = 'devices'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'devices'}">
-                    <i class="fas fa-video w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Kameralar</span>
-                </div>
-                <div @click="activeTab = 'parents'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'parents'}">
-                    <i class="fas fa-users w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Ota-onalar</span>
-                </div>
-
-                <!-- Separator -->
-                <div class="border-t border-slate-800/60 my-3"></div>
-
-                <div @click="activeTab = 'reports'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'reports'}">
-                    <i class="fas fa-chart-bar w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Hisobotlar</span>
-                </div>
-                <div @click="activeTab = 'settings'; sidebarOpen = false"
-                     class="sidebar-item" :class="{'active': activeTab === 'settings'}">
-                    <i class="fas fa-gear w-5 text-center"></i>
-                    <span x-show="!sidebarCollapsed">Sozlamalar</span>
-                </div>
-            </nav>
-
-            <!-- Bottom Section -->
-            <div class="px-3 pb-4 space-y-2 border-t border-slate-800/60 pt-3">
-                <!-- New School Button -->
-                <button @click="openSchoolModal()"
-                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                    <i class="fas fa-plus"></i>
-                    <span x-show="!sidebarCollapsed">Yangi Maktab</span>
-                </button>
-
-                <div class="border-t border-slate-800/60 my-2"></div>
-
-                <!-- Admin Info -->
-                <div class="flex items-center gap-3 px-3 py-2">
-                    <div class="w-9 h-9 bg-slate-700 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-user-shield text-slate-300 text-sm"></i>
-                    </div>
-                    <div x-show="!sidebarCollapsed" class="min-w-0">
-                        <p class="text-sm font-semibold text-white truncate">Superadmin</p>
-                        <p class="text-xs text-slate-500 truncate">Administrator</p>
-                    </div>
-                </div>
-
-                <!-- Logout -->
-                <button @click="logout()"
-                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-red-400 hover:bg-red-500/10 rounded-xl text-sm font-semibold transition-all">
-                    <i class="fas fa-right-from-bracket"></i>
-                    <span x-show="!sidebarCollapsed">Chiqish</span>
-                </button>
+            <div x-show="!sidebarCollapsed" class="min-w-0">
+                <p class="text-sm font-semibold text-white truncate">Superadmin</p>
+                <p class="text-xs text-slate-500 truncate">Hokimlik Markazi</p>
             </div>
-        </aside>
+        </div>
 
-        <!-- ───────────────────────────────────────────────────────────
-             MAIN CONTENT AREA
-             ─────────────────────────────────────────────────────────── -->
+        <!-- Logout -->
+        <button @click="logout()"
+                class="w-full flex items-center justify-center gap-2 px-4 py-2 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs font-semibold transition-all">
+            <i class="fas fa-right-from-bracket"></i>
+            <span x-show="!sidebarCollapsed">Chiqish</span>
+        </button>
+    </div>
+</aside>
+
+
+        <!-- MAIN CONTENT WRAPPER -->
         <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
              :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
 
-            <!-- ═══════════════════════════════════════════════════════
-                 TOPBAR
-                 ═══════════════════════════════════════════════════════ -->
-            <header class="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3">
-                <div class="flex items-center justify-between gap-4">
-                    <!-- Left: Mobile hamburger + Page title -->
-                    <div class="flex items-center gap-3">
-                        <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-slate-400 hover:text-white p-1">
-                            <i class="fas fa-bars text-lg"></i>
-                        </button>
-                        <h1 class="text-lg font-bold text-white hidden sm:block"
-                            x-text="({
-                                dashboard: 'Dashboard',
-                                schools: 'Maktablar',
-                                students: 'O\'quvchilar',
-                                teachers: 'O\'qituvchilar',
-                                attendance: 'Davomat',
-                                devices: 'Kameralar',
-                                parents: 'Ota-onalar',
-                                reports: 'Hisobotlar',
-                                settings: 'Sozlamalar'
-                            })[activeTab] || 'Dashboard'"></h1>
+            <!-- TOPBAR -->
+            <!-- TOPBAR COMPONENT -->
+<header class="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3">
+    <div class="flex items-center justify-between gap-4">
+        <!-- Left: Mobile toggle + Page title -->
+        <div class="flex items-center gap-3">
+            <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-slate-400 hover:text-white p-1">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+            <h1 class="text-lg font-bold text-white hidden sm:block"
+                x-text="({
+                    dashboard: 'Asosiy Boshqaruv Markazi',
+                    schools: 'Maktablar Boshqaruvi',
+                    students: 'O\'quvchilar Kontingenti',
+                    teachers: 'O\'qituvchilar Tarkibi',
+                    attendance: 'Jonli Davomat Monitoringi',
+                    devices: 'Kameralar & Turniketlar',
+                    parents: 'Ota-onalar Ro\'yxati',
+                    reports: 'Tahliliy Hisobotlar',
+                    settings: 'Tizim Sozlamalari'
+                })[activeTab] || 'EDUGATE'"></h1>
+        </div>
+
+        <!-- Center: Search -->
+        <div class="flex-1 max-w-md hidden md:block">
+            <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                <input type="text" x-model="searchQuery"
+                       placeholder="Tizim bo'yicha global qidiruv..."
+                       class="w-full pl-9 pr-4 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500/80 transition-all">
+            </div>
+        </div>
+
+        <!-- Right: Actions & Notifications -->
+        <div class="flex items-center gap-3">
+            <!-- Notifications Bell -->
+            <div class="relative">
+                <button @click="showNotifPanel = !showNotifPanel"
+                        class="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition">
+                    <i class="fas fa-bell text-sm"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-slate-900"></span>
+                </button>
+
+                <!-- Notifications Dropdown Panel -->
+                <div x-show="showNotifPanel" @click.outside="showNotifPanel = false" x-cloak
+                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <span class="text-xs font-bold text-white uppercase tracking-wider">Bildirishnomalar</span>
+                        <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer" @click="showNotifPanel = false">Yopish</span>
                     </div>
-
-                    <!-- Center: Search -->
-                    <div class="flex-1 max-w-md">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                            <input type="text" x-model="searchQuery"
-                                   placeholder="Qidirish..."
-                                   class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl py-2 pl-9 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 transition">
-                        </div>
-                    </div>
-
-                    <!-- Right: Notifications -->
-                    <div class="relative">
-                        <button @click="showNotifPanel = !showNotifPanel"
-                                class="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition">
-                            <i class="fas fa-bell text-lg"></i>
-                            <span x-show="unreadCount > 0"
-                                  class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center"
-                                  x-text="unreadCount > 9 ? '9+' : unreadCount"></span>
-                        </button>
-
-                        <!-- Notification Dropdown -->
-                        <div x-show="showNotifPanel" @click.outside="showNotifPanel = false"
-                             x-transition:enter="transition ease-out duration-200"
-                             x-transition:enter-start="opacity-0 -translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             x-transition:leave="transition ease-in duration-150"
-                             x-transition:leave-start="opacity-100 translate-y-0"
-                             x-transition:leave-end="opacity-0 -translate-y-2"
-                             class="absolute right-0 mt-2 w-80 glass-card rounded-2xl shadow-2xl shadow-black/40 overflow-hidden">
-                            <div class="p-4 border-b border-slate-700/50 flex items-center justify-between">
-                                <h3 class="text-sm font-bold text-white">Bildirishnomalar</h3>
-                                <span x-show="unreadCount > 0" class="text-xs bg-indigo-600/30 text-indigo-400 px-2 py-0.5 rounded-full" x-text="unreadCount + ' yangi'"></span>
-                            </div>
-                            <div class="max-h-72 overflow-y-auto">
-                                <template x-for="notif in notifications.slice(0, 8)" :key="notif.id || notif.message">
-                                    <div class="px-4 py-3 hover:bg-slate-800/50 border-b border-slate-800/30 cursor-pointer transition">
-                                        <div class="flex items-start gap-3">
-                                            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                                                 :class="notif.type === 'warning' ? 'bg-amber-500/20 text-amber-400' : notif.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-indigo-500/20 text-indigo-400'">
-                                                <i :class="notif.type === 'warning' ? 'fas fa-exclamation-triangle' : notif.type === 'error' ? 'fas fa-times-circle' : 'fas fa-info-circle'" class="text-xs"></i>
-                                            </div>
-                                            <div class="min-w-0">
-                                                <p class="text-sm text-slate-200 leading-snug" x-text="notif.message"></p>
-                                                <p class="text-xs text-slate-500 mt-1" x-text="notif.time || ''"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <div x-show="notifications.length === 0" class="px-4 py-8 text-center text-slate-500 text-sm">
-                                    <i class="fas fa-bell-slash text-2xl mb-2"></i>
-                                    <p>Bildirishnomalar yo'q</p>
+                    <div class="space-y-2 text-xs">
+                        <template x-for="item in notifications" :key="item.id">
+                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-800/60 transition">
+                                <i :class="['fas', item.icon, item.color, 'mt-0.5']"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-white text-xs font-medium" x-text="item.text"></p>
+                                    <span class="text-[10px] text-slate-500" x-text="item.time"></span>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
-            </header>
+            </div>
 
-            <!-- ═══════════════════════════════════════════════════════
-                 PAGE CONTENT
-                 ═══════════════════════════════════════════════════════ -->
+            <!-- Auto Refresh Indicator -->
+            <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/50 text-[11px] text-slate-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Server Onlayn</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+            <!-- MAIN SCROLLABLE VIEW CONTAINER -->
             <main class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- VIEW: DASHBOARD -->
+<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <!-- Top Stats Row (Real-time DB Counts) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="stat-card" @click="activeTab = 'schools'; schoolsView = 'schools_list'">
+            <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl font-bold border border-blue-500/30">
+                <i class="fas fa-school"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Jami Maktablar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.schools_count">0</h3>
+            </div>
+        </div>
 
-                <!-- ═══════════════════════════════════════════════════
-                     DASHBOARD PAGE
-                     ═══════════════════════════════════════════════════ -->
-                <div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="stat-card" @click="activeTab = 'students'">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl font-bold border border-indigo-500/30">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Jami O'quvchilar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.students_count">0</h3>
+            </div>
+        </div>
 
-                    <!-- Stats Row 1 — Primary counters -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        <!-- Jami Maktablar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-blue-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-school text-blue-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Jami Maktablar</p>
-                                <p class="text-2xl font-extrabold text-white mt-0.5" x-text="stats.schools_count || 0"></p>
-                            </div>
-                        </div>
-                        <!-- Jami O'quvchilar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-user-graduate text-indigo-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Jami O'quvchilar</p>
-                                <p class="text-2xl font-extrabold text-white mt-0.5" x-text="stats.students_count || 0"></p>
-                            </div>
-                        </div>
-                        <!-- O'qituvchilar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-purple-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-chalkboard-user text-purple-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">O'qituvchilar</p>
-                                <p class="text-2xl font-extrabold text-white mt-0.5" x-text="stats.teachers_count || 0"></p>
-                            </div>
-                        </div>
-                        <!-- Bugungi Kirishlar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-door-open text-emerald-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Bugungi Kirishlar</p>
-                                <p class="text-2xl font-extrabold text-white mt-0.5" x-text="stats.today_entries || 0"></p>
-                            </div>
+        <div class="stat-card" @click="activeTab = 'teachers'">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold border border-purple-500/30">
+                <i class="fas fa-chalkboard-user"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">O'qituvchilar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.teachers_count">0</h3>
+            </div>
+        </div>
+
+        <div class="stat-card" @click="activeTab = 'attendance'">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30">
+                <i class="fas fa-arrow-right-to-bracket"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Bugungi Kirishlar</p>
+                <h3 class="text-2xl font-extrabold text-emerald-400" x-text="stats.today_entries">0</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Stats: Real Attendance Breakdown -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">O'z Vaqtida Kelganlar</p>
+                <h4 class="text-2xl font-bold text-emerald-400 mt-1" x-text="stats.today_ontime">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i class="fas fa-clock-check"></i>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-amber-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Kechikib Kelganlar</p>
+                <h4 class="text-2xl font-bold text-amber-400 mt-1" x-text="stats.today_lates">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i class="fas fa-clock"></i>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-blue-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Maktabdan Chiqqanlar</p>
+                <h4 class="text-2xl font-bold text-blue-400 mt-1" x-text="stats.today_exits">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                <i class="fas fa-door-open"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row: Real Dynamic Visualizations -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Doughnut: Today's Ratio -->
+        <div class="glass-card p-6 rounded-2xl">
+            <h3 class="text-sm font-bold text-white mb-1 flex items-center justify-between">
+                <span>Bugungi Davomat Nisbati</span>
+                <span class="text-[11px] text-slate-400 font-normal">Real vaqt</span>
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">Kirgan va kelmaganlar balansi</p>
+            <div class="h-64 relative">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Line: Weekly Trend -->
+        <div class="glass-card p-6 rounded-2xl lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-sm font-bold text-white">Oxirgi 7 Kunlik Davomat Dinamikasi</h3>
+                    <p class="text-xs text-slate-400">Kunlar kesimida o'z vaqtida va kechikishlar soni</p>
+                </div>
+                <button @click="fetchWeeklyStats()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition text-xs">
+                    <i class="fas fa-rotate"></i>
+                </button>
+            </div>
+            <div class="h-64">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Activity Feed -->
+    <div class="glass-card rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                So'nggi Real-Vaqt Davomat Qaydnomalari
+            </h3>
+            <button @click="activeTab = 'attendance'" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold">
+                Barchasini ko'rish →
+            </button>
+        </div>
+
+        <div class="divide-y divide-slate-800/60">
+            <template x-for="log in todayLogs.slice(0, 8)" :key="log.id">
+                <div class="py-3 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-slate-800 text-indigo-400 flex items-center justify-center text-xs font-bold flex-shrink-0"
+                             x-text="log.student_name ? log.student_name.charAt(0) : '?'"></div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-white truncate" x-text="log.student_name"></p>
+                            <p class="text-xs text-slate-400 truncate" x-text="log.class_name + ' sinf · ' + (log.device_name || 'AI Kamera')"></p>
                         </div>
                     </div>
-
-                    <!-- Stats Row 2 — Attendance status -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                        <!-- O'z Vaqtida -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-check-circle text-emerald-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">O'z Vaqtida</p>
-                                <p class="text-2xl font-extrabold text-emerald-400 mt-0.5" x-text="stats.on_time_count || 0"></p>
-                            </div>
-                        </div>
-                        <!-- Kechikkanlar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-clock text-amber-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Kechikkanlar</p>
-                                <p class="text-2xl font-extrabold text-amber-400 mt-0.5" x-text="stats.late_count || 0"></p>
-                            </div>
-                        </div>
-                        <!-- Kelmaganlar -->
-                        <div class="stat-card">
-                            <div class="w-12 h-12 rounded-2xl bg-rose-500/15 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-user-xmark text-rose-400 text-xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Kelmaganlar</p>
-                                <p class="text-2xl font-extrabold text-rose-400 mt-0.5" x-text="stats.absent_count || 0"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Charts Row -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        <!-- Attendance Doughnut Chart -->
-                        <div class="glass-card rounded-2xl p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-                                <i class="fas fa-chart-pie text-indigo-400"></i> Bugungi Davomat
-                            </h3>
-                            <canvas id="attendanceChart" class="w-full h-64"></canvas>
-                        </div>
-                        <!-- Weekly Trend Line Chart -->
-                        <div class="glass-card rounded-2xl p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-                                <i class="fas fa-chart-line text-purple-400"></i> Haftalik Tendensiya
-                            </h3>
-                            <canvas id="weeklyChart" class="w-full h-64"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Row -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Oxirgi Hodisalar (Activity Feed) -->
-                        <div class="glass-card rounded-2xl p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-                                <i class="fas fa-clock-rotate-left text-emerald-400"></i> Oxirgi Hodisalar
-                            </h3>
-                            <div class="space-y-2 max-h-80 overflow-y-auto">
-                                <template x-for="(log, idx) in todayLogs.slice(0, 10)" :key="idx">
-                                    <div class="flex items-center gap-3 px-3 py-2.5 bg-slate-800/40 rounded-xl hover:bg-slate-800/70 transition">
-                                        <div class="w-9 h-9 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
-                                            <i class="fas fa-user text-indigo-400 text-sm"></i>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm text-white font-medium truncate" x-text="log.student_name || log.first_name + ' ' + log.last_name"></p>
-                                            <p class="text-xs text-slate-500" x-text="log.school_name || ''"></p>
-                                        </div>
-                                        <div class="flex items-center gap-2 flex-shrink-0">
-                                            <span class="text-xs px-2 py-0.5 rounded-full font-medium"
-                                                  :class="log.event_type === 'entry' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-blue-500/20 text-blue-400'"
-                                                  x-text="log.event_type === 'entry' ? 'Kirish' : 'Chiqish'"></span>
-                                            <span class="text-xs px-2 py-0.5 rounded-full font-medium"
-                                                  :class="log.status === 'on_time' ? 'bg-emerald-500/15 text-emerald-400' : log.status === 'late' ? 'bg-amber-500/15 text-amber-400' : 'bg-slate-600/30 text-slate-400'"
-                                                  x-text="log.status === 'on_time' ? 'Vaqtida' : log.status === 'late' ? 'Kechikdi' : (log.status || '')"></span>
-                                            <span class="text-[11px] text-slate-500" x-text="log.time || log.timestamp?.split('T')[1]?.substring(0,5) || ''"></span>
-                                        </div>
-                                    </div>
-                                </template>
-                                <div x-show="todayLogs.length === 0" class="text-center py-8 text-slate-500">
-                                    <i class="fas fa-inbox text-3xl mb-2"></i>
-                                    <p class="text-sm">Hozircha hodisalar yo'q</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Eng Ko'p Kechikkanlar (Top Late Students) -->
-                        <div class="glass-card rounded-2xl p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-                                <i class="fas fa-triangle-exclamation text-amber-400"></i> Eng Ko'p Kechikkanlar
-                            </h3>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm">
-                                    <thead>
-                                        <tr class="border-b border-slate-700/50">
-                                            <th class="text-left py-2 px-3 text-slate-400 font-medium text-xs uppercase tracking-wider">#</th>
-                                            <th class="text-left py-2 px-3 text-slate-400 font-medium text-xs uppercase tracking-wider">O'quvchi</th>
-                                            <th class="text-left py-2 px-3 text-slate-400 font-medium text-xs uppercase tracking-wider">Maktab</th>
-                                            <th class="text-right py-2 px-3 text-slate-400 font-medium text-xs uppercase tracking-wider">Kechikish</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="(student, idx) in (topLateStudents || []).slice(0, 5)" :key="idx">
-                                            <tr class="border-b border-slate-800/30 hover:bg-slate-800/40 transition">
-                                                <td class="py-2.5 px-3 text-slate-500" x-text="idx + 1"></td>
-                                                <td class="py-2.5 px-3">
-                                                    <div class="flex items-center gap-2">
-                                                        <div class="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fas fa-user text-amber-400 text-xs"></i>
-                                                        </div>
-                                                        <span class="text-white font-medium" x-text="student.name || (student.first_name + ' ' + student.last_name)"></span>
-                                                    </div>
-                                                </td>
-                                                <td class="py-2.5 px-3 text-slate-400" x-text="student.school_name || '-'"></td>
-                                                <td class="py-2.5 px-3 text-right">
-                                                    <span class="text-amber-400 font-semibold" x-text="(student.late_count || student.count || 0) + ' marta'"></span>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                        <template x-if="!topLateStudents || topLateStudents.length === 0">
-                                            <tr>
-                                                <td colspan="4" class="py-8 text-center text-slate-500">
-                                                    <i class="fas fa-check-circle text-emerald-500/50 text-2xl mb-2 block"></i>
-                                                    <p class="text-sm">Kechikkan o'quvchilar yo'q</p>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <span :class="log.status === 'ON_TIME' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'"
+                              class="px-2.5 py-1 rounded-full text-xs font-semibold border"
+                              x-text="log.status === 'ON_TIME' ? 'O\'z vaqtida' : 'Kechikkan'"></span>
+                        <span class="text-xs text-slate-400 font-mono" x-text="formatDate(log.event_time)"></span>
                     </div>
                 </div>
+            </template>
+            <div x-show="todayLogs.length === 0" class="py-8 text-center text-slate-500 text-xs">
+                Bugun uchun davomat signallari hali tushmadi. Kameralar yoki turniketlardan signallar kutilmoqda.
+            </div>
+        </div>
+    </div>
+</div>
 
-                <!-- ═══════════════════════════════════════════════════
-                     SCHOOLS PAGE
-                     ═══════════════════════════════════════════════════ -->
-                <div x-show="activeTab === 'schools'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <!-- VIEW: SCHOOLS -->
+<div x-show="activeTab === 'schools'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <!-- Breadcrumb Navigation -->
+    <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+        <button @click="schoolsView = 'schools_list'; selectedSchool = null; selectedClass = null" class="hover:text-indigo-400 transition flex items-center gap-1">
+            <i class="fas fa-school"></i> Barcha Maktablar
+        </button>
+        <span x-show="selectedSchool" class="text-slate-600">/</span>
+        <button x-show="selectedSchool" @click="schoolsView = 'school_classes'; selectedClass = null" class="hover:text-indigo-400 transition font-bold text-indigo-400" x-text="selectedSchool ? selectedSchool.name : ''"></button>
+        <span x-show="selectedClass" class="text-slate-600">/</span>
+        <span x-show="selectedClass" class="text-emerald-400 font-bold" x-text="selectedClass + ' Sinf'"></button>
+    </div>
 
-                    <!-- Breadcrumb -->
-                    <nav class="flex items-center gap-2 text-sm mb-6">
-                        <button @click="schoolsView = 'schools_list'" class="text-slate-400 hover:text-white transition"
-                                :class="{'text-white font-semibold': schoolsView === 'schools_list'}">
-                            <i class="fas fa-school mr-1"></i> Maktablar
-                        </button>
-                        <template x-if="schoolsView === 'school_classes' || schoolsView === 'class_detail'">
-                            <span class="flex items-center gap-2">
-                                <i class="fas fa-chevron-right text-slate-600 text-xs"></i>
-                                <button @click="schoolsView = 'school_classes'" class="text-slate-400 hover:text-white transition"
-                                        :class="{'text-white font-semibold': schoolsView === 'school_classes'}"
-                                        x-text="selectedSchool?.name || 'Sinflar'"></button>
-                            </span>
-                        </template>
-                        <template x-if="schoolsView === 'class_detail'">
-                            <span class="flex items-center gap-2">
-                                <i class="fas fa-chevron-right text-slate-600 text-xs"></i>
-                                <span class="text-white font-semibold" x-text="selectedClass?.name || 'Sinf'"></span>
-                            </span>
-                        </template>
-                    </nav>
+    <!-- SUBVIEW 1: SCHOOLS LIST -->
+    <div x-show="schoolsView === 'schools_list'" class="space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-white">Tizimdagi Maktablar</h2>
+                <p class="text-xs text-slate-400">Sinflar va o'quvchilar tarkibini ko'rish uchun maktab kartochkasiga bosing</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Search -->
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" x-model="schoolSearchQuery" placeholder="Maktab qidirish..."
+                           class="pl-9 pr-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                </div>
+                <!-- Grid / List Switcher -->
+                <div class="flex rounded-xl bg-slate-800 p-1 border border-slate-700">
+                    <button @click="schoolViewMode = 'grid'" :class="schoolViewMode === 'grid' ? 'bg-indigo-600 text-white' : 'text-slate-400'" class="p-1.5 rounded-lg text-xs transition">
+                        <i class="fas fa-grid-2"></i>
+                    </button>
+                    <button @click="schoolViewMode = 'list'" :class="schoolViewMode === 'list' ? 'bg-indigo-600 text-white' : 'text-slate-400'" class="p-1.5 rounded-lg text-xs transition">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                <button @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
+                    <i class="fas fa-plus"></i> Yangi Maktab
+                </button>
+            </div>
+        </div>
 
-                    <!-- ═══ Sub-view: Schools List ═══ -->
-                    <div x-show="schoolsView === 'schools_list'">
-                        <!-- Header with search + controls -->
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-                            <div class="flex items-center gap-3 flex-1 w-full sm:w-auto">
-                                <div class="relative flex-1 max-w-sm">
-                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                                    <input type="text" x-model="schoolSearchQuery"
-                                           placeholder="Maktab qidirish..."
-                                           class="w-full bg-slate-800/60 border border-slate-700/50 rounded-xl py-2 pl-9 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 transition">
-                                </div>
-                                <!-- View Toggle -->
-                                <div class="flex bg-slate-800/60 rounded-xl border border-slate-700/50 p-0.5">
-                                    <button @click="schoolViewMode = 'grid'"
-                                            class="px-3 py-1.5 rounded-lg text-sm transition"
-                                            :class="schoolViewMode === 'grid' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'">
-                                        <i class="fas fa-grid-2"></i>
-                                    </button>
-                                    <button @click="schoolViewMode = 'list'"
-                                            class="px-3 py-1.5 rounded-lg text-sm transition"
-                                            :class="schoolViewMode === 'list' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'">
-                                        <i class="fas fa-list"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <button @click="openSchoolModal()"
-                                    class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition flex items-center gap-2 shadow-lg shadow-indigo-600/20">
-                                <i class="fas fa-plus"></i> Yangi Maktab
+        <!-- Grid View -->
+        <div x-show="schoolViewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <template x-for="sc in filteredSchools" :key="sc.id">
+                <div @click="selectSchool(sc)" class="glass-card p-6 rounded-2xl relative group cursor-pointer hover:border-indigo-500/60 hover:bg-slate-800/80 transition space-y-4">
+                    <div class="flex items-start justify-between">
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold font-mono" x-text="sc.code"></span>
+                        <div class="flex items-center gap-1" @click.stop>
+                            <button @click.stop="editSchoolForm.id = sc.id; schoolForm.name = sc.name; schoolForm.code = sc.code; schoolForm.address = sc.address; schoolForm.phone = sc.phone; showAddSchoolModal = true" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
+                                <i class="fas fa-pen-to-square"></i>
                             </button>
-                        </div>
-
-                        <!-- Grid View -->
-                        <div x-show="schoolViewMode === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            <template x-for="school in filteredSchools" :key="school.id">
-                                <div class="glass-card rounded-2xl p-5 hover:border-indigo-500/30 hover:shadow-lg hover:shadow-indigo-900/10 transition-all duration-300 group cursor-pointer"
-                                     @click="selectSchool(school)">
-                                    <div class="flex items-start justify-between mb-3">
-                                        <div class="w-11 h-11 rounded-xl bg-indigo-500/15 flex items-center justify-center">
-                                            <i class="fas fa-school text-indigo-400"></i>
-                                        </div>
-                                        <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition">
-                                            <button @click.stop="openEditSchoolModal(school)"
-                                                    class="w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-slate-600 text-slate-400 hover:text-white flex items-center justify-center transition text-xs">
-                                                <i class="fas fa-pen"></i>
-                                            </button>
-                                            <button @click.stop="deleteSchool(school.id)"
-                                                    class="w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-red-600/30 text-slate-400 hover:text-red-400 flex items-center justify-center transition text-xs">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <h3 class="text-white font-bold text-sm mb-1 truncate" x-text="school.name"></h3>
-                                    <p class="text-slate-500 text-xs mb-3 truncate" x-text="school.address || 'Manzil ko\'rsatilmagan'"></p>
-                                    <div class="flex items-center gap-4 text-xs">
-                                        <span class="flex items-center gap-1 text-slate-400">
-                                            <i class="fas fa-users text-indigo-400"></i>
-                                            <span x-text="(school.students_count || 0) + ' o\'quvchi'"></span>
-                                        </span>
-                                        <span class="flex items-center gap-1 text-slate-400">
-                                            <i class="fas fa-chalkboard text-purple-400"></i>
-                                            <span x-text="(school.classes_count || 0) + ' sinf'"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </template>
-                            <template x-if="filteredSchools.length === 0">
-                                <div class="col-span-full py-16 text-center text-slate-500">
-                                    <i class="fas fa-school text-4xl mb-3 opacity-30"></i>
-                                    <p class="text-sm">Maktablar topilmadi</p>
-                                </div>
-                            </template>
-                        </div>
-
-                        <!-- List / Table View -->
-                        <div x-show="schoolViewMode === 'list'" class="glass-card rounded-2xl overflow-hidden">
-                            <table class="w-full text-sm">
-                                <thead>
-                                    <tr class="border-b border-slate-700/50 bg-slate-800/30">
-                                        <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">#</th>
-                                        <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Nomi</th>
-                                        <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Manzil</th>
-                                        <th class="text-center py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">O'quvchilar</th>
-                                        <th class="text-center py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Sinflar</th>
-                                        <th class="text-right py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Amallar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template x-for="(school, idx) in filteredSchools" :key="school.id">
-                                        <tr class="border-b border-slate-800/30 hover:bg-slate-800/40 transition cursor-pointer"
-                                            @click="selectSchool(school)">
-                                            <td class="py-3 px-4 text-slate-500" x-text="idx + 1"></td>
-                                            <td class="py-3 px-4">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
-                                                        <i class="fas fa-school text-indigo-400 text-xs"></i>
-                                                    </div>
-                                                    <span class="text-white font-medium" x-text="school.name"></span>
-                                                </div>
-                                            </td>
-                                            <td class="py-3 px-4 text-slate-400 hidden md:table-cell" x-text="school.address || '-'"></td>
-                                            <td class="py-3 px-4 text-center text-slate-300" x-text="school.students_count || 0"></td>
-                                            <td class="py-3 px-4 text-center text-slate-300" x-text="school.classes_count || 0"></td>
-                                            <td class="py-3 px-4 text-right">
-                                                <div class="flex items-center justify-end gap-1">
-                                                    <button @click.stop="openEditSchoolModal(school)"
-                                                            class="w-8 h-8 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition text-xs">
-                                                        <i class="fas fa-pen"></i>
-                                                    </button>
-                                                    <button @click.stop="deleteSchool(school.id)"
-                                                            class="w-8 h-8 rounded-lg hover:bg-red-600/20 text-slate-400 hover:text-red-400 flex items-center justify-center transition text-xs">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </tbody>
-                            </table>
-                            <template x-if="filteredSchools.length === 0">
-                                <div class="py-16 text-center text-slate-500">
-                                    <i class="fas fa-school text-4xl mb-3 opacity-30"></i>
-                                    <p class="text-sm">Maktablar topilmadi</p>
-                                </div>
-                            </template>
+                            <button @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
+                                <i class="fas fa-trash-can"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- ═══ Sub-view: School Classes ═══ -->
-                    <div x-show="schoolsView === 'school_classes'">
-                        <!-- School Header -->
-                        <div class="glass-card rounded-2xl p-6 mb-6">
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/15 flex items-center justify-center">
-                                        <i class="fas fa-school text-indigo-400 text-2xl"></i>
-                                    </div>
-                                    <div>
-                                        <h2 class="text-xl font-extrabold text-white" x-text="selectedSchool?.name"></h2>
-                                        <p class="text-slate-400 text-sm" x-text="selectedSchool?.address || ''"></p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="px-3 py-1.5 bg-indigo-500/15 text-indigo-400 text-xs font-semibold rounded-lg">
-                                        <i class="fas fa-users mr-1"></i>
-                                        <span x-text="(selectedSchool?.students_count || 0) + ' o\'quvchi'"></span>
-                                    </span>
-                                    <button @click="openClassModal()"
-                                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition flex items-center gap-2">
-                                        <i class="fas fa-plus"></i> Yangi Sinf
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition" x-text="sc.name"></h3>
+                        <p class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                            <i class="fas fa-location-dot text-slate-500"></i> <span x-text="sc.address || 'Manzil kiritilmagan'"></span>
+                        </p>
+                        <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-1.5">
+                            <i class="fas fa-phone text-slate-500"></i> <span x-text="sc.phone || 'Telefon kiritilmagan'"></span>
+                        </p>
+                    </div>
 
-                        <!-- Classes Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            <template x-for="cls in classes" :key="cls.id">
-                                <div class="glass-card rounded-2xl p-5 hover:border-indigo-500/30 transition-all duration-300 group cursor-pointer"
-                                     @click="selectClass(cls)">
-                                    <div class="flex items-start justify-between mb-3">
-                                        <div class="w-11 h-11 rounded-xl bg-purple-500/15 flex items-center justify-center">
-                                            <i class="fas fa-chalkboard text-purple-400"></i>
-                                        </div>
-                                        <button @click.stop="deleteClass(cls.id)"
-                                                class="w-8 h-8 rounded-lg bg-slate-700/50 hover:bg-red-600/30 text-slate-400 hover:text-red-400 flex items-center justify-center transition text-xs opacity-0 group-hover:opacity-100">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                    <h3 class="text-white font-bold text-sm mb-1" x-text="cls.name"></h3>
-                                    <p class="text-slate-500 text-xs" x-text="(cls.students_count || 0) + ' o\'quvchi'"></p>
-                                </div>
-                            </template>
-                            <template x-if="classes.length === 0">
-                                <div class="col-span-full py-16 text-center text-slate-500">
-                                    <i class="fas fa-chalkboard text-4xl mb-3 opacity-30"></i>
-                                    <p class="text-sm">Sinflar topilmadi</p>
-                                </div>
-                            </template>
+                    <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/80 text-center">
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">Sinflar</p>
+                            <p class="text-sm font-extrabold text-indigo-400" x-text="sc.classes_count || 0"></p>
+                        </div>
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">O'quvchilar</p>
+                            <p class="text-sm font-extrabold text-blue-400" x-text="sc.students_count || 0"></p>
+                        </div>
+                        <div class="p-2 bg-slate-900/60 rounded-xl">
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase">O'qituvchi</p>
+                            <p class="text-sm font-extrabold text-purple-400" x-text="sc.teachers_count || 0"></p>
                         </div>
                     </div>
 
-                    <!-- ═══ Sub-view: Class Detail ═══ -->
-                    <div x-show="schoolsView === 'class_detail'">
-                        <!-- Class Header -->
-                        <div class="glass-card rounded-2xl p-6 mb-6">
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-2xl bg-purple-500/15 flex items-center justify-center">
-                                        <i class="fas fa-chalkboard text-purple-400 text-2xl"></i>
-                                    </div>
-                                    <div>
-                                        <h2 class="text-xl font-extrabold text-white" x-text="selectedClass?.name"></h2>
-                                        <p class="text-slate-400 text-sm" x-text="selectedSchool?.name"></p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button @click="openStudentModal()"
-                                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition flex items-center gap-2">
-                                        <i class="fas fa-user-plus"></i> O'quvchi Qo'shish
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tabs: Students / Teachers -->
-                        <div class="flex items-center gap-1 mb-6 bg-slate-800/40 rounded-xl p-1 w-fit">
-                            <button @click="classDetailTab = 'students'"
-                                    class="px-4 py-2 rounded-lg text-sm font-semibold transition"
-                                    :class="classDetailTab === 'students' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'">
-                                <i class="fas fa-user-graduate mr-1"></i> O'quvchilar
-                            </button>
-                            <button @click="classDetailTab = 'teachers'"
-                                    class="px-4 py-2 rounded-lg text-sm font-semibold transition"
-                                    :class="classDetailTab === 'teachers' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'">
-                                <i class="fas fa-chalkboard-user mr-1"></i> O'qituvchilar
-                            </button>
-                        </div>
-
-                        <!-- Students Tab -->
-                        <div x-show="classDetailTab === 'students'">
-                            <div class="glass-card rounded-2xl overflow-hidden">
-                                <table class="w-full text-sm">
-                                    <thead>
-                                        <tr class="border-b border-slate-700/50 bg-slate-800/30">
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">#</th>
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Ism Familiya</th>
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Face ID</th>
-                                            <th class="text-right py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Amallar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="(student, idx) in classStudents" :key="student.id">
-                                            <tr class="border-b border-slate-800/30 hover:bg-slate-800/40 transition">
-                                                <td class="py-3 px-4 text-slate-500" x-text="idx + 1"></td>
-                                                <td class="py-3 px-4">
-                                                    <div class="flex items-center gap-3">
-                                                        <div class="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fas fa-user text-indigo-400 text-xs"></i>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-white font-medium" x-text="student.first_name + ' ' + student.last_name"></p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="py-3 px-4 hidden md:table-cell">
-                                                    <span :class="student.face_data ? 'text-emerald-400' : 'text-slate-600'"
-                                                          x-text="student.face_data ? '✓ Ro\'yxatdan o\'tgan' : '✗ Yo\'q'"></span>
-                                                </td>
-                                                <td class="py-3 px-4 text-right">
-                                                    <div class="flex items-center justify-end gap-1">
-                                                        <button @click="openEditStudentModal(student)"
-                                                                class="w-8 h-8 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition text-xs">
-                                                            <i class="fas fa-pen"></i>
-                                                        </button>
-                                                        <button @click="deleteStudent(student.id)"
-                                                                class="w-8 h-8 rounded-lg hover:bg-red-600/20 text-slate-400 hover:text-red-400 flex items-center justify-center transition text-xs">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                                <template x-if="classStudents.length === 0">
-                                    <div class="py-16 text-center text-slate-500">
-                                        <i class="fas fa-user-graduate text-4xl mb-3 opacity-30"></i>
-                                        <p class="text-sm">Bu sinfda o'quvchilar yo'q</p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-
-                        <!-- Teachers Tab -->
-                        <div x-show="classDetailTab === 'teachers'">
-                            <div class="glass-card rounded-2xl overflow-hidden">
-                                <table class="w-full text-sm">
-                                    <thead>
-                                        <tr class="border-b border-slate-700/50 bg-slate-800/30">
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">#</th>
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Ism Familiya</th>
-                                            <th class="text-left py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Fan</th>
-                                            <th class="text-right py-3 px-4 text-slate-400 font-medium text-xs uppercase tracking-wider">Amallar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="(teacher, idx) in classTeachers" :key="teacher.id">
-                                            <tr class="border-b border-slate-800/30 hover:bg-slate-800/40 transition">
-                                                <td class="py-3 px-4 text-slate-500" x-text="idx + 1"></td>
-                                                <td class="py-3 px-4">
-                                                    <div class="flex items-center gap-3">
-                                                        <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center flex-shrink-0">
-                                                            <i class="fas fa-chalkboard-user text-purple-400 text-xs"></i>
-                                                        </div>
-                                                        <p class="text-white font-medium" x-text="teacher.first_name + ' ' + teacher.last_name"></p>
-                                                    </div>
-                                                </td>
-                                                <td class="py-3 px-4 text-slate-400 hidden md:table-cell" x-text="teacher.subject || '-'"></td>
-                                                <td class="py-3 px-4 text-right">
-                                                    <button @click="deleteTeacher(teacher.id)"
-                                                            class="w-8 h-8 rounded-lg hover:bg-red-600/20 text-slate-400 hover:text-red-400 flex items-center justify-center transition text-xs">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                                <template x-if="classTeachers.length === 0">
-                                    <div class="py-16 text-center text-slate-500">
-                                        <i class="fas fa-chalkboard-user text-4xl mb-3 opacity-30"></i>
-                                        <p class="text-sm">Bu sinfda o'qituvchilar yo'q</p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold pt-1">
+                        <span>Sinflarni ko'rish</span>
+                        <i class="fas fa-chevron-right group-hover:translate-x-1 transition"></i>
                     </div>
                 </div>
+            </template>
+        </div>
 
+        <!-- List View -->
+        <div x-show="schoolViewMode === 'list'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Kodi</th>
+                        <th class="px-6 py-4">Maktab Nomi</th>
+                        <th class="px-6 py-4">Manzil</th>
+                        <th class="px-6 py-4">Sinflar</th>
+                        <th class="px-6 py-4">O'quvchilar</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="sc in filteredSchools" :key="sc.id">
+                        <tr @click="selectSchool(sc)" class="hover:bg-slate-800/30 transition cursor-pointer">
+                            <td class="px-6 py-4 font-mono text-xs text-indigo-400 font-bold" x-text="sc.code"></td>
+                            <td class="px-6 py-4 font-semibold text-white" x-text="sc.name"></td>
+                            <td class="px-6 py-4 text-xs text-slate-400" x-text="sc.address || '-'"></td>
+                            <td class="px-6 py-4 text-xs font-bold text-indigo-300" x-text="sc.classes_count || 0"></td>
+                            <td class="px-6 py-4 text-xs font-bold text-blue-400" x-text="sc.students_count || 0"></td>
+                            <td class="px-6 py-4 text-right" @click.stop>
+                                <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<!-- ═══════════════════════════════════════════════════
-     STUDENTS PAGE
-     ═══════════════════════════════════════════════════ -->
+    <!-- SUBVIEW 2: SCHOOL CLASSES -->
+    <div x-show="schoolsView === 'school_classes'" class="space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-6 rounded-2xl">
+            <div>
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold" x-text="selectedSchool?.code"></span>
+                <h2 class="text-2xl font-extrabold text-white mt-1" x-text="selectedSchool?.name"></h2>
+                <p class="text-xs text-slate-400 mt-1" x-text="selectedSchool?.address"></p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button @click="openStudentModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-user-plus"></i> Yangi O'quvchi
+                </button>
+                <button @click="showAddTeacherModal = true" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-chalkboard-user"></i> Yangi O'qituvchi
+                </button>
+                <button @click="showAddDeviceModal = true" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                    <i class="fas fa-video"></i> Kamera Qo'shish
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-bold text-white mb-3">Maktab Sinflari</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <template x-for="cls in schoolClasses" :key="cls.class_name">
+                    <div @click="selectClass(cls.class_name)" class="glass-card p-4 rounded-xl cursor-pointer hover:border-indigo-500 hover:bg-slate-800/90 transition text-center space-y-2 group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-extrabold text-lg mx-auto group-hover:scale-110 transition" x-text="cls.class_name"></div>
+                        <p class="text-xs font-bold text-white" x-text="cls.class_name + ' Sinf'"></p>
+                        <p class="text-[11px] text-slate-400" x-text="cls.students_count + ' ta o\'quvchi'"></p>
+                        <p class="text-[10px] text-indigo-300 truncate" x-text="cls.teacher_name || 'Rahbar biriktirilmagan'"></p>
+                    </div>
+                </template>
+                <div x-show="schoolClasses.length === 0" class="col-span-full glass-card p-8 text-center rounded-xl text-slate-400 text-xs">
+                    Ushbu maktabda hali sinflar yaratilmagan. Yuqoridagi "+ Yangi O'quvchi" tugmasi orqali sinflarni qo'shing.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUBVIEW 3: CLASS DETAIL -->
+    <div x-show="schoolsView === 'class_detail'" class="space-y-6">
+        <div class="flex items-center justify-between glass-card p-6 rounded-2xl">
+            <div>
+                <span class="text-xs text-indigo-400 font-bold uppercase tracking-wider" x-text="selectedSchool?.name"></span>
+                <h2 class="text-2xl font-extrabold text-white mt-0.5" x-text="selectedClass + ' Sinf Tarkibi'"></h2>
+            </div>
+            <div class="flex items-center gap-2">
+                <button @click="openStudentModal()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-user-plus"></i> O'quvchi Qo'shish
+                </button>
+                <button @click="showAddTeacherModal = true" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-1.5">
+                    <i class="fas fa-chalkboard-user"></i> O'qituvchi Qo'shish
+                </button>
+            </div>
+        </div>
+
+        <div class="flex border-b border-slate-800 space-x-4">
+            <button @click="classDetailTab = 'students'" :class="classDetailTab === 'students' ? 'border-indigo-500 text-indigo-400 font-bold' : 'border-transparent text-slate-400 hover:text-slate-200'" class="py-3 px-2 text-sm border-b-2 transition flex items-center gap-2">
+                <i class="fas fa-graduation-cap"></i> O'quvchilar (<span x-text="classStudents.length"></span>)
+            </button>
+            <button @click="classDetailTab = 'teachers'" :class="classDetailTab === 'teachers' ? 'border-indigo-500 text-indigo-400 font-bold' : 'border-transparent text-slate-400 hover:text-slate-200'" class="py-3 px-2 text-sm border-b-2 transition flex items-center gap-2">
+                <i class="fas fa-chalkboard-user"></i> O'qituvchilar (<span x-text="classTeachers.length"></span>)
+            </button>
+        </div>
+
+        <!-- Class Students Table -->
+        <div x-show="classDetailTab === 'students'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Ism Familiya</th>
+                        <th class="px-6 py-4">O'quvchi Kodi</th>
+                        <th class="px-6 py-4">RFID Karta</th>
+                        <th class="px-6 py-4">Face ID</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="st in classStudents" :key="st.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-semibold text-white" x-text="st.full_name || (st.first_name + ' ' + st.last_name)"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-indigo-300" x-text="st.student_code"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-slate-400" x-text="st.rfid_card_id || '-'"></td>
+                            <td class="px-6 py-4">
+                                <span x-show="st.has_face_encoding || st.face_encoding" class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">Face ID Faol</span>
+                                <span x-show="!st.has_face_encoding && !st.face_encoding" class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-500 text-xs font-medium">Yo'q</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="openEditStudentModal(st)" class="text-indigo-400 hover:text-indigo-300 mr-2"><i class="fas fa-pen"></i></button>
+                                <button @click="deleteStudent(st.id)" class="text-rose-400 hover:text-rose-300"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Class Teachers Table -->
+        <div x-show="classDetailTab === 'teachers'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">O'qituvchi</th>
+                        <th class="px-6 py-4">Fan</th>
+                        <th class="px-6 py-4">Telefon</th>
+                        <th class="px-6 py-4 text-right">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50">
+                    <template x-for="tc in classTeachers" :key="tc.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-semibold text-white" x-text="tc.full_name || (tc.first_name + ' ' + tc.last_name)"></td>
+                            <td class="px-6 py-4 text-indigo-400 font-semibold" x-text="tc.subject || 'O\'qituvchi'"></td>
+                            <td class="px-6 py-4 font-mono text-xs text-slate-300" x-text="tc.phone_number || '-'"></td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="deleteTeacher(tc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+                <!-- VIEW: STUDENTS -->
 <div x-show="activeTab === 'students'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
-    <!-- Header & Action -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-xl font-bold text-white flex items-center gap-2">
@@ -853,21 +669,19 @@
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">Barcha maktablar va sinflar bo'yicha o'quvchilar kontingenti</p>
         </div>
-        <div class="flex items-center gap-2">
-            <button @click="openStudentModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
-                <i class="fas fa-plus"></i> Yangi O'quvchi
-            </button>
-        </div>
+        <button @click="openStudentModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
+            <i class="fas fa-plus"></i> Yangi O'quvchi
+        </button>
     </div>
 
-    <!-- Filters & Search Bar -->
+    <!-- Filters -->
     <div class="glass-card p-4 rounded-2xl">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <div>
                 <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Qidirish</label>
                 <div class="relative">
                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                    <input type="text" x-model="studentsFilter.search" placeholder="Ism, familiya, kod..."
+                    <input type="text" x-model="studentsFilter.search" placeholder="Ism, familiya, kod, PINFL..."
                            class="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
                 </div>
             </div>
@@ -930,10 +744,10 @@
                             <td class="px-6 py-4 font-mono text-xs text-slate-400" x-text="st.student_code"></td>
                             <td class="px-6 py-4 font-mono text-xs text-slate-400" x-text="st.rfid_card_id || '-'"></td>
                             <td class="px-6 py-4">
-                                <span x-show="st.has_face_encoding || st.face_data" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+                                <span x-show="st.has_face_encoding || st.face_encoding" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
                                     <i class="fas fa-check-circle"></i> Ulangan
                                 </span>
-                                <span x-show="!st.has_face_encoding && !st.face_data" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-500 text-xs">
+                                <span x-show="!st.has_face_encoding && !st.face_encoding" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-500 text-xs">
                                     Yo'q
                                 </span>
                             </td>
@@ -975,9 +789,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     TEACHERS PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: TEACHERS -->
 <div x-show="activeTab === 'teachers'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -999,7 +811,7 @@
                 <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Qidirish</label>
                 <div class="relative">
                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                    <input type="text" x-model="teachersFilter.search" placeholder="Ism, familiya bo'yicha..."
+                    <input type="text" x-model="teachersFilter.search" placeholder="Ism, familiya, fan bo'yicha..."
                            class="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-purple-500">
                 </div>
             </div>
@@ -1073,9 +885,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     ATTENDANCE (DAVOMAT) PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: ATTENDANCE -->
 <div x-show="activeTab === 'attendance'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -1096,7 +906,7 @@
         </div>
     </div>
 
-    <!-- Quick Stats for Attendance -->
+    <!-- Quick Stats -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-card p-4 rounded-2xl flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg">
@@ -1234,9 +1044,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     DEVICES (KAMERALAR & TURNIKETLAR) PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: DEVICES -->
 <div x-show="activeTab === 'devices'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -1301,9 +1109,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     PARENTS (OTA-ONALAR) PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: PARENTS -->
 <div x-show="activeTab === 'parents'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div>
         <h2 class="text-xl font-bold text-white flex items-center gap-2">
@@ -1394,9 +1200,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     REPORTS (HISOBOTLAR) PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: REPORTS -->
 <div x-show="activeTab === 'reports'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -1408,10 +1212,10 @@
         </div>
         <div class="flex items-center gap-2">
             <button @click="exportReport('pdf')" class="px-3.5 py-2 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 rounded-xl text-xs font-semibold border border-rose-500/30 transition flex items-center gap-1.5">
-                <i class="fas fa-file-pdf"></i> PDF Eksport
+                <i class="fas fa-print"></i> PDF Chop Etish
             </button>
-            <button @click="exportReport('excel')" class="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 rounded-xl text-xs font-semibold border border-emerald-500/30 transition flex items-center gap-1.5">
-                <i class="fas fa-file-excel"></i> Excel Eksport
+            <button @click="exportReport('excel')" class="px-3.5 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 rounded-xl text-xs font-semibold border border-emerald-500/30 transition flex items-center gap-1.5 shadow-lg shadow-emerald-950/40">
+                <i class="fas fa-file-excel"></i> Haqiqiy Excel (CSV) Yuklash
             </button>
         </div>
     </div>
@@ -1434,32 +1238,34 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
                 <p class="text-xs text-slate-400">Umumiy Davomat Ko'rsatkichi</p>
-                <h3 class="text-2xl font-extrabold text-emerald-400 mt-1">94.8%</h3>
-                <p class="text-[11px] text-emerald-500 mt-0.5"><i class="fas fa-arrow-trend-up"></i> O'tgan haftaga nisbatan +2.1%</p>
+                <h3 class="text-2xl font-extrabold text-emerald-400 mt-1"
+                    x-text="stats.students_count > 0 ? ((stats.today_entries / stats.students_count) * 100).toFixed(1) + '%' : '0%'"></h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">O'quvchilar soniga nisbatan</p>
             </div>
             <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
-                <p class="text-xs text-slate-400">O'rtacha Kechikish Vaqti</p>
-                <h3 class="text-2xl font-extrabold text-amber-400 mt-1">6.4 daq</h3>
-                <p class="text-[11px] text-slate-400 mt-0.5"><i class="fas fa-clock"></i> 08:00 - 08:30 oralig'ida</p>
+                <p class="text-xs text-slate-400">Bugungi Kechikishlar</p>
+                <h3 class="text-2xl font-extrabold text-amber-400 mt-1" x-text="stats.today_lates"></h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Dars boshlanishidan keyin kirganlar</p>
             </div>
             <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
-                <p class="text-xs text-slate-400">Eng Namunali Maktab</p>
-                <h3 class="text-lg font-extrabold text-indigo-400 mt-1 truncate" x-text="schoolsDetailed[0]?.name || 'Toshkent 101-IDUM'"></h3>
-                <p class="text-[11px] text-indigo-300 mt-0.5">Davomat 98.2%</p>
+                <p class="text-xs text-slate-400">Namunali Maktablar</p>
+                <h3 class="text-lg font-extrabold text-indigo-400 mt-1 truncate" x-text="schoolsDetailed[0]?.name || 'Maktab kiritilmagan'"></h3>
+                <p class="text-[11px] text-indigo-300 mt-0.5" x-text="schoolsDetailed[0]?.code || ''"></p>
             </div>
         </div>
 
         <div class="pt-4 border-t border-slate-800">
-            <h4 class="text-sm font-bold text-white mb-3">Maktablar Kesimida Davomat Taqqoslanishi</h4>
-            <div class="space-y-3">
+            <h4 class="text-sm font-bold text-white mb-3">Maktablar Kesimida Davomat Nisbati</h4>
+            <div class="space-y-4">
                 <template x-for="sc in schoolsDetailed" :key="sc.id">
-                    <div class="space-y-1">
+                    <div class="space-y-1.5">
                         <div class="flex items-center justify-between text-xs">
                             <span class="font-semibold text-slate-300" x-text="sc.name"></span>
-                            <span class="font-bold text-indigo-400">96.5%</span>
+                            <span class="font-bold text-indigo-400" x-text="(sc.students_count || 0) + ' o\'quvchi'"></span>
                         </div>
                         <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 rounded-full" style="width: 96.5%"></div>
+                            <div class="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 rounded-full"
+                                 :style="'width: ' + Math.min(100, Math.max(15, (sc.students_count || 0) * 10)) + '%'"></div>
                         </div>
                     </div>
                 </template>
@@ -1468,9 +1274,7 @@
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════
-     SETTINGS (SOZLAMALAR) PAGE
-     ═══════════════════════════════════════════════════ -->
+                <!-- VIEW: SETTINGS -->
 <div x-show="activeTab === 'settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div>
         <h2 class="text-xl font-bold text-white flex items-center gap-2">
@@ -1518,7 +1322,7 @@
             </div>
         </div>
         <div class="pt-4 border-t border-slate-800 flex justify-end">
-            <button @click="showToast('Sozlamalar muvaffaqiyatli saqlandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+            <button @click="showToast('Sozlamalar saqlandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
                 Saqlash
             </button>
         </div>
@@ -1571,17 +1375,19 @@
             </thead>
             <tbody class="divide-y divide-slate-800/50 text-xs">
                 <tr class="hover:bg-slate-800/30 transition">
-                    <td class="px-6 py-4 font-mono text-slate-400">Bugun 09:15</td>
+                    <td class="px-6 py-4 font-mono text-slate-400">Bugun</td>
                     <td class="px-6 py-4 font-semibold text-white">admin (Superadmin)</td>
                     <td class="px-6 py-4 text-emerald-400 font-semibold">Tizimga kirish</td>
-                    <td class="px-6 py-4 text-slate-400">IP: 127.0.0.1 (Muvaffaqiyatli)</td>
+                    <td class="px-6 py-4 text-slate-400">Muvaffaqiyatli autentifikatsiya</td>
                 </tr>
-                <tr class="hover:bg-slate-800/30 transition">
-                    <td class="px-6 py-4 font-mono text-slate-400">Bugun 08:30</td>
-                    <td class="px-6 py-4 font-semibold text-white">AI Camera 01</td>
-                    <td class="px-6 py-4 text-indigo-400 font-semibold">Face ID Tanib olish</td>
-                    <td class="px-6 py-4 text-slate-400">Jasur Ergashev (Kirish qayd etildi)</td>
-                </tr>
+                <template x-for="log in todayLogs.slice(0, 5)" :key="'audit_' + log.id">
+                    <tr class="hover:bg-slate-800/30 transition">
+                        <td class="px-6 py-4 font-mono text-slate-400" x-text="formatDate(log.event_time)"></td>
+                        <td class="px-6 py-4 font-semibold text-indigo-300" x-text="log.device_name || 'Turniket'"></td>
+                        <td class="px-6 py-4 text-emerald-400 font-semibold" x-text="log.event_type + ' (' + log.status + ')'"></td>
+                        <td class="px-6 py-4 text-slate-400" x-text="log.student_name + ' — Davomat qaydnomasi'"></td>
+                    </tr>
+                </template>
             </tbody>
         </table>
     </div>
@@ -1591,979 +1397,336 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         MODALS SECTION
-         ═══════════════════════════════════════════════════════════ -->
+    <!-- MODALS -->
+    <!-- MODALS COMPONENT -->
 
-    <!-- MODAL 1: YANGI MAKTAB QO'SHISH -->
-    <div x-show="showAddSchoolModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                    <i class="fas fa-school text-indigo-400"></i>
-                    <span x-text="editSchoolForm.id ? 'Maktabni Tahrirlash' : 'Yangi Maktab Qo\'shish'"></span>
-                </h3>
-                <button @click="showAddSchoolModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
-            </div>
-            <form @submit.prevent="saveSchool()" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Nomi *</label>
-                    <input type="text" x-model="schoolForm.name" required placeholder="Masalan: Toshkent 101-IDUM" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Kodi (Unikal) *</label>
-                    <input type="text" x-model="schoolForm.code" required placeholder="Masalan: SCH-101" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Manzil</label>
-                    <input type="text" x-model="schoolForm.address" placeholder="Toshkent sh., Yunusobod t." class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
-                    <input type="text" x-model="schoolForm.phone" placeholder="+998712345678" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
-                </div>
-                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                    <button type="button" @click="showAddSchoolModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
-                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
-                </div>
-            </form>
+<!-- 1. ADD / EDIT SCHOOL MODAL -->
+<div x-show="showAddSchoolModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fas fa-school text-indigo-400"></i>
+                <span x-text="editSchoolForm.id ? 'Maktabni Tahrirlash' : 'Yangi Maktab Qo\'shish'"></span>
+            </h3>
+            <button @click="showAddSchoolModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
+        <form @submit.prevent="saveSchool()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Nomi *</label>
+                <input type="text" x-model="schoolForm.name" required placeholder="Masalan: Toshkent 101-IDUM" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Kodi (Unikal) *</label>
+                <input type="text" x-model="schoolForm.code" required placeholder="Masalan: SCH-101" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Manzil</label>
+                <input type="text" x-model="schoolForm.address" placeholder="Toshkent sh., Yunusobod t." class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
+                <input type="text" x-model="schoolForm.phone" placeholder="+998712345678" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddSchoolModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <!-- MODAL 2: YANGI O'QUVCHI QO'SHISH -->
-    <div x-show="showAddStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-plus text-indigo-400"></i> Yangi O'quvchi Qo'shish</h3>
-                <button @click="showAddStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+<!-- 2. ADD STUDENT MODAL -->
+<div x-show="showAddStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-plus text-indigo-400"></i> Yangi O'quvchi Qo'shish</h3>
+            <button @click="showAddStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+
+        <!-- GOV ID AUTO SEARCH -->
+        <div class="p-4 bg-indigo-950/40 border border-indigo-800/50 rounded-xl space-y-3">
+            <label class="block text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                <i class="fas fa-building-columns text-indigo-400"></i>
+                O'zbekiston Davlat Bazasidan (MMTV e-Maktab / IIV) Aniq Qidirish
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[11px] text-slate-400 font-semibold mb-1">Guvohnoma / JSHSHIR *</label>
+                    <input type="text" x-model="govDocSearch" placeholder="Masalan: I-TN 998877 yoki 32801056700123" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                </div>
+                <div>
+                    <label class="block text-[11px] text-slate-400 font-semibold mb-1">Tug'ilgan Sana</label>
+                    <input type="date" x-model="govBirthDateSearch" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
+                </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+                <p class="text-[10px] text-slate-400">Hujjat orqali ma'lumotlar avtomatik to'ldiriladi.</p>
+                <button type="button" @click="searchGovId()" :disabled="searchingGov" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1 shadow-md shadow-indigo-600/30">
+                    <i x-show="searchingGov" class="fas fa-circle-notch fa-spin"></i>
+                    <i x-show="!searchingGov" class="fas fa-magnifying-glass"></i> Qidirish
+                </button>
+            </div>
+        </div>
+
+        <form @submit.prevent="createStudent()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="studentForm.first_name" required placeholder="Jasur" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="studentForm.last_name" required placeholder="Ergashev" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
+                    <input type="text" x-model="studentForm.class_name" required placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
+                    <input type="text" x-model="studentForm.student_code" required placeholder="SCH101-001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR (PINFL 14-xonali)</label>
+                    <input type="text" x-model="studentForm.pinfl" placeholder="32801056700123" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Turniket Karta ID</label>
+                    <input type="text" x-model="studentForm.rfid_card_id" placeholder="RF-9001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
             </div>
 
-            <!-- GOV ID AUTO SEARCH BOX -->
-            <div class="p-4 bg-indigo-950/40 border border-indigo-800/50 rounded-xl space-y-3">
-                <label class="block text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                    <i class="fas fa-building-columns text-indigo-400"></i>
-                    O'zbekiston Davlat Bazasidan (MMTV e-Maktab / IIV) Aniq Qidirish
+            <!-- PHOTO UPLOAD & REAL FACE CAPTURE -->
+            <div class="p-3 bg-slate-800/80 border border-slate-700 rounded-xl space-y-2">
+                <label class="block text-xs font-bold text-slate-300 flex items-center justify-between">
+                    <span><i class="fas fa-camera text-indigo-400"></i> O'quvchining Fotosurati (Face ID)</span>
+                    <span x-show="studentForm.face_encoding" class="text-[10px] text-emerald-400 font-bold"><i class="fas fa-circle-check"></i> Rasm Qabul Qilindi</span>
                 </label>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-[11px] text-slate-400 font-semibold mb-1">Guvohnoma / JSHSHIR *</label>
-                        <input type="text" x-model="govDocSearch" placeholder="Masalan: I-TN 998877 yoki 32801056700123" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] text-slate-400 font-semibold mb-1">Tug'ilgan Sana *</label>
-                        <input type="date" x-model="govBirthDateSearch" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
-                    </div>
-                </div>
-                <div class="flex items-center justify-between pt-1">
-                    <p class="text-[10px] text-slate-400">Hujjat va sana orqali barcha ma'lumotlar avtomatik to'ldiriladi.</p>
-                    <button type="button" @click="searchGovId()" :disabled="searchingGov" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1 shadow-md shadow-indigo-600/30">
-                        <i x-show="searchingGov" class="fas fa-circle-notch fa-spin"></i>
-                        <i x-show="!searchingGov" class="fas fa-magnifying-glass"></i> Aniq Qidirish
-                    </button>
+                <input type="file" @change="handlePhotoUpload($event)" accept="image/*" class="block w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/20 file:text-indigo-300 hover:file:bg-indigo-600/30 cursor-pointer">
+                <div x-show="studentPhotoPreview" class="mt-2 flex items-center gap-3">
+                    <img :src="studentPhotoPreview" class="w-16 h-16 rounded-xl object-cover border border-indigo-500/50">
+                    <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1"><i class="fas fa-check-circle"></i> Haqiqiy rasm yuklandi</span>
                 </div>
             </div>
 
-            <form @submit.prevent="createStudent()" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                    <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                        <template x-for="sc in schoolsDetailed" :key="sc.id">
-                            <option :value="sc.id" x-text="sc.name"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
-                        <input type="text" x-model="studentForm.first_name" required placeholder="Jasur" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
-                        <input type="text" x-model="studentForm.last_name" required placeholder="Ergashev" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
-                        <input type="text" x-model="studentForm.class_name" required placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
-                        <input type="text" x-model="studentForm.student_code" required placeholder="SCH101-001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR (PINFL 14-xonali)</label>
-                        <input type="text" x-model="studentForm.pinfl" placeholder="32801056700123" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Turniket Karta ID</label>
-                        <input type="text" x-model="studentForm.rfid_card_id" placeholder="RF-9001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                </div>
-
-                <!-- PHOTO UPLOAD & FACE ENCODING -->
-                <div class="p-3 bg-slate-800/80 border border-slate-700 rounded-xl space-y-2">
-                    <label class="block text-xs font-bold text-slate-300 flex items-center justify-between">
-                        <span><i class="fas fa-camera text-indigo-400"></i> O'quvchining Yuz Fotosurati (Face ID)</span>
-                        <span x-show="studentForm.face_encoding" class="text-[10px] text-emerald-400 font-bold"><i class="fas fa-circle-check"></i> AI Vektor Tayyor</span>
-                    </label>
-                    <input type="file" @change="handlePhotoUpload($event)" accept="image/*" class="block w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/20 file:text-indigo-300 hover:file:bg-indigo-600/30 cursor-pointer">
-                    <div x-show="studentPhotoPreview" class="mt-2 flex items-center gap-3">
-                        <img :src="studentPhotoPreview" class="w-16 h-16 rounded-xl object-cover border border-indigo-500/50">
-                        <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1"><i class="fas fa-microchip"></i> Yuz modeli ajratib olindi</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                    <button type="button" @click="showAddStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
-                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
-                </div>
-            </form>
-        </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <!-- MODAL 3: TAHRIRLASH (EDIT STUDENT) -->
-    <div x-show="showEditStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-pen text-indigo-400"></i> O'quvchini Tahrirlash</h3>
-                <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
-            </div>
-            <form @submit.prevent="updateStudent()" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                    <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                        <template x-for="sc in schoolsDetailed" :key="sc.id">
-                            <option :value="sc.id" x-text="sc.name"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
-                        <input type="text" x-model="editStudentForm.first_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
-                        <input type="text" x-model="editStudentForm.last_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
-                        <input type="text" x-model="editStudentForm.class_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
-                        <input type="text" x-model="editStudentForm.student_code" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR</label>
-                        <input type="text" x-model="editStudentForm.pinfl" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Karta ID</label>
-                        <input type="text" x-model="editStudentForm.rfid_card_id" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                    </div>
-                </div>
-                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                    <button type="button" @click="showEditStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
-                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Yangilash</button>
-                </div>
-            </form>
+<!-- 3. EDIT STUDENT MODAL -->
+<div x-show="showEditStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-pen text-indigo-400"></i> O'quvchini Tahrirlash</h3>
+            <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-    </div>
-
-    <!-- MODAL 4: YANGI O'QITUVCHI QO'SHISH -->
-    <div x-show="showAddTeacherModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-chalkboard-user text-purple-400"></i> Yangi O'qituvchi Qo'shish</h3>
-                <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        <form @submit.prevent="updateStudent()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
             </div>
-            <form @submit.prevent="createTeacher()" class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                    <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                        <template x-for="sc in schoolsDetailed" :key="sc.id">
-                            <option :value="sc.id" x-text="sc.name"></option>
-                        </template>
-                    </select>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
-                        <input type="text" x-model="teacherForm.first_name" required placeholder="Dilshod" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
-                        <input type="text" x-model="teacherForm.last_name" required placeholder="Rahimov" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Fan / Lavozim</label>
-                        <input type="text" x-model="teacherForm.subject" placeholder="Matematika" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Biriktirilgan Sinf (Rahbar)</label>
-                        <input type="text" x-model="teacherForm.class_name" placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
-                    </div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="editStudentForm.first_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
-                    <input type="text" x-model="teacherForm.phone_number" placeholder="+998901234567" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="editStudentForm.last_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                 </div>
-                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                    <button type="button" @click="showAddTeacherModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
-                    <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 transition">Saqlash</button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
+                    <input type="text" x-model="editStudentForm.class_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
                 </div>
-            </form>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
+                    <input type="text" x-model="editStudentForm.student_code" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR</label>
+                    <input type="text" x-model="editStudentForm.pinfl" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Karta ID</label>
+                    <input type="text" x-model="editStudentForm.rfid_card_id" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showEditStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Yangilash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 4. ADD TEACHER MODAL -->
+<div x-show="showAddTeacherModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-chalkboard-user text-purple-400"></i> Yangi O'qituvchi Qo'shish</h3>
+            <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-    </div>
-
-    <!-- MODAL 5: YANGI KAMERA / QURILMA QO'SHISH -->
-    <div x-show="showAddDeviceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-video text-indigo-400"></i> Yangi Kamera / Turniket Qo'shish</h3>
-                <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        <form @submit.prevent="createTeacher()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
             </div>
-            <form @submit.prevent="createDevice()" class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                    <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                        <template x-for="sc in schoolsDetailed" :key="sc.id">
-                            <option :value="sc.id" x-text="sc.name"></option>
-                        </template>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="teacherForm.first_name" required placeholder="Dilshod" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="teacherForm.last_name" required placeholder="Rahimov" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Fan / Lavozim</label>
+                    <input type="text" x-model="teacherForm.subject" placeholder="Matematika" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Biriktirilgan Sinf</label>
+                    <input type="text" x-model="teacherForm.class_name" placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
+                <input type="text" x-model="teacherForm.phone_number" placeholder="+998901234567" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddTeacherModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 5. ADD DEVICE MODAL -->
+<div x-show="showAddDeviceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-video text-indigo-400"></i> Yangi Kamera / Turniket Qo'shish</h3>
+            <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+        <form @submit.prevent="createDevice()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma / Kamera Nomi *</label>
+                <input type="text" x-model="deviceForm.name" required placeholder="Bosh Kirish Face ID Kamera" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma Turi</label>
+                    <select x-model="deviceForm.device_type" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                        <option value="AI_CAMERA">AI Face ID Kamera</option>
+                        <option value="TURNSTILE">Turniket / RFID</option>
+                        <option value="EDGE_BOX">Edge Box Mini PC</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma / Kamera Nomi *</label>
-                    <input type="text" x-model="deviceForm.name" required placeholder="Bosh Kirish Face ID Kamera" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Yo'nalish</label>
+                    <select x-model="deviceForm.direction" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                        <option value="IN">Kirish (IN)</option>
+                        <option value="OUT">Chiqish (OUT)</option>
+                        <option value="BIDIRECTIONAL">Ikkala tomon (IN/OUT)</option>
+                    </select>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma Turi</label>
-                        <select x-model="deviceForm.device_type" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                            <option value="AI_CAMERA">AI Face ID Kamera</option>
-                            <option value="TURNSTILE">Turniket / RFID</option>
-                            <option value="EDGE_BOX">Edge Box Mini PC</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Yo'nalish</label>
-                        <select x-model="deviceForm.direction" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                            <option value="IN">Kirish (IN)</option>
-                            <option value="OUT">Chiqish (OUT)</option>
-                            <option value="BIDIRECTIONAL">Ikkala tomon (IN/OUT)</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">IP Manzil</label>
-                    <input type="text" x-model="deviceForm.ip_address" placeholder="192.168.1.100" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Joylashuv Izohi</label>
-                    <input type="text" x-model="deviceForm.location_description" placeholder="Bosh darvoza o'ng tomoni" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
-                </div>
-                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-                    <button type="button" @click="showAddDeviceModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
-                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
-                </div>
-            </form>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">IP Manzil</label>
+                <input type="text" x-model="deviceForm.ip_address" placeholder="192.168.1.100" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Joylashuv Izohi</label>
+                <input type="text" x-model="deviceForm.location_description" placeholder="Bosh darvoza o'ng tomoni" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddDeviceModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 6. CONFIRM DIALOG -->
+<div x-show="showConfirmDialog" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-sm glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl text-center space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center mx-auto text-rose-400 text-2xl">
+            <i class="fas fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="text-base font-bold text-white" x-text="confirmTitle || 'Tasdiqlang'"></h3>
+        <p class="text-xs text-slate-400" x-text="confirmMessage"></p>
+        <div class="flex items-center justify-center gap-3 pt-2">
+            <button @click="showConfirmDialog = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-700 transition">Bekor qilish</button>
+            <button @click="executeConfirmAction()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-rose-600/30 transition">Ha, davom etish</button>
         </div>
     </div>
+</div>
 
-    <!-- MODAL 6: CONFIRMATION DIALOG -->
-    <div x-show="showConfirmDialog" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
-        <div class="w-full max-w-sm glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl text-center space-y-4">
-            <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center mx-auto text-rose-400 text-2xl">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
-            <h3 class="text-base font-bold text-white" x-text="confirmTitle || 'Tasdiqlang'"></h3>
-            <p class="text-xs text-slate-400" x-text="confirmMessage"></p>
-            <div class="flex items-center justify-center gap-3 pt-2">
-                <button @click="showConfirmDialog = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-700 transition">Bekor qilish</button>
-                <button @click="executeConfirmAction()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-rose-600/30 transition">Ha, davom etish</button>
-            </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <!-- TOAST NOTIFICATIONS COMPONENT -->
+<div class="fixed top-4 right-4 z-[70] space-y-2 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
+    <template x-for="toast in toasts" :key="toast.id">
+        <div :class="{
+            'bg-emerald-950/90 border-emerald-500/40 text-emerald-300': toast.type === 'success',
+            'bg-rose-950/90 border-rose-500/40 text-rose-300': toast.type === 'error',
+            'bg-amber-950/90 border-amber-500/40 text-amber-300': toast.type === 'warning',
+            'bg-indigo-950/90 border-indigo-500/40 text-indigo-300': toast.type === 'info'
+        }" class="p-3.5 rounded-xl border backdrop-blur-md shadow-2xl flex items-start gap-3 toast-enter pointer-events-auto">
+            <i :class="{
+                'fas fa-circle-check text-emerald-400': toast.type === 'success',
+                'fas fa-circle-xmark text-rose-400': toast.type === 'error',
+                'fas fa-triangle-exclamation text-amber-400': toast.type === 'warning',
+                'fas fa-circle-info text-indigo-400': toast.type === 'info'
+            }" class="text-sm mt-0.5"></i>
+            <div class="flex-1 text-xs font-medium leading-relaxed" x-text="toast.message"></div>
+            <button @click="removeToast(toast.id)" class="text-slate-400 hover:text-white transition"><i class="fas fa-xmark text-xs"></i></button>
         </div>
-    </div>
+    </template>
+</div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         TOAST NOTIFICATIONS CONTAINER
-         ═══════════════════════════════════════════════════════════ -->
-    <div class="fixed top-4 right-4 z-[70] space-y-2 w-80 max-w-[calc(100vw-2rem)]">
-        <template x-for="toast in toasts" :key="toast.id">
-            <div :class="{
-                'bg-emerald-950/90 border-emerald-500/40 text-emerald-300': toast.type === 'success',
-                'bg-rose-950/90 border-rose-500/40 text-rose-300': toast.type === 'error',
-                'bg-amber-950/90 border-amber-500/40 text-amber-300': toast.type === 'warning',
-                'bg-indigo-950/90 border-indigo-500/40 text-indigo-300': toast.type === 'info'
-            }" class="p-3.5 rounded-xl border backdrop-blur-md shadow-2xl flex items-start gap-3 toast-enter">
-                <i :class="{
-                    'fas fa-circle-check text-emerald-400': toast.type === 'success',
-                    'fas fa-circle-xmark text-rose-400': toast.type === 'error',
-                    'fas fa-triangle-exclamation text-amber-400': toast.type === 'warning',
-                    'fas fa-circle-info text-indigo-400': toast.type === 'info'
-                }" class="text-sm mt-0.5"></i>
-                <div class="flex-1 text-xs font-medium leading-relaxed" x-text="toast.message"></div>
-                <button @click="removeToast(toast.id)" class="text-slate-400 hover:text-white transition"><i class="fas fa-xmark text-xs"></i></button>
-            </div>
-        </template>
-    </div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         ALPINE.JS JAVASCRIPT APP LOGIC
-         ═══════════════════════════════════════════════════════════ -->
-    <script>
-        function adminApp() {
-            return {
-                // Auth
-                token: localStorage.getItem('edugate_token') || '',
-                loading: false,
-                authError: '',
-                loginForm: { username: '', password: '' },
-                showPassword: false,
-
-                // Navigation
-                activeTab: 'dashboard',
-                sidebarOpen: false,
-                sidebarCollapsed: false,
-                searchQuery: '',
-                showNotifPanel: false,
-
-                // Schools Hierarchy & Views
-                schoolsView: 'schools_list',
-                schoolViewMode: 'grid',
-                schoolSearchQuery: '',
-                schoolsDetailed: [],
-                selectedSchool: null,
-                schoolClasses: [],
-                selectedClass: null,
-                classDetailTab: 'students',
-                classStudents: [],
-                classTeachers: [],
-
-                // Students
-                allStudents: [],
-                studentsFilter: { search: '', school_id: '', class_name: '' },
-                studentsPage: 1,
-
-                // Teachers
-                allTeachers: [],
-                teachersFilter: { search: '', school_id: '' },
-
-                // Live Attendance
-                todayLogs: [],
-                autoRefresh: true,
-                refreshInterval: null,
-                attendanceDate: new Date().toISOString().split('T')[0],
-                attendanceFilter: { school_id: '', class_name: '', status: '' },
-
-                // Devices & Parents
-                devices: [],
-                parents: [],
-
-                // Reports
-                reportType: 'daily',
-
-                // Settings
-                settingsTab: 'general',
-                systemSettings: {
-                    school_start_time: '08:00',
-                    late_threshold_minutes: 15,
-                    school_end_time: '14:00',
-                    language: 'uz',
-                    telegram_bot_token: '',
-                    admin_chat_id: '',
-                    notify_late: true,
-                    notify_entry: true,
-                    notify_exit: false
-                },
-
-                // Stats & Dashboard
-                stats: {
-                    schools_count: 0,
-                    students_count: 0,
-                    teachers_count: 0,
-                    today_entries: 0
-                },
-                notifications: [
-                    { id: 1, text: "Yagona Markaz tizimi faol", time: "Hozir", icon: "fa-circle-check", color: "text-emerald-400" },
-                    { id: 2, text: "Barcha kameralar onlayn", time: "10 daq oldin", icon: "fa-video", color: "text-indigo-400" },
-                    { id: 3, text: "Telegram xabarnomalar xizmati ishlamoqda", time: "Bugun", icon: "fa-paper-plane", color: "text-purple-400" }
-                ],
-
-                // Modals
-                showAddSchoolModal: false,
-                showAddStudentModal: false,
-                showEditStudentModal: false,
-                showAddTeacherModal: false,
-                showAddDeviceModal: false,
-                showConfirmDialog: false,
-                confirmTitle: '',
-                confirmMessage: '',
-                confirmCallback: null,
-
-                // Forms
-                schoolForm: { name: '', code: '', address: '', phone: '' },
-                editSchoolForm: { id: null },
-                studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '', face_encoding: '' },
-                editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '' },
-                teacherForm: { school_id: '', first_name: '', last_name: '', phone_number: '', subject: '', class_name: '' },
-                deviceForm: { school_id: '', name: '', device_type: 'AI_CAMERA', direction: 'IN', ip_address: '', location_description: '' },
-
-                // Gov Auto-Search
-                govDocSearch: '',
-                govBirthDateSearch: '',
-                searchingGov: false,
-                studentPhotoPreview: null,
-
-                // Toasts
-                toasts: [],
-                toastCount: 0,
-
-                // Charts
-                chartInstances: {},
-
-                // Computed Getters
-                get filteredSchools() {
-                    if (!this.schoolSearchQuery) return this.schoolsDetailed;
-                    const q = this.schoolSearchQuery.toLowerCase();
-                    return this.schoolsDetailed.filter(s => (s.name || '').toLowerCase().includes(q) || (s.code || '').toLowerCase().includes(q));
-                },
-
-                get filteredStudents() {
-                    let list = this.allStudents || [];
-                    if (this.studentsFilter.search) {
-                        const q = this.studentsFilter.search.toLowerCase();
-                        list = list.filter(s => 
-                            (s.full_name || (s.first_name + ' ' + s.last_name) || '').toLowerCase().includes(q) || 
-                            (s.student_code || '').toLowerCase().includes(q) ||
-                            (s.pinfl || '').includes(q)
-                        );
-                    }
-                    if (this.studentsFilter.school_id) {
-                        list = list.filter(s => s.school_id == this.studentsFilter.school_id);
-                    }
-                    if (this.studentsFilter.class_name) {
-                        list = list.filter(s => (s.class_name || '').toLowerCase().includes(this.studentsFilter.class_name.toLowerCase()));
-                    }
-                    return list;
-                },
-
-                get paginatedStudents() {
-                    const start = (this.studentsPage - 1) * 15;
-                    return this.filteredStudents.slice(start, start + 15);
-                },
-
-                get filteredTeachers() {
-                    let list = this.allTeachers || [];
-                    if (this.teachersFilter.search) {
-                        const q = this.teachersFilter.search.toLowerCase();
-                        list = list.filter(t => (t.full_name || (t.first_name + ' ' + t.last_name) || '').toLowerCase().includes(q));
-                    }
-                    if (this.teachersFilter.school_id) {
-                        list = list.filter(t => t.school_id == this.teachersFilter.school_id);
-                    }
-                    return list;
-                },
-
-                get filteredLogs() {
-                    let list = this.todayLogs || [];
-                    if (this.attendanceFilter.school_id) {
-                        list = list.filter(l => l.school_id == this.attendanceFilter.school_id);
-                    }
-                    if (this.attendanceFilter.class_name) {
-                        list = list.filter(l => (l.class_name || '').toLowerCase().includes(this.attendanceFilter.class_name.toLowerCase()));
-                    }
-                    if (this.attendanceFilter.status) {
-                        list = list.filter(l => l.status === this.attendanceFilter.status);
-                    }
-                    return list;
-                },
-
-                get onTimeCount() {
-                    return (this.todayLogs || []).filter(l => l.status === 'ON_TIME').length;
-                },
-                get lateCount() {
-                    return (this.todayLogs || []).filter(l => l.status === 'LATE').length;
-                },
-                get exitCount() {
-                    return (this.todayLogs || []).filter(l => l.event_type === 'EXIT').length;
-                },
-
-                // Initialization
-                initApp() {
-                    if (this.token) {
-                        this.fetchStats();
-                        this.fetchSchoolsDetailed();
-                        this.fetchAllStudents();
-                        this.fetchAllTeachers();
-                        this.fetchDevices();
-                        this.fetchParents();
-                        this.fetchTodayLogs();
-                        
-                        this.$nextTick(() => {
-                            this.initDashboardCharts();
-                        });
-
-                        this.refreshInterval = setInterval(() => {
-                            if (this.autoRefresh && (this.activeTab === 'dashboard' || this.activeTab === 'attendance')) {
-                                this.fetchTodayLogs();
-                                this.fetchStats();
-                            }
-                        }, 5000);
-                    }
-                },
-
-                // Toasts
-                showToast(message, type = 'success') {
-                    const id = ++this.toastCount;
-                    this.toasts.push({ id, message, type });
-                    setTimeout(() => this.removeToast(id), 4000);
-                },
-
-                removeToast(id) {
-                    this.toasts = this.toasts.filter(t => t.id !== id);
-                },
-
-                // Confirmation
-                confirm(title, message, callback) {
-                    this.confirmTitle = title;
-                    this.confirmMessage = message;
-                    this.confirmCallback = callback;
-                    this.showConfirmDialog = true;
-                },
-
-                executeConfirmAction() {
-                    if (this.confirmCallback) this.confirmCallback();
-                    this.showConfirmDialog = false;
-                },
-
-                // Auth
-                async login() {
-                    this.loading = true;
-                    this.authError = '';
-                    try {
-                        const prefix = window.location.pathname.startsWith('/EDUGATE') ? '/EDUGATE' : (window.location.pathname.startsWith('/edugate') ? '/edugate' : '');
-                        const res = await fetch(prefix + '/api/v1/auth/login-json', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.loginForm)
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.detail || 'Login xatosi');
-
-                        this.token = data.access_token;
-                        localStorage.setItem('edugate_token', this.token);
-                        this.showToast('Hush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.', 'success');
-                        this.initApp();
-                    } catch (err) {
-                        this.authError = err.message;
-                    } finally {
-                        this.loading = false;
-                    }
-                },
-
-                logout() {
-                    this.token = '';
-                    localStorage.removeItem('edugate_token');
-                    if (this.refreshInterval) clearInterval(this.refreshInterval);
-                    this.showToast('Tizimdan chiqildi', 'info');
-                },
-
-                // API Helper
-                async apiFetch(url, options = {}) {
-                    let fullUrl = url;
-                    if (url.startsWith('/api/v1')) {
-                        const prefix = window.location.pathname.startsWith('/EDUGATE') ? '/EDUGATE' : (window.location.pathname.startsWith('/edugate') ? '/edugate' : '');
-                        fullUrl = prefix + url;
-                    }
-                    let headers = options.headers || {};
-                    if (this.token) headers['Authorization'] = 'Bearer ' + this.token;
-                    const res = await fetch(fullUrl, { ...options, headers });
-                    if (res.status === 401) {
-                        this.logout();
-                        throw new Error('Sessiya muddati tugadi');
-                    }
-                    return await res.json();
-                },
-
-                // Fetch Methods
-                async fetchStats() {
-                    try { 
-                        this.stats = await this.apiFetch('/api/v1/admin/stats'); 
-                        this.updateCharts();
-                    } catch (e) {}
-                },
-
-                async fetchTodayLogs() {
-                    try { this.todayLogs = await this.apiFetch('/api/v1/attendance/today'); } catch (e) {}
-                },
-
-                async fetchSchoolsDetailed() {
-                    try {
-                        this.schoolsDetailed = await this.apiFetch('/api/v1/admin/schools/detailed');
-                        if (this.schoolsDetailed.length > 0) {
-                            if (!this.studentForm.school_id) this.studentForm.school_id = this.schoolsDetailed[0].id;
-                            if (!this.teacherForm.school_id) this.teacherForm.school_id = this.schoolsDetailed[0].id;
-                            if (!this.deviceForm.school_id) this.deviceForm.school_id = this.schoolsDetailed[0].id;
-                        }
-                    } catch (e) {}
-                },
-
-                async fetchAllStudents() {
-                    try {
-                        let url = '/api/v1/admin/students/all';
-                        const params = [];
-                        if (this.studentsFilter.school_id) params.push('school_id=' + this.studentsFilter.school_id);
-                        if (this.studentsFilter.class_name) params.push('class_name=' + encodeURIComponent(this.studentsFilter.class_name));
-                        if (params.length) url += '?' + params.join('&');
-                        this.allStudents = await this.apiFetch(url);
-                    } catch (e) {}
-                },
-
-                async fetchAllTeachers() {
-                    try {
-                        let url = '/api/v1/teachers/';
-                        if (this.teachersFilter.school_id) url += '?school_id=' + this.teachersFilter.school_id;
-                        this.allTeachers = await this.apiFetch(url);
-                    } catch (e) {}
-                },
-
-                async fetchDevices() {
-                    try { this.devices = await this.apiFetch('/api/v1/admin/devices/all'); } catch (e) {}
-                },
-
-                async fetchParents() {
-                    try { this.parents = await this.apiFetch('/api/v1/admin/parents'); } catch (e) {}
-                },
-
-                // School Navigation Handlers
-                selectSchool(school) {
-                    this.selectedSchool = school;
-                    this.studentForm.school_id = school.id;
-                    this.teacherForm.school_id = school.id;
-                    this.deviceForm.school_id = school.id;
-                    this.schoolsView = 'school_classes';
-                    this.apiFetch('/api/v1/admin/schools/' + school.id + '/classes')
-                        .then(res => this.schoolClasses = res)
-                        .catch(() => {});
-                },
-
-                selectClass(cls) {
-                    this.selectedClass = typeof cls === 'object' ? cls.class_name : cls;
-                    this.studentForm.class_name = this.selectedClass;
-                    this.teacherForm.class_name = this.selectedClass;
-                    this.schoolsView = 'class_detail';
-                    this.classDetailTab = 'students';
-                    this.fetchClassStudents();
-                    this.fetchClassTeachers();
-                },
-
-                async fetchClassStudents() {
-                    if (!this.selectedSchool || !this.selectedClass) return;
-                    try {
-                        this.classStudents = await this.apiFetch('/api/v1/admin/students/all?school_id=' + this.selectedSchool.id + '&class_name=' + encodeURIComponent(this.selectedClass));
-                    } catch (e) {}
-                },
-
-                async fetchClassTeachers() {
-                    if (!this.selectedSchool || !this.selectedClass) return;
-                    try {
-                        this.classTeachers = await this.apiFetch('/api/v1/teachers/?school_id=' + this.selectedSchool.id + '&class_name=' + encodeURIComponent(this.selectedClass));
-                    } catch (e) {}
-                },
-
-                // Modal Triggers
-                openSchoolModal() {
-                    this.editSchoolForm = { id: null };
-                    this.schoolForm = { name: '', code: '', address: '', phone: '' };
-                    this.showAddSchoolModal = true;
-                },
-
-                openStudentModal() {
-                    this.showAddStudentModal = true;
-                },
-
-                openClassModal() {
-                    this.studentForm.class_name = '';
-                    this.showAddStudentModal = true;
-                },
-
-                openEditStudentModal(st) {
-                    this.editStudentForm = {
-                        id: st.id,
-                        school_id: st.school_id,
-                        first_name: st.first_name || (st.full_name ? st.full_name.split(' ')[0] : ''),
-                        last_name: st.last_name || (st.full_name ? st.full_name.split(' ').slice(1).join(' ') : ''),
-                        class_name: st.class_name,
-                        student_code: st.student_code,
-                        rfid_card_id: st.rfid_card_id || '',
-                        pinfl: st.pinfl || ''
-                    };
-                    this.showEditStudentModal = true;
-                },
-
-                // Create Operations
-                async saveSchool() {
-                    try {
-                        await this.apiFetch('/api/v1/schools/', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.schoolForm)
-                        });
-                        this.showToast('Maktab muvaffaqiyatli saqlandi!', 'success');
-                        this.showAddSchoolModal = false;
-                        this.fetchSchoolsDetailed();
-                        this.fetchStats();
-                    } catch (e) { this.showToast(e.message, 'error'); }
-                },
-
-                async createStudent() {
-                    try {
-                        await this.apiFetch('/api/v1/students/', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.studentForm)
-                        });
-                        this.showToast("O'quvchi muvaffaqiyatli qo'shildi!", 'success');
-                        this.showAddStudentModal = false;
-                        this.studentForm.first_name = '';
-                        this.studentForm.last_name = '';
-                        this.studentForm.student_code = '';
-                        this.studentForm.rfid_card_id = '';
-                        this.studentForm.pinfl = '';
-                        this.studentPhotoPreview = null;
-                        this.studentForm.face_encoding = '';
-                        if (this.schoolsView === 'class_detail') this.fetchClassStudents();
-                        if (this.selectedSchool) this.selectSchool(this.selectedSchool);
-                        this.fetchAllStudents();
-                        this.fetchStats();
-                    } catch (e) { this.showToast(e.message, 'error'); }
-                },
-
-                async updateStudent() {
-                    try {
-                        await this.apiFetch('/api/v1/admin/students/' + this.editStudentForm.id, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.editStudentForm)
-                        });
-                        this.showToast("O'quvchi ma'lumotlari yangilandi!", 'success');
-                        this.showEditStudentModal = false;
-                        if (this.schoolsView === 'class_detail') this.fetchClassStudents();
-                        this.fetchAllStudents();
-                    } catch (e) { this.showToast(e.message, 'error'); }
-                },
-
-                async createTeacher() {
-                    try {
-                        await this.apiFetch('/api/v1/teachers/', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.teacherForm)
-                        });
-                        this.showToast("O'qituvchi muvaffaqiyatli qo'shildi!", 'success');
-                        this.showAddTeacherModal = false;
-                        this.teacherForm.first_name = '';
-                        this.teacherForm.last_name = '';
-                        this.teacherForm.phone_number = '';
-                        if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
-                        this.fetchAllTeachers();
-                        this.fetchStats();
-                    } catch (e) { this.showToast(e.message, 'error'); }
-                },
-
-                async createDevice() {
-                    try {
-                        await this.apiFetch('/api/v1/devices/', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.deviceForm)
-                        });
-                        this.showToast('Qurilma / Kamera muvaffaqiyatli ulandi!', 'success');
-                        this.showAddDeviceModal = false;
-                        this.deviceForm.name = '';
-                        this.deviceForm.ip_address = '';
-                        this.fetchDevices();
-                        this.fetchStats();
-                    } catch (e) { this.showToast(e.message, 'error'); }
-                },
-
-                // Delete Operations
-                deleteStudent(id) {
-                    this.confirm("O'quvchini o'chirish", "Haqiqatan ham ushbu o'quvchini o'chirmoqchimisiz?", async () => {
-                        try {
-                            await this.apiFetch('/api/v1/admin/students/' + id, { method: 'DELETE' });
-                            this.showToast("O'quvchi o'chirildi", 'success');
-                            if (this.schoolsView === 'class_detail') this.fetchClassStudents();
-                            this.fetchAllStudents();
-                            this.fetchStats();
-                        } catch (e) { this.showToast(e.message, 'error'); }
-                    });
-                },
-
-                deleteTeacher(id) {
-                    this.confirm("O'qituvchini o'chirish", "Ushbu o'qituvchini ro'yxatdan o'chirmoqchimisiz?", async () => {
-                        try {
-                            await this.apiFetch('/api/v1/teachers/' + id, { method: 'DELETE' });
-                            this.showToast("O'qituvchi o'chirildi", 'success');
-                            if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
-                            this.fetchAllTeachers();
-                            this.fetchStats();
-                        } catch (e) { this.showToast(e.message, 'error'); }
-                    });
-                },
-
-                deleteSchool(id) {
-                    this.confirm("Maktabni o'chirish", "DIQQAT: Maktab va uning barcha sinflari hamda o'quvchilari o'chiriladi!", async () => {
-                        try {
-                            await this.apiFetch('/api/v1/admin/schools/' + id, { method: 'DELETE' });
-                            this.showToast("Maktab o'chirildi", 'success');
-                            this.schoolsView = 'schools_list';
-                            this.fetchSchoolsDetailed();
-                            this.fetchStats();
-                        } catch (e) { this.showToast(e.message, 'error'); }
-                    });
-                },
-
-                // Gov Auto-Search
-                async searchGovId() {
-                    if (!this.govDocSearch) {
-                        this.showToast("Hujjat seriyasi yoki JSHSHIR kiriting", 'warning');
-                        return;
-                    }
-                    this.searchingGov = true;
-                    try {
-                        const data = await this.apiFetch('/api/v1/students/verify-gov-id', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                doc_number: this.govDocSearch,
-                                birth_date: this.govBirthDateSearch
-                            })
-                        });
-                        if (data && data.found) {
-                            this.studentForm.first_name = data.first_name || '';
-                            this.studentForm.last_name = data.last_name || '';
-                            this.studentForm.class_name = data.suggested_class || this.studentForm.class_name || '7-A';
-                            this.studentForm.pinfl = data.pinfl || '';
-                            if (!this.studentForm.student_code) {
-                                this.studentForm.student_code = (this.selectedSchool ? this.selectedSchool.code : 'SCH') + '-' + Math.floor(1000 + Math.random()*9000);
-                            }
-                            this.showToast("Davlat bazasidan topildi: " + data.first_name + " " + data.last_name, 'success');
-                        } else {
-                            this.showToast("Ma'lumot topilmadi. O'zingiz kiritishingiz mumkin.", 'info');
-                        }
-                    } catch (e) {
-                        this.showToast(e.message, 'error');
-                    } finally {
-                        this.searchingGov = false;
-                    }
-                },
-
-                handlePhotoUpload(event) {
-                    const file = event.target.files[0];
-                    if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.studentPhotoPreview = e.target.result;
-                        this.studentForm.face_encoding = "vector_mock_512_dim_" + Math.random().toString(36).substring(7);
-                    };
-                    reader.readAsDataURL(file);
-                },
-
-                // Reports Export
-                exportReport(type) {
-                    this.showToast(type.toUpperCase() + " hisobot eksport qilindi!", 'success');
-                },
-
-                // Helper
-                getSchoolName(schoolId) {
-                    const sc = this.schoolsDetailed.find(s => s.id == schoolId);
-                    return sc ? sc.name : '';
-                },
-
-                formatDate(dateStr) {
-                    if (!dateStr) return '';
-                    const d = new Date(dateStr);
-                    return d.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                },
-
-                // Charts
-                initDashboardCharts() {
-                    const ctx1 = document.getElementById('attendanceChart');
-                    if (ctx1) {
-                        this.chartInstances.attendance = new Chart(ctx1, {
-                            type: 'doughnut',
-                            data: {
-                                labels: ["O'z vaqtida", 'Kechikkan', 'Kelmagan'],
-                                datasets: [{
-                                    data: [75, 15, 10],
-                                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                                    borderWidth: 0
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                cutout: '75%',
-                                plugins: {
-                                    legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } }
-                                }
-                            }
-                        });
-                    }
-
-                    const ctx2 = document.getElementById('weeklyChart');
-                    if (ctx2) {
-                        this.chartInstances.weekly = new Chart(ctx2, {
-                            type: 'line',
-                            data: {
-                                labels: ['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan'],
-                                datasets: [{
-                                    label: 'Davomat %',
-                                    data: [92, 95, 91, 96, 94, 88],
-                                    borderColor: '#6366f1',
-                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                                    fill: true,
-                                    tension: 0.35
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: { min: 80, max: 100, ticks: { color: '#64748b' }, grid: { color: 'rgba(51, 65, 85, 0.2)' } },
-                                    x: { ticks: { color: '#64748b' }, grid: { display: false } }
-                                },
-                                plugins: {
-                                    legend: { display: false }
-                                }
-                            }
-                        });
-                    }
-                },
-
-                updateCharts() {
-                    if (this.chartInstances.attendance) {
-                        const onTime = this.onTimeCount || 75;
-                        const late = this.lateCount || 15;
-                        this.chartInstances.attendance.data.datasets[0].data = [onTime, late, 5];
-                        this.chartInstances.attendance.update();
-                    }
-                }
-            };
-        }
-    </script>
+    <!-- JAVASCRIPT MODULES -->
+    <script src="./js/api.js"></script>
+    <script src="./js/charts.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
-

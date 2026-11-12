@@ -1,0 +1,64 @@
+<!-- VIEW: DEVICES -->
+<div x-show="activeTab === 'devices'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fas fa-video text-indigo-400"></i>
+                Kameralar & Qurilmalar Monitoringi
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">AI Face ID kameralar, turniket kontrollerlari va Edge mini-PC lar</p>
+        </div>
+        <button @click="showAddDeviceModal = true" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
+            <i class="fas fa-plus"></i> Yangi Qurilma Qo'shish
+        </button>
+    </div>
+
+    <!-- Devices Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <template x-for="dev in devices" :key="dev.id">
+            <div class="glass-card p-6 rounded-2xl space-y-4 hover:border-indigo-500/40 transition">
+                <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
+                    </span>
+                    <span class="text-xs text-indigo-400 font-semibold" x-text="dev.school_name || getSchoolName(dev.school_id)"></span>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center text-xl flex-shrink-0">
+                        <i :class="dev.device_type === 'AI_CAMERA' ? 'fas fa-camera' : (dev.device_type === 'TURNSTILE' ? 'fas fa-door-open' : 'fas fa-server')"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="text-base font-bold text-white truncate" x-text="dev.name"></h3>
+                        <p class="text-xs text-slate-400 mt-0.5" x-text="dev.location_description || 'Joylashuv ko\'rsatilmagan'"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-500 block text-[10px] uppercase font-semibold">Turi</span>
+                        <span class="text-slate-200 font-semibold" x-text="dev.device_type"></span>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-500 block text-[10px] uppercase font-semibold">Yo'nalish</span>
+                        <span class="text-indigo-400 font-semibold" x-text="dev.direction || 'IN'"></span>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800/80 space-y-1">
+                    <div class="flex items-center justify-between text-[10px] text-slate-500 uppercase font-bold tracking-wider">
+                        <span>Device Token (X-Device-Token)</span>
+                        <button @click="navigator.clipboard.writeText(dev.device_token); showToast('Token nusxalandi!', 'success')" class="text-indigo-400 hover:text-indigo-300 lowercase">nusxalash</button>
+                    </div>
+                    <p class="text-xs font-mono text-indigo-300 select-all break-all" x-text="dev.device_token"></p>
+                </div>
+            </div>
+        </template>
+
+        <div x-show="devices.length === 0" class="col-span-full glass-card p-12 text-center rounded-2xl text-slate-500">
+            <i class="fas fa-video-slash text-4xl mb-3 block opacity-30"></i>
+            <p class="text-sm font-semibold text-slate-300">Tizimga hech qanday kamera yoki qurilma ulanmagan</p>
+            <p class="text-xs text-slate-500 mt-1">Yangi qurilma qo'shish uchun yuqoridagi tugmani bosing</p>
+        </div>
+    </div>
+</div>

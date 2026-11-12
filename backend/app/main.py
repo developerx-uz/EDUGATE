@@ -1,4 +1,5 @@
 import os
+import re
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -83,13 +84,38 @@ if os.path.exists(static_dir):
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
+def render_admin_panel() -> str:
+    admin_dir = os.path.join(os.path.dirname(__file__), "static", "admin")
+    template_path = os.path.join(admin_dir, "template.html")
+    index_path = os.path.join(admin_dir, "index.html")
+
+    if not os.path.exists(template_path):
+        if os.path.exists(index_path):
+            with open(index_path, "r", encoding="utf-8") as f:
+                return f.read()
+        return "<h1>EDUGATE Admin Panel topilmadi</h1>"
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    def replace_include(match):
+        rel = match.group(1).strip()
+        comp_path = os.path.join(admin_dir, rel)
+        if os.path.exists(comp_path):
+            with open(comp_path, "r", encoding="utf-8") as cf:
+                return cf.read()
+        return f"<!-- Missing component: {rel} -->"
+
+    pattern = re.compile(r"<!--\s*include:\s*([a-zA-Z0-9_\-\./]+)\s*-->")
+    return pattern.sub(replace_include, content)
+
+
 @app.get("/admin", response_class=HTMLResponse, tags=["Admin Panel"])
 @app.get("/admin/", response_class=HTMLResponse, tags=["Admin Panel"])
 async def serve_admin_panel():
-    admin_html = os.path.join(os.path.dirname(__file__), "static", "admin", "index.html")
-    if os.path.exists(admin_html):
-        return FileResponse(admin_html)
-    return HTMLResponse("<h1>EDUGATE Admin Panel topilmadi</h1>")
+    html_content = render_admin_panel()
+    return HTMLResponse(content=html_content)
+
 
 
 @app.get("/health", tags=["Health"])

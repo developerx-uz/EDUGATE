@@ -1,0 +1,20 @@
+<!-- TOAST NOTIFICATIONS COMPONENT -->
+<div class="fixed top-4 right-4 z-[70] space-y-2 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
+    <template x-for="toast in toasts" :key="toast.id">
+        <div :class="{
+            'bg-emerald-950/90 border-emerald-500/40 text-emerald-300': toast.type === 'success',
+            'bg-rose-950/90 border-rose-500/40 text-rose-300': toast.type === 'error',
+            'bg-amber-950/90 border-amber-500/40 text-amber-300': toast.type === 'warning',
+            'bg-indigo-950/90 border-indigo-500/40 text-indigo-300': toast.type === 'info'
+        }" class="p-3.5 rounded-xl border backdrop-blur-md shadow-2xl flex items-start gap-3 toast-enter pointer-events-auto">
+            <i :class="{
+                'fas fa-circle-check text-emerald-400': toast.type === 'success',
+                'fas fa-circle-xmark text-rose-400': toast.type === 'error',
+                'fas fa-triangle-exclamation text-amber-400': toast.type === 'warning',
+                'fas fa-circle-info text-indigo-400': toast.type === 'info'
+            }" class="text-sm mt-0.5"></i>
+            <div class="flex-1 text-xs font-medium leading-relaxed" x-text="toast.message"></div>
+            <button @click="removeToast(toast.id)" class="text-slate-400 hover:text-white transition"><i class="fas fa-xmark text-xs"></i></button>
+        </div>
+    </template>
+</div>

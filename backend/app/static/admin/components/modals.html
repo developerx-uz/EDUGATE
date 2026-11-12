@@ -1,0 +1,301 @@
+<!-- MODALS COMPONENT -->
+
+<!-- 1. ADD / EDIT SCHOOL MODAL -->
+<div x-show="showAddSchoolModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fas fa-school text-indigo-400"></i>
+                <span x-text="editSchoolForm.id ? 'Maktabni Tahrirlash' : 'Yangi Maktab Qo\'shish'"></span>
+            </h3>
+            <button @click="showAddSchoolModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+        <form @submit.prevent="saveSchool()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Nomi *</label>
+                <input type="text" x-model="schoolForm.name" required placeholder="Masalan: Toshkent 101-IDUM" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Kodi (Unikal) *</label>
+                <input type="text" x-model="schoolForm.code" required placeholder="Masalan: SCH-101" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Manzil</label>
+                <input type="text" x-model="schoolForm.address" placeholder="Toshkent sh., Yunusobod t." class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
+                <input type="text" x-model="schoolForm.phone" placeholder="+998712345678" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddSchoolModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 2. ADD STUDENT MODAL -->
+<div x-show="showAddStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-plus text-indigo-400"></i> Yangi O'quvchi Qo'shish</h3>
+            <button @click="showAddStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+
+        <!-- GOV ID AUTO SEARCH -->
+        <div class="p-4 bg-indigo-950/40 border border-indigo-800/50 rounded-xl space-y-3">
+            <label class="block text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                <i class="fas fa-building-columns text-indigo-400"></i>
+                O'zbekiston Davlat Bazasidan (MMTV e-Maktab / IIV) Aniq Qidirish
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[11px] text-slate-400 font-semibold mb-1">Guvohnoma / JSHSHIR *</label>
+                    <input type="text" x-model="govDocSearch" placeholder="Masalan: I-TN 998877 yoki 32801056700123" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                </div>
+                <div>
+                    <label class="block text-[11px] text-slate-400 font-semibold mb-1">Tug'ilgan Sana</label>
+                    <input type="date" x-model="govBirthDateSearch" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
+                </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+                <p class="text-[10px] text-slate-400">Hujjat orqali ma'lumotlar avtomatik to'ldiriladi.</p>
+                <button type="button" @click="searchGovId()" :disabled="searchingGov" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1 shadow-md shadow-indigo-600/30">
+                    <i x-show="searchingGov" class="fas fa-circle-notch fa-spin"></i>
+                    <i x-show="!searchingGov" class="fas fa-magnifying-glass"></i> Qidirish
+                </button>
+            </div>
+        </div>
+
+        <form @submit.prevent="createStudent()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="studentForm.first_name" required placeholder="Jasur" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="studentForm.last_name" required placeholder="Ergashev" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
+                    <input type="text" x-model="studentForm.class_name" required placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
+                    <input type="text" x-model="studentForm.student_code" required placeholder="SCH101-001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR (PINFL 14-xonali)</label>
+                    <input type="text" x-model="studentForm.pinfl" placeholder="32801056700123" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Turniket Karta ID</label>
+                    <input type="text" x-model="studentForm.rfid_card_id" placeholder="RF-9001" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+
+            <!-- PHOTO UPLOAD & REAL FACE CAPTURE -->
+            <div class="p-3 bg-slate-800/80 border border-slate-700 rounded-xl space-y-2">
+                <label class="block text-xs font-bold text-slate-300 flex items-center justify-between">
+                    <span><i class="fas fa-camera text-indigo-400"></i> O'quvchining Fotosurati (Face ID)</span>
+                    <span x-show="studentForm.face_encoding" class="text-[10px] text-emerald-400 font-bold"><i class="fas fa-circle-check"></i> Rasm Qabul Qilindi</span>
+                </label>
+                <input type="file" @change="handlePhotoUpload($event)" accept="image/*" class="block w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600/20 file:text-indigo-300 hover:file:bg-indigo-600/30 cursor-pointer">
+                <div x-show="studentPhotoPreview" class="mt-2 flex items-center gap-3">
+                    <img :src="studentPhotoPreview" class="w-16 h-16 rounded-xl object-cover border border-indigo-500/50">
+                    <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1"><i class="fas fa-check-circle"></i> Haqiqiy rasm yuklandi</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 3. EDIT STUDENT MODAL -->
+<div x-show="showEditStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-pen text-indigo-400"></i> O'quvchini Tahrirlash</h3>
+            <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+        <form @submit.prevent="updateStudent()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="editStudentForm.first_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="editStudentForm.last_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Sinf *</label>
+                    <input type="text" x-model="editStudentForm.class_name" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">O'quvchi Kodi *</label>
+                    <input type="text" x-model="editStudentForm.student_code" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">JSHSHIR</label>
+                    <input type="text" x-model="editStudentForm.pinfl" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">RFID Karta ID</label>
+                    <input type="text" x-model="editStudentForm.rfid_card_id" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showEditStudentModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Yangilash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 4. ADD TEACHER MODAL -->
+<div x-show="showAddTeacherModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-chalkboard-user text-purple-400"></i> Yangi O'qituvchi Qo'shish</h3>
+            <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+        <form @submit.prevent="createTeacher()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ism *</label>
+                    <input type="text" x-model="teacherForm.first_name" required placeholder="Dilshod" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Familiya *</label>
+                    <input type="text" x-model="teacherForm.last_name" required placeholder="Rahimov" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Fan / Lavozim</label>
+                    <input type="text" x-model="teacherForm.subject" placeholder="Matematika" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Biriktirilgan Sinf</label>
+                    <input type="text" x-model="teacherForm.class_name" placeholder="7-A" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-bold">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
+                <input type="text" x-model="teacherForm.phone_number" placeholder="+998901234567" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddTeacherModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 5. ADD DEVICE MODAL -->
+<div x-show="showAddDeviceModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-lg glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-video text-indigo-400"></i> Yangi Kamera / Turniket Qo'shish</h3>
+            <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+        <form @submit.prevent="createDevice()" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
+                <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                    <template x-for="sc in schoolsDetailed" :key="sc.id">
+                        <option :value="sc.id" x-text="sc.name"></option>
+                    </template>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma / Kamera Nomi *</label>
+                <input type="text" x-model="deviceForm.name" required placeholder="Bosh Kirish Face ID Kamera" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Qurilma Turi</label>
+                    <select x-model="deviceForm.device_type" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                        <option value="AI_CAMERA">AI Face ID Kamera</option>
+                        <option value="TURNSTILE">Turniket / RFID</option>
+                        <option value="EDGE_BOX">Edge Box Mini PC</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Yo'nalish</label>
+                    <select x-model="deviceForm.direction" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                        <option value="IN">Kirish (IN)</option>
+                        <option value="OUT">Chiqish (OUT)</option>
+                        <option value="BIDIRECTIONAL">Ikkala tomon (IN/OUT)</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">IP Manzil</label>
+                <input type="text" x-model="deviceForm.ip_address" placeholder="192.168.1.100" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Joylashuv Izohi</label>
+                <input type="text" x-model="deviceForm.location_description" placeholder="Bosh darvoza o'ng tomoni" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+            </div>
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showAddDeviceModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 6. CONFIRM DIALOG -->
+<div x-show="showConfirmDialog" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-sm glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl text-center space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center mx-auto text-rose-400 text-2xl">
+            <i class="fas fa-triangle-exclamation"></i>
+        </div>
+        <h3 class="text-base font-bold text-white" x-text="confirmTitle || 'Tasdiqlang'"></h3>
+        <p class="text-xs text-slate-400" x-text="confirmMessage"></p>
+        <div class="flex items-center justify-center gap-3 pt-2">
+            <button @click="showConfirmDialog = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-700 transition">Bekor qilish</button>
+            <button @click="executeConfirmAction()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-rose-600/30 transition">Ha, davom etish</button>
+        </div>
+    </div>
+</div>

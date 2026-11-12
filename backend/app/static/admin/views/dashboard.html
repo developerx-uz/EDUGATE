@@ -1,0 +1,146 @@
+<!-- VIEW: DASHBOARD -->
+<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <!-- Top Stats Row (Real-time DB Counts) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="stat-card" @click="activeTab = 'schools'; schoolsView = 'schools_list'">
+            <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl font-bold border border-blue-500/30">
+                <i class="fas fa-school"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Jami Maktablar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.schools_count">0</h3>
+            </div>
+        </div>
+
+        <div class="stat-card" @click="activeTab = 'students'">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl font-bold border border-indigo-500/30">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Jami O'quvchilar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.students_count">0</h3>
+            </div>
+        </div>
+
+        <div class="stat-card" @click="activeTab = 'teachers'">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold border border-purple-500/30">
+                <i class="fas fa-chalkboard-user"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">O'qituvchilar</p>
+                <h3 class="text-2xl font-extrabold text-white" x-text="stats.teachers_count">0</h3>
+            </div>
+        </div>
+
+        <div class="stat-card" @click="activeTab = 'attendance'">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30">
+                <i class="fas fa-arrow-right-to-bracket"></i>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Bugungi Kirishlar</p>
+                <h3 class="text-2xl font-extrabold text-emerald-400" x-text="stats.today_entries">0</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Stats: Real Attendance Breakdown -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">O'z Vaqtida Kelganlar</p>
+                <h4 class="text-2xl font-bold text-emerald-400 mt-1" x-text="stats.today_ontime">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <i class="fas fa-clock-check"></i>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-amber-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Kechikib Kelganlar</p>
+                <h4 class="text-2xl font-bold text-amber-400 mt-1" x-text="stats.today_lates">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <i class="fas fa-clock"></i>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-blue-500">
+            <div>
+                <p class="text-xs text-slate-400 font-medium">Maktabdan Chiqqanlar</p>
+                <h4 class="text-2xl font-bold text-blue-400 mt-1" x-text="stats.today_exits">0</h4>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                <i class="fas fa-door-open"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row: Real Dynamic Visualizations -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Doughnut: Today's Ratio -->
+        <div class="glass-card p-6 rounded-2xl">
+            <h3 class="text-sm font-bold text-white mb-1 flex items-center justify-between">
+                <span>Bugungi Davomat Nisbati</span>
+                <span class="text-[11px] text-slate-400 font-normal">Real vaqt</span>
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">Kirgan va kelmaganlar balansi</p>
+            <div class="h-64 relative">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Line: Weekly Trend -->
+        <div class="glass-card p-6 rounded-2xl lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-sm font-bold text-white">Oxirgi 7 Kunlik Davomat Dinamikasi</h3>
+                    <p class="text-xs text-slate-400">Kunlar kesimida o'z vaqtida va kechikishlar soni</p>
+                </div>
+                <button @click="fetchWeeklyStats()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition text-xs">
+                    <i class="fas fa-rotate"></i>
+                </button>
+            </div>
+            <div class="h-64">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Activity Feed -->
+    <div class="glass-card rounded-2xl p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                So'nggi Real-Vaqt Davomat Qaydnomalari
+            </h3>
+            <button @click="activeTab = 'attendance'" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold">
+                Barchasini ko'rish →
+            </button>
+        </div>
+
+        <div class="divide-y divide-slate-800/60">
+            <template x-for="log in todayLogs.slice(0, 8)" :key="log.id">
+                <div class="py-3 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-xl bg-slate-800 text-indigo-400 flex items-center justify-center text-xs font-bold flex-shrink-0"
+                             x-text="log.student_name ? log.student_name.charAt(0) : '?'"></div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-white truncate" x-text="log.student_name"></p>
+                            <p class="text-xs text-slate-400 truncate" x-text="log.class_name + ' sinf · ' + (log.device_name || 'AI Kamera')"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <span :class="log.status === 'ON_TIME' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'"
+                              class="px-2.5 py-1 rounded-full text-xs font-semibold border"
+                              x-text="log.status === 'ON_TIME' ? 'O\'z vaqtida' : 'Kechikkan'"></span>
+                        <span class="text-xs text-slate-400 font-mono" x-text="formatDate(log.event_time)"></span>
+                    </div>
+                </div>
+            </template>
+            <div x-show="todayLogs.length === 0" class="py-8 text-center text-slate-500 text-xs">
+                Bugun uchun davomat signallari hali tushmadi. Kameralar yoki turniketlardan signallar kutilmoqda.
+            </div>
+        </div>
+    </div>
+</div>

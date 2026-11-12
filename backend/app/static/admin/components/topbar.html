@@ -1,0 +1,71 @@
+<!-- TOPBAR COMPONENT -->
+<header class="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3">
+    <div class="flex items-center justify-between gap-4">
+        <!-- Left: Mobile toggle + Page title -->
+        <div class="flex items-center gap-3">
+            <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-slate-400 hover:text-white p-1">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+            <h1 class="text-lg font-bold text-white hidden sm:block"
+                x-text="({
+                    dashboard: 'Asosiy Boshqaruv Markazi',
+                    schools: 'Maktablar Boshqaruvi',
+                    students: 'O\'quvchilar Kontingenti',
+                    teachers: 'O\'qituvchilar Tarkibi',
+                    attendance: 'Jonli Davomat Monitoringi',
+                    devices: 'Kameralar & Turniketlar',
+                    parents: 'Ota-onalar Ro\'yxati',
+                    reports: 'Tahliliy Hisobotlar',
+                    settings: 'Tizim Sozlamalari'
+                })[activeTab] || 'EDUGATE'"></h1>
+        </div>
+
+        <!-- Center: Search -->
+        <div class="flex-1 max-w-md hidden md:block">
+            <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                <input type="text" x-model="searchQuery"
+                       placeholder="Tizim bo'yicha global qidiruv..."
+                       class="w-full pl-9 pr-4 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500/80 transition-all">
+            </div>
+        </div>
+
+        <!-- Right: Actions & Notifications -->
+        <div class="flex items-center gap-3">
+            <!-- Notifications Bell -->
+            <div class="relative">
+                <button @click="showNotifPanel = !showNotifPanel"
+                        class="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition">
+                    <i class="fas fa-bell text-sm"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-slate-900"></span>
+                </button>
+
+                <!-- Notifications Dropdown Panel -->
+                <div x-show="showNotifPanel" @click.outside="showNotifPanel = false" x-cloak
+                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <span class="text-xs font-bold text-white uppercase tracking-wider">Bildirishnomalar</span>
+                        <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer" @click="showNotifPanel = false">Yopish</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <template x-for="item in notifications" :key="item.id">
+                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-800/60 transition">
+                                <i :class="['fas', item.icon, item.color, 'mt-0.5']"></i>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-white text-xs font-medium" x-text="item.text"></p>
+                                    <span class="text-[10px] text-slate-500" x-text="item.time"></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto Refresh Indicator -->
+            <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/50 text-[11px] text-slate-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Server Onlayn</span>
+            </div>
+        </div>
+    </div>
+</header>
