@@ -200,13 +200,51 @@ class EdugateApp {
     }
 
     initLanguageSelector() {
-        const langBtns = document.querySelectorAll('[data-lang-btn]');
-        langBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const lang = e.currentTarget.getAttribute('data-lang-btn');
+        const trigger = document.getElementById('langDropdownTrigger');
+        const menu = document.getElementById('langDropdownMenu');
+        const chevron = document.getElementById('langChevron');
+        const options = document.querySelectorAll('[data-lang-val]');
+
+        const toggleMenu = () => {
+            const isHidden = menu?.classList.contains('hidden');
+            if (isHidden) {
+                menu?.classList.remove('hidden');
+                chevron?.classList.add('rotate-180');
+            } else {
+                menu?.classList.add('hidden');
+                chevron?.classList.remove('rotate-180');
+            }
+        };
+
+        trigger?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!menu?.contains(e.target) && !trigger?.contains(e.target)) {
+                menu?.classList.add('hidden');
+                chevron?.classList.remove('rotate-180');
+            }
+        });
+
+        options.forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                const lang = opt.getAttribute('data-lang-val');
+                this.switchLanguage(lang);
+                menu?.classList.add('hidden');
+                chevron?.classList.remove('rotate-180');
+            });
+        });
+
+        // Mobile drawer language buttons
+        document.querySelectorAll('[data-lang-btn]').forEach(b => {
+            b.addEventListener('click', (e) => {
+                const lang = b.getAttribute('data-lang-btn');
                 this.switchLanguage(lang);
             });
         });
+
         this.applyLanguage(this.currentLang);
     }
 
@@ -219,6 +257,47 @@ class EdugateApp {
 
     applyLanguage(lang) {
         const dict = EdugateI18N[lang] || EdugateI18N['uz'];
+        
+        // Update trigger button flag & code
+        const meta = {
+            'uz': { flag: '🇺🇿', code: 'UZ' },
+            'en': { flag: '🇬🇧', code: 'EN' },
+            'ru': { flag: '🇷🇺', code: 'RU' },
+            'kz': { flag: '🇰🇿', code: 'KZ' },
+            'kg': { flag: '🇰🇬', code: 'KG' }
+        }[lang] || { flag: '🇺🇿', code: 'UZ' };
+
+        const activeFlag = document.getElementById('activeLangFlag');
+        const activeCode = document.getElementById('activeLangCode');
+        if (activeFlag) activeFlag.textContent = meta.flag;
+        if (activeCode) activeCode.textContent = meta.code;
+
+        // Update dropdown checkmarks
+        document.querySelectorAll('[data-lang-val]').forEach(opt => {
+            const check = opt.querySelector('.lang-check');
+            if (opt.getAttribute('data-lang-val') === lang) {
+                opt.classList.add('bg-cyan-950/70', 'text-cyan-300', 'border-cyan-500/40');
+                opt.classList.remove('text-slate-300', 'border-transparent');
+                check?.classList.remove('hidden');
+            } else {
+                opt.classList.remove('bg-cyan-950/70', 'text-cyan-300', 'border-cyan-500/40');
+                opt.classList.add('text-slate-300', 'border-transparent');
+                check?.classList.add('hidden');
+            }
+        });
+
+        // Mobile drawer buttons active state
+        document.querySelectorAll('[data-lang-btn]').forEach(b => {
+            if (b.getAttribute('data-lang-btn') === lang) {
+                b.classList.add('bg-cyan-500/30', 'text-cyan-300', 'font-bold');
+                b.classList.remove('text-slate-400');
+            } else {
+                b.classList.remove('bg-cyan-500/30', 'text-cyan-300', 'font-bold');
+                b.classList.add('text-slate-400');
+            }
+        });
+
+        // Translate data-i18n elements if any
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const keyPath = el.getAttribute('data-i18n').split('.');
             let val = dict;
@@ -231,14 +310,6 @@ class EdugateApp {
                 }
             }
             if (val) el.textContent = val;
-        });
-
-        document.querySelectorAll('[data-lang-btn]').forEach(b => {
-            if (b.getAttribute('data-lang-btn') === lang) {
-                b.classList.add('bg-cyan-500/30', 'text-cyan-300', 'font-bold');
-            } else {
-                b.classList.remove('bg-cyan-500/30', 'text-cyan-300', 'font-bold');
-            }
         });
     }
 
