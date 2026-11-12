@@ -20,9 +20,9 @@ class EdugateApp {
         const header = document.querySelector('.site-header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 30) {
-                header?.classList.add('shadow-2xl', 'border-cyan-500/20', 'bg-slate-950/95');
+                header?.classList.add('shadow-2xl', 'bg-slate-950/98');
             } else {
-                header?.classList.remove('shadow-2xl', 'border-cyan-500/20', 'bg-slate-950/95');
+                header?.classList.remove('shadow-2xl', 'bg-slate-950/98');
             }
         }, { passive: true });
 
