@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.1.5">
+    <link rel="stylesheet" href="css/style.css?v=5.1.6">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.1.5"></script>
+    <script src="js/theme.js?v=5.1.6"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -113,7 +113,7 @@
         <div class="max-w-[1400px] w-full mx-auto relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <!-- Left: Information & Specs -->
-                <div class="lg:col-span-6 space-y-4">
+                <div class="lg:col-span-7 space-y-4">
                     <!-- Badges Row (Chap ustun boshida) -->
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">
@@ -127,11 +127,28 @@
                         </span>
                     </div>
 
-                    <h1 class="text-2xl sm:text-3xl lg:text-[38px] font-black tracking-tight text-white leading-[1.18]">
-                        O'zbekiston Maktablari Uchun <br>
-                        <span class="text-gradient-cyan">Aqlli Face ID Davomat</span> va <br>
-                        <span class="text-gradient-indigo">Yagona Xavfsizlik Majmuasi</span>
-                    </h1>
+                    <!-- SHU YOZUV (H1 Sarlavha) va uning o'ng tomonidagi ochiq joyda 2 qator Tugmalar -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
+                        <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-[1.18]">
+                            O'zbekiston Maktablari Uchun <br>
+                            <span class="text-gradient-cyan">Aqlli Face ID Davomat</span> va <br>
+                            <span class="text-gradient-indigo">Yagona Xavfsizlik Majmuasi</span>
+                        </h1>
+
+                        <!-- SHU YOZUVNING O'NG TOMONIDAGI OCHIQ JOYGA 2 QATOR TUGMALAR -->
+                        <div class="flex flex-col gap-2.5 shrink-0">
+                            <!-- 1-qator -->
+                            <a href="presentation" class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 whitespace-nowrap transition">
+                                <i class="fas fa-play-circle text-xs text-cyan-200"></i>
+                                <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
+                            </a>
+                            <!-- 2-qator -->
+                            <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 whitespace-nowrap transition">
+                                <i class="fas fa-laptop-code text-xs"></i>
+                                <span>TIZIM PANELLARI</span>
+                            </a>
+                        </div>
+                    </div>
 
                     <p class="text-slate-300 text-xs sm:text-[14px] leading-relaxed max-w-xl font-normal">
                         Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.
@@ -203,58 +220,41 @@
 
                 </div>
 
-                <!-- Right: O'ng tarafiga yonbosh qilib qo'shilgan Turniket Rasmi + 2 qator Tugmalar -->
-                <div class="lg:col-span-6">
-                    <div class="flex flex-col sm:flex-row items-center gap-4 lg:gap-4.5">
-                        <!-- Turniket Rasm Card (Chapida) -->
-                        <div id="heroPhotoCard" class="hud-card p-2.5 sm:p-3 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl relative group cursor-pointer transition flex-1 w-full" title="Haqiqiy maktablar fotogalereyasini ochish">
-                            <div class="relative w-full aspect-[16/11] max-h-[290px] rounded-xl overflow-hidden bg-black border border-slate-800/80">
-                                <img id="heroCoverImg" src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="Termiz 11-maktab Turniket Tizimi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                
-                                <!-- Top Overlays -->
-                                <div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none z-10">
-                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-950/85 border border-emerald-500/50 text-emerald-400 text-[10px] font-mono shadow-lg backdrop-blur-md">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                        Real Vaqt Rejimi
-                                    </span>
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-950/85 border border-cyan-500/50 text-cyan-300 text-[10px] font-mono font-bold tracking-wider shadow-lg backdrop-blur-md">
-                                        EDUGATE.UZ
-                                    </span>
-                                </div>
-
-                                <!-- Center Hover Hint: Fotolarni ochish -->
-                                <div class="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-1.5 text-white pointer-events-none z-10 backdrop-blur-[2px]">
-                                    <div class="w-10 h-10 rounded-full bg-cyan-500/25 border border-cyan-400 flex items-center justify-center text-cyan-300 text-base shadow-[0_0_20px_rgba(6,182,212,0.6)]">
-                                        <i class="fas fa-images"></i>
-                                    </div>
-                                    <span class="text-[11px] font-mono font-bold text-cyan-200">5 ta fotoni ko'rish (Bosing)</span>
-                                </div>
-
-                                <!-- Bottom Overlays -->
-                                <div class="absolute bottom-0 left-0 right-0 p-2.5 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent flex items-center justify-between text-xs font-mono z-10">
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                                        <span class="text-white font-semibold text-[10.5px] drop-shadow">Termiz 11-maktab</span>
-                                    </div>
-                                    <span class="badge-tech badge-cyan text-[8.5px] py-0.5 px-1.5 shadow">
-                                        Face ID
-                                    </span>
-                                </div>
+                <!-- Right: Seamlessly Embedded Biometric Scanner Terminal Card (Clean, Full Width) -->
+                <div class="lg:col-span-5">
+                    <div id="heroPhotoCard" class="hud-card p-3 sm:p-3.5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl relative group cursor-pointer transition" title="Haqiqiy maktablar fotogalereyasini ochish">
+                        <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] lg:aspect-[16/11] max-h-[300px] sm:max-h-[325px] rounded-xl overflow-hidden bg-black border border-slate-800/80">
+                            <img id="heroCoverImg" src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="Termiz 11-maktab Turniket Tizimi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            
+                            <!-- Top Overlays -->
+                            <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-950/85 border border-emerald-500/50 text-emerald-400 text-[10.5px] font-mono shadow-lg backdrop-blur-md">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    Real Vaqt Rejimi
+                                </span>
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-950/85 border border-cyan-500/50 text-cyan-300 text-[10.5px] font-mono font-bold tracking-wider shadow-lg backdrop-blur-md">
+                                    EDUGATE.UZ
+                                </span>
                             </div>
-                        </div>
 
-                        <!-- O'ng tarafiga yonbosh qilib qo'shilgan 2 qator Tugmalar -->
-                        <div class="flex flex-col gap-3 w-full sm:w-[220px] lg:w-[235px] shrink-0">
-                            <!-- 1-qator: Online Prezentatsiya (9 Slayd) -->
-                            <a href="presentation" class="btn-cyber btn-cyber-primary py-3.5 px-3.5 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 text-center transition group whitespace-nowrap">
-                                <i class="fas fa-play-circle text-xs text-cyan-200 group-hover:scale-110 transition-transform"></i>
-                                <span class="font-bold tracking-tight text-[11px] sm:text-xs">ONLINE PREZENTATSIYA</span>
-                            </a>
-                            <!-- 2-qator: Tizim Panellari -->
-                            <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-3.5 px-3.5 text-xs font-mono flex items-center justify-center gap-2 text-center transition group hover:border-cyan-400/80 whitespace-nowrap">
-                                <i class="fas fa-laptop-code text-xs text-cyan-400 group-hover:scale-110 transition-transform"></i>
-                                <span class="font-bold tracking-tight text-[11px] sm:text-xs">TIZIM PANELLARI</span>
-                            </a>
+                            <!-- Center Hover Hint: Fotolarni ochish -->
+                            <div class="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 text-white pointer-events-none z-10 backdrop-blur-[2px]">
+                                <div class="w-12 h-12 rounded-full bg-cyan-500/25 border border-cyan-400 flex items-center justify-center text-cyan-300 text-lg shadow-[0_0_20px_rgba(6,182,212,0.6)]">
+                                    <i class="fas fa-images"></i>
+                                </div>
+                                <span class="text-xs font-mono font-bold text-cyan-200">5 ta fotoni ko'rish (Bosing)</span>
+                            </div>
+
+                            <!-- Bottom Overlays -->
+                            <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent flex items-center justify-between text-xs font-mono z-10">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                                    <span class="text-white font-semibold text-[11.5px] drop-shadow">Termiz 11-maktab — Real turniket tizimi</span>
+                                </div>
+                                <span class="badge-tech badge-cyan text-[9px] py-0.5 px-2 shadow">
+                                    Face ID
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -933,10 +933,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.1.5"></script>
-    <script src="js/presentation.js?v=5.1.5"></script>
-    <script src="js/scanner.js?v=5.1.5"></script>
-    <script src="js/map.js?v=5.1.5"></script>
-    <script src="js/edugate.js?v=5.1.5"></script>
+    <script src="js/translations.js?v=5.1.6"></script>
+    <script src="js/presentation.js?v=5.1.6"></script>
+    <script src="js/scanner.js?v=5.1.6"></script>
+    <script src="js/map.js?v=5.1.6"></script>
+    <script src="js/edugate.js?v=5.1.6"></script>
 </body>
 </html>
