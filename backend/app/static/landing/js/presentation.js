@@ -184,7 +184,7 @@ class PresentationEngine {
         this.currentIndex = 0;
         this.isPlaying = false;
         this.playTimer = null;
-        this.slideDuration = 6000; // 6 seconds per slide
+        this.slideDuration = 6000;
 
         this.initDOMElements();
         this.bindEvents();
@@ -192,21 +192,22 @@ class PresentationEngine {
     }
 
     initDOMElements() {
-        // In-page section elements
-        this.secTopic = document.getElementById('presSecTopic');
-        this.secTitle = document.getElementById('presSecTitle');
-        this.secOverview = document.getElementById('presSecOverview');
-        this.secImage = document.getElementById('presSecImage');
-        this.secImageBadge = document.getElementById('presSecImageBadge');
-        this.secSpecsGrid = document.getElementById('presSecSpecsGrid');
-        this.secKeyPoints = document.getElementById('presSecKeyPoints');
-        this.secSlideCounter = document.getElementById('presSecSlideCounter');
-        this.secDotsContainer = document.getElementById('presSecDots');
-        this.secPrevBtn = document.getElementById('presSecPrevBtn');
-        this.secNextBtn = document.getElementById('presSecNextBtn');
-        this.secAutoBtn = document.getElementById('presSecAutoBtn');
+        // Dedicated standalone page elements
+        this.pageTopic = document.getElementById('presSlideTopic');
+        this.pageTitle = document.getElementById('presSlideTitle');
+        this.pageOverview = document.getElementById('presSlideOverview');
+        this.pageImage = document.getElementById('presSlideImage');
+        this.pageImageBadge = document.getElementById('presSlideImageBadge');
+        this.pageSpecsGrid = document.getElementById('presSlideSpecsGrid');
+        this.pageKeyPoints = document.getElementById('presSlideKeyPoints');
+        this.pageSlideCounter = document.getElementById('presSlideCounter');
+        this.pageDotsContainer = document.getElementById('presDots');
+        this.pagePrevBtn = document.getElementById('presPrevBtn');
+        this.pageNextBtn = document.getElementById('presNextBtn');
+        this.pageAutoBtn = document.getElementById('presAutoBtn');
+        this.pageFullscreenBtn = document.getElementById('presFullscreenBtn');
 
-        // Modal elements
+        // Modal elements (if on index page)
         this.modal = document.getElementById('presentationModal');
         this.openModalBtns = document.querySelectorAll('[data-open-presentation]');
         this.closeModalBtn = document.getElementById('closePresentationModalBtn');
@@ -224,7 +225,7 @@ class PresentationEngine {
         this.modalAutoBtn = document.getElementById('presModalAutoBtn');
         this.modalFullscreenBtn = document.getElementById('presModalFullscreenBtn');
 
-        // Render dot chips
+        // Build dots
         this.buildDotChips();
     }
 
@@ -235,9 +236,9 @@ class PresentationEngine {
             this.slides.forEach((slide, idx) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = `pres-dot px-2 py-0.5 rounded text-[10px] font-mono font-bold transition ${
+                btn.className = `pres-dot px-3 py-1 rounded-lg text-xs font-mono font-bold transition ${
                     idx === this.currentIndex
-                        ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+                        ? 'bg-cyan-500 text-white shadow-[0_0_10px_rgba(6,182,212,0.7)]'
                         : 'bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700'
                 }`;
                 btn.textContent = `0${slide.id}`;
@@ -249,57 +250,46 @@ class PresentationEngine {
             });
         };
 
-        renderDots(this.secDotsContainer);
+        renderDots(this.pageDotsContainer);
         renderDots(this.modalDotsContainer);
     }
 
     bindEvents() {
-        // Section buttons
-        if (this.secPrevBtn) this.secPrevBtn.addEventListener('click', () => this.prevSlide());
-        if (this.secNextBtn) this.secNextBtn.addEventListener('click', () => this.nextSlide());
-        if (this.secAutoBtn) this.secAutoBtn.addEventListener('click', () => this.toggleAutoPlay());
+        // Dedicated page buttons
+        if (this.pagePrevBtn) this.pagePrevBtn.addEventListener('click', () => this.prevSlide());
+        if (this.pageNextBtn) this.pageNextBtn.addEventListener('click', () => this.nextSlide());
+        if (this.pageAutoBtn) this.pageAutoBtn.addEventListener('click', () => this.toggleAutoPlay());
+        if (this.pageFullscreenBtn) this.pageFullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
 
-        // Modal triggers
-        this.openModalBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.openModal();
-            });
-        });
-
-        if (this.closeModalBtn) {
-            this.closeModalBtn.addEventListener('click', () => this.closeModal());
-        }
-
+        // Modal buttons
         if (this.modalPrevBtn) this.modalPrevBtn.addEventListener('click', () => this.prevSlide());
         if (this.modalNextBtn) this.modalNextBtn.addEventListener('click', () => this.nextSlide());
         if (this.modalAutoBtn) this.modalAutoBtn.addEventListener('click', () => this.toggleAutoPlay());
         if (this.modalFullscreenBtn) this.modalFullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
 
-        // Close on escape & keyboard arrows
+        if (this.closeModalBtn) {
+            this.closeModalBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        // Global keyboard listeners
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal && !this.modal.classList.contains('hidden')) {
-                this.closeModal();
-            } else if (e.key === 'ArrowRight') {
+            if (e.key === 'ArrowRight') {
                 this.nextSlide();
             } else if (e.key === 'ArrowLeft') {
                 this.prevSlide();
             } else if (e.key === ' ') {
+                e.preventDefault();
+                this.toggleAutoPlay();
+            } else if (e.key.toLowerCase() === 'f') {
+                this.toggleFullscreen();
+            } else if (e.key === 'Escape') {
                 if (this.modal && !this.modal.classList.contains('hidden')) {
-                    e.preventDefault();
-                    this.toggleAutoPlay();
+                    this.closeModal();
+                } else if (window.location.pathname.includes('presentation')) {
+                    window.location.href = '/edugate/';
                 }
             }
         });
-
-        // Click outside modal card to close
-        if (this.modal) {
-            this.modal.addEventListener('click', (e) => {
-                if (e.target === this.modal) {
-                    this.closeModal();
-                }
-            });
-        }
     }
 
     renderSlide(index) {
@@ -332,9 +322,9 @@ class PresentationEngine {
             // Specs grid
             if (elements.specsGrid) {
                 elements.specsGrid.innerHTML = slide.specs.map(spec => `
-                    <div class="p-2 bg-slate-900/90 rounded border border-slate-800">
-                        <span class="text-[9px] uppercase text-slate-400 font-mono block">${spec.label}</span>
-                        <h5 class="text-[11px] font-bold text-cyan-300 mt-0.5">${spec.value}</h5>
+                    <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-800">
+                        <span class="text-[10px] uppercase text-slate-400 font-mono block">${spec.label}</span>
+                        <h5 class="text-xs sm:text-sm font-bold text-cyan-300 mt-1">${spec.value}</h5>
                     </div>
                 `).join('');
             }
@@ -342,27 +332,27 @@ class PresentationEngine {
             // Key Points
             if (elements.keyPoints) {
                 elements.keyPoints.innerHTML = slide.keyPoints.map(point => `
-                    <li class="flex items-start gap-1.5 text-[11px] text-slate-300">
-                        <i class="fas fa-check-circle text-emerald-400 text-[10px] mt-1 shrink-0"></i>
+                    <li class="flex items-start gap-2 text-xs sm:text-[13px] text-slate-300">
+                        <i class="fas fa-check-circle text-emerald-400 text-xs mt-1 shrink-0"></i>
                         <span>${point}</span>
                     </li>
                 `).join('');
             }
         };
 
-        // Update Section View
+        // Update dedicated page elements
         updateContent({
-            topic: this.secTopic,
-            title: this.secTitle,
-            overview: this.secOverview,
-            image: this.secImage,
-            imageBadge: this.secImageBadge,
-            slideCounter: this.secSlideCounter,
-            specsGrid: this.secSpecsGrid,
-            keyPoints: this.secKeyPoints
+            topic: this.pageTopic,
+            title: this.pageTitle,
+            overview: this.pageOverview,
+            image: this.pageImage,
+            imageBadge: this.pageImageBadge,
+            slideCounter: this.pageSlideCounter,
+            specsGrid: this.pageSpecsGrid,
+            keyPoints: this.pageKeyPoints
         });
 
-        // Update Modal View
+        // Update modal elements
         updateContent({
             topic: this.modalTopic,
             title: this.modalTitle,
@@ -374,7 +364,7 @@ class PresentationEngine {
             keyPoints: this.modalKeyPoints
         });
 
-        // Update active dots
+        // Update active dot indicators
         this.updateActiveDots();
     }
 
@@ -384,14 +374,14 @@ class PresentationEngine {
             const buttons = container.querySelectorAll('button');
             buttons.forEach((btn, idx) => {
                 if (idx === this.currentIndex) {
-                    btn.className = 'pres-dot px-2 py-0.5 rounded text-[10px] font-mono font-bold transition bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]';
+                    btn.className = 'pres-dot px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-cyan-500 text-white shadow-[0_0_10px_rgba(6,182,212,0.7)]';
                 } else {
-                    btn.className = 'pres-dot px-2 py-0.5 rounded text-[10px] font-mono font-bold transition bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700';
+                    btn.className = 'pres-dot px-3 py-1 rounded-lg text-xs font-mono font-bold transition bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700';
                 }
             });
         };
 
-        update(this.secDotsContainer);
+        update(this.pageDotsContainer);
         update(this.modalDotsContainer);
     }
 
@@ -423,7 +413,7 @@ class PresentationEngine {
             }
         };
 
-        updateBtn(this.secAutoBtn);
+        updateBtn(this.pageAutoBtn);
         updateBtn(this.modalAutoBtn);
 
         if (this.isPlaying) {
@@ -471,10 +461,10 @@ class PresentationEngine {
 
     toggleFullscreen() {
         if (!document.fullscreenElement) {
-            if (this.modal.requestFullscreen) {
-                this.modal.requestFullscreen();
-            } else if (this.modal.webkitRequestFullscreen) {
-                this.modal.webkitRequestFullscreen();
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
             }
         } else {
             if (document.exitFullscreen) {
@@ -482,10 +472,13 @@ class PresentationEngine {
             }
         }
     }
+
+    initStandaloneMode() {
+        this.renderSlide(0);
+    }
 }
 
 // Initialize Presentation Engine
 document.addEventListener('DOMContentLoaded', () => {
     window.edugatePresentation = new PresentationEngine();
 });
-

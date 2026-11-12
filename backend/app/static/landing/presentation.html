@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="uz" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUGATE 5.0 — Rasmiy Online Prezentatsiya (9 Slayd)</title>
+    <meta name="description" content="EDUGATE & e-davomat.net maktab davomat va xavfsizlik tizimi rasmiy onlayn prezentatsiyasi.">
+    <link rel="icon" type="image/png" href="Orlan-logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: #040812;
+        }
+        @media (max-height: 800px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col justify-between min-h-screen">
+
+    <!-- 1. PRESENTATION TOP COCKPIT BAR -->
+    <header class="bg-[#070D1A]/95 border-b border-slate-800/90 py-3 px-4 sm:px-8 shrink-0 z-20">
+        <div class="max-w-[1500px] mx-auto flex items-center justify-between">
+            <!-- Brand & Presentation Title -->
+            <div class="flex items-center gap-3">
+                <a href="/edugate/" class="flex items-center gap-2.5 group" title="Bosh sahifaga qaytish">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1 group-hover:scale-105 transition">
+                        <img src="Orlan-logo.png" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    <span class="text-base font-black tracking-tight text-white font-mono">EDUGATE</span>
+                </a>
+                <span class="text-slate-600 hidden sm:inline">|</span>
+                <div class="hidden sm:flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span class="text-xs font-mono font-bold text-slate-300">Rasmiy Tizim Prezentatsiyasi</span>
+                </div>
+                <span id="presSlideCounter" class="text-xs font-mono font-bold text-cyan-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded ml-1">1 / 9</span>
+            </div>
+
+            <!-- Controls: Auto, Fullscreen, Back to Home -->
+            <div class="flex items-center gap-2.5">
+                <button type="button" id="presAutoBtn" class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5">
+                    <i class="fas fa-play text-[10px]"></i> <span>AVTO</span>
+                </button>
+                <button type="button" id="presFullscreenBtn" class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5" title="To'liq ekran rejimi (F)">
+                    <i class="fas fa-expand text-[10px]"></i> <span class="hidden sm:inline">TO'LIQ EKRAN</span>
+                </button>
+                <a href="/edugate/" class="btn-cyber btn-cyber-primary py-1.5 px-3.5 text-xs font-mono flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.35)]">
+                    <i class="fas fa-arrow-left text-[10px]"></i>
+                    <span>BOSH SAHIFA</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. MAIN PRESENTATION STAGE -->
+    <main class="flex-1 max-w-[1500px] w-full mx-auto px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-center">
+        <div class="hud-card w-full p-5 sm:p-8 border-cyan-500/40 shadow-2xl relative">
+            <div class="hud-corner hud-tl"></div>
+            <div class="hud-corner hud-tr"></div>
+            <div class="hud-corner hud-bl"></div>
+            <div class="hud-corner hud-br"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+                
+                <!-- Left: High-Res Slide Visual -->
+                <div class="lg:col-span-6">
+                    <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[16/10] shadow-2xl group">
+                        <div class="laser-beam"></div>
+                        <img id="presSlideImage" src="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" alt="Slide Visual" class="w-full h-full object-cover">
+                        
+                        <!-- Retina overlay badge -->
+                        <div class="absolute bottom-3 left-3 right-3 bg-slate-900/90 backdrop-blur-md border border-slate-700 rounded-xl p-2.5 flex items-center justify-between text-xs font-mono">
+                            <span id="presSlideImageBadge" class="text-cyan-300 font-bold">Avtomatlashtirilgan O'tish Mexanizmi</span>
+                            <span class="text-slate-400"><i class="fas fa-camera text-[10px] mr-1.5"></i>Retina 4K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Information, Specs & Bullet Highlights -->
+                <div class="lg:col-span-6 space-y-4 sm:space-y-5">
+                    <div>
+                        <span id="presSlideTopic" class="badge-tech badge-cyan text-[10.5px] py-1 px-3 uppercase">01 / TIZIM MAQSADI</span>
+                        <h2 id="presSlideTitle" class="text-2xl sm:text-3xl font-black text-white mt-2 leading-snug">
+                            e-davomat.net & EDUGATE — Maktablar uchun xavfsizlik va davomat tizimi
+                        </h2>
+                        <p id="presSlideOverview" class="text-slate-300 text-sm sm:text-base leading-relaxed mt-2.5 font-normal">
+                            Maktablarda o'quvchilar davomatini qulay yuritish, maktabga begona shaxslar kirishining oldini olish va ota-onalarni real vaqtda xabardor qilish uchun yaratilgan ishonchli apparat-dasturiy majmua.
+                        </p>
+                    </div>
+
+                    <!-- 4 Technical Specs -->
+                    <div>
+                        <span class="text-[10px] uppercase font-mono text-slate-400 tracking-wider font-bold block mb-2">
+                            Asosiy Texnik Ko'rsatkichlar:
+                        </span>
+                        <div id="presSlideSpecsGrid" class="grid grid-cols-2 gap-2.5">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Key Advantages -->
+                    <div>
+                        <span class="text-[10px] uppercase font-mono text-emerald-400 tracking-wider font-bold block mb-2">
+                            Asosiy Afzalliklar va Qulayliklar:
+                        </span>
+                        <ul id="presSlideKeyPoints" class="space-y-1.5">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 3. BOTTOM PRESENTATION CONTROLLER BAR -->
+    <footer class="bg-[#070D1A]/95 border-t border-slate-800/90 py-3.5 px-4 sm:px-8 shrink-0 z-20">
+        <div class="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            
+            <!-- Prev / Next Navigation Buttons -->
+            <div class="flex items-center gap-2.5">
+                <button id="presPrevBtn" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center gap-2">
+                    <i class="fas fa-chevron-left text-[10px]"></i>
+                    <span>OLDINGI</span>
+                </button>
+                <button id="presNextBtn" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center gap-2">
+                    <span>KEYINGI</span>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                </button>
+            </div>
+
+            <!-- Numbered Slide Selector Chips (01 .. 09) -->
+            <div id="presDots" class="flex flex-wrap items-center justify-center gap-1.5">
+                <!-- Populated dynamically by presentation.js -->
+            </div>
+
+            <!-- Keyboard shortcuts hint -->
+            <div class="hidden lg:flex items-center gap-2 text-[10.5px] font-mono text-slate-500">
+                <span>Tugmalar: <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">→</kbd> Slaydlar</span>
+                <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">Space</kbd> Avto</span>
+                <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">Esc</kbd> Chiqish</span>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/presentation.js"></script>
+    <script>
+        // Initialize dedicated standalone presentation screen
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.edugatePresentation) {
+                window.edugatePresentation.initStandaloneMode();
+            }
+        });
+    </script>
+</body>
+</html>
