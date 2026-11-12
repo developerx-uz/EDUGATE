@@ -303,42 +303,6 @@ class EdugateApp {
                 switchTab(tabsList[currentIndex]);
             });
         });
-    } else {
-                    b.classList.remove('bg-cyan-600', 'text-white', 'shadow-lg');
-                    b.classList.add('bg-slate-800/80', 'text-slate-300');
-                }
-            });
-
-            // Update tab contents visibility
-            tabContents.forEach(c => {
-                if (c.getAttribute('data-platform-content') === target) {
-                    c.classList.remove('hidden');
-                } else {
-                    c.classList.add('hidden');
-                }
-            });
-        };
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const target = e.currentTarget.getAttribute('data-platform-tab');
-                switchTab(target);
-            });
-        });
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + tabsList.length) % tabsList.length;
-                switchTab(tabsList[currentIndex]);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % tabsList.length;
-                switchTab(tabsList[currentIndex]);
-            });
-        }
     }
 
     initPhotoGallery() {
