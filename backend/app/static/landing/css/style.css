@@ -32,6 +32,10 @@ html {
     font-size: 16px; /* Scaled up 20% from 13.5px to 16px */
 }
 
+section[id] {
+    scroll-margin-top: 5.5rem;
+}
+
 body {
     background-color: var(--bg-dark);
     color: #CBD5E1;
