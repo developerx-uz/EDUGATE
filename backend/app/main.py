@@ -80,6 +80,11 @@ static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+landing_dir = os.path.join(os.path.dirname(__file__), "static", "landing")
+landing_assets_dir = os.path.join(landing_dir, "assets")
+if os.path.exists(landing_assets_dir):
+    app.mount("/assets", StaticFiles(directory=landing_assets_dir), name="landing-assets")
+
 admin_dir_path = os.path.join(os.path.dirname(__file__), "static", "admin")
 if os.path.exists(admin_dir_path):
     css_dir = os.path.join(admin_dir_path, "css")
@@ -94,6 +99,29 @@ if os.path.exists(admin_dir_path):
 
 # Marshrutlar
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/", response_class=HTMLResponse, tags=["Public Portal"])
+@app.get("/index.html", response_class=HTMLResponse, tags=["Public Portal"])
+async def serve_landing():
+    landing_index = os.path.join(os.path.dirname(__file__), "static", "landing", "index.html")
+    if os.path.exists(landing_index):
+        with open(landing_index, "r", encoding="utf-8") as f:
+            content = f.read()
+        response = HTMLResponse(content=content)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+    return HTMLResponse("<h1>EDUGATE — Davomat va Xavfsizlik Ekotizimi</h1>")
+
+
+@app.get("/Orlan-logo.png", tags=["Public Portal"])
+async def serve_landing_logo():
+    logo_file = os.path.join(os.path.dirname(__file__), "static", "landing", "Orlan-logo.png")
+    if os.path.exists(logo_file):
+        return FileResponse(logo_file, media_type="image/png")
+    return HTMLResponse(status_code=404)
 
 
 def render_admin_panel() -> str:
