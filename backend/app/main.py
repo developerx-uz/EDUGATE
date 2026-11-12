@@ -126,7 +126,11 @@ def render_admin_panel() -> str:
 @app.get("/admin/", response_class=HTMLResponse, tags=["Admin Panel"])
 async def serve_admin_panel():
     html_content = render_admin_panel()
-    return HTMLResponse(content=html_content)
+    response = HTMLResponse(content=html_content)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 
