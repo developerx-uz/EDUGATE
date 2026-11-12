@@ -1008,28 +1008,28 @@ header.site-header {
 .site-header .nav-link {
     white-space: nowrap !important;
     font-size: 11px !important;
-    padding: 0 4px !important;
+    padding: 0 3.5px !important;
     letter-spacing: -0.015em !important;
 }
 
 @media (min-width: 1200px) {
+    .site-header .nav-link {
+        font-size: 11.5px !important;
+        padding: 0 4.5px !important;
+    }
+}
+
+@media (min-width: 1366px) {
     .site-header .nav-link {
         font-size: 12px !important;
         padding: 0 6px !important;
     }
 }
 
-@media (min-width: 1366px) {
+@media (min-width: 1536px) {
     .site-header .nav-link {
         font-size: 13px !important;
         padding: 0 8px !important;
-    }
-}
-
-@media (min-width: 1536px) {
-    .site-header .nav-link {
-        font-size: 13.5px !important;
-        padding: 0 10px !important;
     }
 }
 

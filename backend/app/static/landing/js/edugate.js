@@ -35,6 +35,7 @@ class EdugateApp {
 
         const navLinks = Array.from(nav.querySelectorAll('.nav-link'));
         const line = document.getElementById('navActiveLine');
+        let isManualClick = false;
 
         const moveLineTo = (el) => {
             if (!el || !line) return;
@@ -48,6 +49,9 @@ class EdugateApp {
         const getActiveLink = () => {
             return nav.querySelector('.nav-link.active') || navLinks[0];
         };
+
+        this.moveLineTo = moveLineTo;
+        this.getActiveLink = getActiveLink;
 
         const scrollToSection = (targetId) => {
             const target = document.getElementById(targetId);
@@ -70,17 +74,23 @@ class EdugateApp {
                     const id = href.substring(1);
                     if (id) {
                         e.preventDefault();
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        moveLineTo(link);
+                        isManualClick = true;
                         scrollToSection(id);
                         if (history.pushState) {
                             history.pushState(null, '', href);
                         }
+                        setTimeout(() => { isManualClick = false; }, 1200);
+                        return;
                     }
                 }
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 moveLineTo(link);
                 isManualClick = true;
-                setTimeout(() => { isManualClick = false; }, 900);
+                setTimeout(() => { isManualClick = false; }, 1200);
             });
         });
 
@@ -95,29 +105,33 @@ class EdugateApp {
             return { link, el, id };
         }).filter(item => item.el !== null);
 
-        let isManualClick = false;
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                isManualClick = true;
-                setTimeout(() => { isManualClick = false; }, 800);
-            });
-        });
-
         const updateActiveOnScroll = () => {
             if (isManualClick) return;
 
             // If at the very top of page
-            if (window.scrollY < 120 && navLinks[0]) {
+            if (window.scrollY < 80 && navLinks[0]) {
                 navLinks.forEach(l => l.classList.remove('active'));
                 navLinks[0].classList.add('active');
                 moveLineTo(navLinks[0]);
                 return;
             }
 
-            // Find current section using getBoundingClientRect
+            // If reached the bottom of page, activate last item
+            if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 80)) {
+                const lastItem = sectionMap[sectionMap.length - 1];
+                if (lastItem) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    lastItem.link.classList.add('active');
+                    moveLineTo(lastItem.link);
+                    return;
+                }
+            }
+
+            // Find current section using dynamic header threshold
             let currentItem = null;
-            const threshold = 180; // 180px from viewport top
+            const header = document.querySelector('.site-header');
+            const headerHeight = header ? header.offsetHeight : 54;
+            const threshold = headerHeight + 60;
 
             for (let i = 0; i < sectionMap.length; i++) {
                 const item = sectionMap[i];
@@ -126,11 +140,6 @@ class EdugateApp {
                     currentItem = item;
                     break;
                 }
-            }
-
-            // If reached the bottom of page, activate last item
-            if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 80)) {
-                currentItem = sectionMap[sectionMap.length - 1];
             }
 
             if (currentItem) {
@@ -351,6 +360,15 @@ class EdugateApp {
         if (window.edugatePresentation && typeof window.edugatePresentation.setLanguage === 'function') {
             window.edugatePresentation.setLanguage(lang);
         }
+
+        // Re-align navigation active sliding indicator with new translated text width
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+            const activeLink = document.querySelector('.site-header .nav-link.active') || document.querySelector('.site-header .nav-link');
+            if (activeLink && typeof this.moveLineTo === 'function') {
+                this.moveLineTo(activeLink);
+            }
+        }, 60);
     }
 
     initModalViewer() {

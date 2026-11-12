@@ -23,19 +23,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.3.1">
+    <link rel="stylesheet" href="css/style.css?v=5.3.3">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.3.1"></script>
+    <script src="js/theme.js?v=5.3.3"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
     <!-- 1. EXPANDED HEADER NAVBAR (OCHIQ MENYU, OSTIDA YAGONA TOZA CHIZIQ) -->
     <header class="site-header sticky top-0 z-50 bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-800 h-[54px] transition-colors">
-        <div class="w-full max-w-[1440px] mx-auto px-2.5 sm:px-4 lg:px-5 xl:px-8 h-full flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-6">
+        <div class="w-full max-w-[1440px] mx-auto px-2 sm:px-3 lg:px-4 xl:px-5 2xl:px-8 h-full flex items-center justify-between gap-1 sm:gap-2 lg:gap-2.5 xl:gap-3 2xl:gap-5 overflow-hidden">
             <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-2.5 group shrink-0">
+            <a href="#" class="flex items-center gap-2 group shrink-0">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1 shadow-[0_0_12px_rgba(6,182,212,0.3)] group-hover:scale-105 transition">
                     <img src="Orlan-logo.png" alt="Logo" class="w-full h-full object-contain">
                 </div>
@@ -44,14 +44,14 @@
                         <span class="text-sm sm:text-base font-black tracking-tight text-white font-mono">EDUGATE</span>
                         <span class="badge-tech badge-cyan text-[7.5px] py-0.5 px-1.5">v5.0</span>
                     </div>
-                    <p class="text-[8.5px] sm:text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5 truncate max-w-[125px] sm:max-w-[180px] xl:max-w-none" data-i18n="nav.subtitle">
-                        MMTV & Milliy Gvardiya Tizimi
+                    <p class="text-[8px] sm:text-[8.5px] xl:text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5 truncate max-w-[105px] sm:max-w-[140px] lg:max-w-[130px] xl:max-w-[160px] 2xl:max-w-[220px]" data-i18n="nav.subtitle">
+                        MMTV & Milliy Gvardiya
                     </p>
                 </div>
             </a>
 
             <!-- Nav Links: To'liq balandlikda (h-full), faol chiziq to'g'ridan-to'g'ri header pastki chizig'i ustiga tushadi -->
-            <nav class="nav-container hidden lg:flex items-center h-full gap-1.5 lg:gap-2 xl:gap-3.5 2xl:gap-5 relative shrink">
+            <nav class="nav-container hidden lg:flex items-center h-full gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-4 relative shrink min-w-0">
                 <a href="#hero" class="nav-link active" data-i18n="nav.home">Bosh Sahifa</a>
                 <a href="#process" class="nav-link" data-i18n="nav.process">O'tish Zanjiri</a>
                 <a href="#dashboards" class="nav-link" data-i18n="nav.platform">Dasturiy Panellar</a>
@@ -62,7 +62,7 @@
             </nav>
 
             <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA DUAL-ICON MAVZU SWITCHER -->
-            <div class="hidden sm:flex items-center gap-1.5 lg:gap-2 xl:gap-2.5 shrink-0">
+            <div class="hidden sm:flex items-center gap-1 sm:gap-1.5 lg:gap-2 xl:gap-2.5 shrink-0">
                 <!-- Theme Toggle Button (1 Single Button: Sun / Moon) -->
                 <button type="button" data-theme-toggle id="themeToggleBtn" class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
                     <i class="fas fa-sun text-sm"></i>
@@ -131,7 +131,7 @@
                 </div>
 
                 <!-- Online Presentation Button (Opens Dedicated Screen) -->
-                <a href="presentation" class="btn-cyber btn-cyber-primary py-1 sm:py-1.5 px-2.5 sm:px-3 text-[10.5px] sm:text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.35)] flex items-center gap-1.5 whitespace-nowrap shrink-0">
+                <a href="presentation" class="btn-cyber btn-cyber-primary py-1 sm:py-1.5 px-2 sm:px-2.5 xl:px-3 text-[10px] sm:text-[10.5px] xl:text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.35)] flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fas fa-play-circle text-xs text-cyan-200"></i>
                     <span data-i18n="nav.presBtn">ONLINE PREZENTATSIYA</span>
                 </a>
@@ -2035,10 +2035,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.3.1"></script>
-    <script src="js/presentation.js?v=5.3.1"></script>
-    <script src="js/scanner.js?v=5.3.1"></script>
-    <script src="js/map.js?v=5.3.1"></script>
-    <script src="js/edugate.js?v=5.3.1"></script>
+    <script src="js/translations.js?v=5.3.3"></script>
+    <script src="js/presentation.js?v=5.3.3"></script>
+    <script src="js/scanner.js?v=5.3.3"></script>
+    <script src="js/map.js?v=5.3.3"></script>
+    <script src="js/edugate.js?v=5.3.3"></script>
 </body>
 </html>
