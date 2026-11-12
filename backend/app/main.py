@@ -100,7 +100,7 @@ async def serve_landing():
         # Natijada brauzer hech qachon eski keshni ishlatmaydi va har doim yangi fayllarni yuklaydi
         import time, re
         ts = str(int(time.time()))
-        content = re.sub(r'(\.(?:css|js))\?[tv]=[^"'\s>]+', r'?t=' + ts, content)
+        content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
         
         response = HTMLResponse(content=content)
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
