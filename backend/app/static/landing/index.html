@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.1.6">
+    <link rel="stylesheet" href="css/style.css?v=5.1.7">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.1.6"></script>
+    <script src="js/theme.js?v=5.1.7"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -222,9 +222,10 @@
 
                 <!-- Right: Seamlessly Embedded Biometric Scanner Terminal Card (Clean, Full Width) -->
                 <div class="lg:col-span-5">
-                    <div id="heroPhotoCard" class="hud-card p-3 sm:p-3.5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl relative group cursor-pointer transition" title="Haqiqiy maktablar fotogalereyasini ochish">
+                    <div id="heroPhotoCard" class="hud-card p-3 sm:p-3.5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl relative transition">
                         <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] lg:aspect-[16/11] max-h-[300px] sm:max-h-[325px] rounded-xl overflow-hidden bg-black border border-slate-800/80">
-                            <img id="heroCoverImg" src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="Termiz 11-maktab Turniket Tizimi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <!-- Clean cover image without scale/zoom on hover -->
+                            <img id="heroCoverImg" src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="Termiz 11-maktab Turniket Tizimi" class="w-full h-full object-cover">
                             
                             <!-- Top Overlays -->
                             <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
@@ -237,23 +238,16 @@
                                 </span>
                             </div>
 
-                            <!-- Center Hover Hint: Fotolarni ochish -->
-                            <div class="absolute inset-0 bg-slate-950/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 text-white pointer-events-none z-10 backdrop-blur-[2px]">
-                                <div class="w-12 h-12 rounded-full bg-cyan-500/25 border border-cyan-400 flex items-center justify-center text-cyan-300 text-lg shadow-[0_0_20px_rgba(6,182,212,0.6)]">
-                                    <i class="fas fa-images"></i>
-                                </div>
-                                <span class="text-xs font-mono font-bold text-cyan-200">5 ta fotoni ko'rish (Bosing)</span>
-                            </div>
-
-                            <!-- Bottom Overlays -->
+                            <!-- Bottom Overlays with Fullscreen Button in Bottom-Right Corner -->
                             <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent flex items-center justify-between text-xs font-mono z-10">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
                                     <span class="text-white font-semibold text-[11.5px] drop-shadow">Termiz 11-maktab — Real turniket tizimi</span>
                                 </div>
-                                <span class="badge-tech badge-cyan text-[9px] py-0.5 px-2 shadow">
-                                    Face ID
-                                </span>
+                                <button id="heroFullscreenBtn" type="button" class="btn-cyber btn-cyber-primary py-1 px-3 text-[11px] font-mono flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer hover:brightness-110 active:scale-95 transition-all z-20" title="To'liq ekranga ochish">
+                                    <i class="fas fa-expand text-[10px]"></i>
+                                    <span>Fullscreen</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -933,10 +927,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.1.6"></script>
-    <script src="js/presentation.js?v=5.1.6"></script>
-    <script src="js/scanner.js?v=5.1.6"></script>
-    <script src="js/map.js?v=5.1.6"></script>
-    <script src="js/edugate.js?v=5.1.6"></script>
+    <script src="js/translations.js?v=5.1.7"></script>
+    <script src="js/presentation.js?v=5.1.7"></script>
+    <script src="js/scanner.js?v=5.1.7"></script>
+    <script src="js/map.js?v=5.1.7"></script>
+    <script src="js/edugate.js?v=5.1.7"></script>
 </body>
 </html>

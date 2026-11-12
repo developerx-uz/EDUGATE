@@ -295,7 +295,8 @@ class EdugateApp {
     initPhotoGallery() {
         const modal = document.getElementById('schoolGalleryModal');
         const heroTrigger = document.getElementById('heroPhotoCard');
-        if (!modal || !heroTrigger) return;
+        const fullscreenBtn = document.getElementById('heroFullscreenBtn');
+        if (!modal) return;
 
         const mainImg = document.getElementById('galleryMainImg');
         const titleEl = document.getElementById('galleryTitle');
@@ -373,16 +374,24 @@ class EdugateApp {
 
         const openGallery = (idx = 0) => {
             renderSlide(idx);
+            modal.classList.remove('hidden');
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
         };
 
         const closeGallery = () => {
             modal.classList.remove('open');
+            modal.classList.add('hidden');
             document.body.style.overflow = '';
         };
 
-        heroTrigger.addEventListener('click', () => openGallery(0));
+        fullscreenBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openGallery(0);
+        });
+        heroTrigger?.addEventListener('click', (e) => {
+            openGallery(0);
+        });
         closeBtn?.addEventListener('click', closeGallery);
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeGallery();
