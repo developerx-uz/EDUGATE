@@ -71,6 +71,14 @@ const EdugateAPI = {
         return await this.request('/api/v1/admin/stats');
     },
 
+    async getWeeklyStats() {
+        return await this.request('/api/v1/admin/stats/weekly');
+    },
+
+    getExportUrl() {
+        return this.getPrefix() + '/api/v1/admin/reports/export-csv';
+    },
+
     // Schools
     async getSchools() {
         return await this.request('/api/v1/admin/schools/detailed');

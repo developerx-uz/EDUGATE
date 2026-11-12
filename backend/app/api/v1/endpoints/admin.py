@@ -1,7 +1,10 @@
 import random
+import csv
+import io
 from datetime import datetime, date, timedelta
 from typing import List, Optional, Any
 from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi.responses import Response
 from sqlalchemy import select, func, delete
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -50,6 +53,103 @@ async def get_dashboard_stats(
         "today_lates": today_lates,
         "today_ontime": today_ontime
     }
+
+
+@router.get("/stats/weekly", summary="Haftalik Davomat Haqiqiy Statistikasi")
+async def get_weekly_stats(
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    today = date.today()
+    days_data = []
+
+    for i in range(6, -1, -1):
+        day_date = today - timedelta(days=i)
+        day_start = datetime.combine(day_date, datetime.min.time())
+        day_end = datetime.combine(day_date, datetime.max.time())
+
+        result = await db.execute(
+            select(AttendanceLog).filter(
+                AttendanceLog.event_time >= day_start,
+                AttendanceLog.event_time <= day_end
+            )
+        )
+        logs = result.scalars().all()
+
+        ontime = sum(1 for l in logs if l.status == AttendanceStatus.ON_TIME and l.event_type == AttendanceEventType.ENTRY)
+        late = sum(1 for l in logs if l.status == AttendanceStatus.LATE and l.event_type == AttendanceEventType.ENTRY)
+        total = ontime + late
+
+        days_data.append({
+            "date": day_date.strftime("%Y-%m-%d"),
+            "day_name": ["Dush", "Sesh", "Chor", "Pay", "Jum", "Shan", "Yak"][day_date.weekday()],
+            "on_time": ontime,
+            "late": late,
+            "total": total
+        })
+
+    return days_data
+
+
+@router.get("/reports/export-csv", summary="Haqiqiy Davomat va O'quvchilar Hisoboti (CSV)")
+async def export_attendance_report_csv(
+    db: AsyncSession = Depends(get_db)
+):
+    output = io.StringIO()
+    # UTF-8 BOM for Excel compatibility in Uzbekistan/Russian locales
+    output.write('\ufeff')
+    writer = csv.writer(output, delimiter=';')
+
+    writer.writerow([
+        "O'quvchi ID",
+        "F.I.SH",
+        "Maktab",
+        "Sinf",
+        "O'quvchi Kodi",
+        "RFID",
+        "JSHSHIR",
+        "Yuz ID",
+        "Hodisalar Soni",
+        "Holati"
+    ])
+
+    query = (
+        select(Student)
+        .options(selectinload(Student.school), selectinload(Student.attendance_logs))
+        .filter(Student.is_active == True)
+        .order_by(Student.class_name.asc(), Student.last_name.asc())
+    )
+    result = await db.execute(query)
+    students = result.scalars().all()
+
+    for st in students:
+        school_name = st.school.name if st.school else "-"
+        logs_count = len(st.attendance_logs) if st.attendance_logs else 0
+        has_face = "Ha" if (st.face_encoding or st.photo_path) else "Yo'q"
+
+        writer.writerow([
+            st.id,
+            st.full_name,
+            school_name,
+            st.class_name or "-",
+            st.student_code,
+            st.rfid_card_id or "-",
+            st.pinfl or "-",
+            has_face,
+            logs_count,
+            "Faol" if st.is_active else "Nofaol"
+        ])
+
+    csv_data = output.getvalue()
+    filename = f"edugate_davomat_{date.today().strftime('%Y_%m_%d')}.csv"
+
+    return Response(
+        content=csv_data,
+        media_type="text/csv; charset=utf-8",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"'
+        }
+    )
+
 
 
 @router.get("/schools/detailed", summary="Maktablar ro'yxati va statistikasi")
