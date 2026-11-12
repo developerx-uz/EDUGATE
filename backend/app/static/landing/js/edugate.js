@@ -326,20 +326,8 @@ class EdugateApp {
                 switchTab(tabsList[currentIndex]);
             });
         }
-    });
-                e.currentTarget.classList.add('bg-cyan-600', 'text-white', 'shadow-lg');
-                e.currentTarget.classList.remove('bg-slate-800/80', 'text-slate-300');
-
-                tabContents.forEach(c => {
-                    if (c.getAttribute('data-platform-content') === target) {
-                        c.classList.remove('hidden');
-                    } else {
-                        c.classList.add('hidden');
-                    }
-                });
-            });
-        });
     }
+
     initPhotoGallery() {
         const modal = document.getElementById('schoolGalleryModal');
         const heroTrigger = document.getElementById('heroPhotoCard');
