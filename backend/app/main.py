@@ -1,7 +1,7 @@
 import os
 import re
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse
@@ -122,6 +122,16 @@ async def serve_landing_logo():
     if os.path.exists(logo_file):
         return FileResponse(logo_file, media_type="image/png")
     return HTMLResponse(status_code=404)
+
+
+@app.get("/assets/{file_path:path}", tags=["Public Portal"])
+@app.get("/edugate/assets/{file_path:path}", tags=["Public Portal"])
+async def serve_landing_asset(file_path: str):
+    landing_assets = os.path.join(os.path.dirname(__file__), "static", "landing", "assets")
+    full_path = os.path.join(landing_assets, file_path)
+    if os.path.exists(full_path) and os.path.isfile(full_path):
+        return FileResponse(full_path)
+    raise HTTPException(status_code=404, detail="Asset not found")
 
 
 def render_admin_panel() -> str:
