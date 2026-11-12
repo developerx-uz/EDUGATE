@@ -84,3 +84,4 @@ class EdugateAPIClient:
             return False
 
 api_client = EdugateAPIClient()
+

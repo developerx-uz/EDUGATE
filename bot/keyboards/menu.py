@@ -38,3 +38,4 @@ def get_children_inline_kb(children: list) -> InlineKeyboardMarkup:
         name = c.get('full_name') or f"{c.get('first_name')} {c.get('last_name')}"
         buttons.append([InlineKeyboardButton(text=f"👤 {name} ({c.get('class_name', '')})", callback_data=f"child_{c.get('id')}")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
+

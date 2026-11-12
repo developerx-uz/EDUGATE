@@ -136,3 +136,4 @@ class EdugateApp {
 document.addEventListener('DOMContentLoaded', () => {
     window.edugateApp = new EdugateApp();
 });
+

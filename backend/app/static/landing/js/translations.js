@@ -146,3 +146,4 @@ const EdugateI18N = {
 };
 
 window.EdugateI18N = EdugateI18N;
+

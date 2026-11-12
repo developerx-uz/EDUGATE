@@ -107,3 +107,4 @@ class SchoolCalculator {
 document.addEventListener('DOMContentLoaded', () => {
     window.edugateCalc = new SchoolCalculator();
 });
+

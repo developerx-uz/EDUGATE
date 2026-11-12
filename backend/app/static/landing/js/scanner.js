@@ -141,3 +141,4 @@ class FaceIDScannerSimulator {
 document.addEventListener('DOMContentLoaded', () => {
     window.edugateScanner = new FaceIDScannerSimulator();
 });
+

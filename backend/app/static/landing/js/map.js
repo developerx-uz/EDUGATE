@@ -71,3 +71,4 @@ class UzbekistanMapController {
 document.addEventListener('DOMContentLoaded', () => {
     window.uzbekistanMap = new UzbekistanMapController();
 });
+

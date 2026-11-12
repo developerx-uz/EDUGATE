@@ -137,3 +137,4 @@ async def show_school_contacts(message: types.Message):
         f"• <b>Maktab manzili:</b> Yunusobod tumani, Bodomzor yo'li 45",
         parse_mode="HTML"
     )
+

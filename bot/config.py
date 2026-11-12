@@ -13,3 +13,4 @@ class BotSettings(BaseSettings):
         return bool(self.BOT_TOKEN and ":" in self.BOT_TOKEN and not self.BOT_TOKEN.startswith("YOUR_"))
 
 settings = BotSettings()
+

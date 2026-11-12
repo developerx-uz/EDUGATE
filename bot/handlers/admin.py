@@ -61,3 +61,4 @@ async def emergency_call(message: types.Message):
         "• <b>EDUGATE Texnik Xizmat (24/7):</b> +998 71 200 00 20",
         parse_mode="HTML"
     )
+

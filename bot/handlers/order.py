@@ -77,3 +77,4 @@ async def process_phone(message: types.Message, state: FSMContext):
             await message.bot.send_message(settings.ADMIN_CHAT_ID, admin_text, parse_mode="HTML")
         except Exception:
             pass
+
