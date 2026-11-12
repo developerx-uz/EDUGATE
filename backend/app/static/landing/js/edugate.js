@@ -57,8 +57,9 @@ class EdugateApp {
             const target = document.getElementById(targetId);
             if (!target) return;
             const header = document.querySelector('.site-header');
-            const headerHeight = header ? header.offsetHeight : 54;
-            const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+            const isSticky = header && (getComputedStyle(header).position === 'sticky' || getComputedStyle(header).position === 'fixed');
+            const headerOffset = isSticky ? header.offsetHeight : 0;
+            const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
             window.scrollTo({
                 top: Math.max(0, Math.round(targetTop)),
                 behavior: 'smooth'
