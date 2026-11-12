@@ -26,12 +26,53 @@ class EdugateApp {
             }
         });
 
+        // Scrollspy for active nav-link underline
+        const navLinks = document.querySelectorAll('nav .nav-link');
+        const sections = Array.from(navLinks)
+            .map(link => {
+                const id = link.getAttribute('href')?.replace('#', '');
+                return id ? document.getElementById(id) : null;
+            })
+            .filter(Boolean);
+
+        const updateActiveLink = () => {
+            const scrollPos = window.scrollY + 140;
+            let currentId = '';
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const sec = sections[i];
+                if (sec && scrollPos >= sec.offsetTop) {
+                    currentId = sec.getAttribute('id');
+                    break;
+                }
+            }
+
+            if (!currentId && sections.length > 0) {
+                currentId = sections[0].getAttribute('id');
+            }
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === '#' + currentId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', updateActiveLink, { passive: true });
+        updateActiveLink();
+
         // Mobile menu toggle
         const toggleBtn = document.getElementById('mobileMenuToggle');
         const mobileNav = document.getElementById('mobileNavDrawer');
         if (toggleBtn && mobileNav) {
             toggleBtn.addEventListener('click', () => {
                 mobileNav.classList.toggle('hidden');
+            });
+            mobileNav.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => mobileNav.classList.add('hidden'));
             });
         }
     }

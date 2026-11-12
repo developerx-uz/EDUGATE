@@ -27,12 +27,12 @@
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
-    <!-- 1. EXPANDED HEADER NAVBAR (TOP TICKER BAR REMOVED) -->
-    <header class="sticky top-0 z-50 bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-800/80">
-        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- 1. EXPANDED HEADER NAVBAR (OCHIQ MENYU, OSTIDA CHIZIQ, ODDIY RAMKA) -->
+    <header class="site-header sticky top-0 z-50 bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-800/80 transition-colors">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4 lg:gap-8">
             <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1 shadow-[0_0_15px_rgba(6,182,212,0.35)] group-hover:scale-105 transition">
+            <a href="#" class="flex items-center gap-3 group shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(6,182,212,0.35)] group-hover:scale-105 transition">
                     <img src="Orlan-logo.png" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -46,10 +46,9 @@
                 </div>
             </a>
 
-            <!-- Nav Links -->
-            <nav class="hidden lg:flex items-center gap-1 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800">
-                <a href="#hero" class="nav-link">Bosh Sahifa</a>
-                <a href="#presentation" class="nav-link text-cyan-400 font-bold"><i class="fas fa-play-circle text-[11px] mr-1.5"></i>Prezentatsiya</a>
+            <!-- Nav Links: Umumiy ramkasiz, keng va ostida faol chiziq tortiladigan ochiq menyu -->
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8">
+                <a href="#hero" class="nav-link active">Bosh Sahifa</a>
                 <a href="#scanner-hud" class="nav-link">Face ID HUD</a>
                 <a href="#process" class="nav-link">O'tish Zanjiri</a>
                 <a href="#dashboards" class="nav-link">Dasturiy Panellar</a>
@@ -57,23 +56,23 @@
                 <a href="#map-analytics" class="nav-link">14 Viloyat</a>
             </nav>
 
-            <!-- Actions: ONLINE PRESENTATION & THEME SWITCHER -->
-            <div class="hidden sm:flex items-center gap-2.5">
-                <!-- Theme Switcher (Auto OS default, user can toggle Light / Dark) -->
-                <button type="button" data-theme-toggle class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5 rounded-lg border border-slate-700/80 hover:border-cyan-400 transition" title="Mavzuni almashtirish (Oq / Qora)">
-                    <i class="fas fa-sun text-amber-400"></i>
-                    <span class="theme-label text-[11px] font-semibold">Mavzu</span>
+            <!-- Actions: ONLINE PREZENTATSIYA, TIL VA ODDIY RAMKALI MAVZU SWITCHER -->
+            <div class="hidden sm:flex items-center gap-3 shrink-0">
+                <!-- Theme Switcher (Oddiy ramka) -->
+                <button type="button" data-theme-toggle class="theme-toggle-simple" title="Mavzuni almashtirish (Oq / Qora)">
+                    <i class="fas fa-sun text-amber-400 text-xs"></i>
+                    <span class="theme-label">Yorug'</span>
                 </button>
 
                 <!-- Language Selector -->
-                <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1 text-xs font-mono">
+                <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs font-mono">
                     <button data-lang-btn="uz" class="px-2.5 py-1 rounded bg-cyan-500/30 text-cyan-300 font-bold">UZ</button>
                     <button data-lang-btn="ru" class="px-2.5 py-1 rounded text-slate-400 hover:text-white">RU</button>
                     <button data-lang-btn="en" class="px-2.5 py-1 rounded text-slate-400 hover:text-white">EN</button>
                 </div>
 
                 <!-- Online Presentation Button (Opens Dedicated Screen) -->
-                <a href="presentation" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2">
+                <a href="presentation" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2 whitespace-nowrap">
                     <i class="fas fa-play-circle text-xs text-cyan-200"></i>
                     <span>ONLINE PREZENTATSIYA</span>
                 </a>
@@ -83,6 +82,25 @@
             <button id="mobileMenuToggle" class="lg:hidden text-slate-300 p-2 text-lg">
                 <i class="fas fa-bars"></i>
             </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileNavDrawer" class="hidden lg:hidden bg-slate-950/98 border-t border-slate-800 px-6 py-4 space-y-3">
+            <a href="#hero" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">Bosh Sahifa</a>
+            <a href="#scanner-hud" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">Face ID HUD</a>
+            <a href="#process" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">O'tish Zanjiri</a>
+            <a href="#dashboards" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">Dasturiy Panellar</a>
+            <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">Uskunalar</a>
+            <a href="#map-analytics" class="block text-slate-300 hover:text-cyan-400 py-1.5 text-sm font-semibold">14 Viloyat</a>
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+                <button type="button" data-theme-toggle class="theme-toggle-simple">
+                    <i class="fas fa-sun text-amber-400 text-xs"></i>
+                    <span class="theme-label">Yorug'</span>
+                </button>
+                <a href="presentation" class="btn-cyber btn-cyber-primary py-1.5 px-3 text-xs font-mono">
+                    ONLINE PREZENTATSIYA
+                </a>
+            </div>
         </div>
     </header>
 
