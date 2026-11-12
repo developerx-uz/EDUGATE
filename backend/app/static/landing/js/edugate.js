@@ -46,13 +46,38 @@ class EdugateApp {
             return nav.querySelector('.nav-link.active') || navLinks[0];
         };
 
-        // Smooth Hover & Leave
+        const scrollToSection = (targetId) => {
+            const target = document.getElementById(targetId);
+            if (!target) return;
+            const header = document.querySelector('.site-header');
+            const headerHeight = header ? header.offsetHeight : 54;
+            const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+            window.scrollTo({
+                top: Math.max(0, Math.round(targetTop)),
+                behavior: 'smooth'
+            });
+        };
+
+        // Smooth Hover & Precision Click Scroll
         navLinks.forEach(link => {
             link.addEventListener('mouseenter', () => moveLineTo(link));
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const id = href.substring(1);
+                    if (id) {
+                        e.preventDefault();
+                        scrollToSection(id);
+                        if (history.pushState) {
+                            history.pushState(null, '', href);
+                        }
+                    }
+                }
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 moveLineTo(link);
+                isManualClick = true;
+                setTimeout(() => { isManualClick = false; }, 900);
             });
         });
 
@@ -153,7 +178,20 @@ class EdugateApp {
                 mobileNav.classList.toggle('hidden');
             });
             mobileNav.querySelectorAll('a').forEach(a => {
-                a.addEventListener('click', () => mobileNav.classList.add('hidden'));
+                a.addEventListener('click', (e) => {
+                    const href = a.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const id = href.substring(1);
+                        if (id) {
+                            e.preventDefault();
+                            scrollToSection(id);
+                            if (history.pushState) {
+                                history.pushState(null, '', href);
+                            }
+                        }
+                    }
+                    mobileNav.classList.add('hidden');
+                });
             });
         }
     }
