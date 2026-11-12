@@ -543,7 +543,7 @@ html.light .nav-link.active {
 
 html.light .nav-active-line {
     background: #0284C7;
-    box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
+    box-shadow: none !important;
 }
 
 html.light .theme-toggle-simple {
