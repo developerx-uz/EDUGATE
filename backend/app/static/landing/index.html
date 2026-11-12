@@ -1,26 +1,719 @@
-<!doctype html>
-<html lang="uz" class="dark scroll-smooth scroll-pt-14 sm:scroll-pt-18 lg:scroll-pt-20">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>e-davomat.net | Raqamli Davomat va Maktab Xavfsizligi</title>
-    <meta name="description" content="Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan avtomatlashtirilgan elektron davomat va xavfsizlik platformasi." />
-    <meta property="og:title" content="e-davomat.net | Raqamli Davomat va Maktab Xavfsizligi" />
-    <meta property="og:description" content="Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan avtomatlashtirilgan elektron davomat va xavfsizlik platformasi." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUGATE — Raqamli Davomat va Maktab Xavfsizligi Ekotizimi</title>
+    <meta name="description" content="Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan avtomatlashtirilgan elektron davomat va maktab xavfsizligi platformasi.">
+    <link rel="icon" type="image/png" href="Orlan-logo.png">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="Orlan-logo.png" />
-    <link rel="shortcut icon" type="image/png" href="Orlan-logo.png" />
-    <link rel="apple-touch-icon" href="Orlan-logo.png" />
-    <meta property="og:image" content="Orlan-logo.png" />
-    <script type="module" crossorigin src="assets/index-ItWYoHY2.js"></script>
-    <link rel="stylesheet" crossorigin href="assets/index-B2Z5l9qV.css">
-  </head>
-  <body class="bg-[#070B14] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
-    <div id="root"></div>
-  </body>
-</html>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            950: '#070B14',
+                            900: '#0B1120',
+                            800: '#0F172A',
+                            700: '#1E293B',
+                            cyan: '#06B6D4',
+                            indigo: '#6366F1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom EDUGATE Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
+<body class="bg-cyber-950 text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="site-header">
+        <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="Orlan-logo.png" alt="EDUGATE Logo" class="w-10 h-10 object-contain rounded-xl drop-shadow-[0_0_12px_rgba(6,182,212,0.5)] group-hover:scale-105 transition">
+                <div>
+                    <span class="text-2xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
+                        EDUGATE <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    </span>
+                    <p class="text-[10px] text-cyan-400 font-semibold uppercase tracking-wider -mt-1" data-i18n="nav.subtitle">
+                        Hokimlik & MMTV Yagona Tizimi
+                    </p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800">
+                <a href="#features" class="nav-link" data-i18n="nav.features">Xususiyatlar</a>
+                <a href="#scanner" class="nav-link" data-i18n="nav.liveDemo">Face ID Skaner</a>
+                <a href="#platform" class="nav-link" data-i18n="nav.platform">Dasturiy Panellar</a>
+                <a href="#map" class="nav-link" data-i18n="nav.map">Hududiy Analitika</a>
+                <a href="#calculator" class="nav-link" data-i18n="nav.calculator">Kalkulyator</a>
+                <a href="#hardware" class="nav-link" data-i18n="nav.hardware">Uskunalar</a>
+            </nav>
+
+            <!-- Action Buttons & Language -->
+            <div class="hidden sm:flex items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="flex items-center bg-slate-900/80 border border-slate-800 rounded-xl p-1 text-xs">
+                    <button data-lang-btn="uz" class="px-2.5 py-1 rounded-lg transition">UZ</button>
+                    <button data-lang-btn="ru" class="px-2.5 py-1 rounded-lg transition">RU</button>
+                    <button data-lang-btn="en" class="px-2.5 py-1 rounded-lg transition">EN</button>
+                </div>
+
+                <!-- Admin Panel Button -->
+                <a href="admin" class="btn btn-primary text-xs py-2.5 px-4 rounded-xl shadow-lg shadow-cyan-500/20">
+                    <i class="fas fa-shield-halved"></i>
+                    <span data-i18n="nav.adminPortal">Boshqaruv Markazi (Admin)</span>
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobileMenuToggle" class="lg:hidden text-slate-400 hover:text-white p-2 text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileNavDrawer" class="hidden lg:hidden bg-cyber-900 border-b border-slate-800 px-6 py-4 space-y-3">
+            <a href="#features" class="block nav-link">Xususiyatlar</a>
+            <a href="#scanner" class="block nav-link">Face ID Skaner</a>
+            <a href="#platform" class="block nav-link">Dasturiy Panellar</a>
+            <a href="#map" class="block nav-link">Hududiy Analitika</a>
+            <a href="#calculator" class="block nav-link">Turniket Kalkulyatori</a>
+            <a href="#hardware" class="block nav-link">Uskunalar</a>
+            <a href="admin" class="btn btn-primary w-full mt-2">Boshqaruv Markazi (Admin)</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Copy & CTA -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="badge badge-cyan" data-i18n="hero.badge">
+                        <i class="fas fa-bolt"></i> EDUGATE 5.0 AQLLI EKOTIZIM
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        <span data-i18n="hero.titlePart1">O'zbekiston maktablari uchun yagona avtomatlashtirilgan</span>
+                        <span class="text-gradient-cyan block mt-1" data-i18n="hero.titleHighlight">davomat va xavfsizlik</span>
+                        <span data-i18n="hero.titlePart2">apparat-dasturiy majmuasi</span>
+                    </h1>
+
+                    <p class="text-slate-400 text-lg leading-relaxed max-w-2xl" data-i18n="hero.desc">
+                        Sun'iy intellekt va yuzni tanish (Face ID Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar va maktab ma'muriyati uchun real vaqtdagi monitoring.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#calculator" class="btn btn-primary py-3.5 px-6 text-base rounded-2xl">
+                            <i class="fas fa-calculator"></i>
+                            <span data-i18n="hero.orderBtn">Uskunalarga Buyurtma Berish</span>
+                        </a>
+                        <a href="#platform" class="btn btn-secondary py-3.5 px-6 text-base rounded-2xl">
+                            <i class="fas fa-desktop"></i>
+                            <span data-i18n="hero.presentationBtn">Jonli Taqdimot & Panellar</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4 text-xs">
+                        <div class="flex items-center gap-2 text-slate-400">
+                            <i class="fas fa-check-circle text-emerald-400 text-base"></i>
+                            <span>3D WDR Anti-Spoofing</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-400">
+                            <i class="fas fa-bolt text-cyan-400 text-base"></i>
+                            <span>6-8 Soat Avtonom UPS</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-400">
+                            <i class="fas fa-shield-cat text-indigo-400 text-base"></i>
+                            <span>100% Begonalar Blokirovkasi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Face ID Simulation Engine -->
+                <div class="lg:col-span-5" id="scanner">
+                    <div class="scanner-container p-6 relative">
+                        <!-- Laser line -->
+                        <div class="laser-line"></div>
+                        
+                        <!-- Target Corners -->
+                        <div class="scan-target-corner corner-tl"></div>
+                        <div class="scan-target-corner corner-tr"></div>
+                        <div class="scan-target-corner corner-bl"></div>
+                        <div class="scan-target-corner corner-br"></div>
+
+                        <!-- Top Status Bar -->
+                        <div class="flex items-center justify-between mb-4 z-20 relative">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                                <span class="text-xs font-semibold text-cyan-300 uppercase tracking-wider" data-i18n="hero.scannerActive">
+                                    Face ID Skaner: Faol
+                                </span>
+                            </div>
+                            <span class="badge badge-cyan text-[10px]" data-i18n="hero.antiSpoofing">
+                                3D WDR Anti-Spoofing
+                            </span>
+                        </div>
+
+                        <!-- Live Photo & Triangulation Canvas -->
+                        <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+                            <!-- Background Face Image -->
+                            <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="AI Face Scanner" class="w-full h-full object-cover">
+                            
+                            <!-- Triangulation Canvas Overlay -->
+                            <canvas id="faceLandmarksCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+                            <!-- Live Telegram Alert Overlay -->
+                            <div id="scanTelegramPopup" class="absolute bottom-4 left-4 right-4 bg-slate-900/95 border border-cyan-500/40 rounded-xl p-3 shadow-2xl backdrop-blur-md opacity-0 translate-y-4 transition-all duration-500 z-30 flex items-start gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </div>
+                                <div class="text-xs">
+                                    <p class="font-bold text-sky-400 flex items-center justify-between">
+                                        <span>EDUGATE Xabarnoma</span>
+                                        <span class="text-[10px] text-slate-400">Hozirgina</span>
+                                    </p>
+                                    <p id="telegramNotifText" class="text-slate-300 mt-0.5">
+                                        Farzandingiz maktabga kirdi.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Card Stats -->
+                        <div class="mt-4 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                            <div>
+                                <span class="text-slate-500 uppercase tracking-wider text-[10px]" data-i18n="hero.studentLabel">O'quvchi</span>
+                                <h4 id="scanStudentName" class="font-bold text-white text-sm">Eshboyev Farhod</h4>
+                                <p id="scanStudentClass" class="text-cyan-400 font-medium text-xs">10-A sinf (101-IDUM)</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-slate-500 uppercase tracking-wider text-[10px]" data-i18n="hero.statusLabel">Holat</span>
+                                <p id="scanTurnstileStatus" class="font-bold text-emerald-400 text-xs">Turniket Ochildi 🟢</p>
+                                <p id="scanSpeedScore" class="text-slate-400 font-mono text-[11px]">Aniqlik: 99.87% (0.18s)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE METRICS COUNTER BAR -->
+    <section class="py-10 bg-slate-900/40 border-y border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <h3 class="text-3xl lg:text-4xl font-extrabold text-cyan-400 font-mono">948+</h3>
+                    <p class="text-slate-400 text-sm mt-1" data-i18n="stats.schools">Qamrab Olingan Maktablar</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-3xl lg:text-4xl font-extrabold text-white font-mono">650,000+</h3>
+                    <p class="text-slate-400 text-sm mt-1" data-i18n="stats.students">Faol O'quvchilar</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-3xl lg:text-4xl font-extrabold text-emerald-400 font-mono">99.8%</h3>
+                    <p class="text-slate-400 text-sm mt-1" data-i18n="stats.accuracy">Yuzni Tanish Aniqligi</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-3xl lg:text-4xl font-extrabold text-indigo-400 font-mono">98.4%</h3>
+                    <p class="text-slate-400 text-sm mt-1" data-i18n="stats.attendance">O'rtacha Qatnashish</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLATFORM SHOWCASE (Retina Display Panels) -->
+    <section id="platform" class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="badge badge-cyan">Amaliy Dasturiy Panellar</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    EDUGATE Tizimi Amaliyotda Qanday Ko'rinadi?
+                </h2>
+                <p class="text-slate-400 text-base">
+                    Maktablar, tuman xalq ta'limi bo'limlari va ota-onalar foydalanayotgan haqiqiy EDUGATE tizimi interfeyslari bilan tanishing.
+                </p>
+
+                <!-- Platform Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-6">
+                    <button data-platform-tab="stat1" class="px-5 py-2.5 rounded-xl text-xs font-semibold bg-cyan-600 text-white shadow-lg transition">
+                        <i class="fas fa-shield-halved mr-1.5"></i> Xavfsiz Portal
+                    </button>
+                    <button data-platform-tab="stat2" class="px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/80 text-slate-300 hover:text-white transition">
+                        <i class="fas fa-map-location-dot mr-1.5"></i> Hududiy Xarita
+                    </button>
+                    <button data-platform-tab="stat3" class="px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/80 text-slate-300 hover:text-white transition">
+                        <i class="fas fa-users-viewfinder mr-1.5"></i> Biometrik Reyestr
+                    </button>
+                    <button data-platform-tab="stat4" class="px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800/80 text-slate-300 hover:text-white transition">
+                        <i class="fas fa-file-excel mr-1.5"></i> Elektron Jurnal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 1: Xavfsiz Portal -->
+            <div data-platform-content="stat1" class="glass-panel p-6 sm:p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 cursor-pointer group" data-preview-img="assets/statistika1-DhCv2NLr.png" data-preview-title="Xavfsiz Yopiq Tarmoq va Portal">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 group-hover:border-cyan-500/50 transition">
+                            <img src="assets/statistika1-DhCv2NLr.png" alt="Xavfsiz Kirish Portali" class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <span class="bg-cyan-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xl">
+                                    <i class="fas fa-expand mr-1"></i> Katta O'lchamda Ko'rish
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 space-y-4">
+                        <span class="badge badge-cyan">Axborot Xavfsizligi</span>
+                        <h3 class="text-2xl font-bold text-white">Himoyalangan Yopiq Tarmoq va Kirish Portali</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            O'quvchilarning shaxsiy va biometrik ma'lumotlari faqat yopiq himoyalangan serverda saqlanadi. Tashqi ruxsatsiz aralashuvlar 100% cheklangan.
+                        </p>
+                        <ul class="space-y-2.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Davlat xavfsizlik standartlariga to'liq mos</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Direktor va mas'ullar uchun shaxsiy xavfsiz kabinet</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Barcha o'tishlar va xatti-harakatlarning shaffof auditi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Hududiy Xarita -->
+            <div data-platform-content="stat2" class="glass-panel p-6 sm:p-8 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 cursor-pointer group" data-preview-img="assets/statistika2-DqD2u8pg.png" data-preview-title="Hududiy Interaktiv Tahlil">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 group-hover:border-cyan-500/50 transition">
+                            <img src="assets/statistika2-DqD2u8pg.png" alt="Hududiy Xarita" class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <span class="bg-cyan-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xl">
+                                    <i class="fas fa-expand mr-1"></i> Katta O'lchamda Ko'rish
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 space-y-4">
+                        <span class="badge badge-cyan">Markaziy Analitika</span>
+                        <h3 class="text-2xl font-bold text-white">Hududiy Statistik Tahlil va Interaktiv Xarita</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Tumanlar kesimida maktablar soni, o'quvchilar kontingenti, o'g'il bolalar va qizlar balansi hamda hududiy interaktiv xaritasi.
+                        </p>
+                        <ul class="space-y-2.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Interaktiv tumanlar xaritasi</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Real vaqtda o'quvchilar soni dinamikasi</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Tuman va aniq maktablar bo'yicha tezkor filtr</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Biometrik Reyestr -->
+            <div data-platform-content="stat3" class="glass-panel p-6 sm:p-8 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 cursor-pointer group" data-preview-img="assets/statistika3-BOXYDjaC.png" data-preview-title="Biometrik O'quvchilar Bazasi">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 group-hover:border-cyan-500/50 transition">
+                            <img src="assets/statistika3-BOXYDjaC.png" alt="Biometrik Baza" class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <span class="bg-cyan-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xl">
+                                    <i class="fas fa-expand mr-1"></i> Katta O'lchamda Ko'rish
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 space-y-4">
+                        <span class="badge badge-cyan">Biometrik Baza</span>
+                        <h3 class="text-2xl font-bold text-white">To'liq Biometrik Reyestr va O'quvchilar Bazasi</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            O'quvchilar rasmlari, tug'ilganlik guvohnomalari, sanasi, jinsi, maktabi va sinflari to'liq raqamlashgan yagona elektron reyestr.
+                        </p>
+                        <ul class="space-y-2.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> O'quvchi fotosurati va Face ID holati</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Tug'ilganlik guvohnomasi seriya va raqamlari</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Ko'p bosqichli tezkor qidiruv va yangi o'quvchi qo'shish</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Elektron Jurnal -->
+            <div data-platform-content="stat4" class="glass-panel p-6 sm:p-8 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 cursor-pointer group" data-preview-img="assets/statistika4-Dl41ooPE.png" data-preview-title="Elektron Davomat Jurnali">
+                        <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 group-hover:border-cyan-500/50 transition">
+                            <img src="assets/statistika4-Dl41ooPE.png" alt="Elektron Jurnal" class="w-full h-auto object-cover group-hover:scale-[1.01] transition duration-300">
+                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <span class="bg-cyan-600 text-white text-xs font-bold py-2 px-4 rounded-xl shadow-xl">
+                                    <i class="fas fa-expand mr-1"></i> Katta O'lchamda Ko'rish
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 space-y-4">
+                        <span class="badge badge-cyan">Kunlik Jurnal</span>
+                        <h3 class="text-2xl font-bold text-white">Kunlik va Oylik Elektron Davomat Jurnali</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Turniket ma'lumotlari asosida sinflar kesimida kunlik va oylik elektron davomat jurnali real vaqtda avtomatik shakllanadi.
+                        </p>
+                        <ul class="space-y-2.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Har bir o'quvchining to'liq F.I.Sh. va sinfi</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Qatnashgan va qoldirgan kunlarining aniq hisoblagichi</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> Sekundigacha kirish-chiqish vaqti qaydnomasi</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-cyan-400"></i> 1 tugma bilan Excel (.xlsx) formatida to'liq eksport</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- UZBEKISTAN REGIONAL MAP SECTION -->
+    <section id="map" class="py-20 bg-slate-900/30 border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <span class="badge badge-cyan">Respublika Qamrovi</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                    O'zbekiston Viloyatlari Kesimida Davomat Tahlili
+                </h2>
+                <p class="text-slate-400 text-sm">
+                    Hududni tanlang va unga tegishli maktablar soni, o'quvchilar va davomat ko'rsatkichlarini ko'ring.
+                </p>
+            </div>
+
+            <!-- Region selector pills -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-4xl mx-auto">
+                <button data-region="tashkent_city" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Toshkent sh.</button>
+                <button data-region="tashkent_region" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Toshkent vil.</button>
+                <button data-region="samarkand" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Samarqand</button>
+                <button data-region="fergana" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Farg'ona</button>
+                <button data-region="andijan" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Andijon</button>
+                <button data-region="namangan" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Namangan</button>
+                <button data-region="bukhara" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Buxoro</button>
+                <button data-region="kashkadarya" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Qashqadaryo</button>
+                <button data-region="surkhandarya" class="px-3 py-1.5 rounded-lg border border-cyan-400 bg-cyan-500/20 text-cyan-300 text-xs font-semibold transition">Surxondaryo</button>
+                <button data-region="khorezm" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Xorazm</button>
+                <button data-region="navoi" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Navoiy</button>
+                <button data-region="jizzakh" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Jizzax</button>
+                <button data-region="sirdarya" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Sirdaryo</button>
+                <button data-region="karakalpakstan" class="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-800/60 text-slate-300 text-xs font-semibold transition">Qoraqalpog'iston</button>
+            </div>
+
+            <!-- Selected Region Card -->
+            <div class="max-w-4xl mx-auto glass-panel p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-slate-500">Tanlangan Hudud</span>
+                        <h3 id="mapSelectedRegionName" class="text-2xl font-bold text-white">Surxondaryo viloyati</h3>
+                    </div>
+                    <div class="mt-2 sm:mt-0">
+                        <span class="badge badge-green text-sm">
+                            <i class="fas fa-circle-check"></i> Faol Qamrov
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-xs">Maktablar soni</span>
+                        <h4 id="mapSelectedSchools" class="text-2xl font-bold text-cyan-400 mt-1 font-mono">948 ta</h4>
+                    </div>
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-xs">Jami o'quvchilar</span>
+                        <h4 id="mapSelectedStudents" class="text-2xl font-bold text-white mt-1 font-mono">580,000 nafar</h4>
+                    </div>
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-xs">O'rtacha davomat</span>
+                        <h4 id="mapSelectedAttendance" class="text-2xl font-bold text-emerald-400 mt-1 font-mono">98.4%</h4>
+                    </div>
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-400 text-xs">Turniket yo'laklari</span>
+                        <h4 id="mapSelectedTurnstiles" class="text-2xl font-bold text-indigo-400 mt-1 font-mono">2,800 ta</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALCULATOR SECTION -->
+    <section id="calculator" class="py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto glass-panel p-8 sm:p-12 relative overflow-hidden">
+                <div class="text-center max-w-xl mx-auto mb-10 space-y-2">
+                    <span class="badge badge-cyan" data-i18n="calculator.tag">Onlayn Kalkulyator</span>
+                    <h2 class="text-3xl font-extrabold text-white" data-i18n="calculator.title">
+                        Maktabingiz Uchun Turniket Tizimini Hisoblang
+                    </h2>
+                    <p class="text-slate-400 text-xs" data-i18n="calculator.subtitle">
+                        Maktab o'quvchilari soniga qarab optimal konfiguratsiyani hisoblang.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    <!-- Sliders & Selectors -->
+                    <div class="md:col-span-7 space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="text-sm font-semibold text-slate-300" data-i18n="calculator.studentCount">
+                                    Maktabdagi jami o'quvchilar soni:
+                                </label>
+                                <span id="calcStudentCountVal" class="text-lg font-bold text-cyan-400 font-mono">1,200</span>
+                            </div>
+                            <input type="range" id="calcStudentSlider" min="200" max="3500" step="50" value="1200">
+                            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                                <span>200 (Kichik)</span>
+                                <span>1,500 (O'rta)</span>
+                                <span>3,500+ (Katta)</span>
+                            </div>
+                        </div>
+
+                        <!-- Order Form -->
+                        <form id="calculatorOrderForm" class="space-y-3 pt-4 border-t border-slate-800">
+                            <h4 class="text-xs uppercase tracking-wider text-slate-400 font-bold">Buyurtmachi Ma'lumotlari:</h4>
+                            <div>
+                                <input type="text" id="orderSchoolName" required placeholder="Maktab nomi (Masalan: 101-IDUM)" 
+                                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input type="text" id="orderContactName" required placeholder="Mas'ul F.I.Sh" 
+                                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500">
+                                <input type="tel" id="orderPhone" required placeholder="+998 90 123 45 67" 
+                                       class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full py-3 rounded-xl text-xs font-bold shadow-lg shadow-cyan-500/20">
+                                <i class="fas fa-paper-plane mr-1.5"></i>
+                                <span data-i18n="calculator.submitBtn">Tijoriy Taklif Olish (15 daqiqada)</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Calculated Output Card -->
+                    <div class="md:col-span-5 bg-slate-900/80 rounded-2xl p-6 border border-cyan-500/30 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="pb-3 border-b border-slate-800">
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider">Maktab toifasi:</span>
+                                <h4 id="calcSchoolTypeVal" class="text-sm font-bold text-white">O'rta Maktab (800 – 1,500)</h4>
+                            </div>
+
+                            <div class="space-y-2.5 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400" data-i18n="calculator.turnstiles">Turniket yo'lakchalari:</span>
+                                    <span id="calcTurnstilesVal" class="font-bold text-cyan-400">4 ta</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400" data-i18n="calculator.cameras">Face ID terminallari:</span>
+                                    <span id="calcCamerasVal" class="font-bold text-cyan-400">8 dona</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400" data-i18n="calculator.ups">SmartUPS Zaxira quvvati:</span>
+                                    <span id="calcUpsVal" class="font-bold text-white">1 komplekt (8 soat)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Telegram Bot & SMS:</span>
+                                    <span class="font-bold text-emerald-400">Kiritilgan (Cheksiz)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-slate-800 mt-6">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block" data-i18n="calculator.totalEstimate">Taxminiy to'liq qiymati:</span>
+                            <h3 id="calcTotalCostVal" class="text-2xl font-extrabold text-gradient-cyan font-mono mt-1">
+                                142,000,000 so'm
+                            </h3>
+                            <p class="text-[10px] text-slate-500 mt-2" data-i18n="calculator.included">
+                                To'plam tarkibiga kiradi: ST-100 turniketlar, 3D terminallar, montaj, kabellashtirish, server litsenziyasi va ota-onalar boti.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HARDWARE SHOWCASE -->
+    <section id="hardware" class="py-20 bg-slate-900/30 border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+                <span class="badge badge-cyan">Ishonchli va Sifatli Uskunalar</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+                    Maktablar Uchun Maxsus Moslashtirilgan Apparat Majmuasi
+                </h2>
+                <p class="text-slate-400 text-sm">
+                    Maktab o'quvchilari navbatsiz, tez va erkin kirib-chiqishi uchun maxsus moslashtirilgan mustahkam turniketlar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Hardware 1: Turnstiles -->
+                <div class="glass-panel p-6 space-y-4">
+                    <div class="rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800">
+                        <img src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="EDUGATE ST-100 Turniketlari" class="w-full h-full object-cover">
+                    </div>
+                    <span class="badge badge-cyan text-[10px]">Zanglamaydigan Po'lat</span>
+                    <h3 class="text-lg font-bold text-white">EDUGATE-ST100 Zanglamaydigan Po'lat Turniketlari</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Maktablar uchun maxsus moslashtirilgan qulay va xavfsiz turniket. Ertalabki gavjum paytlarda ham o'quvchilar navbatsiz, erkin va xavfsiz o'tadi.
+                    </p>
+                </div>
+
+                <!-- Hardware 2: AI Face Scanner -->
+                <div class="glass-panel p-6 space-y-4">
+                    <div class="rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800">
+                        <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="Dual Lens 3D Face ID" class="w-full h-full object-cover">
+                    </div>
+                    <span class="badge badge-cyan text-[10px]">Dual-Lens 3D WDR</span>
+                    <h3 class="text-lg font-bold text-white">Aqlli Yuzni Tanish (Face ID) Kameralari</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Yuzni har qanday yorug'likda va burchakda 0.2 soniyada aniqlaydi. Fotosurat yoki telefon ekranini ko'rsatib aldashning oldi 100% olingan.
+                    </p>
+                </div>
+
+                <!-- Hardware 3: Mechanism & UPS -->
+                <div class="glass-panel p-6 space-y-4">
+                    <div class="rounded-xl overflow-hidden aspect-video bg-slate-950 border border-slate-800">
+                        <img src="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" alt="Turniket Mexanizmi" class="w-full h-full object-cover">
+                    </div>
+                    <span class="badge badge-cyan text-[10px]">SmartUPS & Avtonom</span>
+                    <h3 class="text-lg font-bold text-white">Uzluksiz Elektr Ta'minoti (Akkumulyator)</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Elektr o'chib qolgan paytda ham maktabdagi turniketlar va davomat tizimi 6-8 soat davomida to'liq avtonom rejimda ishlashda davom etadi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NATIONAL GUARD & SECURITY ENDORSEMENT -->
+    <section class="py-20 border-t border-slate-800">
+        <div class="container mx-auto px-4">
+            <div class="glass-panel p-8 sm:p-12 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-5 rounded-2xl overflow-hidden aspect-[4/3] bg-slate-950 border border-slate-700">
+                        <img src="assets/milliy_gvardiya_termiz_10_1792418655393-C6Z2hvMJ.jpg" alt="Milliy Gvardiya Maktab Xavfsizligi" class="w-full h-full object-cover">
+                    </div>
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="badge badge-cyan" data-i18n="nationalGuard.tag">Milliy Gvardiya & IIB Xulosasi</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white" data-i18n="nationalGuard.title">
+                            Maktab Xavfsizligi va Intizom Yangi Bosqichda
+                        </h2>
+                        <p class="text-slate-300 text-sm leading-relaxed italic" data-i18n="nationalGuard.statement">
+                            "Maktablarda EDUGATE Face ID turniket tizimi o'rnatilishi natijasida maktab hududiga begona shaxslarning kirishi 100% ga to'xtatildi hamda sababsiz dars qoldirish holatlari 74% ga kamaydi."
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-800 text-xs">
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <i class="fas fa-shield-virus text-cyan-400 text-lg mb-1 block"></i>
+                                <span class="font-bold text-white block">100% To'xtatildi</span>
+                                <span class="text-slate-400 text-[11px]">Begonalar kirishi</span>
+                            </div>
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <i class="fas fa-arrow-trend-down text-emerald-400 text-lg mb-1 block"></i>
+                                <span class="font-bold text-white block">74% Kamaydi</span>
+                                <span class="text-slate-400 text-[11px]">Sababsiz qoldirishlar</span>
+                            </div>
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                                <i class="fas fa-user-shield text-indigo-400 text-lg mb-1 block"></i>
+                                <span class="font-bold text-white block">Real Vaqtda</span>
+                                <span class="text-slate-400 text-[11px]">Inspektor nazorati</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-cyber-950 border-t border-slate-800/80 pt-16 pb-12 text-slate-400 text-xs">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-slate-800">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <img src="Orlan-logo.png" alt="Logo" class="w-8 h-8 rounded-lg">
+                        <span class="text-xl font-bold text-white">EDUGATE</span>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Maktablar, tuman xalq ta'limi bo'limlari va viloyat hokimliklari uchun aqlli davomat va xavfsizlik platformasi.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Tizim Bo'limlari</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="hover:text-cyan-400 transition">Imkoniyatlar</a></li>
+                        <li><a href="#scanner" class="hover:text-cyan-400 transition">Face ID Simulyator</a></li>
+                        <li><a href="#platform" class="hover:text-cyan-400 transition">Dasturiy Panellar</a></li>
+                        <li><a href="#calculator" class="hover:text-cyan-400 transition">Turniket Kalkulyatori</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Boshqaruv & Havolalar</h4>
+                    <ul class="space-y-2">
+                        <li><a href="admin" class="hover:text-cyan-400 font-semibold text-cyan-300 transition">Hokimlik Admin Paneli</a></li>
+                        <li><a href="docs" class="hover:text-cyan-400 transition">FastAPI REST Docs</a></li>
+                        <li><a href="https://t.me/e_davomatbot" target="_blank" class="hover:text-cyan-400 transition">Ota-onalar Telegram Boti</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white uppercase tracking-wider mb-3">Bog'lanish</h4>
+                    <p class="text-xs">Toshkent shahri, O'zbekiston</p>
+                    <p class="text-xs mt-1">Aloqa: +998 71 200 00 20</p>
+                    <p class="text-xs mt-1">Email: info@developerx.uz</p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+                <p>&copy; 2026 EDUGATE. Barcha huquqlar himoyalangan.</p>
+                <p>Ishlab chiquvchi: DeveloperX Agency</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- HIGH RESOLUTION MODAL VIEWER -->
+    <div id="highResModal" class="modal-backdrop">
+        <div class="relative max-w-5xl w-full mx-4 glass-panel p-4 bg-slate-950/95 border border-cyan-500/40">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                <h4 id="highResModalTitle" class="text-sm font-bold text-white">EDUGATE Retina Display View</h4>
+                <button id="closeModalBtn" class="text-slate-400 hover:text-white text-lg p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="rounded-xl overflow-hidden bg-black max-h-[80vh] flex items-center justify-center">
+                <img id="highResModalImg" src="" alt="Modal View" class="max-w-full max-h-[75vh] object-contain">
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/translations.js"></script>
+    <script src="js/scanner.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/edugate.js"></script>
+</body>
+</html>
