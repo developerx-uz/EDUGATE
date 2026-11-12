@@ -1,102 +1,408 @@
-/**
- * EDUGATE Ecosystem Translations Dictionary
- * 5 Languages: Uzbek (uz), English (en), Russian (ru), Kazakh (kz), Kyrgyz (kg)
- */
-
+// EDUGATE Ecosystem Translations Dictionary (5 Languages: UZ, EN, RU, KZ, KG)
 const EdugateI18N = {
-    uz: {
-        nav: {
-            title: "EDUGATE",
-            subtitle: "Hokimlik & MMTV Yagona Xavfsizlik Tizimi",
-            home: "Bosh Sahifa",
-            process: "O'tish Zanjiri",
-            platform: "Dasturiy Panellar",
-            map: "Davomat Radari",
-            hardware: "Uskunalar",
-            contact: "Bog'lanish"
+    "uz": {
+        "nav": {
+            "title": "EDUGATE",
+            "subtitle": "MMTV & Milliy Gvardiya Tizimi",
+            "home": "Bosh Sahifa",
+            "process": "O'tish Zanjiri",
+            "platform": "Dasturiy Panellar",
+            "map": "Davomat Radari",
+            "hardware": "Uskunalar",
+            "contact": "Bog'lanish",
+            "presBtn": "ONLINE PREZENTATSIYA"
         },
-        hero: {
-            badge: "MMTV & IIB STANDARTI • MILLIY GVARDIYA XULOSASI",
-            title: "O'zbekiston Maktablari Uchun Aqlli Face ID Davomat va Yagona Xavfsizlik Majmuasi",
-            desc: "Sun'iy intellekt va yuzni tanish (Face ID Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.",
-            orderBtn: "ONLINE PREZENTATSIYA (9 SLAYD)",
-            panelsBtn: "TIZIM PANELLARI"
+        "hero": {
+            "badge": "MMTV & IIB STANDARTI • MILLIY GVARDIYA XULOSASI",
+            "title": "O'zbekiston Maktablari Uchun Aqlli Face ID Davomat va Yagona Xavfsizlik Majmuasi",
+            "titleHtml": "O'zbekiston Maktablari Uchun <br class='hidden sm:inline'><span class='text-gradient-cyan'>Aqlli Face ID Davomat</span> va <br class='hidden sm:inline'>Yagona Xavfsizlik Majmuasi",
+            "desc": "Sun'iy intellekt va yuzni tanish (Face ID Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.",
+            "orderBtn": "ONLINE PREZENTATSIYA (9 SLAYD)",
+            "panelsBtn": "TIZIM PANELLARI",
+            "statSpeed": "0.18 Sekund",
+            "statSpeedLabel": "TF71 IK",
+            "statDefense": "100% Himoya",
+            "statDefenseLabel": "ANTI-SPOOF",
+            "statUps": "8 Soat (UPS)",
+            "statUpsLabel": "AVTONOM",
+            "statCrypto": "AES-256 GCM",
+            "statCryptoLabel": "SHIFRLASH",
+            "statTelegram": "Oniy Xabar",
+            "statTelegramLabel": "TELEGRAM",
+            "statAutoGate": "Avto-Ochilish",
+            "statAutoGateLabel": "ANTI-PANIKA"
+        },
+        "process": {
+            "badge": "O'TISH VA XAVFSIZLIK MEXANIZMI",
+            "title": "Maktabga Kirishdan Ota-onaga Xabargacha 4 Bosqich",
+            "desc": "Har bir o'quvchining harakati soniyalar ichida avtomatlashtirilgan tarzda qayd etiladi.",
+            "step1Title": "1. Yaqinlashish va Skanerlash",
+            "step1Desc": "O'quvchi turniketga yaqinlashishi bilan neyron kamera uning yuzini 2 metr masofadan aniqlaydi.",
+            "step2Title": "2. Biometrik Tanish (Face ID)",
+            "step2Desc": "3D WDR skaner sun'iy intellekt yordamida yuzni 0.18 soniyada aniqlaydi va bazadan tekshiradi.",
+            "step3Title": "3. Turniket Ochiqligi",
+            "step3Desc": "Shaxs tasdiqlangach, flap-barrier zanglamas qanotlari navbatsiz va xavfsiz ochiladi.",
+            "step4Title": "4. Ota-onaga Oniy Xabar",
+            "step4Desc": "Kirish va chiqish vaqti sekundigacha ota-onaning Telegram botiga va SMS orqali yuboriladi."
+        },
+        "dashboards": {
+            "badge": "DASTURIY TA'MINOT VA INTERFEYSLAR",
+            "title": "Direktor, O'qituvchi va Ota-onalar Uchun Qulay Dasturiy Panellar",
+            "desc": "Barcha maktab ma'lumotlari, sinflar kesimidagi davomat va xavfsizlik tahlillari real vaqt rejimida yagona markazda.",
+            "prevBtn": "Orqaga",
+            "nextBtn": "Keyingisi"
+        },
+        "map": {
+            "badge": "RESPUBLIKA QAMROVI",
+            "title": "O'zbekistonning 14 ta Hududi Bo'yicha Davomat Radari",
+            "desc": "Hududni tanlang va real vaqt ko'rsatkichlarini tekshiring.",
+            "selectedPrefix": "TANLANGAN HUDUD:",
+            "schools": "Maktablar",
+            "students": "O'quvchilar",
+            "avgAttendance": "O'rtacha Davomat",
+            "lanes": "Turniketlar"
+        },
+        "hardware": {
+            "badge": "APPARAT VA USKUNALAR",
+            "title": "Yuqori Yuklamaga Chidamli Sanoat Standartidagi Uskunalar",
+            "desc": "Maktablar uchun maxsus sertifikatlangan, zanglamaydigan po'latdan ishlangan turniketlar va intellektual terminallar.",
+            "tabTurnstile": "Turniketlar (ST-100)",
+            "tabFaceId": "Face ID Terminallari",
+            "tabUps": "UPS va Tarmoq"
+        },
+        "contact": {
+            "badge": "RASMIY ALOQA VA HAMKORLIK",
+            "title": "Maktabingiz Uchun Bepul Smeta va Konsultatsiya Oling",
+            "desc": "Mutaxassislarimiz maktabingizga borib o'rganadi, o'quvchilar soniga mos turniketlar sonini hisoblab beradi.",
+            "namePh": "F.I.SH. (Mas'ul shaxs)",
+            "phonePh": "+998 (__) ___-__-__",
+            "schoolPh": "Maktab raqami yoki tuman",
+            "submitBtn": "BEPUL SMETA VA MASLAHAT OLISH",
+            "stateGuarantee": "Davlat kafolati: 3 yillik to'liq servis va texnik qo'llab-quvvatlash"
         }
     },
-    en: {
-        nav: {
-            title: "EDUGATE",
-            subtitle: "Unified School Attendance & Security Ecosystem",
-            home: "Home",
-            process: "Process Chain",
-            platform: "Dashboards",
-            map: "Attendance Radar",
-            hardware: "Hardware",
-            contact: "Contact"
+    "en": {
+        "nav": {
+            "title": "EDUGATE",
+            "subtitle": "Ministry of Education & National Guard System",
+            "home": "Home",
+            "process": "Access Chain",
+            "platform": "Dashboards",
+            "map": "Attendance Radar",
+            "hardware": "Hardware",
+            "contact": "Contact",
+            "presBtn": "ONLINE PRESENTATION"
         },
-        hero: {
-            badge: "MINISTRY OF EDUCATION & NATIONAL GUARD CERTIFIED",
-            title: "Smart Face ID Attendance & Unified Security Suite for Uzbekistan Schools",
-            desc: "Artificial intelligence facial recognition speed-gates, private encrypted VPN tunnels, and instant real-time Telegram and SMS notifications for parents.",
-            orderBtn: "ONLINE PRESENTATION (9 SLIDES)",
-            panelsBtn: "SYSTEM PANELS"
+        "hero": {
+            "badge": "MINISTRY OF EDUCATION & NATIONAL GUARD CERTIFIED",
+            "title": "Smart Face ID Attendance & Unified Security Suite for Uzbekistan Schools",
+            "titleHtml": "Smart Face ID Attendance <br class='hidden sm:inline'>and <span class='text-gradient-cyan'>Unified Security Suite</span> <br class='hidden sm:inline'>for Uzbekistan Schools",
+            "desc": "AI-driven facial recognition speed gates, private encrypted VPN tunnels, and instant real-time Telegram and SMS arrival/departure notifications for parents.",
+            "orderBtn": "ONLINE PRESENTATION (9 SLIDES)",
+            "panelsBtn": "SYSTEM PANELS",
+            "statSpeed": "0.18 Seconds",
+            "statSpeedLabel": "TF71 IR",
+            "statDefense": "100% Defense",
+            "statDefenseLabel": "ANTI-SPOOF",
+            "statUps": "8 Hours (UPS)",
+            "statUpsLabel": "AUTONOMOUS",
+            "statCrypto": "AES-256 GCM",
+            "statCryptoLabel": "ENCRYPTION",
+            "statTelegram": "Instant Alert",
+            "statTelegramLabel": "TELEGRAM",
+            "statAutoGate": "Auto-Unlock",
+            "statAutoGateLabel": "ANTI-PANIC"
+        },
+        "process": {
+            "badge": "ACCESS & SAFETY MECHANISM",
+            "title": "4 Seamless Steps from Gate Entry to Parent Alert",
+            "desc": "Every student's passage is captured, verified, and logged automatically within split seconds.",
+            "step1Title": "1. Approach & Detection",
+            "step1Desc": "As the student approaches the speed gate, high-res optical neural cameras detect faces up to 2 meters away.",
+            "step2Title": "2. Biometric Verification (Face ID)",
+            "step2Desc": "3D WDR scanner matches facial geometry with neural database in just 0.18s with active anti-spoofing.",
+            "step3Title": "3. Speed Gate Opening",
+            "step3Desc": "Upon identity confirmation, frictionless flap barrier wings unlock immediately for queue-free safe transit.",
+            "step4Title": "4. Instant Parent Notification",
+            "step4Desc": "Precise timestamp down to the second is delivered to parents via official Telegram bot and SMS gateway."
+        },
+        "dashboards": {
+            "badge": "SOFTWARE ECOSYSTEM & INTERFACES",
+            "title": "Dedicated Dashboards for Principals, Teachers & Parents",
+            "desc": "School-wide attendance rosters, grade statistics, and live telemetry aggregated in a central command view.",
+            "prevBtn": "Previous",
+            "nextBtn": "Next"
+        },
+        "map": {
+            "badge": "NATIONWIDE COVERAGE",
+            "title": "Real-time Attendance Radar Across 14 Regions of Uzbekistan",
+            "desc": "Select any region to inspect real-time metrics and school safety status.",
+            "selectedPrefix": "SELECTED REGION:",
+            "schools": "Schools",
+            "students": "Students",
+            "avgAttendance": "Avg Attendance",
+            "lanes": "Gate Lanes"
+        },
+        "hardware": {
+            "badge": "HARDWARE & INFRASTRUCTURE",
+            "title": "Heavy-Duty Industrial Grade Equipment for Schools",
+            "desc": "Certified stainless steel speed gates, anti-pinch infrared sensors, and neural biometric scanners.",
+            "tabTurnstile": "Turnstiles (ST-100)",
+            "tabFaceId": "Face ID Terminals",
+            "tabUps": "UPS & Network"
+        },
+        "contact": {
+            "badge": "OFFICIAL INQUIRY & PARTNERSHIP",
+            "title": "Request Free Equipment Calculation & Consultation for Your School",
+            "desc": "Our engineering specialists will inspect your entrance architecture and calculate optimal gate capacity.",
+            "namePh": "Full Name (School Representative)",
+            "phonePh": "+998 (__) ___-__-__",
+            "schoolPh": "School Number or District",
+            "submitBtn": "REQUEST FREE QUOTE & CONSULTATION",
+            "stateGuarantee": "State Guarantee: 3-Year comprehensive warranty and 24/7 technical maintenance"
         }
     },
-    ru: {
-        nav: {
-            title: "EDUGATE",
-            subtitle: "Единая Система Безопасности и Посещаемости Школ",
-            home: "Главная",
-            process: "Цепочка Доступа",
-            platform: "Интерфейсы",
-            map: "Радар Посещаемости",
-            hardware: "Оборудование",
-            contact: "Контакты"
+    "ru": {
+        "nav": {
+            "title": "EDUGATE",
+            "subtitle": "Система МДО и Национальной Гвардии",
+            "home": "Главная",
+            "process": "Цепочка Доступа",
+            "platform": "Интерфейсы",
+            "map": "Радар Посещаемости",
+            "hardware": "Оборудование",
+            "contact": "Контакты",
+            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
         },
-        hero: {
-            badge: "СТАНДАРТ МДО & ЗАКЛЮЧЕНИЕ НАЦИОНАЛЬНОЙ ГВАРДИИ",
-            title: "Умный комплекс Face ID посещаемости и единой безопасности для школ Узбекистана",
-            desc: "Интеллектуальные скоростные турникеты с распознаванием лиц (Face ID), защищенные шифрованные VPN-каналы и мгновенные уведомления родителям в Telegram и SMS.",
-            orderBtn: "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙДОВ)",
-            panelsBtn: "ПАНЕЛИ СИСТЕМЫ"
+        "hero": {
+            "badge": "СТАНДАРТ МДО & ЗАКЛЮЧЕНИЕ НАЦИОНАЛЬНОЙ ГВАРДИИ",
+            "title": "Умный комплекс Face ID посещаемости и единой безопасности для школ Узбекистана",
+            "titleHtml": "Умный комплекс <span class='text-gradient-cyan'>Face ID посещаемости</span> <br class='hidden sm:inline'>и единой безопасности <br class='hidden sm:inline'>для школ Узбекистана",
+            "desc": "Интеллектуальные скоростные турникеты с распознаванием лиц (Face ID), защищенные шифрованные VPN-каналы и мгновенные уведомления родителям в Telegram и SMS.",
+            "orderBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙДОВ)",
+            "panelsBtn": "ПАНЕЛИ СИСТЕМЫ",
+            "statSpeed": "0.18 Секунды",
+            "statSpeedLabel": "TF71 ИК",
+            "statDefense": "100% Защита",
+            "statDefenseLabel": "АНТИ-СПУФИНГ",
+            "statUps": "8 Часов (ИБП)",
+            "statUpsLabel": "АВТОНОМНОСТЬ",
+            "statCrypto": "AES-256 GCM",
+            "statCryptoLabel": "ШИФРОВАНИЕ",
+            "statTelegram": "Мгновенно",
+            "statTelegramLabel": "TELEGRAM",
+            "statAutoGate": "Авто-Открытие",
+            "statAutoGateLabel": "АНТИПАНИКА"
+        },
+        "process": {
+            "badge": "МЕХАНИЗМ ПРОХОДА И БЕЗОПАСНОСТИ",
+            "title": "4 Шага: От входа в школу до уведомления родителей",
+            "desc": "Каждое перемещение учащегося фиксируется автоматически в считанные доли секунды.",
+            "step1Title": "1. Приближение и Сканирование",
+            "step1Desc": "При приближении школьника к турникету нейросетевая камера захватывает лицо на расстоянии до 2 метров.",
+            "step2Title": "2. Биометрическое Распознавание (Face ID)",
+            "step2Desc": "3D WDR сканер сверяет лицо с локальной базой за 0.18 секунды с защитой от подделок фото.",
+            "step3Title": "3. Открытие Турникета",
+            "step3Desc": "После подтверждения личности скоростные створки турникета мгновенно и безопасно открываются.",
+            "step4Title": "4. Мгновенное Оповещение Родителей",
+            "step4Desc": "Точное время входа и выхода до секунды отправляется родителям в Telegram-бот и по SMS."
+        },
+        "dashboards": {
+            "badge": "ПРОГРАММНЫЙ КОМПЛЕКС И ИНТЕРФЕЙСЫ",
+            "title": "Удобные программные панели для директора, учителей и родителей",
+            "desc": "Электронный журнал посещаемости, аналитика по классам и оперативная телеметрия безопасности.",
+            "prevBtn": "Назад",
+            "nextBtn": "Вперед"
+        },
+        "map": {
+            "badge": "РЕСПУБЛИКАНСКИЙ ОХВАТ",
+            "title": "Радар Посещаемости по 14 Регионам Узбекистана",
+            "desc": "Выберите регион для проверки посещаемости и показателей в реальном времени.",
+            "selectedPrefix": "ВЫБРАННЫЙ РЕГИОН:",
+            "schools": "Школы",
+            "students": "Учащиеся",
+            "avgAttendance": "Средняя Посещаемость",
+            "lanes": "Турникеты"
+        },
+        "hardware": {
+            "badge": "ОБОРУДОВАНИЕ И АППАРАТНАЯ ЧАСТЬ",
+            "title": "Промышленное надежное оборудование для школ",
+            "desc": "Сертифицированные скоростные турникеты из нержавеющей стали AISI 304 и биометрические терминалы.",
+            "tabTurnstile": "Турникеты (ST-100)",
+            "tabFaceId": "Терминалы Face ID",
+            "tabUps": "ИБП и Сеть"
+        },
+        "contact": {
+            "badge": "ОФИЦИАЛЬНАЯ СВЯЗЬ И СОТРУДНИЧЕСТВО",
+            "title": "Получите бесплатную смету и консультацию для вашей школы",
+            "desc": "Наши инженеры проведут аудит входной группы вашей школы и рассчитают необходимое число полос прохода.",
+            "namePh": "Ф.И.О. (Ответственное лицо)",
+            "phonePh": "+998 (__) ___-__-__",
+            "schoolPh": "Номер школы или район",
+            "submitBtn": "ПОЛУЧИТЬ БЕСПЛАТНУЮ СМЕТУ",
+            "stateGuarantee": "Государственная гарантия: 3 года полного сервиса и техподдержки 24/7"
         }
     },
-    kz: {
-        nav: {
-            title: "EDUGATE",
-            subtitle: "Әкімдік және Оқу-ағарту Бірыңғай Қауіпсіздік Жүйесі",
-            home: "Басты Бет",
-            process: "Қолжетімділік Тізбегі",
-            platform: "Басқару Панельдері",
-            map: "Қатысу Радары",
-            hardware: "Құрылғылар",
-            contact: "Байланыс"
+    "kz": {
+        "nav": {
+            "title": "EDUGATE",
+            "subtitle": "Оқу-ағарту және Ұлттық Ұлан Бірыңғай Жүйесі",
+            "home": "Басты Бет",
+            "process": "Қолжетімділік Тізбегі",
+            "platform": "Басқару Панельдері",
+            "map": "Қатысу Радары",
+            "hardware": "Құрылғылар",
+            "contact": "Байланыс",
+            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
         },
-        hero: {
-            badge: "ОҚУ-АҒАРТУ ЖӘНЕ ҰЛТТЫҚ ҰЛАН СЕРТИФИКАТТАЛҒАН",
-            title: "Өзбекстан Мектептері Үшін Face ID Қатысу Және Бірыңғай Қауіпсіздік Кешені",
-            desc: "Жасанды интеллект және бет-әлпетті тану (Face ID) негізіндегі турникеттер, шифрланған VPN арналары және ата-аналарға Telegram мен SMS арқылы жедел хабарламалар.",
-            orderBtn: "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙД)",
-            panelsBtn: "ЖҮЙЕ ПАНЕЛЬДЕРІ"
+        "hero": {
+            "badge": "ОҚУ-АҒАРТУ ЖӘНЕ ҰЛТТЫҚ ҰЛАН СЕРТИФИКАТТАЛҒАН",
+            "title": "Өзбекстан Мектептері Үшін Face ID Қатысу Және Бірыңғай Қауіпсіздік Кешені",
+            "titleHtml": "Өзбекстан Мектептері Үшін <br class='hidden sm:inline'><span class='text-gradient-cyan'>Face ID Қатысу</span> Және <br class='hidden sm:inline'>Бірыңғай Қауіпсіздік Кешені",
+            "desc": "Жасанды интеллект және бет-әлпетті тану (Face ID) негізіндегі турникеттер, шифрланған VPN арналары және ата-аналарға Telegram мен SMS арқылы жедел хабарламалар.",
+            "orderBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙД)",
+            "panelsBtn": "ЖҮЙЕ ПАНЕЛЬДЕРІ",
+            "statSpeed": "0.18 Секунд",
+            "statSpeedLabel": "TF71 ИҚ",
+            "statDefense": "100% Қорғаныс",
+            "statDefenseLabel": "АНТИ-СПУФИНГ",
+            "statUps": "8 Сағат (UPS)",
+            "statUpsLabel": "АВТОНОМДЫ",
+            "statCrypto": "AES-256 GCM",
+            "statCryptoLabel": "ШИФРЛАУ",
+            "statTelegram": "Лезде Хабар",
+            "statTelegramLabel": "TELEGRAM",
+            "statAutoGate": "Авто-Ашылу",
+            "statAutoGateLabel": "АНТИПАНИКА"
+        },
+        "process": {
+            "badge": "ӨТУ ЖӘНЕ ҚАУІПСІЗДІК ТЕТІГІ",
+            "title": "Мектепке кіруден ата-анаға хабарға дейін 4 кезең",
+            "desc": "Әрбір оқушының қозғалысы секундтар ішінде автоматты түрде тіркеледі.",
+            "step1Title": "1. Жақындау және Сканерлеу",
+            "step1Desc": "Оқушы турникетке жақындаған сәтте камера оның бет-бейнесін 2 метр қашықтықтан анықтайды.",
+            "step2Title": "2. Биометриялық Тану (Face ID)",
+            "step2Desc": "3D WDR сканері бетті 0.18 секундта танып, база бойынша тексереді.",
+            "step3Title": "3. Турникеттің Ашылуы",
+            "step3Desc": "Тұлға расталған соң тот баспайтын қанаттар кезексіз әрі қауіпсіз ашылады.",
+            "step4Title": "4. Ата-анаға Лезде Хабарлама",
+            "step4Desc": "Кіру және шығу уақыты секундқа дейін ата-ананың Telegram ботына және SMS арқылы жіберіледі."
+        },
+        "dashboards": {
+            "badge": "БАҒДАРЛАМАЛЫҚ ҚАМТАМАСЫЗ ЕТУ ЖӘНЕ ИНТЕРФЕЙСТЕР",
+            "title": "Директор, мұғалімдер мен ата-аналарға арналған ыңғайлы басқару панельдері",
+            "desc": "Мектептегі барлық деректер, сыныптар бойынша қатысу және қауіпсіздік талдауы бір орталықта.",
+            "prevBtn": "Артқа",
+            "nextBtn": "Алға"
+        },
+        "map": {
+            "badge": "РЕСПУБЛИКАЛЫҚ ҚАМТУ",
+            "title": "Өзбекстанның 14 Аймағы Бойынша Қатысу Радары",
+            "desc": "Аймақты таңдап, нақты уақыт көрсеткіштерін тексеріңіз.",
+            "selectedPrefix": "ТАҢДАЛҒАН АЙМАҚ:",
+            "schools": "Мектептер",
+            "students": "Оқушылар",
+            "avgAttendance": "Орташа Қатысу",
+            "lanes": "Турникеттер"
+        },
+        "hardware": {
+            "badge": "АППАРАТТЫҚ ҚҰРЫЛҒЫЛАР",
+            "title": "Жоғары жүктемеге төзімді өндірістік деңгейдегі құрылғылар",
+            "desc": "Мектептерге арналған тот баспайтын болаттан жасалған турникеттер мен биометриялық терминалдар.",
+            "tabTurnstile": "Турникеттер (ST-100)",
+            "tabFaceId": "Face ID Терминалдары",
+            "tabUps": "UPS және Желі"
+        },
+        "contact": {
+            "badge": "РЕСМИ БАЙЛАНЫС ЖӘНЕ ЫНТЫМАҚТАСТЫҚ",
+            "title": "Мектебіңіз үшін тегін смета және кеңес алыңыз",
+            "desc": "Мамандарымыз мектебіңізге барып зерттеп, оқушылар санына сәйкес турникеттерді есептеп береді.",
+            "namePh": "Аты-жөні (Жауапты тұлға)",
+            "phonePh": "+998 (__) ___-__-__",
+            "schoolPh": "Мектеп нөмірі немесе аудан",
+            "submitBtn": "ТЕГІН СМЕТА ЖӘНЕ КЕҢЕС АЛУ",
+            "stateGuarantee": "Мемлекеттік кепілдік: 3 жылдық толық сервис және 24/7 техникалық қолдау"
         }
     },
-    kg: {
-        nav: {
-            title: "EDUGATE",
-            subtitle: "Мэрия жана Билим Беруу Бирдиктүү Коопсуздук Системасы",
-            home: "Башкы Бет",
-            process: "Өтүү Чынжыры",
-            platform: "Башкаруу Панелдери",
-            map: "Катышуу Радары",
-            hardware: "Жабдуулар",
-            contact: "Байланыш"
+    "kg": {
+        "nav": {
+            "title": "EDUGATE",
+            "subtitle": "Билим берүү жана Улуттук Гвардия Бирдиктүү Системасы",
+            "home": "Башкы Бет",
+            "process": "Өтүү Чынжыры",
+            "platform": "Башкаруу Панелдери",
+            "map": "Катышуу Радары",
+            "hardware": "Жабдуулар",
+            "contact": "Байланыш",
+            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
         },
-        hero: {
-            badge: "БИЛИМ БЕРҮҮ МИНИСТРЛИГИ ЖАНА УЛУТТУК ГВАРДИЯ СТАНДАРТЫ",
-            title: "Өзбекстан Мектептери Үчүн Face ID Катышуу Жана Бирдиктүү Коопсуздук Комплекси",
-            desc: "Жасалма интеллект жана бет таануу (Face ID) технологияларына негизделген акылдуу турникеттер, шифрленген VPN каналдары жана ата-энелер үчүн Telegram/SMS билдирүүлөрү.",
-            orderBtn: "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙД)",
-            panelsBtn: "СИСТЕМА ПАНЕЛДЕРИ"
+        "hero": {
+            "badge": "БИЛИМ БЕРҮҮ МИНИСТРЛИГИ ЖАНА УЛУТТУК ГВАРДИЯ СТАНДАРТЫ",
+            "title": "Өзбекстан Мектептери Үчүн Face ID Катышуу Жана Бирдиктүү Коопсуздук Комплекси",
+            "titleHtml": "Өзбекстан Мектептери Үчүн <br class='hidden sm:inline'><span class='text-gradient-cyan'>Face ID Катышуу</span> Жана <br class='hidden sm:inline'>Бирдиктүү Коопсуздук Комплекси",
+            "desc": "Жасалма интеллект жана бет таануу (Face ID) технологияларына негизделген акылдуу турникеттер, шифрленген VPN каналдары жана ата-энелер үчүн Telegram/SMS билдирүүлөрү.",
+            "orderBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ (9 СЛАЙД)",
+            "panelsBtn": "СИСТЕМА ПАНЕЛДЕРИ",
+            "statSpeed": "0.18 Секунд",
+            "statSpeedLabel": "TF71 ИК",
+            "statDefense": "100% Коргоо",
+            "statDefenseLabel": "АНТИ-СПУФИНГ",
+            "statUps": "8 Саат (UPS)",
+            "statUpsLabel": "АВТОНОМДУУ",
+            "statCrypto": "AES-256 GCM",
+            "statCryptoLabel": "ШИФРЛӨӨ",
+            "statTelegram": "Ыкчам Билдирүү",
+            "statTelegramLabel": "TELEGRAM",
+            "statAutoGate": "Авто-Ачылуу",
+            "statAutoGateLabel": "АНТИПАНИКА"
+        },
+        "process": {
+            "badge": "ӨТҮҮ ЖАНА КООПСУЗДУК МЕХАНИЗМИ",
+            "title": "Мектепке кирүүдөн ата-энеге кабарга чейин 4 баскыч",
+            "desc": "Ар бир окуучунун кыймылы секунда ичинде автоматтык түрдө жазылат.",
+            "step1Title": "1. Жакындашуу жана Сканерлөө",
+            "step1Desc": "Окуучу турникетке жакындаганда камера анын жүзүн 2 метр аралыктан аныктайт.",
+            "step2Title": "2. Биометрикалык Таануу (Face ID)",
+            "step2Desc": "3D WDR сканери жүздү 0.18 секундада аныктап, базадан текшерет.",
+            "step3Title": "3. Турникеттин Ачылышы",
+            "step3Desc": "Инсан тастыкталгандан кийин дат баспаган канаттар кезексиз жана коопсуз ачылат.",
+            "step4Title": "4. Ата-энеге Ыкчам Билдирүү",
+            "step4Desc": "Кирүү жана чыгуу убактысы секундасына чейин Telegram бот жана SMS аркылуу жиберилет."
+        },
+        "dashboards": {
+            "badge": "ПРОГРАММАЛЫК КАМСЫЗДОО ЖАНА ИНТЕРФЕЙСТЕР",
+            "title": "Директор, мугалимдер жана ата-энелер үчүн ыңгайлуу программалык панелдер",
+            "desc": "Мектептеги бардык маалыматтар, класстар боюнча катышуу жана коопсуздук анализи бир жерде.",
+            "prevBtn": "Артка",
+            "nextBtn": "Алга"
+        },
+        "map": {
+            "badge": "РЕСПУБЛИКАЛЫК КАМТУУ",
+            "title": "Өзбекстандын 14 Аймагы Боюнча Катышуу Радары",
+            "desc": "Аймакты тандап, реалдуу көрсөткүчтөрдү текшериңиз.",
+            "selectedPrefix": "ТАНДАЛГАН АЙМАК:",
+            "schools": "Мектептер",
+            "students": "Окуучулар",
+            "avgAttendance": "Орточо Катышуу",
+            "lanes": "Турникеттер"
+        },
+        "hardware": {
+            "badge": "АППАРАТТЫК ЖАБДУУЛАР",
+            "title": "Жогорку жүктөмгө туруктуу өнөр жай деңгээлиндеги жабдуулар",
+            "desc": "Мектептер үчүн дат баспаган болоттон жасалган турникеттер жана биометрикалык терминалдар.",
+            "tabTurnstile": "Турникеттер (ST-100)",
+            "tabFaceId": "Face ID Терминалдары",
+            "tabUps": "UPS жана Тармак"
+        },
+        "contact": {
+            "badge": "РАСМИЙ БАЙЛАНЫШ ЖАНА КЫЗМАТТАШТЫК",
+            "title": "Мектебиңиз үчүн акысыз смета жана консультация алыңыз",
+            "desc": "Адистерибиз мектебиңизге барып, окуучулар санына жараша турникеттерди эсептеп беришет.",
+            "namePh": "Аты-жөнү (Жооптуу адам)",
+            "phonePh": "+998 (__) ___-__-__",
+            "schoolPh": "Мектеп номери же район",
+            "submitBtn": "АКЫСЫЗ СМЕТА ЖАНА КЕҢЕШ АЛУУ",
+            "stateGuarantee": "Мамлекеттик кепилдик: 3 жылдык толук тейлөө жана 24/7 техникалык колдоо"
         }
     }
 };
