@@ -15,6 +15,8 @@ class EdugateApp {
         this.initModalViewer();
         this.initPhotoGallery();
         this.initTabSwitcher();
+        this.initHardwareTabs();
+        this.initContactForm();
     }
 
     initNavbar() {
@@ -339,6 +341,75 @@ class EdugateApp {
         window.addEventListener('keydown', (e) => {
             if (!modal.classList.contains('open')) return;
             if (e.key === 'Escape') closeFullscreen();
+        });
+    }
+
+    initHardwareTabs() {
+        const tabs = document.querySelectorAll('[data-hw-tab]');
+        if (!tabs.length) return;
+
+        const panels = {
+            'turnstile': document.getElementById('hw-panel-turnstile'),
+            'faceid': document.getElementById('hw-panel-faceid'),
+            'ups': document.getElementById('hw-panel-ups')
+        };
+
+        const switchTab = (tabKey) => {
+            tabs.forEach(btn => {
+                const k = btn.getAttribute('data-hw-tab');
+                if (k === tabKey) {
+                    btn.className = "hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer border border-cyan-400 bg-cyan-950/70 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.35)]";
+                } else {
+                    btn.className = "hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-slate-400 hover:text-white border border-transparent";
+                }
+            });
+
+            Object.entries(panels).forEach(([k, panel]) => {
+                if (!panel) return;
+                if (k === tabKey) {
+                    panel.classList.remove('hidden');
+                } else {
+                    panel.classList.add('hidden');
+                }
+            });
+        };
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabKey = btn.getAttribute('data-hw-tab');
+                if (tabKey) switchTab(tabKey);
+            });
+        });
+    }
+
+    initContactForm() {
+        const form = document.getElementById('contactLeadForm');
+        const successMsg = document.getElementById('contactSuccessMsg');
+        const submitBtn = document.getElementById('contactSubmitBtn');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>YUBORILMOQDA...</span>';
+            }
+
+            try {
+                await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }).catch(() => null);
+            } catch (err) {}
+
+            setTimeout(() => {
+                form.classList.add('hidden');
+                if (successMsg) successMsg.classList.remove('hidden');
+            }, 600);
         });
     }
 

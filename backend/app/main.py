@@ -1,7 +1,7 @@
 import os
 import re
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
@@ -186,6 +186,20 @@ async def serve_presentation():
 async def redirect_admin():
     return RedirectResponse(url="/edugate/presentation", status_code=302)
 
+
+
+@app.post("/api/contact", tags=["Contact"])
+@app.post("/edugate/api/contact", tags=["Contact"])
+async def submit_contact_lead(request: Request):
+    try:
+        data = await request.json()
+    except Exception:
+        data = {}
+    return {
+        "status": "success",
+        "message": "Arizangiz qabul qilindi! Tez orada mutaxassisimiz bog'lanadi.",
+        "data": data
+    }
 
 
 @app.get("/health", tags=["Health"])

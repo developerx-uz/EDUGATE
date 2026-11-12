@@ -51,12 +51,13 @@
             </a>
 
             <!-- Nav Links: To'liq balandlikda (h-full), faol chiziq to'g'ridan-to'g'ri header pastki chizig'i ustiga tushadi -->
-            <nav class="nav-container hidden lg:flex items-center h-full gap-6 xl:gap-8 relative">
+            <nav class="nav-container hidden lg:flex items-center h-full gap-5 xl:gap-7 relative">
                 <a href="#hero" class="nav-link active">Bosh Sahifa</a>
                 <a href="#process" class="nav-link">O'tish Zanjiri</a>
                 <a href="#dashboards" class="nav-link">Dasturiy Panellar</a>
                 <a href="#map-analytics" class="nav-link">Davomat Radari</a>
                 <a href="#hardware-specs" class="nav-link">Uskunalar</a>
+                <a href="#contact" class="nav-link">Bog'lanish</a>
                 <span id="navActiveLine" class="nav-active-line"></span>
             </nav>
 
@@ -95,6 +96,7 @@
             <a href="#dashboards" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Dasturiy Panellar</a>
             <a href="#map-analytics" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Davomat Radari</a>
             <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Uskunalar</a>
+            <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Bog'lanish</a>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
                 <button type="button" data-theme-toggle class="theme-toggle-simple h-[30px] px-2 text-[11px]">
                     <i class="fas fa-sun text-amber-400 text-xs"></i>
@@ -1293,226 +1295,504 @@
         </div>
     </section>
 
-    <!-- 7. EXPANDED HARDWARE BLUEPRINT (100% 1 SCREEN FIT & RETINA MODAL READY) -->
-    <section id="hardware-specs" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-3 sm:py-4 bg-[#050A17]/85 border-b border-slate-800/80 relative">
+    <!-- 7. UNIQUE HARDWARE FLAGSHIP STUDIO (100% 1 SCREEN FIT) -->
+    <section id="hardware-specs" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-3 sm:py-4 bg-[#040814] border-b border-slate-800/80 relative overflow-hidden">
+        
+        <!-- Ambient radial lighting behind hardware pod -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-b from-cyan-500/10 via-indigo-500/5 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-2 sm:mb-3 space-y-0.5">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">SANOAT APPARAT MAJMUASI • USKUNALAR PASPORTI</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[25px] font-black text-white leading-tight">
+                    Maktablar Uchun Maxsus Moslashtirilgan Apparat Majmuasi
+                </h2>
+                <p class="text-slate-400 text-xs sm:text-[13px]">
+                    Milliy Gvardiya xavfsizlik talablariga 100% javob beruvchi sanoat darajasidagi texnika.
+                </p>
+            </div>
+
+            <!-- Top Futuristic Segmented Device Switcher -->
+            <div class="max-w-xl mx-auto w-full mb-3 flex items-center justify-center p-1 rounded-xl bg-slate-950/90 border border-slate-800/90 shadow-lg">
+                <button type="button" data-hw-tab="turnstile" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer border border-cyan-400 bg-cyan-950/70 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.35)]">
+                    <i class="fas fa-shield-halved text-xs"></i>
+                    <span>01. ST-100 TURNIKET</span>
+                </button>
+                <button type="button" data-hw-tab="faceid" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-slate-400 hover:text-white border border-transparent">
+                    <i class="fas fa-camera text-xs"></i>
+                    <span>02. FACE ID TERMINAL</span>
+                </button>
+                <button type="button" data-hw-tab="ups" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-slate-400 hover:text-white border border-transparent">
+                    <i class="fas fa-bolt text-xs"></i>
+                    <span>03. SMARTUPS QUVVAT</span>
+                </button>
+            </div>
+
+            <!-- Main Hardware Studio Pod: 2-Column Split (Left: Technical Dossier, Right: Spotlight Showcase with Floating Pins) -->
+            <div class="rounded-2xl border border-slate-700/80 bg-gradient-to-b from-slate-950/95 via-[#060c18]/95 to-slate-950/95 p-4 sm:p-5 lg:p-6 shadow-[0_25px_60px_-15px_rgba(6,182,212,0.25)] relative overflow-hidden backdrop-blur-md">
+                
+                <!-- DEVICE 1: ST-100 TURNIKET PANEL -->
+                <div id="hw-panel-turnstile" class="hw-panel grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    
+                    <!-- Left: Technical Dossier (5 cols) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2">APPARAT #01</span>
+                                <span class="text-cyan-400 font-mono text-xs font-bold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                                    5,000,000 TSIKL RESURS
+                                </span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+                                EDUGATE-ST100 Zanglamaydigan Turniket
+                            </h3>
+                            <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed mt-1">
+                                Maktab o'quvchilari oqimi uchun maxsus ishlangan, shovqinsiz tezkor servo-motorli, 1.5mm AISI 304 po'lat korpusli va to'liq bolalar xavfsizligi datchiklari bilan jihozlangan turniket majmuasi.
+                            </p>
+                        </div>
+
+                        <!-- Technical Parameter Grid (2x2) -->
+                        <div class="grid grid-cols-2 gap-2.5 font-mono text-xs">
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">O'tkazuvchanlik</span>
+                                <span class="text-cyan-400 font-bold text-sm">45 o'quvchi / daqiqa</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Anti-Panika</span>
+                                <span class="text-emerald-400 font-bold text-sm">Avtomatik Erkin Ochilish</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Korpus Materiali</span>
+                                <span class="text-white font-bold text-sm">1.5mm AISI 304 Po'lat</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Himoya Standarti</span>
+                                <span class="text-purple-400 font-bold text-sm">IP54 Chang & Namlik</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer" onclick="document.querySelector('#hw-panel-turnstile [data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>Retina 4K Pasport</span>
+                            </button>
+                            <a href="#contact" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-cyan-400 transition">
+                                <i class="fas fa-calculator text-cyan-400 text-xs"></i>
+                                <span>Smeta Olish</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Spotlight Showcase Studio with Floating Hologram Pins (7 cols) -->
+                    <div class="lg:col-span-7">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#061224] to-[#020610] border border-cyan-500/30 p-2 sm:p-3 shadow-[0_20px_50px_-10px_rgba(6,182,212,0.3)] cursor-pointer group/studio" data-preview-img="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" data-preview-title="EDUGATE-ST100 Zanglamaydigan Turniket (Termiz 11-maktab)" title="Retina 4K ko'rish">
+                            
+                            <!-- Main High-Res Image -->
+                            <div class="relative aspect-[16/10] max-h-[340px] sm:max-h-[370px] w-full rounded-xl overflow-hidden bg-black/60 flex items-center justify-center">
+                                <img src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="ST-100" class="w-full h-full object-cover transition-transform duration-500 group-hover/studio:scale-[1.02]">
+                                
+                                <!-- Floating Holographic Callout Pin 1: AISI 304 -->
+                                <div class="absolute top-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-cyan-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(6,182,212,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                        <span class="text-[10px] font-mono font-bold text-cyan-300 uppercase">AISI 304 Zanglamas Po'lat</span>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Holographic Callout Pin 2: Anti-Panika -->
+                                <div class="absolute bottom-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-emerald-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(16,185,129,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-emerald-300 uppercase">Anti-Panika Avto-Ochilish</span>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Holographic Callout Pin 3: Servo -->
+                                <div class="absolute top-4 right-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-purple-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(168,85,247,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-purple-300 uppercase">5,000,000 Ochilish Servosi</span>
+                                    </div>
+                                </div>
+
+                                <!-- Overlay Hover Glow -->
+                                <div class="absolute inset-0 bg-cyan-950/25 opacity-0 group-hover/studio:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono font-bold shadow-2xl flex items-center gap-2">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K PASPORTINI OCHISH
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Studio Telemetry Bar -->
+                            <div class="mt-2 px-3 py-1.5 bg-slate-950/90 rounded-lg border border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <span class="text-cyan-400 flex items-center gap-1.5"><i class="fas fa-circle text-[7px] text-emerald-400 animate-pulse"></i> SERTIFIKAT: MILLIY GVARDIYA №24/MG</span>
+                                <span class="text-slate-500">TERMIZ 11-MAKTAB FAOL OBYEKTI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEVICE 2: FACE ID TERMINAL PANEL (Hidden by default) -->
+                <div id="hw-panel-faceid" class="hw-panel hidden grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    
+                    <!-- Left: Technical Dossier (5 cols) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="badge-tech badge-indigo text-[10px] py-0.5 px-2">APPARAT #02</span>
+                                <span class="text-emerald-400 font-mono text-xs font-bold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    ANIQLIK: 99.87%
+                                </span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+                                Aqlli Yuzni Tanish (Face ID) Terminali
+                            </h3>
+                            <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed mt-1">
+                                Dual-Lens 3D WDR optikasi va neyron tarmoqqa asoslangan terminal. 0.18 soniyada o'quvchi yuzini har qanday yoritishda taniydi va qalbaki fotosurat/video (Anti-Spoofing) orqali aldashni 100% istisno qiladi.
+                            </p>
+                        </div>
+
+                        <!-- Technical Parameter Grid (2x2) -->
+                        <div class="grid grid-cols-2 gap-2.5 font-mono text-xs">
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Tanish Tezligi</span>
+                                <span class="text-cyan-400 font-bold text-sm">0.18 soniya</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Anti-Spoofing</span>
+                                <span class="text-emerald-400 font-bold text-sm">100% Jonli Tekshiruv</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Baza Sig'imi</span>
+                                <span class="text-white font-bold text-sm">50,000 nafar Yuz</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Displey</span>
+                                <span class="text-indigo-400 font-bold text-sm">8 dyuymli IPS Sensor</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer" onclick="document.querySelector('#hw-panel-faceid [data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>Retina 4K Pasport</span>
+                            </button>
+                            <a href="#contact" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-indigo-400 transition">
+                                <i class="fas fa-calculator text-indigo-400 text-xs"></i>
+                                <span>Smeta Olish</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Spotlight Showcase Studio with Floating Hologram Pins (7 cols) -->
+                    <div class="lg:col-span-7">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#0a0f26] to-[#020512] border border-indigo-500/30 p-2 sm:p-3 shadow-[0_20px_50px_-10px_rgba(99,102,241,0.3)] cursor-pointer group/studio" data-preview-img="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" data-preview-title="Aqlli Yuzni Tanish (Face ID) Terminali" title="Retina 4K ko'rish">
+                            
+                            <div class="relative aspect-[16/10] max-h-[340px] sm:max-h-[370px] w-full rounded-xl overflow-hidden bg-black/60 flex items-center justify-center">
+                                <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="Face ID" class="w-full h-full object-cover transition-transform duration-500 group-hover/studio:scale-[1.02]">
+                                
+                                <div class="absolute top-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-indigo-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(99,102,241,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
+                                        <span class="text-[10px] font-mono font-bold text-indigo-300 uppercase">Dual-Lens 3D WDR Optika</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute bottom-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-emerald-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(16,185,129,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-emerald-300 uppercase">0.18 Sekund Tanish Tezligi</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute top-4 right-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-cyan-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(6,182,212,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-cyan-300 uppercase">100% Anti-Spoofing</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute inset-0 bg-indigo-950/25 opacity-0 group-hover/studio:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono font-bold shadow-2xl flex items-center gap-2">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K PASPORTINI OCHISH
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 px-3 py-1.5 bg-slate-950/90 rounded-lg border border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <span class="text-indigo-400 flex items-center gap-1.5"><i class="fas fa-circle text-[7px] text-emerald-400 animate-pulse"></i> PROTOKOL: AES-256 GCM SHIFRLASH</span>
+                                <span class="text-slate-500">MMTV VA HOKIMLIK SERTIFIKATI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEVICE 3: SMARTUPS QUVVAT PANEL (Hidden by default) -->
+                <div id="hw-panel-ups" class="hw-panel hidden grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    
+                    <!-- Left: Technical Dossier (5 cols) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="badge-tech badge-amber text-[10px] py-0.5 px-2">APPARAT #03</span>
+                                <span class="text-amber-400 font-mono text-xs font-bold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                                    AVTONOM: 8 SOAT
+                                </span>
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
+                                Uzluksiz Elektr Ta'minoti (SmartUPS)
+                            </h3>
+                            <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed mt-1">
+                                Maktabda elektr energiyasi to'satdan uzilganda yoki kuchlanish sakraganda ham turniketlar, Face ID va lokal server uzluksiz ishlashini ta'minlovchi sanoat darajasidagi LiFePO4 batareyali tizim.
+                            </p>
+                        </div>
+
+                        <!-- Technical Parameter Grid (2x2) -->
+                        <div class="grid grid-cols-2 gap-2.5 font-mono text-xs">
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Avtonom Rejim</span>
+                                <span class="text-amber-400 font-bold text-sm">8 soat to'liq quvvat</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Ulanish Vaqti</span>
+                                <span class="text-emerald-400 font-bold text-sm">0ms (Oniy, uzilishsiz)</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Batareya Turi</span>
+                                <span class="text-white font-bold text-sm">LiFePO4 Litiy-Temir</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <span class="text-slate-400 text-[10px] block">Resurs Tsikli</span>
+                                <span class="text-cyan-400 font-bold text-sm">2,000+ To'liq Sikl</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer" onclick="document.querySelector('#hw-panel-ups [data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>Retina 4K Pasport</span>
+                            </button>
+                            <a href="#contact" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center justify-center gap-1.5 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-amber-400 transition">
+                                <i class="fas fa-calculator text-amber-400 text-xs"></i>
+                                <span>Smeta Olish</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right: Spotlight Showcase Studio with Floating Hologram Pins (7 cols) -->
+                    <div class="lg:col-span-7">
+                        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#1a1408] to-[#0a0702] border border-amber-500/30 p-2 sm:p-3 shadow-[0_20px_50px_-10px_rgba(245,158,11,0.3)] cursor-pointer group/studio" data-preview-img="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" data-preview-title="Uzluksiz Quvvat Ta'minoti (SmartUPS LiFePO4)" title="Retina 4K ko'rish">
+                            
+                            <div class="relative aspect-[16/10] max-h-[340px] sm:max-h-[370px] w-full rounded-xl overflow-hidden bg-black/60 flex items-center justify-center">
+                                <img src="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" alt="SmartUPS" class="w-full h-full object-cover transition-transform duration-500 group-hover/studio:scale-[1.02]">
+                                
+                                <div class="absolute top-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-amber-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(245,158,11,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                                        <span class="text-[10px] font-mono font-bold text-amber-300 uppercase">LiFePO4 8 Soat Avtonom</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute bottom-4 left-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-emerald-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(16,185,129,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-emerald-300 uppercase">0ms Uzilishsiz Avto-O'tish</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute top-4 right-4 pointer-events-none">
+                                    <div class="flex items-center gap-2 bg-slate-950/90 border border-cyan-400/80 px-2.5 py-1 rounded-lg shadow-[0_0_12px_rgba(6,182,212,0.4)] backdrop-blur-md">
+                                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                                        <span class="text-[10px] font-mono font-bold text-cyan-300 uppercase">2,000+ Zaryadlash Tsikli</span>
+                                    </div>
+                                </div>
+
+                                <div class="absolute inset-0 bg-amber-950/25 opacity-0 group-hover/studio:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono font-bold shadow-2xl flex items-center gap-2">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K PASPORTINI OCHISH
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="mt-2 px-3 py-1.5 bg-slate-950/90 rounded-lg border border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <span class="text-amber-400 flex items-center gap-1.5"><i class="fas fa-circle text-[7px] text-emerald-400 animate-pulse"></i> XAVFSIZLIK: YONG'IN VA KUCHLANISH HIMOYASI</span>
+                                <span class="text-slate-500">220V STABILIZATSIYA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. HIGH-CONVERTING CYBER CONTACT & LEAD CAPTURE SECTION (100% 1 SCREEN FIT) -->
+    <section id="contact" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-4 sm:py-6 bg-[#030611] border-b border-slate-800 relative">
         <div class="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
             
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-3 sm:mb-4 space-y-1">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">USKUNALAR PASPORTI • APPARAT MAJMUASI</span>
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">BOG'LANISH VA BEPUL SMETA</span>
                 <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight">
-                    Maktablar Uchun Maxsus Moslashtirilgan Apparat Majmuasi
+                    Maktabingizga EDUGATE Tizimini O'rnatish Bo'yicha Bepul Konsultatsiya Oling
                 </h2>
                 <p class="text-slate-400 text-xs sm:text-[13px]">
-                    Milliy Gvardiya xulosasi va davlat standartlariga 100% javob beruvchi sanoat darajasidagi qurilmalar.
+                    Mutaxassislarimiz maktabingizga borib o'rganish o'tkazadi va to'liq hisob-kitob (smeta) taqdim etadi.
                 </p>
-                <div class="flex flex-wrap items-center justify-center gap-2.5 pt-0.5 text-[11px] font-mono text-slate-400">
-                    <span class="text-cyan-400"><i class="fas fa-shield-halved mr-1"></i> AISI 304 Zanglamaydigan Po'lat</span>
-                    <span>•</span>
-                    <span class="text-white"><i class="fas fa-camera mr-1"></i> 0.18s Face ID Terminal</span>
-                    <span>•</span>
-                    <span class="text-emerald-400"><i class="fas fa-bolt mr-1"></i> 8 Soat SmartUPS Avtonom</span>
-                    <span>•</span>
-                    <span class="text-amber-400"><i class="fas fa-door-open mr-1"></i> Anti-Panika Tizimi</span>
-                </div>
             </div>
 
-            <!-- 3 Modern Cyber Hardware Cards (3 Columns Grid) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 items-stretch">
+            <!-- Contact Cockpit Grid (Left: Official Channels & Guarantees, Right: Cyber Lead Form) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-stretch">
                 
-                <!-- Hardware Card 1: EDUGATE-ST100 Turniket -->
-                <div class="rounded-2xl border border-slate-700/80 bg-slate-950/90 p-4 sm:p-5 shadow-[0_15px_40px_-10px_rgba(6,182,212,0.18)] hover:border-cyan-400 hover:shadow-[0_20px_50px_-10px_rgba(6,182,212,0.35)] transition-all duration-300 backdrop-blur-md flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <!-- Image Container with Retina 4K Modal Trigger -->
-                        <div class="relative rounded-xl overflow-hidden aspect-[16/10] max-h-[170px] bg-slate-900 border border-slate-800 cursor-pointer group/img" data-preview-img="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" data-preview-title="EDUGATE-ST100 Zanglamaydigan Turniket (Termiz 11-maktab)" title="Retina 4K rejimida ochish">
-                            <img src="assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg" alt="ST-100" class="w-full h-full object-cover transition-transform duration-300 group-hover/img:scale-105">
-                            <div class="absolute inset-0 bg-cyan-950/40 opacity-0 group-hover/img:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
-                                <span class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-xl">
-                                    <i class="fas fa-expand text-[10px]"></i> RETINA 4K
-                                </span>
-                            </div>
-                            <span class="absolute top-2 left-2 bg-slate-950/85 border border-cyan-500/40 text-cyan-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-md">
-                                APPARAT #01
-                            </span>
-                        </div>
+                <!-- Left: Channels & Official Accreditation (5 cols) -->
+                <div class="lg:col-span-5 rounded-2xl border border-slate-700/80 bg-slate-950/90 p-5 sm:p-6 shadow-[0_20px_50px_-15px_rgba(6,182,212,0.2)] flex flex-col justify-between space-y-4 backdrop-blur-md">
+                    <div>
+                        <span class="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block mb-1">RASMIY ALOQA MARKAZI</span>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Yagona Murojaatlar Bo'limi</h3>
+                        <p class="text-slate-400 text-xs mt-1">
+                            Davlat maktablari, tuman bo'limlari va ma'muriyatlar uchun bevosita qo'llab-quvvatlash.
+                        </p>
+                    </div>
 
-                        <!-- Badge & Live Metric -->
-                        <div class="flex items-center justify-between pt-0.5">
-                            <span class="badge-tech badge-cyan text-[9px] py-0.5 px-2">AISI 304 PO'LAT</span>
-                            <span class="text-cyan-400 text-[11px] font-mono font-bold flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                                5,000,000 TSIKL
-                            </span>
-                        </div>
+                    <!-- Contact Details Matrix -->
+                    <div class="space-y-2.5 font-mono text-xs">
+                        <a href="tel:+998712000020" class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-cyan-400 transition flex items-center gap-3 group">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-800/80 flex items-center justify-center text-cyan-400 shrink-0 group-hover:bg-cyan-500 group-hover:text-black transition">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">Qaynoq Liniya (Har kuni 08:00 - 20:00)</span>
+                                <span class="text-white font-bold text-sm group-hover:text-cyan-300 transition">+998 71 200 00 20</span>
+                            </div>
+                        </a>
 
-                        <!-- Title -->
-                        <div>
-                            <h3 class="text-base sm:text-lg font-black text-white group-hover:text-cyan-300 transition leading-snug">
-                                EDUGATE-ST100 Zanglamaydigan Turniket
-                            </h3>
-                            <p class="text-slate-400 text-xs mt-1 line-clamp-2">
-                                1.5mm sanoat po'lat korpusi, shovqinsiz servo-motor va bolalar xavfsizligi datchiklari.
-                            </p>
-                        </div>
+                        <a href="https://t.me/e_davomatbot" target="_blank" class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-cyan-400 transition flex items-center gap-3 group">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-800/80 flex items-center justify-center text-cyan-400 shrink-0 group-hover:bg-cyan-500 group-hover:text-black transition">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">Rasmiy Telegram Bot</span>
+                                <span class="text-white font-bold text-sm group-hover:text-cyan-300 transition">@e_davomatbot</span>
+                            </div>
+                        </a>
 
-                        <!-- Technical Specs List -->
-                        <div class="space-y-1.5 pt-1 text-[11px] font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">O'tkazuvchanlik:</span>
-                                <span class="text-cyan-400 font-bold">45 o'quvchi / daqiqa</span>
+                        <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-cyan-400 shrink-0">
+                                <i class="fas fa-map-pin"></i>
                             </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Anti-Panika:</span>
-                                <span class="text-emerald-400 font-bold">Avtomatik o'z-o'zidan ochilish</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Sensorlar:</span>
-                                <span class="text-white font-bold">Infraqizil to'siq datchiklari</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Himoya sinfi:</span>
-                                <span class="text-purple-400 font-bold">IP54 (Chang va namlikka chidamli)</span>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">Bosh Muhandislik Markazi</span>
+                                <span class="text-white font-bold text-xs">Toshkent sh., Shayxontohur tumani</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bottom Action / Fullscreen Preview -->
-                    <div class="pt-3 mt-2 border-t border-slate-800">
-                        <button type="button" class="w-full btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:border-cyan-400 transition cursor-pointer" onclick="this.closest('.group').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-cyan-400 text-xs"></i>
-                            <span>Retina 4K Pasportni Ko'rish</span>
-                        </button>
+                    <!-- 3 State Guarantees -->
+                    <div class="pt-3 border-t border-slate-800 grid grid-cols-3 gap-2 text-center font-mono">
+                        <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                            <i class="fas fa-certificate text-cyan-400 text-xs mb-1 block"></i>
+                            <span class="text-[9px] text-slate-300 block font-bold">100% STANDART</span>
+                            <span class="text-[8px] text-slate-500">MMTV & MG</span>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                            <i class="fas fa-clock text-emerald-400 text-xs mb-1 block"></i>
+                            <span class="text-[9px] text-slate-300 block font-bold">3 KUNDA</span>
+                            <span class="text-[8px] text-slate-500">O'rnatish</span>
+                        </div>
+                        <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                            <i class="fas fa-headset text-purple-400 text-xs mb-1 block"></i>
+                            <span class="text-[9px] text-slate-300 block font-bold">3 YIL KAFOLAT</span>
+                            <span class="text-[8px] text-slate-500">Bepul servis</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Hardware Card 2: Face ID Terminal -->
-                <div class="rounded-2xl border border-slate-700/80 bg-slate-950/90 p-4 sm:p-5 shadow-[0_15px_40px_-10px_rgba(99,102,241,0.18)] hover:border-indigo-400 hover:shadow-[0_20px_50px_-10px_rgba(99,102,241,0.35)] transition-all duration-300 backdrop-blur-md flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <!-- Image Container with Retina 4K Modal Trigger -->
-                        <div class="relative rounded-xl overflow-hidden aspect-[16/10] max-h-[170px] bg-slate-900 border border-slate-800 cursor-pointer group/img" data-preview-img="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" data-preview-title="Aqlli Yuzni Tanish (Face ID) Terminali" title="Retina 4K rejimida ochish">
-                            <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="Face ID" class="w-full h-full object-cover transition-transform duration-300 group-hover/img:scale-105">
-                            <div class="absolute inset-0 bg-indigo-950/40 opacity-0 group-hover/img:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
-                                <span class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-xl">
-                                    <i class="fas fa-expand text-[10px]"></i> RETINA 4K
-                                </span>
+                <!-- Right: Cyber Lead Form (7 cols) -->
+                <div class="lg:col-span-7 rounded-2xl border border-cyan-500/40 bg-slate-950/95 p-5 sm:p-6 lg:p-7 shadow-[0_25px_60px_-15px_rgba(6,182,212,0.25)] relative overflow-hidden backdrop-blur-md flex flex-col justify-between">
+                    
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <div>
+                                <span class="text-[10px] font-mono text-cyan-400 uppercase tracking-widest block">ONLINE ARIZA FORMASI</span>
+                                <h3 class="text-xl sm:text-2xl font-black text-white">Bepul Hisob-Kitob (Smeta) So'rovi</h3>
                             </div>
-                            <span class="absolute top-2 left-2 bg-slate-950/85 border border-indigo-500/40 text-indigo-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-md">
-                                APPARAT #02
+                            <span class="badge-tech badge-emerald text-[9px] py-1 px-2.5 font-mono shadow-md">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1 inline-block"></span>
+                                ONLAYN QABUL
                             </span>
                         </div>
 
-                        <!-- Badge & Live Metric -->
-                        <div class="flex items-center justify-between pt-0.5">
-                            <span class="badge-tech badge-indigo text-[9px] py-0.5 px-2">DUAL-LENS 3D WDR</span>
-                            <span class="text-emerald-400 text-[11px] font-mono font-bold flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                ANIQ: 99.87%
-                            </span>
-                        </div>
+                        <!-- Form -->
+                        <form id="contactLeadForm" class="space-y-3.5 font-mono text-xs">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block text-slate-400 text-[11px] mb-1">F.I.SH (Mas'ul xodim / Direktor)</label>
+                                    <input type="text" name="full_name" required placeholder="Masalan: Alisher Vohidov" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-[11px] mb-1">Telefon Raqamingiz</label>
+                                    <input type="tel" name="phone" required placeholder="+998 90 123 45 67" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                </div>
+                            </div>
 
-                        <!-- Title -->
-                        <div>
-                            <h3 class="text-base sm:text-lg font-black text-white group-hover:text-indigo-300 transition leading-snug">
-                                Aqlli Yuzni Tanish (Face ID) Terminali
-                            </h3>
-                            <p class="text-slate-400 text-xs mt-1 line-clamp-2">
-                                8" IPS sensor ekran, infraqizil va RGB kameralar orqali har qanday yorug'likda aniqlash.
-                            </p>
-                        </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block text-slate-400 text-[11px] mb-1">Viloyat / Shahar</label>
+                                    <select name="region" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-cyan-400 transition">
+                                        <option value="" disabled selected>Viloyatni tanlang...</option>
+                                        <option value="Surxondaryo viloyati">Surxondaryo viloyati</option>
+                                        <option value="Toshkent shahri">Toshkent shahri</option>
+                                        <option value="Toshkent viloyati">Toshkent viloyati</option>
+                                        <option value="Samarqand viloyati">Samarqand viloyati</option>
+                                        <option value="Farg'ona viloyati">Farg'ona viloyati</option>
+                                        <option value="Andijon viloyati">Andijon viloyati</option>
+                                        <option value="Namangan viloyati">Namangan viloyati</option>
+                                        <option value="Buxoro viloyati">Buxoro viloyati</option>
+                                        <option value="Qashqadaryo viloyati">Qashqadaryo viloyati</option>
+                                        <option value="Xorazm viloyati">Xorazm viloyati</option>
+                                        <option value="Navoiy viloyati">Navoiy viloyati</option>
+                                        <option value="Jizzax viloyati">Jizzax viloyati</option>
+                                        <option value="Sirdaryo viloyati">Sirdaryo viloyati</option>
+                                        <option value="Qoraqalpog'iston Resp.">Qoraqalpog'iston Respublikasi</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-slate-400 text-[11px] mb-1">Maktab Raqami va Tuman</label>
+                                    <input type="text" name="school_info" required placeholder="Masalan: Termiz sh., 11-maktab" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                </div>
+                            </div>
 
-                        <!-- Technical Specs List -->
-                        <div class="space-y-1.5 pt-1 text-[11px] font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Tanish tezligi:</span>
-                                <span class="text-cyan-400 font-bold">0.18 soniya</span>
+                            <div>
+                                <label class="block text-slate-400 text-[11px] mb-1">Qo'shimcha izoh yoki o'quvchilar soni (ixtiyoriy)</label>
+                                <textarea name="message" rows="2" placeholder="Masalan: 1,200 o'quvchi, 2 ta kirish yo'lagi..." class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition resize-none"></textarea>
                             </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Anti-Spoofing:</span>
-                                <span class="text-emerald-400 font-bold">100% (Surat/Videoni rad etadi)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Yoritgich:</span>
-                                <span class="text-white font-bold">Smart IR + Yumshoq oq LED</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Baza hajmi:</span>
-                                <span class="text-indigo-400 font-bold">50,000 nafar yuz profili</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Bottom Action / Fullscreen Preview -->
-                    <div class="pt-3 mt-2 border-t border-slate-800">
-                        <button type="button" class="w-full btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:border-indigo-400 transition cursor-pointer" onclick="this.closest('.group').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-indigo-400 text-xs"></i>
-                            <span>Retina 4K Pasportni Ko'rish</span>
-                        </button>
-                    </div>
-                </div>
+                            <button type="submit" id="contactSubmitBtn" class="w-full btn-cyber btn-cyber-primary py-3 px-6 text-xs font-mono font-bold shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 cursor-pointer transition">
+                                <i class="fas fa-paper-plane text-xs"></i>
+                                <span>ARIZA YUBORISH VA BEPUL SMETA OLISH</span>
+                            </button>
+                        </form>
 
-                <!-- Hardware Card 3: Uzluksiz Quvvat SmartUPS -->
-                <div class="rounded-2xl border border-slate-700/80 bg-slate-950/90 p-4 sm:p-5 shadow-[0_15px_40px_-10px_rgba(245,158,11,0.18)] hover:border-amber-400 hover:shadow-[0_20px_50px_-10px_rgba(245,158,11,0.35)] transition-all duration-300 backdrop-blur-md flex flex-col justify-between group">
-                    <div class="space-y-3">
-                        <!-- Image Container with Retina 4K Modal Trigger -->
-                        <div class="relative rounded-xl overflow-hidden aspect-[16/10] max-h-[170px] bg-slate-900 border border-slate-800 cursor-pointer group/img" data-preview-img="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" data-preview-title="Uzluksiz Quvvat Ta'minoti (SmartUPS LiFePO4)" title="Retina 4K rejimida ochish">
-                            <img src="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" alt="SmartUPS" class="w-full h-full object-cover transition-transform duration-300 group-hover/img:scale-105">
-                            <div class="absolute inset-0 bg-amber-950/40 opacity-0 group-hover/img:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
-                                <span class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono font-bold flex items-center gap-1.5 shadow-xl">
-                                    <i class="fas fa-expand text-[10px]"></i> RETINA 4K
-                                </span>
-                            </div>
-                            <span class="absolute top-2 left-2 bg-slate-950/85 border border-amber-500/40 text-amber-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded backdrop-blur-md">
-                                APPARAT #03
-                            </span>
-                        </div>
-
-                        <!-- Badge & Live Metric -->
-                        <div class="flex items-center justify-between pt-0.5">
-                            <span class="badge-tech badge-amber text-[9px] py-0.5 px-2">SmartUPS LiFePO4</span>
-                            <span class="text-amber-400 text-[11px] font-mono font-bold flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                                AVTONOM: 8 SOAT
-                            </span>
-                        </div>
-
-                        <!-- Title -->
-                        <div>
-                            <h3 class="text-base sm:text-lg font-black text-white group-hover:text-amber-300 transition leading-snug">
-                                Uzluksiz Elektr Ta'minoti (SmartUPS)
-                            </h3>
-                            <p class="text-slate-400 text-xs mt-1 line-clamp-2">
-                                Elektr tarmog'i uzilganda ham turniketlar va terminal to'xtovsiz ishlayveradi.
-                            </p>
-                        </div>
-
-                        <!-- Technical Specs List -->
-                        <div class="space-y-1.5 pt-1 text-[11px] font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Avtonom ishlash:</span>
-                                <span class="text-amber-400 font-bold">8 soat to'liq yuklama</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Batareya turi:</span>
-                                <span class="text-white font-bold">Litiy-temir-fosfat (LiFePO4)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Resurs tsikli:</span>
-                                <span class="text-cyan-400 font-bold">2,000+ to'liq sikl</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Ulanish vaqti:</span>
-                                <span class="text-emerald-400 font-bold">0ms (Oniy, uzilishsiz)</span>
-                            </div>
+                        <div id="contactSuccessMsg" class="hidden mt-4 p-3.5 rounded-xl bg-emerald-950/80 border border-emerald-500/60 text-emerald-300 text-xs font-mono text-center flex items-center justify-center gap-2">
+                            <i class="fas fa-check-circle text-base text-emerald-400"></i>
+                            <span>Arizangiz muvaffaqiyatli qabul qilindi! Tez orada mutaxassisimiz bog'lanadi.</span>
                         </div>
                     </div>
 
-                    <!-- Bottom Action / Fullscreen Preview -->
-                    <div class="pt-3 mt-2 border-t border-slate-800">
-                        <button type="button" class="w-full btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 text-slate-300 hover:text-white hover:border-amber-400 transition cursor-pointer" onclick="this.closest('.group').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-amber-400 text-xs"></i>
-                            <span>Retina 4K Pasportni Ko'rish</span>
-                        </button>
+                    <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-500">
+                        <span>🔒 Xavfsiz shifrlangan kanal</span>
+                        <span>MMTV & MILLIY GVARDIYA INTEGRATSIYASI</span>
                     </div>
+
                 </div>
 
             </div>
