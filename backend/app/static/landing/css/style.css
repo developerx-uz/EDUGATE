@@ -302,49 +302,49 @@ input[type=range]::-webkit-slider-thumb:hover {
     transform: translateY(-1px);
 }
 
-/* Nav links: No background pill, elegant bottom underline indicator */
+/* Nav links & Single Sliding Indicator (Yagona sirpanuvchi faol chiziq) */
+.nav-container {
+    position: relative;
+}
+
 .nav-link {
     color: #94A3B8;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
-    padding: 0.5rem 0.25rem;
+    padding: 0.45rem 0.2rem;
     background: transparent !important;
     border-radius: 0 !important;
-    position: relative;
     white-space: nowrap;
     transition: color 0.2s ease;
     display: inline-flex;
     align-items: center;
+    cursor: pointer;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    background: #38BDF8;
-    box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-}
-
-.nav-link:hover {
-    color: #38BDF8;
-    background: transparent !important;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    width: 100%;
-}
-
+.nav-link:hover,
 .nav-link.active {
     color: #38BDF8 !important;
     background: transparent !important;
+}
+
+.nav-link.active {
     font-weight: 700;
+}
+
+/* Yagona sirpanuvchi chiziq (Sliding active line) - hech qachon 2 ta bo'lmaydi */
+.nav-active-line {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    height: 2.5px;
+    background: #38BDF8;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+    border-radius: 2px;
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
 }
 
 /* Simple theme switcher button (oddiy ramka) */
@@ -537,9 +537,9 @@ html.light .nav-link.active {
     background: transparent !important;
 }
 
-html.light .nav-link::after {
+html.light .nav-active-line {
     background: #0284C7;
-    box-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+    box-shadow: 0 0 8px rgba(2, 132, 199, 0.6);
 }
 
 html.light .theme-toggle-simple {
