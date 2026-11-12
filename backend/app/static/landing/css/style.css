@@ -336,15 +336,15 @@ input[type=range]::-webkit-slider-thumb:hover {
     font-weight: 700;
 }
 
-/* Yagona sirpanuvchi chiziq (Sliding active line) - hech qachon 2 ta bo'lmaydi */
+/* Yagona sirpanuvchi toza chiziq (Sliding active line) - aniq 1 dona chiziq */
 .nav-active-line {
     position: absolute;
-    bottom: -2px;
+    bottom: -4px;
     left: 0;
-    height: 2.5px;
+    height: 2px;
     background: #38BDF8;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
-    border-radius: 2px;
+    box-shadow: none !important;
+    border-radius: 9999px;
     transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
     pointer-events: none;
     opacity: 0;
