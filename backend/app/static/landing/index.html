@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.1.3">
+    <link rel="stylesheet" href="css/style.css?v=5.1.4">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.1.3"></script>
+    <script src="js/theme.js?v=5.1.4"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -114,16 +114,31 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <!-- Left: Information & Specs -->
                 <div class="lg:col-span-7 space-y-4">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">
-                            <i class="fas fa-certificate text-[8px]"></i> MMTV & IIB Standarti
-                        </span>
-                        <span class="badge-tech badge-emerald text-[10px] py-1 px-2.5">
-                            <i class="fas fa-signal text-[8px]"></i> 948 Maktab Faol
-                        </span>
-                        <span class="badge-tech badge-amber text-[10px] py-1 px-2.5">
-                            <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Xulosasi
-                        </span>
+                    <!-- Top Header Row: Badges on Left, 2-rasmdagi Tugmalar 3-rasmdagi o'ng tomondagi maydonga ko'chirildi -->
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">
+                                <i class="fas fa-certificate text-[8px]"></i> MMTV & IIB Standarti
+                            </span>
+                            <span class="badge-tech badge-emerald text-[10px] py-1 px-2.5">
+                                <i class="fas fa-signal text-[8px]"></i> 948 Maktab Faol
+                            </span>
+                            <span class="badge-tech badge-amber text-[10px] py-1 px-2.5">
+                                <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Xulosasi
+                            </span>
+                        </div>
+
+                        <!-- 2-rasmdagi Tugmalar (Online Prezentatsiya & Tizim Panellari) -->
+                        <div class="flex items-center gap-2.5">
+                            <a href="presentation" class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-1.5 whitespace-nowrap">
+                                <i class="fas fa-play-circle text-xs text-cyan-200"></i>
+                                <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
+                            </a>
+                            <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center gap-1.5 whitespace-nowrap">
+                                <i class="fas fa-laptop-code text-xs"></i>
+                                <span>TIZIM PANELLARI</span>
+                            </a>
+                        </div>
                     </div>
 
                     <h1 class="text-2xl sm:text-3xl lg:text-[38px] font-black tracking-tight text-white leading-[1.18]">
@@ -199,16 +214,7 @@
                         </div>
                     </div>
 
-                    <!-- CTA Actions -->
-                    <div class="flex flex-wrap items-center gap-3 pt-1">
-                        <a href="presentation" class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2">
-                            <i class="fas fa-play-circle text-xs text-cyan-200"></i>
-                            <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
-                        </a>
-                        <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center gap-2">
-                            <i class="fas fa-laptop-code text-xs"></i> TIZIM PANELLARI
-                        </a>
-                    </div>
+
                 </div>
 
                 <!-- Right: Seamlessly Embedded Biometric Scanner Terminal Card -->
@@ -924,10 +930,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.1.3"></script>
-    <script src="js/presentation.js?v=5.1.3"></script>
-    <script src="js/scanner.js?v=5.1.3"></script>
-    <script src="js/map.js?v=5.1.3"></script>
-    <script src="js/edugate.js?v=5.1.3"></script>
+    <script src="js/translations.js?v=5.1.4"></script>
+    <script src="js/presentation.js?v=5.1.4"></script>
+    <script src="js/scanner.js?v=5.1.4"></script>
+    <script src="js/map.js?v=5.1.4"></script>
+    <script src="js/edugate.js?v=5.1.4"></script>
 </body>
 </html>
