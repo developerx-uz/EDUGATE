@@ -978,3 +978,76 @@ html.light #langDropdownMenu .lang-option.active {
 }
 
 
+
+/* ==========================================================================
+   STRICT VIEWPORT BOUNDARY & RESPONSIVE HEADER ENGINE
+   ========================================================================== */
+
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+header.site-header {
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    overflow-x: clip !important;
+}
+
+.site-header .nav-container {
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+}
+
+.site-header .nav-link {
+    white-space: nowrap !important;
+    font-size: 11px !important;
+    padding: 0 4px !important;
+    letter-spacing: -0.015em !important;
+}
+
+@media (min-width: 1200px) {
+    .site-header .nav-link {
+        font-size: 12px !important;
+        padding: 0 6px !important;
+    }
+}
+
+@media (min-width: 1366px) {
+    .site-header .nav-link {
+        font-size: 13px !important;
+        padding: 0 8px !important;
+    }
+}
+
+@media (min-width: 1536px) {
+    .site-header .nav-link {
+        font-size: 13.5px !important;
+        padding: 0 10px !important;
+    }
+}
+
+/* Prevent any cards or panels from overflowing their grid columns in any language */
+.hud-card, 
+.hw-panel, 
+[data-platform-content], 
+#map-analytics, 
+#hardware-specs, 
+#contact {
+    min-width: 0 !important;
+    overflow-wrap: break-word !important;
+}
+
+.grid > div {
+    min-width: 0 !important;
+}
+
+h1, h2, h3, h4, p, span {
+    overflow-wrap: break-word;
+}

@@ -23,17 +23,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.3.0">
+    <link rel="stylesheet" href="css/style.css?v=5.3.1">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.3.0"></script>
+    <script src="js/theme.js?v=5.3.1"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
     <!-- 1. EXPANDED HEADER NAVBAR (OCHIQ MENYU, OSTIDA YAGONA TOZA CHIZIQ) -->
     <header class="site-header sticky top-0 z-50 bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-800 h-[54px] transition-colors">
-        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4 lg:gap-8">
+        <div class="w-full max-w-[1440px] mx-auto px-2.5 sm:px-4 lg:px-5 xl:px-8 h-full flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-6">
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-2.5 group shrink-0">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1 shadow-[0_0_12px_rgba(6,182,212,0.3)] group-hover:scale-105 transition">
@@ -44,14 +44,14 @@
                         <span class="text-sm sm:text-base font-black tracking-tight text-white font-mono">EDUGATE</span>
                         <span class="badge-tech badge-cyan text-[7.5px] py-0.5 px-1.5">v5.0</span>
                     </div>
-                    <p class="text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5" data-i18n="nav.subtitle">
+                    <p class="text-[8.5px] sm:text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5 truncate max-w-[125px] sm:max-w-[180px] xl:max-w-none" data-i18n="nav.subtitle">
                         MMTV & Milliy Gvardiya Tizimi
                     </p>
                 </div>
             </a>
 
             <!-- Nav Links: To'liq balandlikda (h-full), faol chiziq to'g'ridan-to'g'ri header pastki chizig'i ustiga tushadi -->
-            <nav class="nav-container hidden lg:flex items-center h-full gap-5 xl:gap-7 relative">
+            <nav class="nav-container hidden lg:flex items-center h-full gap-1.5 lg:gap-2 xl:gap-3.5 2xl:gap-5 relative shrink">
                 <a href="#hero" class="nav-link active" data-i18n="nav.home">Bosh Sahifa</a>
                 <a href="#process" class="nav-link" data-i18n="nav.process">O'tish Zanjiri</a>
                 <a href="#dashboards" class="nav-link" data-i18n="nav.platform">Dasturiy Panellar</a>
@@ -62,7 +62,7 @@
             </nav>
 
             <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA DUAL-ICON MAVZU SWITCHER -->
-            <div class="hidden sm:flex items-center gap-2.5 shrink-0">
+            <div class="hidden sm:flex items-center gap-1.5 lg:gap-2 xl:gap-2.5 shrink-0">
                 <!-- Theme Toggle Button (1 Single Button: Sun / Moon) -->
                 <button type="button" data-theme-toggle id="themeToggleBtn" class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
                     <i class="fas fa-sun text-sm"></i>
@@ -131,7 +131,7 @@
                 </div>
 
                 <!-- Online Presentation Button (Opens Dedicated Screen) -->
-                <a href="presentation" class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.35)] flex items-center gap-1.5 whitespace-nowrap">
+                <a href="presentation" class="btn-cyber btn-cyber-primary py-1 sm:py-1.5 px-2.5 sm:px-3 text-[10.5px] sm:text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.35)] flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fas fa-play-circle text-xs text-cyan-200"></i>
                     <span data-i18n="nav.presBtn">ONLINE PREZENTATSIYA</span>
                 </a>
@@ -152,31 +152,10 @@
             <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.hardware">Uskunalar</a>
             <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.contact">Bog'lanish</a>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
-                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="4"></circle>
-                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
-                        </svg>
-                    </button>
-                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-lg p-1 text-[11px] font-mono">
-                    <button data-lang-btn="uz" class="px-1.5 py-0.5 rounded bg-cyan-500/30 text-cyan-300 font-bold">UZ</button>
-                    <button data-lang-btn="en" class="px-1.5 py-0.5 rounded text-slate-400">EN</button>
-                    <button data-lang-btn="ru" class="px-1.5 py-0.5 rounded text-slate-400">RU</button>
-                    <button data-lang-btn="kz" class="px-1.5 py-0.5 rounded text-slate-400">KZ</button>
-                    <button data-lang-btn="kg" class="px-1.5 py-0.5 rounded text-slate-400">KG</button>
-                </div>
-                <a href="presentation" class="btn-cyber btn-cyber-primary py-1 px-2.5 text-[11px] font-mono">
-                    PREZENTATSIYA
-                </a>
+                <button type="button" data-theme-toggle class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400 shrink-0" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
+                    <i class="fas fa-sun text-sm"></i>
+                </button>
             </div>
-        </div>
     </header>
 
     <!-- 2. EXPANDED HERO SECTION (20-30% LARGER & WIDER) -->
@@ -888,13 +867,13 @@
                     Xaritadan hududni tanlang: Face ID datchiklari, turniketlar va jonli davomat telemetriyasi.
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-2.5 pt-0.5 text-[11px] font-mono text-slate-400">
-                    <span class="text-cyan-400"><i class="fas fa-map-location-dot mr-1"></i> 14 ta Hudud Faol</span>
+                    <span class="text-cyan-400"><i class="fas fa-map-location-dot mr-1"></i> <span data-i18n="map.hududCount">14 ta Hudud Faol</span></span>
                     <span>•</span>
-                    <span class="text-white"><i class="fas fa-school mr-1"></i> 10,020+ Maktab</span>
+                    <span class="text-white"><i class="fas fa-school mr-1"></i> <span data-i18n="map.schoolCount">10,020+ Maktab</span></span>
                     <span>•</span>
-                    <span class="text-emerald-400"><i class="fas fa-users mr-1"></i> 6.2M+ O'quvchi</span>
+                    <span class="text-emerald-400"><i class="fas fa-users mr-1"></i> <span data-i18n="map.studentCount">6.2M+ O'quvchi</span></span>
                     <span>•</span>
-                    <span class="text-purple-400"><i class="fas fa-chart-line mr-1"></i> 98.4% O'rtacha Davomat</span>
+                    <span class="text-purple-400"><i class="fas fa-chart-line mr-1"></i> <span data-i18n="map.attendanceCount">98.4% O'rtacha Davomat</span></span>
                 </div>
             </div>
 
@@ -1310,7 +1289,7 @@
                                     <i class="fas fa-school text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedSchools" class="text-lg sm:text-xl font-black text-cyan-400 mt-0.5">948 ta</h4>
-                                <span class="text-[9px] text-slate-400 mt-0.5 block">Yagona bazada faol</span>
+                                <span class="text-[9px] text-slate-400 mt-0.5 block" data-i18n="map.schoolsSub">Yagona bazada faol</span>
                             </div>
 
                             <!-- Metric 2: O'quvchilar -->
@@ -1320,7 +1299,7 @@
                                     <i class="fas fa-users text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedStudents" class="text-lg sm:text-xl font-black text-white mt-0.5">580,000 nafar</h4>
-                                <span class="text-[9px] text-slate-400 mt-0.5 block">Biometrik ro'yxatda</span>
+                                <span class="text-[9px] text-slate-400 mt-0.5 block" data-i18n="map.studentsSub">Biometrik ro'yxatda</span>
                             </div>
 
                             <!-- Metric 3: O'rtacha Davomat -->
@@ -1340,7 +1319,7 @@
                                     <i class="fas fa-shield-halved text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedTurnstiles" class="text-lg sm:text-xl font-black text-cyan-300 mt-0.5">2,800 ta yo'lak</h4>
-                                <span class="text-[9px] text-slate-400 mt-0.5 block">ST-100 & SmartUPS</span>
+                                <span class="text-[9px] text-slate-400 mt-0.5 block" data-i18n="map.lanesSub">ST-100 & SmartUPS</span>
                             </div>
                         </div>
 
@@ -2056,10 +2035,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.3.0"></script>
-    <script src="js/presentation.js?v=5.3.0"></script>
-    <script src="js/scanner.js?v=5.3.0"></script>
-    <script src="js/map.js?v=5.3.0"></script>
-    <script src="js/edugate.js?v=5.3.0"></script>
+    <script src="js/translations.js?v=5.3.1"></script>
+    <script src="js/presentation.js?v=5.3.1"></script>
+    <script src="js/scanner.js?v=5.3.1"></script>
+    <script src="js/map.js?v=5.3.1"></script>
+    <script src="js/edugate.js?v=5.3.1"></script>
 </body>
 </html>

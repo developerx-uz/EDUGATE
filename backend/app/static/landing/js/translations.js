@@ -3,14 +3,15 @@ const EdugateI18N = {
     "uz": {
         "nav": {
             "title": "EDUGATE",
-            "subtitle": "MMTV & Milliy Gvardiya Tizimi",
+            "subtitle": "MMTV & Milliy Gvardiya",
+            "presBtn": "PREZENTATSIYA",
             "home": "Bosh Sahifa",
             "process": "O'tish Zanjiri",
             "platform": "Dasturiy Panellar",
             "map": "Davomat Radari",
             "hardware": "Uskunalar",
             "contact": "Bog'lanish",
-            "presBtn": "ONLINE PREZENTATSIYA"
+            "presBtn": "PREZENTATSIYA"
         },
         "hero": {
             "badge": "MMTV & IIB STANDARTI • MILLIY GVARDIYA XULOSASI",
@@ -60,7 +61,15 @@ const EdugateI18N = {
             "schools": "Maktablar",
             "students": "O'quvchilar",
             "avgAttendance": "O'rtacha Davomat",
-            "lanes": "Turniketlar"
+            "lanes": "Turniketlar",
+            "schoolsSub": "Yagona bazada faol",
+            "studentsSub": "Biometrik ro'yxatda",
+            "attendanceSub": "Oniy hisoblanmoqda",
+            "lanesSub": "ST-100 & SmartUPS",
+            "hududCount": "14 ta Hudud Faol",
+            "schoolCount": "10,020+ Maktab",
+            "studentCount": "6.2M+ O'quvchi",
+            "attendanceCount": "98.4% O'rtacha Davomat"
         },
         "hardware": {
             "badge": "APPARAT VA USKUNALAR",
@@ -84,14 +93,15 @@ const EdugateI18N = {
     "en": {
         "nav": {
             "title": "EDUGATE",
-            "subtitle": "Ministry of Education & National Guard System",
+            "subtitle": "MMTV & National Guard",
+            "presBtn": "PRESENTATION",
             "home": "Home",
             "process": "Access Chain",
             "platform": "Dashboards",
             "map": "Attendance Radar",
             "hardware": "Hardware",
             "contact": "Contact",
-            "presBtn": "ONLINE PRESENTATION"
+            "presBtn": "PRESENTATION"
         },
         "hero": {
             "badge": "MINISTRY OF EDUCATION & NATIONAL GUARD CERTIFIED",
@@ -165,14 +175,15 @@ const EdugateI18N = {
     "ru": {
         "nav": {
             "title": "EDUGATE",
-            "subtitle": "Система МДО и Национальной Гвардии",
+            "subtitle": "МНО и Нацгвардия",
+            "presBtn": "ПРЕЗЕНТАЦИЯ",
             "home": "Главная",
             "process": "Цепочка Доступа",
             "platform": "Интерфейсы",
             "map": "Радар Посещаемости",
             "hardware": "Оборудование",
             "contact": "Контакты",
-            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
+            "presBtn": "ПРЕЗЕНТАЦИЯ"
         },
         "hero": {
             "badge": "СТАНДАРТ МДО & ЗАКЛЮЧЕНИЕ НАЦИОНАЛЬНОЙ ГВАРДИИ",
@@ -222,7 +233,15 @@ const EdugateI18N = {
             "schools": "Школы",
             "students": "Учащиеся",
             "avgAttendance": "Средняя Посещаемость",
-            "lanes": "Турникеты"
+            "lanes": "Турникеты",
+            "schoolsSub": "Активно в единой базе",
+            "studentsSub": "В биометрической базе",
+            "attendanceSub": "Расчёт в реальном времени",
+            "lanesSub": "ST-100 & SmartUPS",
+            "hududCount": "14 Регионов Активны",
+            "schoolCount": "10,020+ Школ",
+            "studentCount": "6.2M+ Учащихся",
+            "attendanceCount": "98.4% Посещаемость"
         },
         "hardware": {
             "badge": "ОБОРУДОВАНИЕ И АППАРАТНАЯ ЧАСТЬ",
@@ -246,14 +265,15 @@ const EdugateI18N = {
     "kz": {
         "nav": {
             "title": "EDUGATE",
-            "subtitle": "Оқу-ағарту және Ұлттық Ұлан Бірыңғай Жүйесі",
+            "subtitle": "Оқу-ағарту & Ұлттық Ұлан",
+            "presBtn": "ПРЕЗЕНТАЦИЯ",
             "home": "Басты Бет",
             "process": "Қолжетімділік Тізбегі",
             "platform": "Басқару Панельдері",
             "map": "Қатысу Радары",
             "hardware": "Құрылғылар",
             "contact": "Байланыс",
-            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
+            "presBtn": "ПРЕЗЕНТАЦИЯ"
         },
         "hero": {
             "badge": "ОҚУ-АҒАРТУ ЖӘНЕ ҰЛТТЫҚ ҰЛАН СЕРТИФИКАТТАЛҒАН",
@@ -303,7 +323,15 @@ const EdugateI18N = {
             "schools": "Мектептер",
             "students": "Оқушылар",
             "avgAttendance": "Орташа Қатысу",
-            "lanes": "Турникеттер"
+            "lanes": "Турникеттер",
+            "schoolsSub": "Бірыңғай базада белсенді",
+            "studentsSub": "Биометриялық тізімде",
+            "attendanceSub": "Нақты уақытта есептелуде",
+            "lanesSub": "ST-100 & SmartUPS",
+            "hududCount": "14 Аймақ Белсенді",
+            "schoolCount": "10,020+ Мектеп",
+            "studentCount": "6.2M+ Оқушы",
+            "attendanceCount": "98.4% Орташа Қатысу"
         },
         "hardware": {
             "badge": "АППАРАТТЫҚ ҚҰРЫЛҒЫЛАР",
@@ -327,14 +355,15 @@ const EdugateI18N = {
     "kg": {
         "nav": {
             "title": "EDUGATE",
-            "subtitle": "Билим берүү жана Улуттук Гвардия Бирдиктүү Системасы",
+            "subtitle": "Билим берүү & Улуттук Гвардия",
+            "presBtn": "ПРЕЗЕНТАЦИЯ",
             "home": "Башкы Бет",
             "process": "Өтүү Чынжыры",
             "platform": "Башкаруу Панелдери",
             "map": "Катышуу Радары",
             "hardware": "Жабдуулар",
             "contact": "Байланыш",
-            "presBtn": "ОНЛАЙН ПРЕЗЕНТАЦИЯ"
+            "presBtn": "ПРЕЗЕНТАЦИЯ"
         },
         "hero": {
             "badge": "БИЛИМ БЕРҮҮ МИНИСТРЛИГИ ЖАНА УЛУТТУК ГВАРДИЯ СТАНДАРТЫ",
@@ -384,7 +413,15 @@ const EdugateI18N = {
             "schools": "Мектептер",
             "students": "Окуучулар",
             "avgAttendance": "Орточо Катышуу",
-            "lanes": "Турникеттер"
+            "lanes": "Турникеттер",
+            "schoolsSub": "Бирдиктүү базада активдүү",
+            "studentsSub": "Биометрикалык тизмеде",
+            "attendanceSub": "Реалдуу убакытта эсептелүүдө",
+            "lanesSub": "ST-100 & SmartUPS",
+            "hududCount": "14 Аймак Активдүү",
+            "schoolCount": "10,020+ Мектеп",
+            "studentCount": "6.2M+ Окуучу",
+            "attendanceCount": "98.4% Орточо Катышуу"
         },
         "hardware": {
             "badge": "АППАРАТТЫК ЖАБДУУЛАР",
