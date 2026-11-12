@@ -131,8 +131,9 @@ class EdugateApp {
             // Find current section using dynamic header threshold
             let currentItem = null;
             const header = document.querySelector('.site-header');
-            const headerHeight = header ? header.offsetHeight : 54;
-            const threshold = headerHeight + 60;
+            const isSticky = header && (getComputedStyle(header).position === 'sticky' || getComputedStyle(header).position === 'fixed');
+            const headerHeight = isSticky && header ? header.offsetHeight : 0;
+            const threshold = headerHeight + 80;
 
             for (let i = 0; i < sectionMap.length; i++) {
                 const item = sectionMap[i];
