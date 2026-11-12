@@ -150,12 +150,27 @@ async def serve_js(file_path: str):
     raise HTTPException(status_code=404, detail="JS not found")
 
 
+@app.get("/presentation", response_class=HTMLResponse, tags=["Presentation"])
+@app.get("/presentation.html", response_class=HTMLResponse, tags=["Presentation"])
+@app.get("/edugate/presentation", response_class=HTMLResponse, tags=["Presentation"])
+@app.get("/edugate/presentation.html", response_class=HTMLResponse, tags=["Presentation"])
+async def serve_presentation():
+    pres_file = os.path.join(os.path.dirname(__file__), "static", "landing", "presentation.html")
+    if os.path.exists(pres_file):
+        with open(pres_file, "r", encoding="utf-8") as f:
+            content = f.read()
+        response = HTMLResponse(content=content)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+        return response
+    return HTMLResponse("<h1>Prezentatsiya topilmadi</h1>", status_code=404)
+
+
 @app.get("/admin", tags=["Redirect"])
 @app.get("/admin/", tags=["Redirect"])
 @app.get("/edugate/admin", tags=["Redirect"])
 @app.get("/edugate/admin/", tags=["Redirect"])
 async def redirect_admin():
-    return RedirectResponse(url="/edugate/#presentation", status_code=302)
+    return RedirectResponse(url="/edugate/presentation", status_code=302)
 
 
 

@@ -176,9 +176,9 @@
 
                     <!-- Actions -->
                     <div class="flex flex-wrap items-center gap-3.5 pt-2">
-                        <button type="button" data-open-presentation class="btn-cyber btn-cyber-primary py-3 px-5 text-sm font-mono flex items-center gap-2.5">
+                        <a href="presentation" class="btn-cyber btn-cyber-primary py-3 px-5 text-sm font-mono flex items-center gap-2.5">
                             <i class="fas fa-play-circle text-sm"></i> ONLINE PREZENTATSIYA (9 SLAYD)
-                        </button>
+                        </a>
                         <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-3 px-5 text-sm font-mono flex items-center gap-2">
                             <i class="fas fa-laptop-code text-xs"></i> TIZIM PANELLARI
                         </a>
@@ -257,110 +257,7 @@
         </div>
     </section>
 
-    <!-- 3. EXPANDED IN-PAGE ONLINE PRESENTATION DECK (01 - 09 SLIDES) -->
-    <section id="presentation" class="py-14 sm:py-20 bg-[#060B17] border-b border-slate-800">
-        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-                <div>
-                    <div class="flex items-center gap-2.5">
-                        <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">01 — 09 / RASMIY PREZENTATSIYA</span>
-                        <span id="presSecSlideCounter" class="text-xs sm:text-sm font-mono font-bold text-cyan-400 bg-slate-900 border border-slate-800 px-2.5 py-0.5 rounded">1 / 9</span>
-                    </div>
-                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white mt-1.5">
-                        e-davomat.net & EDUGATE — Maktab Davomat va Xavfsizlik Tizimi
-                    </h2>
-                    <p class="text-slate-400 text-xs sm:text-sm mt-1">
-                        Barcha imkoniyatlar, uskunalar, hisobotlar va xavfsizlik standartlari bilan tanishing.
-                    </p>
-                </div>
 
-                <div class="flex items-center gap-2.5">
-                    <button type="button" data-open-presentation class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center gap-2">
-                        <i class="fas fa-expand text-xs"></i>
-                        <span>TO'LIQ EKRAN</span>
-                    </button>
-                    <button type="button" id="presSecAutoBtn" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center gap-2">
-                        <i class="fas fa-play text-xs"></i>
-                        <span>AVTO</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Main Slide Card Viewport -->
-            <div class="hud-card p-6 sm:p-8 border-cyan-500/40">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                    
-                    <!-- Left: Slide High-Res Image -->
-                    <div class="lg:col-span-6">
-                        <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-black aspect-[16/10] group shadow-xl">
-                            <img id="presSecImage" src="assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg" alt="Slide Visual" class="w-full h-full object-cover">
-                            
-                            <!-- Badge overlay -->
-                            <div class="absolute bottom-3 left-3 right-3 bg-slate-900/90 backdrop-blur-md border border-slate-700 rounded-lg p-2.5 flex items-center justify-between text-xs font-mono">
-                                <span id="presSecImageBadge" class="text-cyan-300 font-bold">Avtomatlashtirilgan O'tish Mexanizmi</span>
-                                <span class="text-slate-400"><i class="fas fa-camera text-[10px] mr-1.5"></i>Retina Foto</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Slide Information, Specs & Highlights -->
-                    <div class="lg:col-span-6 space-y-5">
-                        <div>
-                            <span id="presSecTopic" class="badge-tech badge-cyan text-[10px] py-1 px-2.5 uppercase">01 / TIZIM MAQSADI</span>
-                            <h3 id="presSecTitle" class="text-xl sm:text-2xl font-bold text-white mt-1.5 leading-snug">
-                                e-davomat.net & EDUGATE — Maktablar uchun xavfsizlik va davomat tizimi
-                            </h3>
-                            <p id="presSecOverview" class="text-slate-300 text-sm sm:text-base leading-relaxed mt-2.5 font-normal">
-                                Maktablarda o'quvchilar davomatini qulay yuritish, maktabga begona shaxslar kirishining oldini olish va ota-onalarni real vaqtda xabardor qilish uchun yaratilgan ishonchli apparat-dasturiy majmua.
-                            </p>
-                        </div>
-
-                        <!-- 4 Specs Grid -->
-                        <div>
-                            <span class="text-[10px] uppercase font-mono text-slate-400 tracking-wider font-bold block mb-2">
-                                Asosiy Ko'rsatkichlar:
-                            </span>
-                            <div id="presSecSpecsGrid" class="grid grid-cols-2 gap-2.5">
-                                <!-- Populated dynamically by presentation.js -->
-                            </div>
-                        </div>
-
-                        <!-- Key Points List -->
-                        <div>
-                            <span class="text-[10px] uppercase font-mono text-emerald-400 tracking-wider font-bold block mb-2">
-                                Asosiy Afzalliklar:
-                            </span>
-                            <ul id="presSecKeyPoints" class="space-y-1.5">
-                                <!-- Populated dynamically by presentation.js -->
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Slide Navigation Controller Bar -->
-                <div class="mt-8 pt-5 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <!-- Prev / Next buttons -->
-                    <div class="flex items-center gap-2.5">
-                        <button id="presSecPrevBtn" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center gap-2">
-                            <i class="fas fa-chevron-left text-[10px]"></i>
-                            <span>OLDINGI</span>
-                        </button>
-                        <button id="presSecNextBtn" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center gap-2">
-                            <span>KEYINGI</span>
-                            <i class="fas fa-chevron-right text-[10px]"></i>
-                        </button>
-                    </div>
-
-                    <!-- Slide Numbered Chips (01 .. 09) -->
-                    <div id="presSecDots" class="flex flex-wrap items-center justify-center gap-1.5">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
 
     <!-- 4. EXPANDED PROCESS STEPS -->
     <section id="process" class="py-14 sm:py-18 bg-[#070D1A]/50 border-b border-slate-800">
