@@ -271,14 +271,62 @@ class EdugateApp {
     initTabSwitcher() {
         const tabBtns = document.querySelectorAll('[data-platform-tab]');
         const tabContents = document.querySelectorAll('[data-platform-content]');
+        const prevBtn = document.getElementById('dashboardsPrevBtn');
+        const nextBtn = document.getElementById('dashboardsNextBtn');
+        const counter = document.getElementById('dashboardsCounter');
+        
+        const tabsList = ['stat1', 'stat2', 'stat3', 'stat4'];
+        let currentIndex = 0;
+
+        const switchTab = (target) => {
+            const index = tabsList.indexOf(target);
+            if (index !== -1) currentIndex = index;
+
+            // Update counter
+            if (counter) counter.textContent = `0${currentIndex + 1} / 0${tabsList.length}`;
+
+            // Update tab button styles
+            tabBtns.forEach(b => {
+                if (b.getAttribute('data-platform-tab') === target) {
+                    b.classList.remove('bg-slate-800/80', 'text-slate-300');
+                    b.classList.add('bg-cyan-600', 'text-white', 'shadow-lg');
+                } else {
+                    b.classList.remove('bg-cyan-600', 'text-white', 'shadow-lg');
+                    b.classList.add('bg-slate-800/80', 'text-slate-300');
+                }
+            });
+
+            // Update tab contents visibility
+            tabContents.forEach(c => {
+                if (c.getAttribute('data-platform-content') === target) {
+                    c.classList.remove('hidden');
+                } else {
+                    c.classList.add('hidden');
+                }
+            });
+        };
 
         tabBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const target = e.currentTarget.getAttribute('data-platform-tab');
-                tabBtns.forEach(b => {
-                    b.classList.remove('bg-cyan-600', 'text-white', 'shadow-lg');
-                    b.classList.add('bg-slate-800/80', 'text-slate-300');
-                });
+                switchTab(target);
+            });
+        });
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + tabsList.length) % tabsList.length;
+                switchTab(tabsList[currentIndex]);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % tabsList.length;
+                switchTab(tabsList[currentIndex]);
+            });
+        }
+    });
                 e.currentTarget.classList.add('bg-cyan-600', 'text-white', 'shadow-lg');
                 e.currentTarget.classList.remove('bg-slate-800/80', 'text-slate-300');
 

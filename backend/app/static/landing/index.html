@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.2.0">
+    <link rel="stylesheet" href="css/style.css?v=5.2.1">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.2.0"></script>
+    <script src="js/theme.js?v=5.2.1"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -416,12 +416,12 @@
         </div>
     </section>
 
-    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (MODERN APP WINDOW - 100% 1 SCREEN FIT) -->
+    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (LEFT TEXT, RIGHT APP WINDOW, TOP CONTROLS - 100% 1 SCREEN FIT) -->
     <section id="dashboards" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-3 sm:py-4 border-b border-slate-800/80 relative">
         <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
             
             <!-- Section Header -->
-            <div class="text-center max-w-3xl mx-auto mb-3 sm:mb-4 space-y-1">
+            <div class="text-center max-w-3xl mx-auto mb-2.5 sm:mb-3 space-y-1">
                 <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">DASTURIY TA'MINOT & PANELLAR</span>
                 <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight">
                     EDUGATE Yagona Boshqaruv Markazi Interfeyslari
@@ -429,30 +429,87 @@
                 <p class="text-slate-400 text-xs sm:text-[13px]">
                     Hokimlik, MMTV bo'limlari, maktab ma'muriyati va profilaktika xizmati uchun 4 ta boshqaruv ekrani.
                 </p>
+            </div>
 
-                <!-- 4 Interactive Tabs -->
-                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1.5">
-                    <button data-platform-tab="stat1" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-cyan-600 text-white shadow-lg transition flex items-center gap-1.5">
-                        <i class="fas fa-shield-halved text-cyan-200"></i> <span>XAVFSIZ PORTAL</span>
+            <!-- Top Switcher & Tabs Bar (Oldinga / Orqaga + Tabs) -->
+            <div class="flex flex-wrap items-center justify-between gap-2.5 mb-3 sm:mb-4 pb-2.5 border-b border-slate-800/80">
+                <!-- Tabs -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <button data-platform-tab="stat1" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-cyan-600 text-white shadow-lg transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-shield-halved text-cyan-200"></i> <span>1. XAVFSIZ PORTAL</span>
                     </button>
-                    <button data-platform-tab="stat2" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
-                        <i class="fas fa-map-location-dot text-indigo-400"></i> <span>HUDUDIY ANALITIKA</span>
+                    <button data-platform-tab="stat2" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-map-location-dot text-indigo-400"></i> <span>2. HUDUDIY ANALITIKA</span>
                     </button>
-                    <button data-platform-tab="stat3" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
-                        <i class="fas fa-users-viewfinder text-purple-400"></i> <span>BIOMETRIK REYESTR</span>
+                    <button data-platform-tab="stat3" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-users-viewfinder text-purple-400"></i> <span>3. BIOMETRIK REYESTR</span>
                     </button>
-                    <button data-platform-tab="stat4" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
-                        <i class="fas fa-file-excel text-emerald-400"></i> <span>ELEKTRON JURNAL</span>
+                    <button data-platform-tab="stat4" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-file-excel text-emerald-400"></i> <span>4. ELEKTRON JURNAL</span>
+                    </button>
+                </div>
+
+                <!-- Navigation Controls (Oldinga / Orqaga) -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-mono text-slate-400 hidden sm:inline mr-1">PANEL:</span>
+                    <button id="dashboardsPrevBtn" class="w-8 h-8 rounded-lg bg-slate-800/90 hover:bg-cyan-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-cyan-400 transition flex items-center justify-center cursor-pointer shadow-md" title="Oldingi panel (<)">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                    <span id="dashboardsCounter" class="text-xs font-mono font-bold text-cyan-400 px-2 min-w-[50px] text-center">01 / 04</span>
+                    <button id="dashboardsNextBtn" class="w-8 h-8 rounded-lg bg-slate-800/90 hover:bg-cyan-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-cyan-400 transition flex items-center justify-center cursor-pointer shadow-md" title="Keyingi panel (>)">
+                        <i class="fas fa-chevron-right text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Tab Content 1: Xavfsiz Portal -->
+            <!-- Tab Content 1: Xavfsiz Portal (Left: Text, Right: Frame) -->
             <div data-platform-content="stat1" class="w-full">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
-                    <!-- Left: Modern App Window -->
-                    <div class="lg:col-span-8">
-                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(6,182,212,0.2)] overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    <!-- Left: Texts & Specifications -->
+                    <div class="lg:col-span-5 space-y-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="badge-tech badge-cyan text-[9px]">Axborot Xavfsizligi</span>
+                            <span class="text-[10px] font-mono text-slate-400">PANEL #1</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
+                            Yopiq Kriptografik Tarmoq va Kirish Portali
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                            Maktab direktori va vakolatli xodimlar uchun shaxsiy xavfsiz avtorizatsiya. Begona ulanishlar avtomatik bloklanadi.
+                        </p>
+                        <div class="space-y-1.5 pt-1 text-xs font-mono">
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Standart:</span>
+                                <span class="text-emerald-400 font-bold">100% Davlat Standarti</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Avtorizatsiya:</span>
+                                <span class="text-cyan-400 font-bold">2-Bosqichli (2FA)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Shifrlash:</span>
+                                <span class="text-cyan-400 font-bold">AES-256 GCM</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Audit:</span>
+                                <span class="text-white font-bold">Har soniya qayd etiladi</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>RETINA 4K REJIMI</span>
+                            </button>
+                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                                <span>Keyingisi</span>
+                                <i class="fas fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Modern App Window Frame -->
+                    <div class="lg:col-span-7">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(6,182,212,0.25)] overflow-hidden">
                             <!-- Window Titlebar -->
                             <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
                                 <div class="flex items-center gap-1.5">
@@ -466,7 +523,7 @@
                                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-1"></span>
                                     <span class="text-[8px] text-emerald-400 font-bold uppercase tracking-wider">ONLINE</span>
                                 </div>
-                                <button type="button" class="text-slate-400 hover:text-cyan-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                <button type="button" class="text-slate-400 hover:text-cyan-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-7').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
                                     <i class="fas fa-expand"></i>
                                 </button>
                             </div>
@@ -492,45 +549,57 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Right: Info -->
-                    <div class="lg:col-span-4 space-y-3">
-                        <span class="badge-tech badge-cyan text-[9px]">Axborot Xavfsizligi</span>
-                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Yopiq Kriptografik Tarmoq va Kirish Portali</h3>
-                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            Maktab direktori va vakolatli xodimlar uchun shaxsiy xavfsiz avtorizatsiya. Begona ulanishlar avtomatik bloklanadi.
-                        </p>
-                        <div class="space-y-1.5 pt-1 text-xs font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Standart:</span>
-                                <span class="text-emerald-400 font-bold">100% Davlat Standarti</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Avtorizatsiya:</span>
-                                <span class="text-cyan-400 font-bold">2-Bosqichli (2FA)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Shifrlash:</span>
-                                <span class="text-cyan-400 font-bold">AES-256 GCM</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Audit:</span>
-                                <span class="text-white font-bold">Har soniya qayd etiladi</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-cyan-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-cyan-400"></i>
-                            <span>RETINA 4K REJIMI</span>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Tab Content 2: Hududiy Tahlil -->
+            <!-- Tab Content 2: Hududiy Tahlil (Left: Text, Right: Frame) -->
             <div data-platform-content="stat2" class="w-full hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
-                    <!-- Left: Modern App Window -->
-                    <div class="lg:col-span-8">
-                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(99,102,241,0.2)] overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    <!-- Left: Texts & Specifications -->
+                    <div class="lg:col-span-5 space-y-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="badge-tech badge-indigo text-[9px]">Markaziy Tahlil</span>
+                            <span class="text-[10px] font-mono text-slate-400">PANEL #2</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
+                            Hududiy Tahlil va Interaktiv Tumanlar Xaritasi
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                            Viloyat va tumanlar bo'yicha real-vaqt davomat ko'rsatkichlari, tuman kesimidagi qiyosiy grafiklar va faol monitoring.
+                        </p>
+                        <div class="space-y-1.5 pt-1 text-xs font-mono">
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Viloyatlar:</span>
+                                <span class="text-indigo-400 font-bold">14 Viloyat, 208 Tuman</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Yangilanish:</span>
+                                <span class="text-cyan-400 font-bold">Real-vaqt (0.18s)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Tizim:</span>
+                                <span class="text-emerald-400 font-bold">MMTV & Hokimlik</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Profilaktika:</span>
+                                <span class="text-white font-bold">Oniy monitoring</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>RETINA 4K REJIMI</span>
+                            </button>
+                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                                <span>Keyingisi</span>
+                                <i class="fas fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Modern App Window Frame -->
+                    <div class="lg:col-span-7">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(99,102,241,0.25)] overflow-hidden">
                             <!-- Window Titlebar -->
                             <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
                                 <div class="flex items-center gap-1.5">
@@ -544,7 +613,7 @@
                                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse ml-1"></span>
                                     <span class="text-[8px] text-indigo-400 font-bold uppercase tracking-wider">LIVE</span>
                                 </div>
-                                <button type="button" class="text-slate-400 hover:text-indigo-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                <button type="button" class="text-slate-400 hover:text-indigo-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-7').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
                                     <i class="fas fa-expand"></i>
                                 </button>
                             </div>
@@ -570,45 +639,57 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Right: Info -->
-                    <div class="lg:col-span-4 space-y-3">
-                        <span class="badge-tech badge-indigo text-[9px]">Markaziy Tahlil</span>
-                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Hududiy Tahlil va Interaktiv Tumanlar Xaritasi</h3>
-                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            Viloyat va tumanlar bo'yicha real-vaqt davomat ko'rsatkichlari, tuman kesimidagi qiyosiy grafiklar va faol monitoring.
-                        </p>
-                        <div class="space-y-1.5 pt-1 text-xs font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Viloyatlar:</span>
-                                <span class="text-indigo-400 font-bold">14 Viloyat, 208 Tuman</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Yangilanish:</span>
-                                <span class="text-cyan-400 font-bold">Real-vaqt (0.18s)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Tizim:</span>
-                                <span class="text-emerald-400 font-bold">MMTV & Hokimlik</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Profilaktika:</span>
-                                <span class="text-white font-bold">Oniy monitoring</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-indigo-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-indigo-400"></i>
-                            <span>RETINA 4K REJIMI</span>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Tab Content 3: Biometrik Reyestr -->
+            <!-- Tab Content 3: Biometrik Reyestr (Left: Text, Right: Frame) -->
             <div data-platform-content="stat3" class="w-full hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
-                    <!-- Left: Modern App Window -->
-                    <div class="lg:col-span-8">
-                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(168,85,247,0.2)] overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    <!-- Left: Texts & Specifications -->
+                    <div class="lg:col-span-5 space-y-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="badge-tech badge-purple text-[9px]">Biometrik Baza</span>
+                            <span class="text-[10px] font-mono text-slate-400">PANEL #3</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
+                            O'quvchilar va Xodimlar Biometrik Reyestri
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                            Yuz fotosuratlari, sinf ma'lumotlari va Face ID shablonlari bazasi. Tizim orqali tezkor qidiruv va filtrlash imkoniyati.
+                        </p>
+                        <div class="space-y-1.5 pt-1 text-xs font-mono">
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Yuz nuqtalari:</span>
+                                <span class="text-purple-400 font-bold">128 Nuqta 3D Face ID</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Anti-Spoofing:</span>
+                                <span class="text-emerald-400 font-bold">100% (Suratni to'sadi)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Qidiruv:</span>
+                                <span class="text-cyan-400 font-bold">Oniy qidiruv & Filtr</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Tizim holati:</span>
+                                <span class="text-white font-bold">Doimiy sinxronlashuv</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>RETINA 4K REJIMI</span>
+                            </button>
+                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                                <span>Keyingisi</span>
+                                <i class="fas fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Modern App Window Frame -->
+                    <div class="lg:col-span-7">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(168,85,247,0.25)] overflow-hidden">
                             <!-- Window Titlebar -->
                             <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
                                 <div class="flex items-center gap-1.5">
@@ -622,7 +703,7 @@
                                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse ml-1"></span>
                                     <span class="text-[8px] text-purple-400 font-bold uppercase tracking-wider">SECURE DB</span>
                                 </div>
-                                <button type="button" class="text-slate-400 hover:text-purple-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                <button type="button" class="text-slate-400 hover:text-purple-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-7').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
                                     <i class="fas fa-expand"></i>
                                 </button>
                             </div>
@@ -648,45 +729,57 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Right: Info -->
-                    <div class="lg:col-span-4 space-y-3">
-                        <span class="badge-tech badge-purple text-[9px]">Biometrik Baza</span>
-                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">O'quvchilar va Xodimlar Biometrik Reyestri</h3>
-                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            Yuz fotosuratlari, sinf ma'lumotlari va Face ID shablonlari bazasi. Tizim orqali tezkor qidiruv va filtrlash imkoniyati.
-                        </p>
-                        <div class="space-y-1.5 pt-1 text-xs font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Yuz nuqtalari:</span>
-                                <span class="text-purple-400 font-bold">128 Nuqta 3D Face ID</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Anti-Spoofing:</span>
-                                <span class="text-emerald-400 font-bold">100% (Suratni to'sadi)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Qidiruv:</span>
-                                <span class="text-cyan-400 font-bold">Oniy qidiruv & Filtr</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Tizim holati:</span>
-                                <span class="text-white font-bold">Doimiy sinxronlashuv</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-purple-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-purple-400"></i>
-                            <span>RETINA 4K REJIMI</span>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Tab Content 4: Elektron Jurnal -->
+            <!-- Tab Content 4: Elektron Jurnal (Left: Text, Right: Frame) -->
             <div data-platform-content="stat4" class="w-full hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
-                    <!-- Left: Modern App Window -->
-                    <div class="lg:col-span-8">
-                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(245,158,11,0.2)] overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+                    <!-- Left: Texts & Specifications -->
+                    <div class="lg:col-span-5 space-y-3.5">
+                        <div class="flex items-center gap-2">
+                            <span class="badge-tech badge-amber text-[9px]">Elektron Jurnal</span>
+                            <span class="text-[10px] font-mono text-slate-400">PANEL #4</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
+                            Kunlik va Oylik Elektron Davomat Jurnali
+                        </h3>
+                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+                            Qog'oz jurnallarsiz, turniket ma'lumotlari asosida to'liq avtomatik shakllanadigan o'quvchilar davomati hisoboti.
+                        </p>
+                        <div class="space-y-1.5 pt-1 text-xs font-mono">
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Eksport:</span>
+                                <span class="text-emerald-400 font-bold">Excel (.xlsx) / CSV</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Aniqlik:</span>
+                                <span class="text-cyan-400 font-bold">Sekundigacha (08:14:02)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Kechikishlar:</span>
+                                <span class="text-amber-400 font-bold">Avtomatik hisob</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Jurnal turi:</span>
+                                <span class="text-white font-bold">100% Qog'ozsiz tizim</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 pt-1">
+                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                                <i class="fas fa-expand text-xs"></i>
+                                <span>RETINA 4K REJIMI</span>
+                            </button>
+                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                                <span>Keyingisi</span>
+                                <i class="fas fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Modern App Window Frame -->
+                    <div class="lg:col-span-7">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(245,158,11,0.25)] overflow-hidden">
                             <!-- Window Titlebar -->
                             <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
                                 <div class="flex items-center gap-1.5">
@@ -700,7 +793,7 @@
                                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse ml-1"></span>
                                     <span class="text-[8px] text-amber-400 font-bold uppercase tracking-wider">AUTO-SYNC</span>
                                 </div>
-                                <button type="button" class="text-slate-400 hover:text-amber-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                <button type="button" class="text-slate-400 hover:text-amber-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-7').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
                                     <i class="fas fa-expand"></i>
                                 </button>
                             </div>
@@ -725,36 +818,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Right: Info -->
-                    <div class="lg:col-span-4 space-y-3">
-                        <span class="badge-tech badge-amber text-[9px]">Elektron Jurnal</span>
-                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Kunlik va Oylik Elektron Davomat Jurnali</h3>
-                        <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            Qog'oz jurnallarsiz, turniket ma'lumotlari asosida to'liq avtomatik shakllanadigan o'quvchilar davomati hisoboti.
-                        </p>
-                        <div class="space-y-1.5 pt-1 text-xs font-mono">
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Eksport:</span>
-                                <span class="text-emerald-400 font-bold">Excel (.xlsx) / CSV</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Aniqlik:</span>
-                                <span class="text-cyan-400 font-bold">Sekundigacha (08:14:02)</span>
-                            </div>
-                            <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Kechikishlar:</span>
-                                <span class="text-amber-400 font-bold">Avtomatik hisob</span>
-                            </div>
-                            <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Jurnal turi:</span>
-                                <span class="text-white font-bold">100% Qog'ozsiz tizim</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-amber-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-amber-400"></i>
-                            <span>RETINA 4K REJIMI</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -1075,10 +1138,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.2.0"></script>
-    <script src="js/presentation.js?v=5.2.0"></script>
-    <script src="js/scanner.js?v=5.2.0"></script>
-    <script src="js/map.js?v=5.2.0"></script>
-    <script src="js/edugate.js?v=5.2.0"></script>
+    <script src="js/translations.js?v=5.2.1"></script>
+    <script src="js/presentation.js?v=5.2.1"></script>
+    <script src="js/scanner.js?v=5.2.1"></script>
+    <script src="js/map.js?v=5.2.1"></script>
+    <script src="js/edugate.js?v=5.2.1"></script>
 </body>
 </html>
