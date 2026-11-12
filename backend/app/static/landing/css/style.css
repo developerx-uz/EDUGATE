@@ -693,3 +693,76 @@ html.light .pres-dot.bg-cyan-500 {
     100% { transform: translateX(0); }
 }
 
+/* ==========================================================================
+   CUSTOM 5-LANGUAGE ROOM DROPDOWN (100% SOLID OPAQUE CYBER STYLING)
+   ========================================================================== */
+#langDropdownMenu {
+    background-color: #070F1E !important;
+    background: #070F1E !important;
+    border: 1px solid rgba(6, 182, 212, 0.45) !important;
+    box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95), 0 0 30px rgba(6, 182, 212, 0.25) !important;
+    opacity: 1 !important;
+    z-index: 1000 !important;
+}
+
+#langDropdownTrigger {
+    background-color: #0F172A !important;
+    border-color: #1E293B !important;
+}
+
+#langDropdownTrigger:hover {
+    border-color: rgba(6, 182, 212, 0.6) !important;
+}
+
+#langDropdownMenu .lang-option {
+    color: #CBD5E1 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    transition: all 0.15s ease-in-out;
+}
+
+#langDropdownMenu .lang-option:hover {
+    background-color: rgba(6, 182, 212, 0.18) !important;
+    color: #22D3EE !important;
+    border-color: rgba(6, 182, 212, 0.35) !important;
+}
+
+#langDropdownMenu .lang-option.active {
+    background-color: rgba(6, 182, 212, 0.22) !important;
+    color: #38BDF8 !important;
+    border-color: rgba(6, 182, 212, 0.45) !important;
+}
+
+/* Light Theme Support */
+html.light #langDropdownTrigger {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light #langDropdownMenu {
+    background-color: #FFFFFF !important;
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15), 0 0 20px rgba(2, 132, 199, 0.1) !important;
+    opacity: 1 !important;
+}
+
+html.light #langDropdownMenu .lang-option {
+    color: #334155 !important;
+}
+
+html.light #langDropdownMenu .lang-option:hover {
+    background-color: #F1F5F9 !important;
+    color: #0284C7 !important;
+    border-color: #BAE6FD !important;
+}
+
+html.light #langDropdownMenu .lang-option.active {
+    background-color: #E0F2FE !important;
+    color: #0284C7 !important;
+    border-color: #7DD3FC !important;
+}
+
+
