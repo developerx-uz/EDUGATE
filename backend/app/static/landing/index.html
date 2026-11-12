@@ -20,6 +20,9 @@
     
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Theme Manager (Initializes OS System preference automatically) -->
+    <script src="js/theme.js"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -54,8 +57,14 @@
                 <a href="#map-analytics" class="nav-link">14 Viloyat</a>
             </nav>
 
-            <!-- Actions: ONLINE PRESENTATION BUTTON -->
-            <div class="hidden sm:flex items-center gap-3">
+            <!-- Actions: ONLINE PRESENTATION & THEME SWITCHER -->
+            <div class="hidden sm:flex items-center gap-2.5">
+                <!-- Theme Switcher (Auto OS default, user can toggle Light / Dark) -->
+                <button type="button" data-theme-toggle class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5 rounded-lg border border-slate-700/80 hover:border-cyan-400 transition" title="Mavzuni almashtirish (Oq / Qora)">
+                    <i class="fas fa-sun text-amber-400"></i>
+                    <span class="theme-label text-[11px] font-semibold">Mavzu</span>
+                </button>
+
                 <!-- Language Selector -->
                 <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1 text-xs font-mono">
                     <button data-lang-btn="uz" class="px-2.5 py-1 rounded bg-cyan-500/30 text-cyan-300 font-bold">UZ</button>
