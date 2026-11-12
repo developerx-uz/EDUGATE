@@ -296,90 +296,16 @@ class EdugateApp {
         const modal = document.getElementById('schoolGalleryModal');
         const heroTrigger = document.getElementById('heroPhotoCard');
         const fullscreenBtn = document.getElementById('heroFullscreenBtn');
+        const closeBtn = document.getElementById('closeGalleryBtn');
         if (!modal) return;
 
-        const mainImg = document.getElementById('galleryMainImg');
-        const titleEl = document.getElementById('galleryTitle');
-        const descEl = document.getElementById('galleryDesc');
-        const counterEl = document.getElementById('galleryCounter');
-        const prevBtn = document.getElementById('galleryPrevBtn');
-        const nextBtn = document.getElementById('galleryNextBtn');
-        const closeBtn = document.getElementById('closeGalleryBtn');
-        const thumbContainer = document.getElementById('galleryThumbnails');
-
-        const galleryData = [
-            {
-                src: 'assets/termiz_11_maktab_turniket_clean-B0ZTyEvY.jpg',
-                title: "Termiz 11-maktab — Real Turniket Tizimi",
-                desc: "Surxondaryo viloyati Termiz shahridagi 11-maktabga o'rnatilgan ST-100 turniketlari va xavfsiz o'tish zali."
-            },
-            {
-                src: 'assets/milliy_gvardiya_termiz_10_1792418655393-C6Z2hvMJ.jpg',
-                title: "Milliy Gvardiya Xavfsizlik Nazorati",
-                desc: "Maktab hududida xavfsizlikni ta'minlash va profilaktika inspektori tomonidan real vaqtda davomat nazorati."
-            },
-            {
-                src: 'assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg',
-                title: "Face ID Biometrik AI Terminali",
-                desc: "0.18 soniyada 128 ta yuz nuqtasini aniqlovchi infraqizil (IR) va optik kamerali aqlli biometrik terminal."
-            },
-            {
-                src: 'assets/telegram_edavomat_xabarnoma_1792418685514-BhwRdhnc.jpg',
-                title: "Ota-onalar Uchun Oniy Telegram Xabarnomasi",
-                desc: "Farzand maktab turniketidan o'tishi bilan ota-onaning telefoniga kirish vaqti va fotosurati yetib boradi."
-            },
-            {
-                src: 'assets/turniket_ishlash_mexanizmi_1792321765311-Cyy4YXDA.jpg',
-                title: "ST-100 Turniket Ichki Mexanizmi",
-                desc: "AISI-304 zanglamaydigan po'lat korpus, 24V brushless silliq motor va 8 soatlik avtonom UPS ta'minoti."
-            }
-        ];
-
-        let currentIndex = 0;
-
-        const renderSlide = (index) => {
-            currentIndex = (index + galleryData.length) % galleryData.length;
-            const item = galleryData[currentIndex];
-            if (mainImg) mainImg.src = item.src;
-            if (titleEl) titleEl.textContent = item.title;
-            if (descEl) descEl.textContent = item.desc;
-            if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${galleryData.length}`;
-
-            // Update thumbnails active state
-            if (thumbContainer) {
-                const thumbs = thumbContainer.querySelectorAll('button');
-                thumbs.forEach((thumb, idx) => {
-                    if (idx === currentIndex) {
-                        thumb.classList.add('border-cyan-400', 'ring-2', 'ring-cyan-500/50', 'opacity-100');
-                        thumb.classList.remove('opacity-50', 'border-slate-800');
-                    } else {
-                        thumb.classList.remove('border-cyan-400', 'ring-2', 'ring-cyan-500/50', 'opacity-100');
-                        thumb.classList.add('opacity-50', 'border-slate-800');
-                    }
-                });
-            }
-        };
-
-        // Render thumbnails
-        if (thumbContainer && thumbContainer.children.length === 0) {
-            galleryData.forEach((item, idx) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'rounded-lg overflow-hidden border aspect-[16/10] bg-black transition hover:opacity-100 ' + (idx === 0 ? 'border-cyan-400 ring-2 ring-cyan-500/50 opacity-100' : 'border-slate-800 opacity-50');
-                btn.innerHTML = `<img src="${item.src}" alt="${item.title}" class="w-full h-full object-cover">`;
-                btn.addEventListener('click', () => renderSlide(idx));
-                thumbContainer.appendChild(btn);
-            });
-        }
-
-        const openGallery = (idx = 0) => {
-            renderSlide(idx);
+        const openFullscreen = () => {
             modal.classList.remove('hidden');
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
         };
 
-        const closeGallery = () => {
+        const closeFullscreen = () => {
             modal.classList.remove('open');
             modal.classList.add('hidden');
             document.body.style.overflow = '';
@@ -387,31 +313,19 @@ class EdugateApp {
 
         fullscreenBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
-            openGallery(0);
+            openFullscreen();
         });
         heroTrigger?.addEventListener('click', (e) => {
-            openGallery(0);
+            openFullscreen();
         });
-        closeBtn?.addEventListener('click', closeGallery);
+        closeBtn?.addEventListener('click', closeFullscreen);
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeGallery();
-        });
-
-        prevBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            renderSlide(currentIndex - 1);
-        });
-
-        nextBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            renderSlide(currentIndex + 1);
+            if (e.target === modal) closeFullscreen();
         });
 
         window.addEventListener('keydown', (e) => {
             if (!modal.classList.contains('open')) return;
-            if (e.key === 'Escape') closeGallery();
-            if (e.key === 'ArrowLeft') renderSlide(currentIndex - 1);
-            if (e.key === 'ArrowRight') renderSlide(currentIndex + 1);
+            if (e.key === 'Escape') closeFullscreen();
         });
     }
 
