@@ -83,15 +83,6 @@ if os.path.exists(static_dir):
 landing_dir = os.path.join(os.path.dirname(__file__), "static", "landing")
 landing_assets_dir = os.path.join(landing_dir, "assets")
 
-admin_dir_path = os.path.join(os.path.dirname(__file__), "static", "admin")
-if os.path.exists(admin_dir_path):
-    css_dir = os.path.join(admin_dir_path, "css")
-    js_dir = os.path.join(admin_dir_path, "js")
-    if os.path.exists(css_dir):
-        app.mount("/admin/css", StaticFiles(directory=css_dir), name="admin-css")
-    if os.path.exists(js_dir):
-        app.mount("/admin/js", StaticFiles(directory=js_dir), name="admin-js")
-
 
 # Marshrutlar
 app.include_router(api_router, prefix=settings.API_V1_STR)
@@ -159,41 +150,12 @@ async def serve_js(file_path: str):
     raise HTTPException(status_code=404, detail="JS not found")
 
 
-def render_admin_panel() -> str:
-    admin_dir = os.path.join(os.path.dirname(__file__), "static", "admin")
-    template_path = os.path.join(admin_dir, "template.html")
-    index_path = os.path.join(admin_dir, "index.html")
-
-    if not os.path.exists(template_path):
-        if os.path.exists(index_path):
-            with open(index_path, "r", encoding="utf-8") as f:
-                return f.read()
-        return "<h1>EDUGATE Admin Panel topilmadi</h1>"
-
-    with open(template_path, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    def replace_include(match):
-        rel = match.group(1).strip()
-        comp_path = os.path.join(admin_dir, rel)
-        if os.path.exists(comp_path):
-            with open(comp_path, "r", encoding="utf-8") as cf:
-                return cf.read()
-        return f"<!-- Missing component: {rel} -->"
-
-    pattern = re.compile(r"<!--\s*include:\s*([a-zA-Z0-9_\-\./]+)\s*-->")
-    return pattern.sub(replace_include, content)
-
-
-@app.get("/admin", response_class=HTMLResponse, tags=["Admin Panel"])
-@app.get("/admin/", response_class=HTMLResponse, tags=["Admin Panel"])
-async def serve_admin_panel():
-    html_content = render_admin_panel()
-    response = HTMLResponse(content=html_content)
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
+@app.get("/admin", tags=["Redirect"])
+@app.get("/admin/", tags=["Redirect"])
+@app.get("/edugate/admin", tags=["Redirect"])
+@app.get("/edugate/admin/", tags=["Redirect"])
+async def redirect_admin():
+    return RedirectResponse(url="/edugate/#presentation", status_code=302)
 
 
 
