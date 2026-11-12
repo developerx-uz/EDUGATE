@@ -33,7 +33,7 @@ html {
 }
 
 section[id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 4.5rem;
 }
 
 body {
@@ -306,17 +306,19 @@ input[type=range]::-webkit-slider-thumb:hover {
     transform: translateY(-1px);
 }
 
-/* Nav links & Single Sliding Indicator (Yagona sirpanuvchi faol chiziq) */
+/* Nav links & Single Sliding Indicator directly on header's bottom border */
 .nav-container {
     position: relative;
+    height: 100%;
 }
 
 .nav-link {
     color: #94A3B8;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    padding: 0.45rem 0.2rem;
+    padding: 0 0.25rem;
+    height: 100%;
     background: transparent !important;
     border-radius: 0 !important;
     white-space: nowrap;
@@ -336,19 +338,19 @@ input[type=range]::-webkit-slider-thumb:hover {
     font-weight: 700;
 }
 
-/* Yagona sirpanuvchi toza chiziq (Sliding active line) - aniq 1 dona chiziq */
+/* Yagona sirpanuvchi faol chiziq: Aynan header'ning pastki chizig'i ustiga tushadi */
 .nav-active-line {
     position: absolute;
-    bottom: -4px;
+    bottom: -1px;
     left: 0;
-    height: 2px;
+    height: 2.5px;
     background: #38BDF8;
-    box-shadow: none !important;
-    border-radius: 9999px;
+    box-shadow: 0 -1px 8px rgba(56, 189, 248, 0.75);
+    border-radius: 2px 2px 0 0;
     transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
     pointer-events: none;
     opacity: 0;
-    z-index: 10;
+    z-index: 20;
 }
 
 /* Simple theme switcher button (oddiy ramka) */
@@ -543,7 +545,7 @@ html.light .nav-link.active {
 
 html.light .nav-active-line {
     background: #0284C7;
-    box-shadow: none !important;
+    box-shadow: 0 -1px 6px rgba(2, 132, 199, 0.5);
 }
 
 html.light .theme-toggle-simple {
