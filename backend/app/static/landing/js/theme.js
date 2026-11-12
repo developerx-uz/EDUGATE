@@ -1,7 +1,7 @@
 /**
  * EDUGATE Dynamic Dual Theme Manager (Light / Dark / Auto-System)
- * Standard default: Automatic OS System Detection.
- * User can toggle Light <-> Dark at any time, persisted in localStorage.
+ * Supports segmented pill controls [ ☀️ | 🌙 ] and single toggle buttons.
+ * Icon-only presentation: strictly no text labels.
  */
 
 (function() {
@@ -34,26 +34,40 @@
     }
 
     function updateThemeToggleIcons(effectiveTheme, userPref) {
-        const toggleBtns = document.querySelectorAll('[data-theme-toggle]');
-        toggleBtns.forEach(btn => {
+        // 1. Dual Segmented Pill Buttons [ ☀️ | 🌙 ]
+        document.querySelectorAll('.theme-btn-light, [data-theme-set="light"]').forEach(btn => {
+            if (effectiveTheme === 'light') {
+                btn.classList.add('active', 'bg-amber-500/20', 'text-amber-400', 'border', 'border-amber-500/40');
+                btn.classList.remove('text-slate-400');
+            } else {
+                btn.classList.remove('active', 'bg-amber-500/20', 'text-amber-400', 'border', 'border-amber-500/40');
+                btn.classList.add('text-slate-400');
+            }
+        });
+
+        document.querySelectorAll('.theme-btn-dark, [data-theme-set="dark"]').forEach(btn => {
+            if (effectiveTheme === 'dark') {
+                btn.classList.add('active', 'bg-cyan-500/20', 'text-cyan-300', 'border', 'border-cyan-500/40');
+                btn.classList.remove('text-slate-400');
+            } else {
+                btn.classList.remove('active', 'bg-cyan-500/20', 'text-cyan-300', 'border', 'border-cyan-500/40');
+                btn.classList.add('text-slate-400');
+            }
+        });
+
+        // 2. Legacy / Single Toggle Buttons (Strictly Icon Only)
+        document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
             const icon = btn.querySelector('i');
             const label = btn.querySelector('.theme-label');
+            if (label) {
+                label.remove(); // Enforce removal of text labels
+            }
 
             if (effectiveTheme === 'light') {
-                if (icon) {
-                    icon.className = 'fas fa-moon text-amber-500';
-                }
-                if (label) {
-                    label.textContent = "Qorong'i";
-                }
+                if (icon) icon.className = 'fas fa-moon text-amber-500 text-sm';
                 btn.title = "Qorong'i rejimga o'tish";
             } else {
-                if (icon) {
-                    icon.className = 'fas fa-sun text-amber-400';
-                }
-                if (label) {
-                    label.textContent = "Yorug'";
-                }
+                if (icon) icon.className = 'fas fa-sun text-amber-400 text-sm';
                 btn.title = "Yorug' rejimga o'tish";
             }
         });
@@ -67,6 +81,12 @@
 
         localStorage.setItem(THEME_KEY, nextTheme);
         applyTheme(nextTheme);
+    };
+
+    window.setEdugateTheme = function(mode) {
+        if (mode !== 'light' && mode !== 'dark') return;
+        localStorage.setItem(THEME_KEY, mode);
+        applyTheme(mode);
     };
 
     // Reset to system auto
@@ -90,16 +110,24 @@
 
     // Bind click events on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
-        const toggleBtns = document.querySelectorAll('[data-theme-toggle]');
-        toggleBtns.forEach(btn => {
+        // Segmented pill buttons [data-theme-set="light"] and [data-theme-set="dark"]
+        document.querySelectorAll('[data-theme-set]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const mode = btn.getAttribute('data-theme-set');
+                window.setEdugateTheme(mode);
+            });
+        });
+
+        // Single toggle buttons [data-theme-toggle]
+        document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 window.toggleEdugateTheme();
             });
         });
 
-        // Ensure icons are correctly in sync with DOM
+        // Synchronize DOM elements after render
         applyTheme(getSavedTheme());
     });
 })();
-

@@ -311,6 +311,11 @@ class EdugateApp {
             }
             if (val) el.textContent = val;
         });
+
+        // Sync with presentation engine if initialized
+        if (window.edugatePresentation && typeof window.edugatePresentation.setLanguage === 'function') {
+            window.edugatePresentation.setLanguage(lang);
+        }
     }
 
     initModalViewer() {

@@ -61,12 +61,24 @@
                 <span id="navActiveLine" class="nav-active-line"></span>
             </nav>
 
-            <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA ICON-ONLY MAVZU SWITCHER -->
+            <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA DUAL-ICON MAVZU SWITCHER -->
             <div class="hidden sm:flex items-center gap-2.5 shrink-0">
-                <!-- Theme Switcher: Faqat Icon (Yozuvsiz) -->
-                <button type="button" data-theme-toggle class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center text-xs transition cursor-pointer" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
-                    <i class="fas fa-sun text-amber-400 text-sm"></i>
-                </button>
+                <!-- Theme Switcher: Yorug'lik (Sun) va Qorong'ulik (Moon) Segmented Pill -->
+                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
+                    <!-- Yorug'lik (Sun Icon) -->
+                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                    </button>
+                    <!-- Qorong'u (Moon Icon) -->
+                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
 
                 <!-- Custom 5-Language Dropdown Room -->
                 <div class="relative" id="customLangDropdown">
@@ -152,10 +164,19 @@
             <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Uskunalar</a>
             <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Bog'lanish</a>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-                <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-                <button type="button" data-theme-toggle class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center text-xs transition cursor-pointer" title="Mavzuni almashtirish">
-                    <i class="fas fa-sun text-amber-400 text-sm"></i>
-                </button>
+                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
+                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                    </button>
+                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
                 <div class="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-lg p-1 text-[11px] font-mono">
                     <button data-lang-btn="uz" class="px-1.5 py-0.5 rounded bg-cyan-500/30 text-cyan-300 font-bold">UZ</button>
                     <button data-lang-btn="en" class="px-1.5 py-0.5 rounded text-slate-400">EN</button>

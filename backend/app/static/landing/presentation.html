@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDUGATE 5.0 — Rasmiy Online Prezentatsiya (9 Slayd)</title>
+    <!-- Anti-Cache -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="description" content="EDUGATE & e-davomat.net maktab davomat va xavfsizlik tizimi rasmiy onlayn prezentatsiyasi.">
     <link rel="icon" type="image/png" href="Orlan-logo.png">
     
@@ -19,10 +23,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.0.4">
+    <link rel="stylesheet" href="css/style.css?v=5.2.5">
     
     <!-- Theme Manager -->
-    <script src="js/theme.js?v=5.0.4"></script>
+    <script src="js/theme.js?v=5.2.5"></script>
+    <!-- Translations Dictionary -->
+    <script src="js/translations.js?v=5.2.5"></script>
     
     <style>
         body {
@@ -55,25 +61,101 @@
                 <span class="text-slate-600 hidden sm:inline">|</span>
                 <div class="hidden sm:flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                    <span class="text-xs font-mono font-bold text-slate-300">Rasmiy Tizim Prezentatsiyasi</span>
+                    <span class="text-xs font-mono font-bold text-slate-300" id="presTopSubtitle">Rasmiy Tizim Prezentatsiyasi</span>
                 </div>
                 <span id="presSlideCounter" class="text-xs font-mono font-bold text-cyan-400 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded ml-1">1 / 9</span>
             </div>
 
-            <!-- Controls: Theme, Auto, Fullscreen, Back to Home -->
+            <!-- Controls: Dual Theme Switch (Sun & Moon Icons), 5-Language Custom Room, Auto, Fullscreen, Back to Home -->
             <div class="flex items-center gap-2.5">
-                <button type="button" data-theme-toggle class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5" title="Mavzuni almashtirish (Oq / Qora)">
-                    <i class="fas fa-sun text-amber-400"></i> <span class="theme-label hidden sm:inline">Mavzu</span>
-                </button>
+                <!-- Theme Switcher: Yorug'lik (Sun) va Qorong'ulik (Moon) Segmented Pill -->
+                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
+                    <!-- Yorug'lik (Sun Icon) -->
+                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                    </button>
+                    <!-- Qorong'u (Moon Icon) -->
+                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Custom 5-Language Dropdown Room -->
+                <div class="relative" id="customLangDropdown">
+                    <button type="button" id="langDropdownTrigger" class="h-[32px] px-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/60 text-slate-200 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer shadow-md select-none" title="Tilni tanlash (5 ta til)">
+                        <span id="activeLangFlag" class="text-sm leading-none">🇺🇿</span>
+                        <span id="activeLangCode" class="text-cyan-300 font-bold">UZ</span>
+                        <i class="fas fa-chevron-down text-[8px] text-slate-400 transition-transform duration-200" id="langChevron"></i>
+                    </button>
+
+                    <!-- Custom Dropdown Room / Popover (5 Languages) -->
+                    <div id="langDropdownMenu" style="background-color: #070F1E !important; background: #070F1E !important; opacity: 1 !important;" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl border border-cyan-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(6,182,212,0.25)] p-1.5 z-[1000] font-mono text-xs">
+                        <div class="px-2.5 py-1 text-[9px] uppercase tracking-wider text-slate-400 border-b border-slate-800/80 mb-1 flex items-center justify-between">
+                            <span id="langDropdownTitle">Tilni tanlang</span>
+                            <span class="text-cyan-400 text-[8px] font-bold">5 TA TIL</span>
+                        </div>
+                        
+                        <!-- 1. Uzbek -->
+                        <button type="button" data-lang-val="uz" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base leading-none">🇺🇿</span>
+                                <span class="font-bold">O'zbekcha</span>
+                            </div>
+                            <span class="lang-check text-cyan-400 text-xs"><i class="fas fa-check"></i></span>
+                        </button>
+
+                        <!-- 2. English -->
+                        <button type="button" data-lang-val="en" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base leading-none">🇬🇧</span>
+                                <span class="font-bold">English</span>
+                            </div>
+                            <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
+                        </button>
+
+                        <!-- 3. Russian -->
+                        <button type="button" data-lang-val="ru" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base leading-none">🇷🇺</span>
+                                <span class="font-bold">Русский</span>
+                            </div>
+                            <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
+                        </button>
+
+                        <!-- 4. Kazakh -->
+                        <button type="button" data-lang-val="kz" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base leading-none">🇰🇿</span>
+                                <span class="font-bold">Қазақша</span>
+                            </div>
+                            <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
+                        </button>
+
+                        <!-- 5. Kyrgyz -->
+                        <button type="button" data-lang-val="kg" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base leading-none">🇰🇬</span>
+                                <span class="font-bold">Кыргызча</span>
+                            </div>
+                            <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
+                        </button>
+                    </div>
+                </div>
+
                 <button type="button" id="presAutoBtn" class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5">
-                    <i class="fas fa-play text-[10px]"></i> <span>AVTO</span>
+                    <i class="fas fa-play text-[10px]"></i> <span id="presAutoLabel">AVTO</span>
                 </button>
                 <button type="button" id="presFullscreenBtn" class="btn-cyber btn-cyber-ghost py-1.5 px-3 text-xs font-mono flex items-center gap-1.5" title="To'liq ekran rejimi (F)">
-                    <i class="fas fa-expand text-[10px]"></i> <span class="hidden sm:inline">TO'LIQ EKRAN</span>
+                    <i class="fas fa-expand text-[10px]"></i> <span class="hidden sm:inline" id="presFullscreenLabel">TO'LIQ EKRAN</span>
                 </button>
                 <a href="/edugate/" class="btn-cyber btn-cyber-primary py-1.5 px-3.5 text-xs font-mono flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.35)]">
                     <i class="fas fa-arrow-left text-[10px]"></i>
-                    <span>BOSH SAHIFA</span>
+                    <span id="presHomeLabel">BOSH SAHIFA</span>
                 </a>
             </div>
         </div>
@@ -81,7 +163,7 @@
 
     <!-- 2. MAIN PRESENTATION STAGE -->
     <main class="flex-1 max-w-[1500px] w-full mx-auto px-4 sm:px-8 py-4 sm:py-6 flex items-center justify-center">
-        <div class="hud-card w-full p-5 sm:p-8 border-cyan-500/40 shadow-2xl relative">
+        <div class="hud-card w-full p-5 sm:p-8 border-cyan-500/40 shadow-2xl relative" style="background-color: #070F1E !important; border: 1px solid rgba(6, 182, 212, 0.45) !important;">
             <div class="hud-corner hud-tl"></div>
             <div class="hud-corner hud-tr"></div>
             <div class="hud-corner hud-bl"></div>
@@ -117,7 +199,7 @@
 
                     <!-- 4 Technical Specs -->
                     <div>
-                        <span class="text-[10px] uppercase font-mono text-slate-400 tracking-wider font-bold block mb-2">
+                        <span class="text-[10px] uppercase font-mono text-slate-400 tracking-wider font-bold block mb-2" id="presSpecsHeading">
                             Asosiy Texnik Ko'rsatkichlar:
                         </span>
                         <div id="presSlideSpecsGrid" class="grid grid-cols-2 gap-2.5">
@@ -127,7 +209,7 @@
 
                     <!-- Key Advantages -->
                     <div>
-                        <span class="text-[10px] uppercase font-mono text-emerald-400 tracking-wider font-bold block mb-2">
+                        <span class="text-[10px] uppercase font-mono text-emerald-400 tracking-wider font-bold block mb-2" id="presBenefitsHeading">
                             Asosiy Afzalliklar va Qulayliklar:
                         </span>
                         <ul id="presSlideKeyPoints" class="space-y-1.5">
@@ -148,10 +230,10 @@
             <div class="flex items-center gap-2.5">
                 <button id="presPrevBtn" class="btn-cyber btn-cyber-ghost py-2 px-4 text-xs font-mono flex items-center gap-2">
                     <i class="fas fa-chevron-left text-[10px]"></i>
-                    <span>OLDINGI</span>
+                    <span id="presPrevLabel">OLDINGI</span>
                 </button>
                 <button id="presNextBtn" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center gap-2">
-                    <span>KEYINGI</span>
+                    <span id="presNextLabel">KEYINGI</span>
                     <i class="fas fa-chevron-right text-[10px]"></i>
                 </button>
             </div>
@@ -162,7 +244,7 @@
             </div>
 
             <!-- Keyboard shortcuts hint -->
-            <div class="hidden lg:flex items-center gap-2 text-[10.5px] font-mono text-slate-500">
+            <div class="hidden lg:flex items-center gap-2 text-[10.5px] font-mono text-slate-400" id="presShortcutsHint">
                 <span>Tugmalar: <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">→</kbd> Slaydlar</span>
                 <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">Space</kbd> Avto</span>
                 <span><kbd class="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-slate-300">Esc</kbd> Chiqish</span>
@@ -172,7 +254,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/presentation.js?v=5.0.4"></script>
+    <script src="js/presentation.js?v=5.2.5"></script>
     <script>
         // Initialize dedicated standalone presentation screen
         document.addEventListener('DOMContentLoaded', () => {
@@ -183,4 +265,3 @@
     </script>
 </body>
 </html>
-
