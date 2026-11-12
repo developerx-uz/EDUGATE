@@ -623,3 +623,73 @@ html.light .pres-dot.bg-cyan-500 {
     background-color: #0284C7 !important;
     color: #FFFFFF !important;
 }
+
+/* ==========================================================================
+   Dashboard Tab Switch Transitions & Interactive Button Animations
+   ========================================================================== */
+
+@keyframes dashSlideInRight {
+    0% {
+        opacity: 0;
+        transform: translate3d(36px, 0, 0) scale(0.985);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes dashSlideInLeft {
+    0% {
+        opacity: 0;
+        transform: translate3d(-36px, 0, 0) scale(0.985);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: blur(0);
+    }
+}
+
+.anim-slide-in-right {
+    animation: dashSlideInRight 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-slide-in-left {
+    animation: dashSlideInLeft 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Button micro-interactions */
+[data-dash-prev], [data-dash-next] {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    will-change: transform;
+}
+
+[data-dash-prev]:active, [data-dash-next]:active {
+    transform: scale(0.94);
+}
+
+.btn-nudge-left {
+    animation: nudgeLeft 0.28s ease-out;
+}
+
+.btn-nudge-right {
+    animation: nudgeRight 0.28s ease-out;
+}
+
+@keyframes nudgeLeft {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes nudgeRight {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+}
+

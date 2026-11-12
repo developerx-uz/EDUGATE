@@ -278,14 +278,19 @@ class EdugateApp {
         const tabsList = ['stat1', 'stat2', 'stat3', 'stat4'];
         let currentIndex = 0;
 
-        const switchTab = (target) => {
+        const switchTab = (target, direction = 'next') => {
             const index = tabsList.indexOf(target);
             if (index !== -1) currentIndex = index;
 
-            // Update tab contents visibility
+            const animClass = direction === 'next' ? 'anim-slide-in-right' : 'anim-slide-in-left';
+
             tabContents.forEach(c => {
+                c.classList.remove('anim-slide-in-right', 'anim-slide-in-left');
                 if (c.getAttribute('data-platform-content') === target) {
                     c.classList.remove('hidden');
+                    // Force browser reflow to reliably trigger CSS keyframe animation
+                    void c.offsetWidth;
+                    c.classList.add(animClass);
                 } else {
                     c.classList.add('hidden');
                 }
@@ -294,15 +299,27 @@ class EdugateApp {
 
         prevBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                const icon = btn.querySelector('.fa-arrow-left');
+                if (icon) {
+                    icon.classList.remove('btn-nudge-left');
+                    void icon.offsetWidth;
+                    icon.classList.add('btn-nudge-left');
+                }
                 currentIndex = (currentIndex - 1 + tabsList.length) % tabsList.length;
-                switchTab(tabsList[currentIndex]);
+                switchTab(tabsList[currentIndex], 'prev');
             });
         });
 
         nextBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                const icon = btn.querySelector('.fa-arrow-right');
+                if (icon) {
+                    icon.classList.remove('btn-nudge-right');
+                    void icon.offsetWidth;
+                    icon.classList.add('btn-nudge-right');
+                }
                 currentIndex = (currentIndex + 1) % tabsList.length;
-                switchTab(tabsList[currentIndex]);
+                switchTab(tabsList[currentIndex], 'next');
             });
         });
     }
@@ -366,8 +383,11 @@ class EdugateApp {
 
             Object.entries(panels).forEach(([k, panel]) => {
                 if (!panel) return;
+                panel.classList.remove('anim-slide-in-right');
                 if (k === tabKey) {
                     panel.classList.remove('hidden');
+                    void panel.offsetWidth;
+                    panel.classList.add('anim-slide-in-right');
                 } else {
                     panel.classList.add('hidden');
                 }
