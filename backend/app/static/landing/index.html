@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.2.2">
+    <link rel="stylesheet" href="css/style.css?v=5.2.3">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.2.2"></script>
+    <script src="js/theme.js?v=5.2.3"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -416,14 +416,14 @@
         </div>
     </section>
 
-    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (LEFT TEXT, RIGHT APP WINDOW, TOP CONTROLS - 100% 1 SCREEN FIT) -->
-    <section id="dashboards" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-3 sm:py-4 border-b border-slate-800/80 relative">
+    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (LEFT TEXT, RIGHT APP WINDOW, PREV/NEXT CONTROLS - 100% 1 SCREEN FIT) -->
+    <section id="dashboards" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-4 sm:py-5 border-b border-slate-800/80 relative">
         <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
             
             <!-- Section Header -->
-            <div class="text-center max-w-3xl mx-auto mb-2.5 sm:mb-3 space-y-1">
+            <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 space-y-1.5">
                 <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">DASTURIY TA'MINOT & PANELLAR</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight">
+                <h2 class="text-xl sm:text-2xl lg:text-[28px] font-black text-white leading-tight">
                     EDUGATE Yagona Boshqaruv Markazi Interfeyslari
                 </h2>
                 <p class="text-slate-400 text-xs sm:text-[13px]">
@@ -431,45 +431,14 @@
                 </p>
             </div>
 
-            <!-- Top Switcher & Tabs Bar (Oldinga / Orqaga + Tabs) -->
-            <div class="flex flex-wrap items-center justify-between gap-2.5 mb-3 sm:mb-4 pb-2.5 border-b border-slate-800/80">
-                <!-- Tabs -->
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <button data-platform-tab="stat1" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-cyan-600 text-white shadow-lg transition flex items-center gap-1.5 cursor-pointer">
-                        <i class="fas fa-shield-halved text-cyan-200"></i> <span>1. XAVFSIZ PORTAL</span>
-                    </button>
-                    <button data-platform-tab="stat2" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
-                        <i class="fas fa-map-location-dot text-indigo-400"></i> <span>2. HUDUDIY ANALITIKA</span>
-                    </button>
-                    <button data-platform-tab="stat3" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
-                        <i class="fas fa-users-viewfinder text-purple-400"></i> <span>3. BIOMETRIK REYESTR</span>
-                    </button>
-                    <button data-platform-tab="stat4" class="px-3 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
-                        <i class="fas fa-file-excel text-emerald-400"></i> <span>4. ELEKTRON JURNAL</span>
-                    </button>
-                </div>
-
-                <!-- Navigation Controls (Oldinga / Orqaga) -->
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-mono text-slate-400 hidden sm:inline mr-1">PANEL:</span>
-                    <button id="dashboardsPrevBtn" class="w-8 h-8 rounded-lg bg-slate-800/90 hover:bg-cyan-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-cyan-400 transition flex items-center justify-center cursor-pointer shadow-md" title="Oldingi panel (<)">
-                        <i class="fas fa-chevron-left text-xs"></i>
-                    </button>
-                    <span id="dashboardsCounter" class="text-xs font-mono font-bold text-cyan-400 px-2 min-w-[50px] text-center">01 / 04</span>
-                    <button id="dashboardsNextBtn" class="w-8 h-8 rounded-lg bg-slate-800/90 hover:bg-cyan-600 text-slate-300 hover:text-white border border-slate-700/80 hover:border-cyan-400 transition flex items-center justify-center cursor-pointer shadow-md" title="Keyingi panel (>)">
-                        <i class="fas fa-chevron-right text-xs"></i>
-                    </button>
-                </div>
-            </div>
-
             <!-- Tab Content 1: Xavfsiz Portal (Left: Text, Right: Frame) -->
             <div data-platform-content="stat1" class="w-full">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
                     <!-- Left: Texts & Specifications -->
                     <div class="lg:col-span-5 space-y-3.5">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-between">
                             <span class="badge-tech badge-cyan text-[9px]">Axborot Xavfsizligi</span>
-                            <span class="text-[10px] font-mono text-slate-400">PANEL #1</span>
+                            <span class="text-xs font-mono font-bold text-cyan-400 bg-slate-900/90 border border-slate-800 px-2.5 py-0.5 rounded-lg">01 / 04</span>
                         </div>
                         <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
                             Yopiq Kriptografik Tarmoq va Kirish Portali
@@ -495,12 +464,13 @@
                                 <span class="text-white font-bold">Har soniya qayd etiladi</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 pt-1">
-                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                                <i class="fas fa-expand text-xs"></i>
-                                <span>RETINA 4K REJIMI</span>
+                        <!-- Navigation Buttons: Orqaga / Keyingisi -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-cyan-400 transition shadow-md">
+                                <i class="fas fa-arrow-left text-xs text-cyan-400"></i>
+                                <span>Orqaga</span>
                             </button>
-                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                            <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
                                 <span>Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
@@ -529,7 +499,7 @@
                             </div>
                             <!-- Window Screen Image -->
                             <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen1.png" data-preview-title="Xavfsiz Yopiq Portal (Kriptografik Kirish)" title="Retina 4K rejimida ochish">
-                                <img src="assets/screen1.png" alt="Portal" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <img src="assets/screen1.png" alt="Portal" class="w-full h-auto object-cover max-h-[390px] sm:max-h-[420px] lg:max-h-[440px] transition-transform duration-300 group-hover/win:scale-[1.01]">
                                 <div class="absolute inset-0 bg-cyan-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
                                     <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
                                         <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
@@ -557,9 +527,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
                     <!-- Left: Texts & Specifications -->
                     <div class="lg:col-span-5 space-y-3.5">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-between">
                             <span class="badge-tech badge-indigo text-[9px]">Markaziy Tahlil</span>
-                            <span class="text-[10px] font-mono text-slate-400">PANEL #2</span>
+                            <span class="text-xs font-mono font-bold text-indigo-400 bg-slate-900/90 border border-slate-800 px-2.5 py-0.5 rounded-lg">02 / 04</span>
                         </div>
                         <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
                             Hududiy Tahlil va Interaktiv Tumanlar Xaritasi
@@ -585,12 +555,13 @@
                                 <span class="text-white font-bold">Oniy monitoring</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 pt-1">
-                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                                <i class="fas fa-expand text-xs"></i>
-                                <span>RETINA 4K REJIMI</span>
+                        <!-- Navigation Buttons: Orqaga / Keyingisi -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-indigo-400 transition shadow-md">
+                                <i class="fas fa-arrow-left text-xs text-indigo-400"></i>
+                                <span>Orqaga</span>
                             </button>
-                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                            <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
                                 <span>Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
@@ -619,7 +590,7 @@
                             </div>
                             <!-- Window Screen Image -->
                             <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen2.png" data-preview-title="Hududiy Tahlil va Interaktiv Xarita" title="Retina 4K rejimida ochish">
-                                <img src="assets/screen2.png" alt="Hududiy" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <img src="assets/screen2.png" alt="Hududiy" class="w-full h-auto object-cover max-h-[390px] sm:max-h-[420px] lg:max-h-[440px] transition-transform duration-300 group-hover/win:scale-[1.01]">
                                 <div class="absolute inset-0 bg-indigo-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
                                     <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
                                         <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
@@ -647,9 +618,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
                     <!-- Left: Texts & Specifications -->
                     <div class="lg:col-span-5 space-y-3.5">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-between">
                             <span class="badge-tech badge-purple text-[9px]">Biometrik Baza</span>
-                            <span class="text-[10px] font-mono text-slate-400">PANEL #3</span>
+                            <span class="text-xs font-mono font-bold text-purple-400 bg-slate-900/90 border border-slate-800 px-2.5 py-0.5 rounded-lg">03 / 04</span>
                         </div>
                         <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
                             O'quvchilar va Xodimlar Biometrik Reyestri
@@ -675,12 +646,13 @@
                                 <span class="text-white font-bold">Doimiy sinxronlashuv</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 pt-1">
-                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                                <i class="fas fa-expand text-xs"></i>
-                                <span>RETINA 4K REJIMI</span>
+                        <!-- Navigation Buttons: Orqaga / Keyingisi -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-purple-400 transition shadow-md">
+                                <i class="fas fa-arrow-left text-xs text-purple-400"></i>
+                                <span>Orqaga</span>
                             </button>
-                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                            <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
                                 <span>Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
@@ -709,7 +681,7 @@
                             </div>
                             <!-- Window Screen Image -->
                             <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen3.png" data-preview-title="Biometrik Reyestr va Face ID Bazasi" title="Retina 4K rejimida ochish">
-                                <img src="assets/screen3.png" alt="Biometrik" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <img src="assets/screen3.png" alt="Biometrik" class="w-full h-auto object-cover max-h-[390px] sm:max-h-[420px] lg:max-h-[440px] transition-transform duration-300 group-hover/win:scale-[1.01]">
                                 <div class="absolute inset-0 bg-purple-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
                                     <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
                                         <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
@@ -737,9 +709,9 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
                     <!-- Left: Texts & Specifications -->
                     <div class="lg:col-span-5 space-y-3.5">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-between">
                             <span class="badge-tech badge-amber text-[9px]">Elektron Jurnal</span>
-                            <span class="text-[10px] font-mono text-slate-400">PANEL #4</span>
+                            <span class="text-xs font-mono font-bold text-amber-400 bg-slate-900/90 border border-slate-800 px-2.5 py-0.5 rounded-lg">04 / 04</span>
                         </div>
                         <h3 class="text-xl sm:text-2xl font-bold text-white leading-snug">
                             Kunlik va Oylik Elektron Davomat Jurnali
@@ -765,12 +737,13 @@
                                 <span class="text-white font-bold">100% Qog'ozsiz tizim</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 pt-1">
-                            <button type="button" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                                <i class="fas fa-expand text-xs"></i>
-                                <span>RETINA 4K REJIMI</span>
+                        <!-- Navigation Buttons: Orqaga / Keyingisi -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-amber-400 transition shadow-md">
+                                <i class="fas fa-arrow-left text-xs text-amber-400"></i>
+                                <span>Orqaga</span>
                             </button>
-                            <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3 text-xs font-mono flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white" onclick="document.getElementById('dashboardsNextBtn').click()" title="Keyingi panel">
+                            <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
                                 <span>Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
@@ -799,7 +772,7 @@
                             </div>
                             <!-- Window Screen Image -->
                             <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen4.png" data-preview-title="Elektron Davomat Jurnali va Hisobotlar" title="Retina 4K rejimida ochish">
-                                <img src="assets/screen4.png" alt="Jurnal" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <img src="assets/screen4.png" alt="Jurnal" class="w-full h-auto object-cover max-h-[390px] sm:max-h-[420px] lg:max-h-[440px] transition-transform duration-300 group-hover/win:scale-[1.01]">
                                 <div class="absolute inset-0 bg-amber-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
                                     <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
                                         <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
@@ -1138,10 +1111,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.2.2"></script>
-    <script src="js/presentation.js?v=5.2.2"></script>
-    <script src="js/scanner.js?v=5.2.2"></script>
-    <script src="js/map.js?v=5.2.2"></script>
-    <script src="js/edugate.js?v=5.2.2"></script>
+    <script src="js/translations.js?v=5.2.3"></script>
+    <script src="js/presentation.js?v=5.2.3"></script>
+    <script src="js/scanner.js?v=5.2.3"></script>
+    <script src="js/map.js?v=5.2.3"></script>
+    <script src="js/edugate.js?v=5.2.3"></script>
 </body>
 </html>
