@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.1.1">
+    <link rel="stylesheet" href="css/style.css?v=5.1.2">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.1.1"></script>
+    <script src="js/theme.js?v=5.1.2"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -104,177 +104,175 @@
     </header>
 
     <!-- 2. EXPANDED HERO SECTION (20-30% LARGER & WIDER) -->
-    <section id="hero" class="relative h-[calc(100vh-54px)] max-h-[calc(100vh-54px)] overflow-hidden flex items-center justify-center p-3 sm:p-4 lg:p-5 border-b border-slate-800">
-        <div class="max-w-[1400px] w-full mx-auto relative z-10">
-            <!-- Yagona yaxlit bosh sahifa kartochkasi: 1 ta to'liq ekranga 100% sig'adigan mukammal ko'rinish -->
-            <div class="hud-card p-5 sm:p-6 lg:p-7 relative border border-slate-800/90 rounded-2xl bg-[#070D1A]/85 backdrop-blur-md shadow-2xl">
-                <!-- Eagle Background Watermark inside card -->
-                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[440px] h-[440px] opacity-[0.035] pointer-events-none">
-                    <img src="assets/burgut-fon-cut-DneRPU5N.png" alt="Eagle" class="w-full h-full object-contain">
-                </div>
+    <section id="hero" class="relative min-h-[calc(100vh-54px)] h-[calc(100vh-54px)] max-h-[calc(100vh-54px)] overflow-hidden flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+        <!-- Eagle Background Watermark -->
+        <div class="absolute right-4 top-1/2 -translate-y-1/2 w-[540px] h-[540px] opacity-[0.035] pointer-events-none">
+            <img src="assets/burgut-fon-cut-DneRPU5N.png" alt="Eagle" class="w-full h-full object-contain">
+        </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-10">
-                    <!-- Left: Information & Specs -->
-                    <div class="lg:col-span-7 space-y-3.5 sm:space-y-4">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span class="badge-tech badge-cyan text-[9.5px] py-1 px-2.5">
-                                <i class="fas fa-certificate text-[8px]"></i> MMTV & IIB Standarti
-                            </span>
-                            <span class="badge-tech badge-emerald text-[9.5px] py-1 px-2.5">
-                                <i class="fas fa-signal text-[8px]"></i> 948 Maktab Faol
-                            </span>
-                            <span class="badge-tech badge-amber text-[9.5px] py-1 px-2.5">
-                                <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Xulosasi
-                            </span>
+        <div class="max-w-[1400px] w-full mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <!-- Left: Information & Specs -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">
+                            <i class="fas fa-certificate text-[8px]"></i> MMTV & IIB Standarti
+                        </span>
+                        <span class="badge-tech badge-emerald text-[10px] py-1 px-2.5">
+                            <i class="fas fa-signal text-[8px]"></i> 948 Maktab Faol
+                        </span>
+                        <span class="badge-tech badge-amber text-[10px] py-1 px-2.5">
+                            <i class="fas fa-shield-check text-[8px]"></i> Milliy Gvardiya Xulosasi
+                        </span>
+                    </div>
+
+                    <h1 class="text-2xl sm:text-3xl lg:text-[38px] font-black tracking-tight text-white leading-[1.18]">
+                        O'zbekiston Maktablari Uchun <br>
+                        <span class="text-gradient-cyan">Aqlli Face ID Davomat</span> va <br>
+                        <span class="text-gradient-indigo">Yagona Xavfsizlik Majmuasi</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-xs sm:text-[14px] leading-relaxed max-w-xl font-normal">
+                        Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.
+                    </p>
+
+                    <!-- 6 Micro-Pills (Har biri o'zining mustaqil ramkasiga ega) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 text-sm border border-cyan-500/25">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Tezlik</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">0.18 Sekund</span>
+                            </div>
                         </div>
 
-                        <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-[1.18]">
-                            O'zbekiston Maktablari Uchun <br>
-                            <span class="text-gradient-cyan">Aqlli Face ID Davomat</span> va <br>
-                            <span class="text-gradient-indigo">Yagona Xavfsizlik Majmuasi</span>
-                        </h1>
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 text-sm border border-emerald-500/25">
+                                <i class="fas fa-shield-virus"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Spoof</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">100% Himoya</span>
+                            </div>
+                        </div>
 
-                        <p class="text-slate-300 text-xs sm:text-[13.5px] leading-relaxed max-w-xl font-normal">
-                            Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.
-                        </p>
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-sm border border-amber-500/25">
+                                <i class="fas fa-battery-three-quarters"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Avtonom</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">8 Soat (UPS)</span>
+                            </div>
+                        </div>
 
-                        <!-- 6 Micro-Pills: Balandligi oshirilgan to'laqonli ichki ramkalar -->
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1">
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 text-sm border border-cyan-500/25">
-                                    <i class="fas fa-bolt"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Tezlik</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">0.18 Sekund</span>
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 text-sm border border-indigo-500/25">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Shifrlash</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">AES-256 GCM</span>
+                            </div>
+                        </div>
+
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 text-sm border border-sky-500/25">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Telegram</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Oniy Xabar</span>
+                            </div>
+                        </div>
+
+                        <div class="hud-card p-3 sm:p-3.5 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0 text-sm border border-rose-500/25">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                            <div>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Panika</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Avto-Ochilish</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Actions -->
+                    <div class="flex flex-wrap items-center gap-3 pt-1">
+                        <a href="presentation" class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2">
+                            <i class="fas fa-play-circle text-xs text-cyan-200"></i>
+                            <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
+                        </a>
+                        <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center gap-2">
+                            <i class="fas fa-laptop-code text-xs"></i> TIZIM PANELLARI
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Seamlessly Embedded Biometric Scanner Terminal Card -->
+                <div class="lg:col-span-5">
+                    <div class="hud-card p-3.5 sm:p-4 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl">
+                        <!-- Telemetry Top Bar -->
+                        <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-800/80 text-[11px] font-mono">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                <span class="text-cyan-300 font-bold">CAM-01: DUAL IR+RGB</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400 text-[10px]">
+                                <span>FPS: <b class="text-white">60</b></span>
+                                <span>TEMP: <b class="text-emerald-400">34°C</b></span>
+                                <span>PING: <b class="text-cyan-400">18ms</b></span>
+                            </div>
+                        </div>
+
+                        <!-- Camera Viewport -->
+                        <div class="relative w-full aspect-[4/3] sm:aspect-[16/11] max-h-[260px] sm:max-h-[285px] rounded-lg overflow-hidden bg-black border border-slate-800 mx-auto">
+                            <div class="laser-beam"></div>
+                            <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="Face Scanner" class="w-full h-full object-cover">
+                            <canvas id="faceLandmarksCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+                            <!-- Optical Crosshairs -->
+                            <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+                                <div class="w-24 h-24 rounded-full border border-cyan-500/30 flex items-center justify-center">
+                                    <div class="w-14 h-14 rounded-full border border-dashed border-cyan-400/50"></div>
                                 </div>
                             </div>
 
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 text-sm border border-emerald-500/25">
-                                    <i class="fas fa-shield-virus"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Spoof</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">100% Himoya</span>
-                                </div>
-                            </div>
-
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-sm border border-amber-500/25">
-                                    <i class="fas fa-battery-three-quarters"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Avtonom</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">8 Soat (UPS)</span>
-                                </div>
-                            </div>
-
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 text-sm border border-indigo-500/25">
-                                    <i class="fas fa-lock"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Shifrlash</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">AES-256 GCM</span>
-                                </div>
-                            </div>
-
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 text-sm border border-sky-500/25">
+                            <!-- Live Telegram Alert Overlay -->
+                            <div id="scanTelegramPopup" class="absolute bottom-2.5 left-2.5 right-2.5 bg-slate-900/95 border border-cyan-500/50 rounded-xl p-2.5 shadow-2xl backdrop-blur-md opacity-0 translate-y-3 transition-all duration-300 z-30 flex items-start gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 text-xs">
                                     <i class="fab fa-telegram-plane"></i>
                                 </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Telegram</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Oniy Xabar</span>
-                                </div>
-                            </div>
-
-                            <div class="p-2.5 sm:p-3 rounded-xl bg-slate-900/85 border border-slate-800/90 flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0 text-sm border border-rose-500/25">
-                                    <i class="fas fa-door-open"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[9px] sm:text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Panika</span>
-                                    <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Avto-Ochilish</span>
+                                <div class="text-xs">
+                                    <div class="flex items-center justify-between font-bold text-sky-400">
+                                        <span>EDUGATE Xabarnoma</span>
+                                        <span class="text-[9px] text-slate-400">Hozirgina</span>
+                                    </div>
+                                    <p id="telegramNotifText" class="text-slate-300 text-[10.5px] mt-0.5">
+                                        Farzandingiz maktabga kirdi. Turniket-01 ochildi.
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- CTA Actions -->
-                        <div class="flex flex-wrap items-center gap-3 pt-1">
-                            <a href="presentation" class="btn-cyber btn-cyber-primary py-2 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2">
-                                <i class="fas fa-play-circle text-xs text-cyan-200"></i>
-                                <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
-                            </a>
-                            <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono flex items-center gap-2">
-                                <i class="fas fa-laptop-code text-xs"></i> TIZIM PANELLARI
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Right: Seamlessly Embedded Biometric Scanner Terminal (Balandligi oshirilgan) -->
-                    <div class="lg:col-span-5">
-                        <div class="rounded-xl p-3 sm:p-3.5 bg-black/60 border border-slate-800 shadow-inner">
-                            <!-- Telemetry Top Bar -->
-                            <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-800/80 text-[11px] font-mono">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                                    <span class="text-cyan-300 font-bold">CAM-01: DUAL IR+RGB</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-slate-400 text-[10px]">
-                                    <span>FPS: <b class="text-white">60</b></span>
-                                    <span>TEMP: <b class="text-emerald-400">34°C</b></span>
-                                    <span>PING: <b class="text-cyan-400">18ms</b></span>
-                                </div>
+                        <!-- Bottom Identification Telemetry -->
+                        <div class="mt-2 pt-1.5 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div>
+                                <span class="text-slate-500 text-[9.5px] uppercase block">O'quvchi:</span>
+                                <h4 id="scanStudentName" class="font-bold text-white text-xs sm:text-sm">Eshboyev Farhod</h4>
+                                <p id="scanStudentClass" class="text-cyan-400 text-[11px] mt-0.5">10-A sinf (101-IDUM)</p>
                             </div>
-
-                            <!-- Camera Viewport: Bo'yi balandlatilgan yorqin kamera ekrani -->
-                            <div class="relative w-full aspect-[4/3] sm:aspect-[16/11] max-h-[240px] sm:max-h-[265px] lg:max-h-[280px] rounded-lg overflow-hidden bg-black border border-slate-800 mx-auto">
-                                <div class="laser-beam"></div>
-                                <img src="assets/face_recognition_ai_scanner_1791053871354-Ix6loFC9.jpg" alt="Face Scanner" class="w-full h-full object-cover">
-                                <canvas id="faceLandmarksCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
-
-                                <!-- Optical Crosshairs -->
-                                <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
-                                    <div class="w-24 h-24 rounded-full border border-cyan-500/30 flex items-center justify-center">
-                                        <div class="w-14 h-14 rounded-full border border-dashed border-cyan-400/50"></div>
-                                    </div>
-                                </div>
-
-                                <!-- Live Telegram Alert Overlay -->
-                                <div id="scanTelegramPopup" class="absolute bottom-2.5 left-2.5 right-2.5 bg-slate-900/95 border border-cyan-500/50 rounded-xl p-2.5 shadow-2xl backdrop-blur-md opacity-0 translate-y-3 transition-all duration-300 z-30 flex items-start gap-2">
-                                    <div class="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 text-xs">
-                                        <i class="fab fa-telegram-plane"></i>
-                                    </div>
-                                    <div class="text-xs">
-                                        <div class="flex items-center justify-between font-bold text-sky-400">
-                                            <span>EDUGATE Xabarnoma</span>
-                                            <span class="text-[9px] text-slate-400">Hozirgina</span>
-                                        </div>
-                                        <p id="telegramNotifText" class="text-slate-300 text-[10.5px] mt-0.5">
-                                            Farzandingiz maktabga kirdi. Turniket-01 ochildi.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bottom Identification Telemetry -->
-                            <div class="mt-2 pt-1.5 border-t border-slate-800/80 grid grid-cols-2 gap-2 text-xs font-mono">
-                                <div>
-                                    <span class="text-slate-500 text-[9.5px] uppercase block">O'quvchi:</span>
-                                    <h4 id="scanStudentName" class="font-bold text-white text-xs sm:text-sm">Eshboyev Farhod</h4>
-                                    <p id="scanStudentClass" class="text-cyan-400 text-[11px] mt-0.5">10-A sinf (101-IDUM)</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-slate-500 text-[9.5px] uppercase block">Turniket Holati:</span>
-                                    <p id="scanTurnstileStatus" class="font-bold text-emerald-400 text-xs sm:text-[13px]">Ochildi 🟢 (Motor 24V)</p>
-                                    <p id="scanSpeedScore" class="text-cyan-300 text-[10px] mt-0.5">Aniqlik: 99.87% (0.18s)</p>
-                                </div>
+                            <div class="text-right">
+                                <span class="text-slate-500 text-[9.5px] uppercase block">Turniket Holati:</span>
+                                <p id="scanTurnstileStatus" class="font-bold text-emerald-400 text-xs sm:text-[13px]">Ochildi 🟢 (Motor 24V)</p>
+                                <p id="scanSpeedScore" class="text-cyan-300 text-[10px] mt-0.5">Aniqlik: 99.87% (0.18s)</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -282,11 +280,11 @@
 
 
     <!-- 3. EXPANDED PROCESS STEPS (10 BOSQICH: 5 TADAN 2 QATOR) -->
-    <section id="process" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-4 sm:py-6 lg:py-8 bg-[#070D1A]/50 border-b border-slate-800">
+    <section id="process" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-6 sm:py-8 lg:py-10 bg-[#070D1A]/50 border-b border-slate-800">
         <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-3.5 sm:mb-4 lg:mb-5 space-y-1">
-                <span class="badge-tech badge-cyan text-[9px] sm:text-[9.5px] py-0.5 px-2">Texnologik Zanjir</span>
-                <h2 class="text-xl sm:text-2xl lg:text-3xl font-black text-white">
+            <div class="text-center max-w-2xl mx-auto mb-5 sm:mb-6 lg:mb-7 space-y-1.5">
+                <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">Texnologik Zanjir</span>
+                <h2 class="text-2xl sm:text-3xl lg:text-[34px] font-black text-white">
                     Turniketdan O'tishdan Xavfsizlik Natijasigacha: 10 Bosqich
                 </h2>
                 <p class="text-slate-400 text-xs sm:text-sm">
@@ -294,106 +292,146 @@
                 </p>
             </div>
 
-            <!-- 10 ta ramka: 5 tadan 2 qatorda -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 lg:gap-3.5">
+            <!-- 10 ta ramka: 5 tadan 2 qatorda (Katta va to'laqonli o'lchamda) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4 lg:gap-4.5">
                 <!-- 01 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-cyan-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-cyan-400">01</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Optik & IR Aniqlash</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        2.5 metr masofadan infraqizil va RGB kameralar yuzni avtomatik fokuslaydi.
-                    </p>
-                    <span class="badge-tech badge-cyan text-[8.5px]">Masofa: 2.5m</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-cyan-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-cyan-400 block">01</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Optik & IR Aniqlash</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            2.5 metr masofadan infraqizil va RGB kameralar yuzni avtomatik fokuslaydi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-cyan text-[9.5px] py-0.5 px-2.5">Masofa: 2.5m</span>
+                    </div>
                 </div>
 
                 <!-- 02 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-indigo-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-indigo-400">02</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Neyron Triangulyatsiya</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        128 ta yuz nuqtasi 0.18s da tekshirilib, fotosurat bilan aldash to'xtatiladi.
-                    </p>
-                    <span class="badge-tech badge-indigo text-[8.5px]">128 Nuqta 3D</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-indigo-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-indigo-400 block">02</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Neyron Triangulyatsiya</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            128 ta yuz nuqtasi 0.18s da tekshirilib, fotosurat bilan aldash to'xtatiladi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-indigo text-[9.5px] py-0.5 px-2.5">128 Nuqta 3D</span>
+                    </div>
                 </div>
 
                 <!-- 03 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-emerald-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-emerald-400">03</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Turniket Ochilishi</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        ST-100 zanglamaydigan po'lat turniket qanotlari 0.3s da silliq ochiladi.
-                    </p>
-                    <span class="badge-tech badge-emerald text-[8.5px]">45 kishi / min</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-emerald-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-emerald-400 block">03</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Turniket Ochilishi</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            ST-100 zanglamaydigan po'lat turniket qanotlari 0.3s da silliq ochiladi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-emerald text-[9.5px] py-0.5 px-2.5">45 kishi / min</span>
+                    </div>
                 </div>
 
                 <!-- 04 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-amber-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-amber-400">04</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Shifrlangan Telemetriya</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        O'tish vaqti soniyasigacha AES-256 orqali serverga jo'natiladi.
-                    </p>
-                    <span class="badge-tech badge-amber text-[8.5px]">AES-256 GCM</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-amber-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-amber-400 block">04</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Shifrlangan Telemetriya</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            O'tish vaqti soniyasigacha AES-256 orqali serverga jo'natiladi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-amber text-[9.5px] py-0.5 px-2.5">AES-256 GCM</span>
+                    </div>
                 </div>
 
                 <!-- 05 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-sky-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-sky-400">05</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Ota-onaga Telegram</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        Telegram boti orqali farzandining kirish vaqti haqida darhol xabar boradi.
-                    </p>
-                    <span class="badge-tech badge-cyan text-[8.5px]">Tezkor Yetkazish</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-sky-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-sky-400 block">05</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Ota-onaga Telegram</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            Telegram boti orqali farzandining kirish vaqti haqida darhol xabar boradi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-cyan text-[9.5px] py-0.5 px-2.5">Tezkor Yetkazish</span>
+                    </div>
                 </div>
 
                 <!-- 06 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-purple-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-purple-400">06</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">e-Maktab Jurnali</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        Kundalik va e-maktab tizimiga o'quvchi avtomatik tarzda "keldi" deb kiritiladi.
-                    </p>
-                    <span class="badge-tech badge-indigo text-[8.5px]">e-Maktab Mos</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-purple-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-purple-400 block">06</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">e-Maktab Jurnali</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            Kundalik va e-maktab tizimiga o'quvchi avtomatik tarzda "keldi" deb kiritiladi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-indigo text-[9.5px] py-0.5 px-2.5">e-Maktab Mos</span>
+                    </div>
                 </div>
 
                 <!-- 07 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-rose-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-rose-400">07</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Kechikishlar Tahlili</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        08:30 dan so'ng kelgan yoki darsga kelmaganlar oniy tahlil qilinadi.
-                    </p>
-                    <span class="badge-tech badge-rose text-[8.5px]">Avto-Monitoring</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-rose-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-rose-400 block">07</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Kechikishlar Tahlili</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            08:30 dan so'ng kelgan yoki darsga kelmaganlar oniy tahlil qilinadi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-rose text-[9.5px] py-0.5 px-2.5">Avto-Monitoring</span>
+                    </div>
                 </div>
 
                 <!-- 08 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-orange-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-orange-400">08</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">SmartUPS Avtonomiya</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        Elektr o'chganida zaxira LiFePO4 batareyalari 8 soat uzluksiz ta'minlaydi.
-                    </p>
-                    <span class="badge-tech badge-amber text-[8.5px]">8 Soat Avtonom</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-orange-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-orange-400 block">08</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">SmartUPS Avtonomiya</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            Elektr o'chganida zaxira LiFePO4 batareyalari 8 soat uzluksiz ta'minlaydi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-amber text-[9.5px] py-0.5 px-2.5">8 Soat Avtonom</span>
+                    </div>
                 </div>
 
                 <!-- 09 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-red-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-red-400">09</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Begonalarni To'sish</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        Bazada mavjud bo'lmagan begona shaxslar kiritilmaydi va signal beriladi.
-                    </p>
-                    <span class="badge-tech badge-rose text-[8.5px]">100% Himoyalangan</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-red-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-red-400 block">09</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Begonalarni To'sish</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            Bazada mavjud bo'lmagan begona shaxslar kiritilmaydi va signal beriladi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-rose text-[9.5px] py-0.5 px-2.5">100% Himoyalangan</span>
+                    </div>
                 </div>
 
                 <!-- 10 -->
-                <div class="hud-card p-3 sm:p-3.5 space-y-1.5 sm:space-y-2 border-t-2 border-t-teal-500">
-                    <span class="text-xl sm:text-2xl font-black font-mono text-teal-400">10</span>
-                    <h4 class="font-bold text-white text-xs sm:text-sm">Milliy Gvardiya Xulosasi</h4>
-                    <p class="text-slate-400 text-[11px] sm:text-xs leading-relaxed">
-                        Maktab davomati va xavfsizligi bo'yicha ma'lumotlar profilaktika bo'limiga boradi.
-                    </p>
-                    <span class="badge-tech badge-emerald text-[8.5px]">Rasmiy Nazorat</span>
+                <div class="hud-card p-4 sm:p-5 min-h-[175px] sm:min-h-[185px] flex flex-col justify-between border-t-2 border-t-teal-500">
+                    <div>
+                        <span class="text-2xl sm:text-3xl font-black font-mono text-teal-400 block">10</span>
+                        <h4 class="font-bold text-white text-sm sm:text-[15px] mt-1.5">Milliy Gvardiya Xulosasi</h4>
+                        <p class="text-slate-300 text-xs sm:text-[12.5px] leading-relaxed mt-1.5 font-normal">
+                            Maktab davomati va xavfsizligi bo'yicha ma'lumotlar profilaktika bo'limiga boradi.
+                        </p>
+                    </div>
+                    <div class="pt-2">
+                        <span class="badge-tech badge-emerald text-[9.5px] py-0.5 px-2.5">Rasmiy Nazorat</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -865,10 +903,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.1.1"></script>
-    <script src="js/presentation.js?v=5.1.1"></script>
-    <script src="js/scanner.js?v=5.1.1"></script>
-    <script src="js/map.js?v=5.1.1"></script>
-    <script src="js/edugate.js?v=5.1.1"></script>
+    <script src="js/translations.js?v=5.1.2"></script>
+    <script src="js/presentation.js?v=5.1.2"></script>
+    <script src="js/scanner.js?v=5.1.2"></script>
+    <script src="js/map.js?v=5.1.2"></script>
+    <script src="js/edugate.js?v=5.1.2"></script>
 </body>
 </html>
