@@ -19,10 +19,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.1.9">
+    <link rel="stylesheet" href="css/style.css?v=5.2.0">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.1.9"></script>
+    <script src="js/theme.js?v=5.2.0"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -416,48 +416,83 @@
         </div>
     </section>
 
-    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (4 PANELS - 100% 1 SCREEN FIT) -->
-    <section id="dashboards" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-4 sm:py-5 border-b border-slate-800 relative">
+    <!-- 5. EXPANDED DASHBOARDS SHOWCASE (MODERN APP WINDOW - 100% 1 SCREEN FIT) -->
+    <section id="dashboards" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-3 sm:py-4 border-b border-slate-800/80 relative">
         <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
-            <div class="text-center max-w-2xl mx-auto mb-3 sm:mb-4 lg:mb-5 space-y-1.5">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">Dasturiy Panellar</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[28px] font-black text-white leading-tight">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-3 sm:mb-4 space-y-1">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">DASTURIY TA'MINOT & PANELLAR</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight">
                     EDUGATE Yagona Boshqaruv Markazi Interfeyslari
                 </h2>
                 <p class="text-slate-400 text-xs sm:text-[13px]">
                     Hokimlik, MMTV bo'limlari, maktab ma'muriyati va profilaktika xizmati uchun 4 ta boshqaruv ekrani.
                 </p>
 
-                <!-- Tabs -->
-                <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-                    <button data-platform-tab="stat1" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-cyan-600 text-white shadow-lg transition">
-                        <i class="fas fa-shield-halved mr-1.5"></i> XAVFSIZ PORTAL
+                <!-- 4 Interactive Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1.5">
+                    <button data-platform-tab="stat1" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-cyan-600 text-white shadow-lg transition flex items-center gap-1.5">
+                        <i class="fas fa-shield-halved text-cyan-200"></i> <span>XAVFSIZ PORTAL</span>
                     </button>
-                    <button data-platform-tab="stat2" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition">
-                        <i class="fas fa-map-location-dot mr-1.5"></i> HUDUDIY ANALITIKA
+                    <button data-platform-tab="stat2" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fas fa-map-location-dot text-indigo-400"></i> <span>HUDUDIY ANALITIKA</span>
                     </button>
-                    <button data-platform-tab="stat3" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition">
-                        <i class="fas fa-users-viewfinder mr-1.5"></i> BIOMETRIK REYESTR
+                    <button data-platform-tab="stat3" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fas fa-users-viewfinder text-purple-400"></i> <span>BIOMETRIK REYESTR</span>
                     </button>
-                    <button data-platform-tab="stat4" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition">
-                        <i class="fas fa-file-excel mr-1.5"></i> ELEKTRON JURNAL
+                    <button data-platform-tab="stat4" class="px-3.5 py-1.5 rounded-xl text-xs font-bold font-mono bg-slate-800/80 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fas fa-file-excel text-emerald-400"></i> <span>ELEKTRON JURNAL</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Panel 1: Xavfsiz Portal -->
-            <div data-platform-content="stat1" class="hud-card p-3.5 sm:p-4 lg:p-5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
-                    <div class="lg:col-span-8 cursor-pointer group/prev" data-preview-img="assets/statistika1-DhCv2NLr.png" data-preview-title="Xavfsiz Yopiq Portal" title="Katta ko'rish">
-                        <div class="relative rounded-xl overflow-hidden border border-slate-800/80 bg-black max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] flex items-center justify-center group-hover/prev:border-cyan-500/50 transition shadow-2xl">
-                            <img src="assets/statistika1-DhCv2NLr.png" alt="Portal" class="w-full max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] object-contain">
-                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover/prev:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-                                <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-xl flex items-center gap-1.5">
-                                    <i class="fas fa-expand text-xs"></i> KATTA KO'RISH
-                                </span>
+            <!-- Tab Content 1: Xavfsiz Portal -->
+            <div data-platform-content="stat1" class="w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
+                    <!-- Left: Modern App Window -->
+                    <div class="lg:col-span-8">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(6,182,212,0.2)] overflow-hidden">
+                            <!-- Window Titlebar -->
+                            <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-slate-300">
+                                    <i class="fas fa-lock text-emerald-400 text-[9px]"></i>
+                                    <span class="text-slate-500">https://</span><span class="text-cyan-300 font-semibold">portal.edugate.uz</span><span class="text-slate-400">/admin/auth</span>
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-1"></span>
+                                    <span class="text-[8px] text-emerald-400 font-bold uppercase tracking-wider">ONLINE</span>
+                                </div>
+                                <button type="button" class="text-slate-400 hover:text-cyan-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <!-- Window Screen Image -->
+                            <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen1.png" data-preview-title="Xavfsiz Yopiq Portal (Kriptografik Kirish)" title="Retina 4K rejimida ochish">
+                                <img src="assets/screen1.png" alt="Portal" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <div class="absolute inset-0 bg-cyan-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Window Status Footer -->
+                            <div class="px-3.5 py-1.5 bg-slate-900/90 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-emerald-400 flex items-center gap-1"><i class="fas fa-circle text-[7px]"></i> TLS 1.3 / AES-256</span>
+                                    <span class="text-slate-500 hidden sm:inline">|</span>
+                                    <span class="text-slate-400 hidden sm:inline">PING: 18ms</span>
+                                </div>
+                                <div class="text-cyan-400 font-bold">
+                                    EDUGATE OS v5.0
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Right: Info -->
                     <div class="lg:col-span-4 space-y-3">
                         <span class="badge-tech badge-cyan text-[9px]">Axborot Xavfsizligi</span>
                         <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Yopiq Kriptografik Tarmoq va Kirish Portali</h3>
@@ -473,6 +508,10 @@
                                 <span class="text-slate-400">Avtorizatsiya:</span>
                                 <span class="text-cyan-400 font-bold">2-Bosqichli (2FA)</span>
                             </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Shifrlash:</span>
+                                <span class="text-cyan-400 font-bold">AES-256 GCM</span>
+                            </div>
                             <div class="flex justify-between py-1">
                                 <span class="text-slate-400">Audit:</span>
                                 <span class="text-white font-bold">Har soniya qayd etiladi</span>
@@ -486,101 +525,208 @@
                 </div>
             </div>
 
-            <!-- Panel 2: Hududiy Tahlil -->
-            <div data-platform-content="stat2" class="hud-card p-3.5 sm:p-4 lg:p-5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
-                    <div class="lg:col-span-8 cursor-pointer group/prev" data-preview-img="assets/statistika2-DqD2u8pg.png" data-preview-title="Hududiy Tahlil" title="Katta ko'rish">
-                        <div class="relative rounded-xl overflow-hidden border border-slate-800/80 bg-black max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] flex items-center justify-center group-hover/prev:border-cyan-500/50 transition shadow-2xl">
-                            <img src="assets/statistika2-DqD2u8pg.png" alt="Hududiy" class="w-full max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] object-contain">
-                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover/prev:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-                                <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-xl flex items-center gap-1.5">
-                                    <i class="fas fa-expand text-xs"></i> KATTA KO'RISH
-                                </span>
+            <!-- Tab Content 2: Hududiy Tahlil -->
+            <div data-platform-content="stat2" class="w-full hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
+                    <!-- Left: Modern App Window -->
+                    <div class="lg:col-span-8">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(99,102,241,0.2)] overflow-hidden">
+                            <!-- Window Titlebar -->
+                            <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-slate-300">
+                                    <i class="fas fa-lock text-emerald-400 text-[9px]"></i>
+                                    <span class="text-slate-500">https://</span><span class="text-indigo-300 font-semibold">analytics.edugate.uz</span><span class="text-slate-400">/regions</span>
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse ml-1"></span>
+                                    <span class="text-[8px] text-indigo-400 font-bold uppercase tracking-wider">LIVE</span>
+                                </div>
+                                <button type="button" class="text-slate-400 hover:text-indigo-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <!-- Window Screen Image -->
+                            <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen2.png" data-preview-title="Hududiy Tahlil va Interaktiv Xarita" title="Retina 4K rejimida ochish">
+                                <img src="assets/screen2.png" alt="Hududiy" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <div class="absolute inset-0 bg-indigo-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Window Status Footer -->
+                            <div class="px-3.5 py-1.5 bg-slate-900/90 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-indigo-400 flex items-center gap-1"><i class="fas fa-circle text-[7px]"></i> QAMROV: 14 VILOYAT / 208 TUMAN</span>
+                                    <span class="text-slate-500 hidden sm:inline">|</span>
+                                    <span class="text-slate-400 hidden sm:inline">SINXRONTSIYA: 0.18s</span>
+                                </div>
+                                <div class="text-indigo-400 font-bold">
+                                    EDUGATE ANALYTICS
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Right: Info -->
                     <div class="lg:col-span-4 space-y-3">
                         <span class="badge-tech badge-indigo text-[9px]">Markaziy Tahlil</span>
                         <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Hududiy Tahlil va Interaktiv Tumanlar Xaritasi</h3>
                         <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            Viloyat va tumanlar bo'yicha maktablar, o'quvchilar soni, qatnashish foizi va o'g'il/qizlar balansi interaktiv diagrammalarda.
+                            Viloyat va tumanlar bo'yicha real-vaqt davomat ko'rsatkichlari, tuman kesimidagi qiyosiy grafiklar va faol monitoring.
                         </p>
                         <div class="space-y-1.5 pt-1 text-xs font-mono">
                             <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Tumanlar:</span>
-                                <span class="text-cyan-400 font-bold">14 ta tuman</span>
+                                <span class="text-slate-400">Viloyatlar:</span>
+                                <span class="text-indigo-400 font-bold">14 Viloyat, 208 Tuman</span>
                             </div>
                             <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Filtr:</span>
-                                <span class="text-emerald-400 font-bold">Maktablar kesimida</span>
+                                <span class="text-slate-400">Yangilanish:</span>
+                                <span class="text-cyan-400 font-bold">Real-vaqt (0.18s)</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Tizim:</span>
+                                <span class="text-emerald-400 font-bold">MMTV & Hokimlik</span>
                             </div>
                             <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Yangilanish:</span>
-                                <span class="text-white font-bold">Har 5 soniyada</span>
+                                <span class="text-slate-400">Profilaktika:</span>
+                                <span class="text-white font-bold">Oniy monitoring</span>
                             </div>
                         </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-cyan-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-cyan-400"></i>
+                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-indigo-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                            <i class="fas fa-expand text-xs text-indigo-400"></i>
                             <span>RETINA 4K REJIMI</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Panel 3: Biometrik Baza -->
-            <div data-platform-content="stat3" class="hud-card p-3.5 sm:p-4 lg:p-5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
-                    <div class="lg:col-span-8 cursor-pointer group/prev" data-preview-img="assets/statistika3-BOXYDjaC.png" data-preview-title="Biometrik O'quvchilar Bazasi" title="Katta ko'rish">
-                        <div class="relative rounded-xl overflow-hidden border border-slate-800/80 bg-black max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] flex items-center justify-center group-hover/prev:border-cyan-500/50 transition shadow-2xl">
-                            <img src="assets/statistika3-BOXYDjaC.png" alt="Biometrik" class="w-full max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] object-contain">
-                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover/prev:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-                                <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-xl flex items-center gap-1.5">
-                                    <i class="fas fa-expand text-xs"></i> KATTA KO'RISH
-                                </span>
+            <!-- Tab Content 3: Biometrik Reyestr -->
+            <div data-platform-content="stat3" class="w-full hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
+                    <!-- Left: Modern App Window -->
+                    <div class="lg:col-span-8">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(168,85,247,0.2)] overflow-hidden">
+                            <!-- Window Titlebar -->
+                            <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-slate-300">
+                                    <i class="fas fa-lock text-emerald-400 text-[9px]"></i>
+                                    <span class="text-slate-500">https://</span><span class="text-purple-300 font-semibold">biometrics.edugate.uz</span><span class="text-slate-400">/registry</span>
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse ml-1"></span>
+                                    <span class="text-[8px] text-purple-400 font-bold uppercase tracking-wider">SECURE DB</span>
+                                </div>
+                                <button type="button" class="text-slate-400 hover:text-purple-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <!-- Window Screen Image -->
+                            <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen3.png" data-preview-title="Biometrik Reyestr va Face ID Bazasi" title="Retina 4K rejimida ochish">
+                                <img src="assets/screen3.png" alt="Biometrik" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <div class="absolute inset-0 bg-purple-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Window Status Footer -->
+                            <div class="px-3.5 py-1.5 bg-slate-900/90 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-purple-400 flex items-center gap-1"><i class="fas fa-circle text-[7px]"></i> 128 NUQTA 3D TRIANGULYATSIYA</span>
+                                    <span class="text-slate-500 hidden sm:inline">|</span>
+                                    <span class="text-slate-400 hidden sm:inline">ANTI-SPOOF: 100%</span>
+                                </div>
+                                <div class="text-purple-400 font-bold">
+                                    FACE REGISTRY
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Right: Info -->
                     <div class="lg:col-span-4 space-y-3">
-                        <span class="badge-tech badge-emerald text-[9px]">Biometriya</span>
-                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Yagona Raqamli Biometrik O'quvchilar Reyestri</h3>
+                        <span class="badge-tech badge-purple text-[9px]">Biometrik Baza</span>
+                        <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">O'quvchilar va Xodimlar Biometrik Reyestri</h3>
                         <p class="text-slate-300 text-xs sm:text-[13px] leading-relaxed">
-                            O'quvchilarning rasmlari, Face ID deskriptorlari, tug'ilganlik guvohnomalari, PINFL va sinflari to'liq raqamlashgan.
+                            Yuz fotosuratlari, sinf ma'lumotlari va Face ID shablonlari bazasi. Tizim orqali tezkor qidiruv va filtrlash imkoniyati.
                         </p>
                         <div class="space-y-1.5 pt-1 text-xs font-mono">
                             <div class="flex justify-between py-1 border-b border-slate-800/80">
-                                <span class="text-slate-400">Yuz Sig'imi:</span>
-                                <span class="text-cyan-400 font-bold">50,000+ o'quvchi</span>
+                                <span class="text-slate-400">Yuz nuqtalari:</span>
+                                <span class="text-purple-400 font-bold">128 Nuqta 3D Face ID</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
+                                <span class="text-slate-400">Anti-Spoofing:</span>
+                                <span class="text-emerald-400 font-bold">100% (Suratni to'sadi)</span>
                             </div>
                             <div class="flex justify-between py-1 border-b border-slate-800/80">
                                 <span class="text-slate-400">Qidiruv:</span>
-                                <span class="text-emerald-400 font-bold">PINFL orqali</span>
+                                <span class="text-cyan-400 font-bold">Oniy qidiruv & Filtr</span>
                             </div>
                             <div class="flex justify-between py-1">
-                                <span class="text-slate-400">Qo'shish:</span>
-                                <span class="text-white font-bold">1 daqiqada</span>
+                                <span class="text-slate-400">Tizim holati:</span>
+                                <span class="text-white font-bold">Doimiy sinxronlashuv</span>
                             </div>
                         </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-cyan-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-cyan-400"></i>
+                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-purple-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                            <i class="fas fa-expand text-xs text-purple-400"></i>
                             <span>RETINA 4K REJIMI</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Panel 4: Elektron Jurnal -->
-            <div data-platform-content="stat4" class="hud-card p-3.5 sm:p-4 lg:p-5 rounded-2xl bg-[#070D1A]/90 border border-slate-800 shadow-2xl hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
-                    <div class="lg:col-span-8 cursor-pointer group/prev" data-preview-img="assets/statistika4-Dl41ooPE.png" data-preview-title="Elektron Davomat Jurnali" title="Katta ko'rish">
-                        <div class="relative rounded-xl overflow-hidden border border-slate-800/80 bg-black max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] flex items-center justify-center group-hover/prev:border-cyan-500/50 transition shadow-2xl">
-                            <img src="assets/statistika4-Dl41ooPE.png" alt="Jurnal" class="w-full max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] object-contain">
-                            <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover/prev:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
-                                <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-xl flex items-center gap-1.5">
-                                    <i class="fas fa-expand text-xs"></i> KATTA KO'RISH
-                                </span>
+            <!-- Tab Content 4: Elektron Jurnal -->
+            <div data-platform-content="stat4" class="w-full hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-7 items-center">
+                    <!-- Left: Modern App Window -->
+                    <div class="lg:col-span-8">
+                        <div class="rounded-xl border border-slate-700/80 bg-slate-950 shadow-[0_15px_40px_-10px_rgba(245,158,11,0.2)] overflow-hidden">
+                            <!-- Window Titlebar -->
+                            <div class="flex items-center justify-between px-3.5 py-2 bg-slate-900/90 border-b border-slate-800 select-none">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-md bg-slate-950/80 border border-slate-800 text-[10px] font-mono text-slate-300">
+                                    <i class="fas fa-lock text-emerald-400 text-[9px]"></i>
+                                    <span class="text-slate-500">https://</span><span class="text-amber-300 font-semibold">journal.edugate.uz</span><span class="text-slate-400">/daily-report</span>
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse ml-1"></span>
+                                    <span class="text-[8px] text-amber-400 font-bold uppercase tracking-wider">AUTO-SYNC</span>
+                                </div>
+                                <button type="button" class="text-slate-400 hover:text-amber-400 text-xs transition p-1 cursor-pointer" onclick="this.closest('.lg\\:col-span-8').querySelector('[data-preview-img]').click()" title="Katta ko'rish">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <!-- Window Screen Image -->
+                            <div class="relative group/win cursor-pointer overflow-hidden bg-slate-950" data-preview-img="assets/screen4.png" data-preview-title="Elektron Davomat Jurnali va Hisobotlar" title="Retina 4K rejimida ochish">
+                                <img src="assets/screen4.png" alt="Jurnal" class="w-full h-auto object-cover max-h-[380px] sm:max-h-[410px] lg:max-h-[430px] transition-transform duration-300 group-hover/win:scale-[1.01]">
+                                <div class="absolute inset-0 bg-amber-950/25 opacity-0 group-hover/win:opacity-100 transition flex items-center justify-center backdrop-blur-[1px]">
+                                    <span class="btn-cyber btn-cyber-primary py-2 px-3.5 text-xs font-mono font-bold shadow-2xl flex items-center gap-1.5">
+                                        <i class="fas fa-expand text-xs"></i> RETINA 4K REJIMI
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Window Status Footer -->
+                            <div class="px-3.5 py-1.5 bg-slate-900/90 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-amber-400 flex items-center gap-1"><i class="fas fa-circle text-[7px]"></i> ANIQ VAQT: 08:14:02</span>
+                                    <span class="text-slate-500 hidden sm:inline">|</span>
+                                    <span class="text-slate-400 hidden sm:inline">EKSPORT: EXCEL / CSV</span>
+                                </div>
+                                <div class="text-amber-400 font-bold">
+                                    AUTO JOURNAL
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Right: Info -->
                     <div class="lg:col-span-4 space-y-3">
                         <span class="badge-tech badge-amber text-[9px]">Elektron Jurnal</span>
                         <h3 class="text-lg sm:text-xl font-bold text-white leading-snug">Kunlik va Oylik Elektron Davomat Jurnali</h3>
@@ -596,13 +742,17 @@
                                 <span class="text-slate-400">Aniqlik:</span>
                                 <span class="text-cyan-400 font-bold">Sekundigacha (08:14:02)</span>
                             </div>
-                            <div class="flex justify-between py-1">
+                            <div class="flex justify-between py-1 border-b border-slate-800/80">
                                 <span class="text-slate-400">Kechikishlar:</span>
                                 <span class="text-amber-400 font-bold">Avtomatik hisob</span>
                             </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-slate-400">Jurnal turi:</span>
+                                <span class="text-white font-bold">100% Qog'ozsiz tizim</span>
+                            </div>
                         </div>
-                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-cyan-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
-                            <i class="fas fa-expand text-xs text-cyan-400"></i>
+                        <button type="button" class="btn-cyber btn-cyber-ghost py-2 px-3.5 text-xs font-mono w-full flex items-center justify-center gap-2 mt-1 cursor-pointer hover:border-amber-400" onclick="this.closest('.grid').querySelector('[data-preview-img]').click()">
+                            <i class="fas fa-expand text-xs text-amber-400"></i>
                             <span>RETINA 4K REJIMI</span>
                         </button>
                     </div>
@@ -910,7 +1060,7 @@
     </div>
 
 <!-- 10. HIGH RESOLUTION MODAL VIEWER -->
-    <div id="highResModal" class="modal-overlay hidden">
+    <div id="highResModal" class="modal-overlay">
         <div class="relative max-w-5xl w-full mx-4 hud-card p-4 bg-slate-950/95 border border-cyan-500/50 shadow-2xl">
             <div class="flex items-center justify-between pb-2.5 border-b border-slate-800 mb-2.5">
                 <h4 id="highResModalTitle" class="text-xs font-bold text-white font-mono">EDUGATE Retina 4K View</h4>
@@ -925,10 +1075,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.1.9"></script>
-    <script src="js/presentation.js?v=5.1.9"></script>
-    <script src="js/scanner.js?v=5.1.9"></script>
-    <script src="js/map.js?v=5.1.9"></script>
-    <script src="js/edugate.js?v=5.1.9"></script>
+    <script src="js/translations.js?v=5.2.0"></script>
+    <script src="js/presentation.js?v=5.2.0"></script>
+    <script src="js/scanner.js?v=5.2.0"></script>
+    <script src="js/map.js?v=5.2.0"></script>
+    <script src="js/edugate.js?v=5.2.0"></script>
 </body>
 </html>
