@@ -4,6 +4,8 @@ from app.models.device import Device, DeviceDirection, DeviceType
 from app.models.parent import Parent, student_parents
 from app.models.student import Student
 from app.models.attendance import AttendanceLog, AttendanceEventType, AttendanceStatus
+from app.models.user import User
+from app.models.teacher import Teacher
 
 __all__ = [
     "Base",
@@ -16,6 +18,7 @@ __all__ = [
     "Student",
     "AttendanceLog",
     "AttendanceEventType",
-    "AttendanceStatus"
+    "AttendanceStatus",
+    "User",
+    "Teacher"
 ]
-

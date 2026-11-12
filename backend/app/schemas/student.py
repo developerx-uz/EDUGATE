@@ -1,6 +1,6 @@
+from typing import Optional
 from datetime import datetime
-from typing import Optional, List
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class StudentCreate(BaseModel):
@@ -9,8 +9,11 @@ class StudentCreate(BaseModel):
     last_name: str
     student_code: str
     class_name: str
+    pinfl: Optional[str] = None
+    birth_cert_number: Optional[str] = None
     rfid_card_id: Optional[str] = None
     face_encoding: Optional[str] = None
+    photo_path: Optional[str] = None
 
 
 class StudentOut(BaseModel):
@@ -20,10 +23,12 @@ class StudentOut(BaseModel):
     last_name: str
     student_code: str
     class_name: str
-    rfid_card_id: Optional[str]
+    pinfl: Optional[str] = None
+    birth_cert_number: Optional[str] = None
+    rfid_card_id: Optional[str] = None
+    face_encoding: Optional[str] = None
+    photo_path: Optional[str] = None
     is_active: bool
     created_at: datetime
 
-    class Config:
-        from_attributes = True
-
+    model_config = ConfigDict(from_attributes=True)

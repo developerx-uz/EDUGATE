@@ -34,6 +34,12 @@ class Settings(BaseSettings):
     # Telegram Bot
     TELEGRAM_BOT_TOKEN: Optional[str] = None
 
+    # Davlat va e-Maktab API Sozlamalari
+    EMAKTAB_API_URL: str = "https://api.emaktab.uz/v1"
+    EMAKTAB_API_TOKEN: Optional[str] = None
+    EGOV_API_URL: str = "https://my.gov.uz/api/v1"
+    EGOV_API_TOKEN: Optional[str] = None
+
     @property
     def async_database_url(self) -> str:
         if self.DATABASE_URL:
@@ -54,4 +60,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-

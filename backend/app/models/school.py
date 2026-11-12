@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from sqlalchemy import String, DateTime, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -14,9 +14,9 @@ class School(Base):
     address: Mapped[str] = mapped_column(String(500), nullable=True)
     phone: Mapped[str] = mapped_column(String(50), nullable=True)
     settings: Mapped[dict] = mapped_column(JSON, default=dict)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now().replace(tzinfo=None))
 
     # Bog'lanishlar
     devices = relationship("Device", back_populates="school", cascade="all, delete-orphan")
     students = relationship("Student", back_populates="school", cascade="all, delete-orphan")
-
+    teachers = relationship("Teacher", back_populates="school", cascade="all, delete-orphan")

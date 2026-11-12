@@ -12,7 +12,10 @@ logger = logging.getLogger("EdugateBot")
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN")
 API_BASE_URL = os.getenv("CORE_API_URL", "http://localhost:8000/api/v1")
 
-bot = Bot(token=BOT_TOKEN) if BOT_TOKEN != "YOUR_BOT_TOKEN" else None
+def is_valid_token(token: str) -> bool:
+    return bool(token and ":" in token and not token.lower().startswith("your_"))
+
+bot = Bot(token=BOT_TOKEN) if is_valid_token(BOT_TOKEN) else None
 dp = Dispatcher()
 
 

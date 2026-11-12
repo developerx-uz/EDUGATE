@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from sqlalchemy import String, Boolean, DateTime, Text, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
@@ -13,13 +13,15 @@ class Student(Base):
     school_id: Mapped[str] = mapped_column(String(36), ForeignKey("schools.id", ondelete="CASCADE"), nullable=False)
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
-    student_code: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False) # Masalan: "SCH01-2024-001"
-    class_name: Mapped[str] = mapped_column(String(20), index=True, nullable=False) # Masalan: "7-A"
-    rfid_card_id: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=True) # Turniket karta ID
-    face_encoding: Mapped[str] = mapped_column(Text, nullable=True) # 128 yoki 512 o'lchamli AI yuz vektori (JSON/Base64)
+    student_code: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    pinfl: Mapped[str] = mapped_column(String(14), index=True, nullable=True)
+    birth_cert_number: Mapped[str] = mapped_column(String(50), index=True, nullable=True)
+    class_name: Mapped[str] = mapped_column(String(20), index=True, nullable=False)
+    rfid_card_id: Mapped[str] = mapped_column(String(50), index=True, nullable=True)
+    face_encoding: Mapped[str] = mapped_column(Text, nullable=True)
     photo_path: Mapped[str] = mapped_column(String(500), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now().replace(tzinfo=None))
 
     # Bog'lanishlar
     school = relationship("School", back_populates="students")
@@ -29,4 +31,3 @@ class Student(Base):
     @property
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
-
