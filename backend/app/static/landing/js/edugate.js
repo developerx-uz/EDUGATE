@@ -205,41 +205,57 @@ class EdugateApp {
         const chevron = document.getElementById('langChevron');
         const options = document.querySelectorAll('[data-lang-val]');
 
+        if (!trigger || !menu) return;
+        if (trigger.dataset.bound === 'true') return;
+        trigger.dataset.bound = 'true';
+
+        const openMenu = () => {
+            menu.classList.remove('hidden');
+            menu.style.display = 'block';
+            chevron?.classList.add('rotate-180');
+        };
+
+        const closeMenu = () => {
+            menu.classList.add('hidden');
+            menu.style.display = 'none';
+            chevron?.classList.remove('rotate-180');
+        };
+
         const toggleMenu = () => {
-            const isHidden = menu?.classList.contains('hidden');
+            const isHidden = menu.classList.contains('hidden') || menu.style.display === 'none';
             if (isHidden) {
-                menu?.classList.remove('hidden');
-                chevron?.classList.add('rotate-180');
+                openMenu();
             } else {
-                menu?.classList.add('hidden');
-                chevron?.classList.remove('rotate-180');
+                closeMenu();
             }
         };
 
-        trigger?.addEventListener('click', (e) => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             toggleMenu();
         });
 
         document.addEventListener('click', (e) => {
-            if (!menu?.contains(e.target) && !trigger?.contains(e.target)) {
-                menu?.classList.add('hidden');
-                chevron?.classList.remove('rotate-180');
+            if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+                closeMenu();
             }
         });
 
         options.forEach(opt => {
             opt.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const lang = opt.getAttribute('data-lang-val');
                 this.switchLanguage(lang);
-                menu?.classList.add('hidden');
-                chevron?.classList.remove('rotate-180');
+                closeMenu();
             });
         });
 
         // Mobile drawer language buttons
         document.querySelectorAll('[data-lang-btn]').forEach(b => {
             b.addEventListener('click', (e) => {
+                e.preventDefault();
                 const lang = b.getAttribute('data-lang-btn');
                 this.switchLanguage(lang);
             });
@@ -249,14 +265,16 @@ class EdugateApp {
     }
 
     switchLanguage(lang) {
-        if (!EdugateI18N[lang]) return;
+        if (!EdugateI18N || !EdugateI18N[lang]) return;
         this.currentLang = lang;
         localStorage.setItem('edugate_lang', lang);
         this.applyLanguage(lang);
     }
 
     applyLanguage(lang) {
+        if (typeof EdugateI18N === 'undefined') return;
         const dict = EdugateI18N[lang] || EdugateI18N['uz'];
+        if (!dict) return;
         
         // Update trigger button flag & code
         const meta = {
@@ -297,19 +315,36 @@ class EdugateApp {
             }
         });
 
-        // Translate data-i18n elements if any
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const keyPath = el.getAttribute('data-i18n').split('.');
+        const resolveKey = (path) => {
+            if (!path) return null;
+            const parts = path.split('.');
             let val = dict;
-            for (let k of keyPath) {
+            for (let k of parts) {
                 if (val && val[k] !== undefined) {
                     val = val[k];
                 } else {
-                    val = null;
-                    break;
+                    return null;
                 }
             }
+            return val;
+        };
+
+        // 1. Text elements
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const val = resolveKey(el.getAttribute('data-i18n'));
             if (val) el.textContent = val;
+        });
+
+        // 2. HTML elements
+        document.querySelectorAll('[data-i18n-html]').forEach(el => {
+            const val = resolveKey(el.getAttribute('data-i18n-html'));
+            if (val) el.innerHTML = val;
+        });
+
+        // 3. Placeholder elements
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const val = resolveKey(el.getAttribute('data-i18n-placeholder'));
+            if (val) el.setAttribute('placeholder', val);
         });
 
         // Sync with presentation engine if initialized

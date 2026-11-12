@@ -510,24 +510,27 @@ html.light .theme-btn-dark.active {
 
 
 /* ==========================================================================
-   EDUGATE DUAL THEME ENGINE (LIGHT MODE SPECIFICATION)
+   EDUGATE DUAL THEME ENGINE (LIGHT MODE FULL COMPREHENSIVE SPECIFICATION)
    ========================================================================== */
+
+html.light {
+    color-scheme: light;
+}
 
 html.light body {
     background-color: #F8FAFC !important;
-    color: #334155 !important;
+    color: #1E293B !important;
     background-image: 
         radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
         radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 35%),
         radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
-        linear-gradient(to bottom, rgba(248, 250, 252, 0.98), rgba(241, 245, 249, 1)),
-        radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px) !important;
+        linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 100%) !important;
 }
 
 html.light header {
     background-color: rgba(255, 255, 255, 0.96) !important;
     border-color: #E2E8F0 !important;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
 }
 
 html.light footer {
@@ -536,23 +539,71 @@ html.light footer {
     color: #64748B !important;
 }
 
-html.light .hud-card {
-    background: rgba(255, 255, 255, 0.94) !important;
+/* Sections */
+html.light section {
+    background-color: transparent !important;
+    background-image: none !important;
     border-color: #E2E8F0 !important;
-    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.03) !important;
+}
+
+html.light section:nth-of-type(even) {
+    background-color: rgba(241, 245, 249, 0.65) !important;
+}
+
+/* All Cards, Panels, Drawers, and Containers with dark background variants */
+html.light [class*="bg-slate-950"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-[#050A17]"],
+html.light [class*="bg-[#040814]"],
+html.light [class*="bg-[#030611]"],
+html.light [class*="bg-[#020611]"],
+html.light [class*="bg-[#070D1A]"],
+html.light [class*="bg-[#060B17]"],
+html.light [class*="bg-[#040812]"],
+html.light [class*="bg-[#061224]"],
+html.light [class*="bg-[#020610]"] {
+    background-color: #FFFFFF !important;
+    background-image: none !important;
+    border-color: #E2E8F0 !important;
+}
+
+/* Nested elements, secondary pills, and slate-800 surfaces */
+html.light [class*="bg-slate-800"],
+html.light [class*="bg-slate-800/80"],
+html.light [class*="bg-slate-800/60"] {
+    background-color: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+    color: #1E293B !important;
+}
+
+/* Specific nested card backgrounds for proper visual depth */
+html.light #map-analytics .grid-cols-2 > div,
+html.light #hardware-specs .grid-cols-2 > div,
+html.light #contact .space-y-2\.5 > a,
+html.light #contact .space-y-2\.5 > div,
+html.light #contact .grid-cols-3 > div {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+}
+
+/* HUD Cards in Process section */
+html.light .hud-card {
+    background: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05) !important;
     transform: none !important;
 }
 
 html.light .hud-card:hover {
-    border-color: rgba(6, 182, 212, 0.6) !important;
-    box-shadow: 0 16px 36px -6px rgba(6, 182, 212, 0.2), 0 0 15px rgba(2, 132, 199, 0.15) !important;
-    transform: none !important;
+    border-color: #0284C7 !important;
+    box-shadow: 0 12px 28px -4px rgba(2, 132, 199, 0.15) !important;
 }
 
 html.light .hud-corner {
     border-color: #0284C7 !important;
 }
 
+/* Typography Overrides for High Contrast */
 html.light .text-white {
     color: #0F172A !important;
 }
@@ -570,41 +621,20 @@ html.light .text-slate-400 {
 }
 
 html.light .text-slate-500 {
-    color: #64748B !important;
+    color: #94A3B8 !important;
 }
 
-html.light .bg-slate-900,
-html.light .bg-slate-900\/80,
-html.light .bg-slate-900\/90,
-html.light .bg-slate-900\/95,
-html.light .bg-slate-950 {
-    background-color: #F8FAFC !important;
+html.light .text-slate-600 {
+    color: #CBD5E1 !important;
+}
+
+/* Borders */
+html.light [class*="border-slate-800"],
+html.light [class*="border-slate-700"] {
     border-color: #E2E8F0 !important;
 }
 
-html.light .bg-slate-800,
-html.light .bg-slate-800\/80 {
-    background-color: #EEF2F6 !important;
-    border-color: #CBD5E1 !important;
-    color: #1E293B !important;
-}
-
-html.light .border-slate-800,
-html.light .border-slate-700,
-html.light .border-slate-700\/80 {
-    border-color: #E2E8F0 !important;
-}
-
-html.light .bg-\[\#070D1A\]\/90,
-html.light .bg-\[\#070D1A\]\/95,
-html.light .bg-\[\#070D1A\]\/50,
-html.light .bg-\[\#070D1A\]\/60,
-html.light .bg-\[\#060B17\],
-html.light .bg-\[\#040812\] {
-    background-color: #FFFFFF !important;
-    border-color: #E2E8F0 !important;
-}
-
+/* Gradients */
 html.light .text-gradient-cyan {
     background: linear-gradient(135deg, #0284C7 0%, #0369A1 50%, #0D9488 100%) !important;
     -webkit-background-clip: text !important;
@@ -617,6 +647,7 @@ html.light .text-gradient-indigo {
     -webkit-text-fill-color: transparent !important;
 }
 
+/* Navigation Links */
 html.light .nav-link {
     color: #475569 !important;
 }
@@ -632,54 +663,154 @@ html.light .nav-active-line {
     box-shadow: 0 -1px 6px rgba(2, 132, 199, 0.5);
 }
 
+/* Single Theme Toggle Button */
 html.light .theme-toggle-simple {
-    border: 1px solid #CBD5E1;
-    color: #334155;
-    background: #FFFFFF;
+    background-color: #F1F5F9 !important;
+    border: 1px solid #CBD5E1 !important;
+    color: #4F46E5 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
 html.light .theme-toggle-simple:hover {
-    border-color: #94A3B8;
-    color: #0F172A;
-    background: #F8FAFC;
+    background-color: #E2E8F0 !important;
+    border-color: #6366F1 !important;
+    color: #4338CA !important;
 }
 
+/* Buttons */
 html.light .btn-cyber-ghost {
-    background: #F1F5F9 !important;
+    background: #FFFFFF !important;
     color: #1E293B !important;
     border-color: #CBD5E1 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
 html.light .btn-cyber-ghost:hover {
-    background: #E2E8F0 !important;
+    background: #F1F5F9 !important;
     border-color: #0284C7 !important;
     color: #0284C7 !important;
 }
 
+/* Badges */
 html.light .badge-cyan {
     background: rgba(6, 182, 212, 0.1) !important;
     color: #0284C7 !important;
-    border-color: rgba(6, 182, 212, 0.3) !important;
+    border-color: rgba(6, 182, 212, 0.35) !important;
 }
 
 html.light .badge-emerald {
     background: rgba(16, 185, 129, 0.1) !important;
     color: #059669 !important;
-    border-color: rgba(16, 185, 129, 0.3) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
 html.light .badge-amber {
     background: rgba(245, 158, 11, 0.1) !important;
     color: #D97706 !important;
-    border-color: rgba(245, 158, 11, 0.3) !important;
+    border-color: rgba(245, 158, 11, 0.35) !important;
 }
 
 html.light .badge-indigo {
     background: rgba(99, 102, 241, 0.1) !important;
     color: #4F46E5 !important;
-    border-color: rgba(99, 102, 241, 0.3) !important;
+    border-color: rgba(99, 102, 241, 0.35) !important;
 }
 
+/* Form Inputs, Selects & Textareas */
+html.light input,
+html.light select,
+html.light textarea {
+    background-color: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+    background-color: #FFFFFF !important;
+    border-color: #0284C7 !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+    color: #94A3B8 !important;
+}
+
+html.light select option {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+}
+
+/* Map Section & SVG Light Mode Overrides */
+html.light #map-analytics [class*="bg-[#020611]"] {
+    background-color: #F1F5F9 !important;
+    border-color: #E2E8F0 !important;
+}
+
+html.light #uzbekistanSvgMap {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.05));
+}
+
+html.light .map-region-path {
+    fill: #CBD5E1 !important;
+    stroke: #94A3B8 !important;
+}
+
+html.light .map-region-path:hover {
+    fill: #7DD3FC !important;
+    stroke: #0284C7 !important;
+}
+
+html.light .map-region-path.active {
+    fill: #0284C7 !important;
+    stroke: #0369A1 !important;
+}
+
+html.light .map-region-label text {
+    fill: #0F172A !important;
+    font-weight: 700 !important;
+}
+
+/* Region Quick Select Buttons */
+html.light .region-btn {
+    background-color: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    color: #334155 !important;
+}
+
+html.light .region-btn:hover {
+    border-color: #0284C7 !important;
+    color: #0284C7 !important;
+}
+
+html.light .region-btn[class*="border-cyan-400"],
+html.light .region-btn.active {
+    background-color: #E0F2FE !important;
+    border-color: #0284C7 !important;
+    color: #0369A1 !important;
+}
+
+/* Hardware Device Switcher Tabs */
+html.light .hw-tab-btn {
+    color: #64748B !important;
+    border-color: transparent !important;
+}
+
+html.light .hw-tab-btn:hover {
+    color: #0F172A !important;
+}
+
+html.light .hw-tab-btn[class*="border-cyan-400"],
+html.light .hw-tab-btn.active {
+    background-color: #E0F2FE !important;
+    border-color: #0284C7 !important;
+    color: #0369A1 !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2) !important;
+}
+
+/* Popups & Modals */
 html.light #scanTelegramPopup {
     background: rgba(255, 255, 255, 0.98) !important;
     border-color: rgba(6, 182, 212, 0.6) !important;
@@ -691,7 +822,7 @@ html.light #scanTelegramPopup p {
 }
 
 html.light .modal-overlay {
-    background: rgba(15, 23, 42, 0.5) !important;
+    background: rgba(15, 23, 42, 0.55) !important;
 }
 
 html.light .pres-dot {

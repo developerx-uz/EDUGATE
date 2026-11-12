@@ -1542,6 +1542,11 @@ class PresentationEngine {
     }
 
     initLanguageSelector() {
+        // Only bind dropdown events if running on the dedicated presentation.html deck
+        if (!document.getElementById('presentation-deck') && !window.location.pathname.includes('presentation')) {
+            return;
+        }
+
         const trigger = document.getElementById('langDropdownTrigger');
         const menu = document.getElementById('langDropdownMenu');
         const chevron = document.getElementById('langChevron');

@@ -44,7 +44,7 @@
                         <span class="text-sm sm:text-base font-black tracking-tight text-white font-mono">EDUGATE</span>
                         <span class="badge-tech badge-cyan text-[7.5px] py-0.5 px-1.5">v5.0</span>
                     </div>
-                    <p class="text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5">
+                    <p class="text-[9px] text-cyan-400 font-semibold uppercase tracking-wider -mt-0.5" data-i18n="nav.subtitle">
                         MMTV & Milliy Gvardiya Tizimi
                     </p>
                 </div>
@@ -52,33 +52,21 @@
 
             <!-- Nav Links: To'liq balandlikda (h-full), faol chiziq to'g'ridan-to'g'ri header pastki chizig'i ustiga tushadi -->
             <nav class="nav-container hidden lg:flex items-center h-full gap-5 xl:gap-7 relative">
-                <a href="#hero" class="nav-link active">Bosh Sahifa</a>
-                <a href="#process" class="nav-link">O'tish Zanjiri</a>
-                <a href="#dashboards" class="nav-link">Dasturiy Panellar</a>
-                <a href="#map-analytics" class="nav-link">Davomat Radari</a>
-                <a href="#hardware-specs" class="nav-link">Uskunalar</a>
-                <a href="#contact" class="nav-link">Bog'lanish</a>
+                <a href="#hero" class="nav-link active" data-i18n="nav.home">Bosh Sahifa</a>
+                <a href="#process" class="nav-link" data-i18n="nav.process">O'tish Zanjiri</a>
+                <a href="#dashboards" class="nav-link" data-i18n="nav.platform">Dasturiy Panellar</a>
+                <a href="#map-analytics" class="nav-link" data-i18n="nav.map">Davomat Radari</a>
+                <a href="#hardware-specs" class="nav-link" data-i18n="nav.hardware">Uskunalar</a>
+                <a href="#contact" class="nav-link" data-i18n="nav.contact">Bog'lanish</a>
                 <span id="navActiveLine" class="nav-active-line"></span>
             </nav>
 
             <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA DUAL-ICON MAVZU SWITCHER -->
             <div class="hidden sm:flex items-center gap-2.5 shrink-0">
-                <!-- Theme Switcher: Yorug'lik (Sun) va Qorong'ulik (Moon) Segmented Pill -->
-                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
-                    <!-- Yorug'lik (Sun Icon) -->
-                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="4"></circle>
-                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
-                        </svg>
-                    </button>
-                    <!-- Qorong'u (Moon Icon) -->
-                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                        </svg>
-                    </button>
-                </div>
+                <!-- Theme Toggle Button (1 Single Button: Sun / Moon) -->
+                <button type="button" data-theme-toggle id="themeToggleBtn" class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
+                    <i class="fas fa-sun text-sm"></i>
+                </button>
 
                 <!-- Custom 5-Language Dropdown Room -->
                 <div class="relative" id="customLangDropdown">
@@ -89,7 +77,7 @@
                     </button>
 
                     <!-- Custom Dropdown Room / Popover (5 Languages) -->
-                    <div id="langDropdownMenu" style="background-color: #070F1E !important; background: #070F1E !important; opacity: 1 !important;" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl border border-cyan-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(6,182,212,0.25)] p-1.5 z-[1000] font-mono text-xs">
+                    <div id="langDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl border border-cyan-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(6,182,212,0.25)] p-1.5 z-[1000] font-mono text-xs bg-[#070F1E]">
                         <div class="px-2.5 py-1 text-[9px] uppercase tracking-wider text-slate-400 border-b border-slate-800/80 mb-1 flex items-center justify-between">
                             <span>Tilni tanlang</span>
                             <span class="text-cyan-400 text-[8px] font-bold">5 TA TIL</span>
@@ -145,7 +133,7 @@
                 <!-- Online Presentation Button (Opens Dedicated Screen) -->
                 <a href="presentation" class="btn-cyber btn-cyber-primary py-1.5 px-3 text-[11px] font-mono shadow-[0_0_12px_rgba(6,182,212,0.35)] flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fas fa-play-circle text-xs text-cyan-200"></i>
-                    <span>ONLINE PREZENTATSIYA</span>
+                    <span data-i18n="nav.presBtn">ONLINE PREZENTATSIYA</span>
                 </a>
             </div>
 
@@ -157,12 +145,12 @@
 
         <!-- Mobile Drawer -->
         <div id="mobileNavDrawer" class="hidden lg:hidden bg-slate-950/98 border-t border-slate-800 px-6 py-3 space-y-2">
-            <a href="#hero" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Bosh Sahifa</a>
-            <a href="#process" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">O'tish Zanjiri</a>
-            <a href="#dashboards" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Dasturiy Panellar</a>
-            <a href="#map-analytics" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Davomat Radari</a>
-            <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Uskunalar</a>
-            <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold">Bog'lanish</a>
+            <a href="#hero" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.home">Bosh Sahifa</a>
+            <a href="#process" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.process">O'tish Zanjiri</a>
+            <a href="#dashboards" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.platform">Dasturiy Panellar</a>
+            <a href="#map-analytics" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.map">Davomat Radari</a>
+            <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.hardware">Uskunalar</a>
+            <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.contact">Bog'lanish</a>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
                 <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
                     <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
@@ -217,7 +205,7 @@
 
                     <!-- SHU YOZUV (H1 Sarlavha) va uning o'ng tomonidagi ochiq joyda 2 qator Tugmalar -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
-                        <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-[1.18]">
+                        <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-[1.18]" data-i18n-html="hero.titleHtml">
                             O'zbekiston Maktablari Uchun <br>
                             <span class="text-gradient-cyan">Aqlli Face ID Davomat</span> va <br>
                             <span class="text-gradient-indigo">Yagona Xavfsizlik Majmuasi</span>
@@ -228,17 +216,17 @@
                             <!-- 1-qator -->
                             <a href="presentation" class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 whitespace-nowrap transition">
                                 <i class="fas fa-play-circle text-xs text-cyan-200"></i>
-                                <span>ONLINE PREZENTATSIYA (9 SLAYD)</span>
+                                <span data-i18n="hero.orderBtn">ONLINE PREZENTATSIYA (9 SLAYD)</span>
                             </a>
                             <!-- 2-qator -->
                             <a href="#dashboards" class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 whitespace-nowrap transition">
                                 <i class="fas fa-laptop-code text-xs"></i>
-                                <span>TIZIM PANELLARI</span>
+                                <span data-i18n="hero.panelsBtn">TIZIM PANELLARI</span>
                             </a>
                         </div>
                     </div>
 
-                    <p class="text-slate-300 text-xs sm:text-[14px] leading-relaxed max-w-xl font-normal">
+                    <p class="text-slate-300 text-xs sm:text-[14px] leading-relaxed max-w-xl font-normal" data-i18n="hero.desc">
                         Sun'iy intellekt va yuzni tanish (Face Recognition) texnologiyalariga asoslangan aqlli turniketlar, xususiy shifrlangan VPN kanallari hamda ota-onalar uchun real vaqtdagi Telegram va SMS xabarnomasi.
                     </p>
 
@@ -249,8 +237,8 @@
                                 <i class="fas fa-bolt"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Tezlik</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">0.18 Sekund</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statSpeedLabel">Tezlik</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statSpeed">0.18 Sekund</span>
                             </div>
                         </div>
 
@@ -259,8 +247,8 @@
                                 <i class="fas fa-shield-virus"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Spoof</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">100% Himoya</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statDefenseLabel">Anti-Spoof</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statDefense">100% Himoya</span>
                             </div>
                         </div>
 
@@ -269,8 +257,8 @@
                                 <i class="fas fa-battery-three-quarters"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Avtonom</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">8 Soat (UPS)</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statUpsLabel">Avtonom</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statUps">8 Soat (UPS)</span>
                             </div>
                         </div>
 
@@ -279,8 +267,8 @@
                                 <i class="fas fa-lock"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Shifrlash</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">AES-256 GCM</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statCryptoLabel">Shifrlash</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statCrypto">AES-256 GCM</span>
                             </div>
                         </div>
 
@@ -289,8 +277,8 @@
                                 <i class="fab fa-telegram-plane"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Telegram</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Oniy Xabar</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statTelegramLabel">Telegram</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statTelegram">Oniy Xabar</span>
                             </div>
                         </div>
 
@@ -299,8 +287,8 @@
                                 <i class="fas fa-door-open"></i>
                             </div>
                             <div>
-                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium">Anti-Panika</span>
-                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono">Avto-Ochilish</span>
+                                <span class="text-[9.5px] text-slate-400 uppercase tracking-wider block font-medium" data-i18n="hero.statAutoGateLabel">Anti-Panika</span>
+                                <span class="text-xs sm:text-[13px] font-bold text-white font-mono" data-i18n="hero.statAutoGate">Avto-Ochilish</span>
                             </div>
                         </div>
                     </div>
@@ -350,11 +338,11 @@
     <section id="process" class="min-h-[calc(100vh-54px)] flex flex-col justify-center py-6 sm:py-8 lg:py-10 bg-[#070D1A]/50 border-b border-slate-800">
         <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-5 sm:mb-6 lg:mb-7 space-y-1.5">
-                <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5">Texnologik Zanjir</span>
-                <h2 class="text-2xl sm:text-3xl lg:text-[34px] font-black text-white">
+                <span class="badge-tech badge-cyan text-[10px] py-1 px-2.5" data-i18n="process.badge">Texnologik Zanjir</span>
+                <h2 class="text-2xl sm:text-3xl lg:text-[34px] font-black text-white" data-i18n="process.title">
                     Turniketdan O'tishdan Xavfsizlik Natijasigacha: 10 Bosqich
                 </h2>
-                <p class="text-slate-400 text-xs sm:text-sm">
+                <p class="text-slate-400 text-xs sm:text-sm" data-i18n="process.desc">
                     Har bir harakat millisoniyalarda tahlil qilinadi, shifrlanadi va monitoring markaziga yetkaziladi.
                 </p>
             </div>
@@ -510,11 +498,11 @@
             
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-4 sm:mb-6 space-y-1.5">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">DASTURIY TA'MINOT & PANELLAR</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[28px] font-black text-white leading-tight">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5" data-i18n="dashboards.badge">DASTURIY TA'MINOT & PANELLAR</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[28px] font-black text-white leading-tight" data-i18n="dashboards.title">
                     EDUGATE Yagona Boshqaruv Markazi Interfeyslari
                 </h2>
-                <p class="text-slate-400 text-xs sm:text-[13px]">
+                <p class="text-slate-400 text-xs sm:text-[13px]" data-i18n="dashboards.desc">
                     Hokimlik, MMTV bo'limlari, maktab ma'muriyati va profilaktika xizmati uchun 4 ta boshqaruv ekrani.
                 </p>
             </div>
@@ -556,10 +544,10 @@
                         <div class="flex items-center gap-3 pt-2">
                             <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-cyan-400 transition shadow-md">
                                 <i class="fas fa-arrow-left text-xs text-cyan-400"></i>
-                                <span>Orqaga</span>
+                                <span data-i18n="dashboards.prevBtn">Orqaga</span>
                             </button>
                             <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
-                                <span>Keyingisi</span>
+                                <span data-i18n="dashboards.nextBtn">Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
                         </div>
@@ -647,10 +635,10 @@
                         <div class="flex items-center gap-3 pt-2">
                             <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-indigo-400 transition shadow-md">
                                 <i class="fas fa-arrow-left text-xs text-indigo-400"></i>
-                                <span>Orqaga</span>
+                                <span data-i18n="dashboards.prevBtn">Orqaga</span>
                             </button>
                             <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
-                                <span>Keyingisi</span>
+                                <span data-i18n="dashboards.nextBtn">Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
                         </div>
@@ -738,10 +726,10 @@
                         <div class="flex items-center gap-3 pt-2">
                             <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-purple-400 transition shadow-md">
                                 <i class="fas fa-arrow-left text-xs text-purple-400"></i>
-                                <span>Orqaga</span>
+                                <span data-i18n="dashboards.prevBtn">Orqaga</span>
                             </button>
                             <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
-                                <span>Keyingisi</span>
+                                <span data-i18n="dashboards.nextBtn">Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
                         </div>
@@ -829,10 +817,10 @@
                         <div class="flex items-center gap-3 pt-2">
                             <button type="button" data-dash-prev class="btn-cyber btn-cyber-ghost py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer text-slate-300 hover:text-white hover:border-amber-400 transition shadow-md">
                                 <i class="fas fa-arrow-left text-xs text-amber-400"></i>
-                                <span>Orqaga</span>
+                                <span data-i18n="dashboards.prevBtn">Orqaga</span>
                             </button>
                             <button type="button" data-dash-next class="btn-cyber btn-cyber-primary py-2.5 px-4 text-xs font-mono flex items-center justify-center gap-2 flex-1 cursor-pointer transition shadow-lg">
-                                <span>Keyingisi</span>
+                                <span data-i18n="dashboards.nextBtn">Keyingisi</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </button>
                         </div>
@@ -892,11 +880,11 @@
             
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-2 sm:mb-2.5 space-y-0.5">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">RESPUBLIKA QAMROVI • 14 TA HUDUD</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[25px] font-black text-white leading-tight">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5" data-i18n="map.badge">RESPUBLIKA QAMROVI • 14 TA HUDUD</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[25px] font-black text-white leading-tight" data-i18n="map.title">
                     O'zbekistonning 14 ta Hududi Bo'yicha Davomat Radari
                 </h2>
-                <p class="text-slate-400 text-xs sm:text-[13px]">
+                <p class="text-slate-400 text-xs sm:text-[13px]" data-i18n="map.desc">
                     Xaritadan hududni tanlang: Face ID datchiklari, turniketlar va jonli davomat telemetriyasi.
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-2.5 pt-0.5 text-[11px] font-mono text-slate-400">
@@ -1299,7 +1287,7 @@
                         <!-- Radar Top Banner -->
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-3">
                             <div>
-                                <span class="text-[9px] uppercase font-mono tracking-widest text-cyan-400 block mb-0.5">TANLANGAN HUDUD TELEMETRIYASI</span>
+                                <span class="text-[9px] uppercase font-mono tracking-widest text-cyan-400 block mb-0.5" data-i18n="map.selectedPrefix">TANLANGAN HUDUD TELEMETRIYASI</span>
                                 <h3 id="mapSelectedRegionName" class="text-xl sm:text-2xl font-black text-white tracking-tight">Surxondaryo viloyati</h3>
                                 <p id="mapSelectedDesc" class="text-slate-300 text-xs mt-1 line-clamp-2">
                                     Termiz shahri va 14 ta tumandagi barcha 948 ta maktab Milliy Gvardiya xulosasi bilan to'liq jihozlangan.
@@ -1318,7 +1306,7 @@
                             <!-- Metric 1: Maktablar -->
                             <div class="p-3 sm:p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 relative overflow-hidden group hover:border-cyan-500/50 transition">
                                 <div class="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-                                    <span>MAKTABLAR</span>
+                                    <span data-i18n="map.schools">MAKTABLAR</span>
                                     <i class="fas fa-school text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedSchools" class="text-lg sm:text-xl font-black text-cyan-400 mt-0.5">948 ta</h4>
@@ -1328,7 +1316,7 @@
                             <!-- Metric 2: O'quvchilar -->
                             <div class="p-3 sm:p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 relative overflow-hidden group hover:border-cyan-500/50 transition">
                                 <div class="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-                                    <span>O'QUVCHILAR</span>
+                                    <span data-i18n="map.students">O'QUVCHILAR</span>
                                     <i class="fas fa-users text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedStudents" class="text-lg sm:text-xl font-black text-white mt-0.5">580,000 nafar</h4>
@@ -1338,7 +1326,7 @@
                             <!-- Metric 3: O'rtacha Davomat -->
                             <div class="p-3 sm:p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 relative overflow-hidden group hover:border-emerald-500/50 transition">
                                 <div class="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-                                    <span>BUGUNGI DAVOMAT</span>
+                                    <span data-i18n="map.avgAttendance">BUGUNGI DAVOMAT</span>
                                     <i class="fas fa-chart-line text-emerald-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedAttendance" class="text-lg sm:text-xl font-black text-emerald-400 mt-0.5">98.4%</h4>
@@ -1348,7 +1336,7 @@
                             <!-- Metric 4: Turniketlar -->
                             <div class="p-3 sm:p-3.5 bg-slate-900/90 rounded-xl border border-slate-800/90 relative overflow-hidden group hover:border-cyan-500/50 transition">
                                 <div class="flex items-center justify-between text-slate-400 text-[11px] mb-1">
-                                    <span>TURNIKETLAR</span>
+                                    <span data-i18n="map.lanes">TURNIKETLAR</span>
                                     <i class="fas fa-shield-halved text-cyan-400 text-xs"></i>
                                 </div>
                                 <h4 id="mapSelectedTurnstiles" class="text-lg sm:text-xl font-black text-cyan-300 mt-0.5">2,800 ta yo'lak</h4>
@@ -1387,11 +1375,11 @@
             
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-2 sm:mb-3 space-y-0.5">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">SANOAT APPARAT MAJMUASI • USKUNALAR PASPORTI</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[25px] font-black text-white leading-tight">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5" data-i18n="hardware.badge">SANOAT APPARAT MAJMUASI • USKUNALAR PASPORTI</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[25px] font-black text-white leading-tight" data-i18n="hardware.title">
                     Maktablar Uchun Maxsus Moslashtirilgan Apparat Majmuasi
                 </h2>
-                <p class="text-slate-400 text-xs sm:text-[13px]">
+                <p class="text-slate-400 text-xs sm:text-[13px]" data-i18n="hardware.desc">
                     Milliy Gvardiya xavfsizlik talablariga 100% javob beruvchi sanoat darajasidagi texnika.
                 </p>
             </div>
@@ -1400,15 +1388,15 @@
             <div class="max-w-xl mx-auto w-full mb-3 flex items-center justify-center p-1 rounded-xl bg-slate-950/90 border border-slate-800/90 shadow-lg">
                 <button type="button" data-hw-tab="turnstile" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer border border-cyan-400 bg-cyan-950/70 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.35)]">
                     <i class="fas fa-shield-halved text-xs"></i>
-                    <span>01. ST-100 TURNIKET</span>
+                    <span data-i18n="hardware.tabTurnstile">01. ST-100 TURNIKET</span>
                 </button>
                 <button type="button" data-hw-tab="faceid" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-slate-400 hover:text-white border border-transparent">
                     <i class="fas fa-camera text-xs"></i>
-                    <span>02. FACE ID TERMINAL</span>
+                    <span data-i18n="hardware.tabFaceId">02. FACE ID TERMINAL</span>
                 </button>
                 <button type="button" data-hw-tab="ups" class="hw-tab-btn flex-1 py-2 px-3 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-slate-400 hover:text-white border border-transparent">
                     <i class="fas fa-bolt text-xs"></i>
-                    <span>03. SMARTUPS QUVVAT</span>
+                    <span data-i18n="hardware.tabUps">03. SMARTUPS QUVVAT</span>
                 </button>
             </div>
 
@@ -1723,11 +1711,11 @@
             
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-3 sm:mb-4 space-y-1">
-                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5">BOG'LANISH VA BEPUL SMETA</span>
-                <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight">
+                <span class="badge-tech badge-cyan text-[10px] py-0.5 px-2.5" data-i18n="contact.badge">BOG'LANISH VA BEPUL SMETA</span>
+                <h2 class="text-xl sm:text-2xl lg:text-[26px] font-black text-white leading-tight" data-i18n="contact.title">
                     Maktabingizga EDUGATE Tizimini O'rnatish Bo'yicha Bepul Konsultatsiya Oling
                 </h2>
-                <p class="text-slate-400 text-xs sm:text-[13px]">
+                <p class="text-slate-400 text-xs sm:text-[13px]" data-i18n="contact.desc">
                     Mutaxassislarimiz maktabingizga borib o'rganish o'tkazadi va to'liq hisob-kitob (smeta) taqdim etadi.
                 </p>
             </div>
@@ -1782,7 +1770,7 @@
                     <div class="pt-3 border-t border-slate-800 grid grid-cols-3 gap-2 text-center font-mono">
                         <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
                             <i class="fas fa-certificate text-cyan-400 text-xs mb-1 block"></i>
-                            <span class="text-[9px] text-slate-300 block font-bold">100% STANDART</span>
+                            <span class="text-[9px] text-slate-300 block font-bold" data-i18n="contact.stateGuarantee">100% STANDART</span>
                             <span class="text-[8px] text-slate-500">MMTV & MG</span>
                         </div>
                         <div class="p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
@@ -1818,11 +1806,11 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                                 <div>
                                     <label class="block text-slate-400 text-[11px] mb-1">F.I.SH (Mas'ul xodim / Direktor)</label>
-                                    <input type="text" name="full_name" required placeholder="Masalan: Alisher Vohidov" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                    <input type="text" name="full_name" required placeholder="Masalan: Alisher Vohidov" data-i18n-placeholder="contact.namePh" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
                                 </div>
                                 <div>
                                     <label class="block text-slate-400 text-[11px] mb-1">Telefon Raqamingiz</label>
-                                    <input type="tel" name="phone" required placeholder="+998 90 123 45 67" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                    <input type="tel" name="phone" required placeholder="+998 90 123 45 67" data-i18n-placeholder="contact.phonePh" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
                                 </div>
                             </div>
 
@@ -1849,7 +1837,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-slate-400 text-[11px] mb-1">Maktab Raqami va Tuman</label>
-                                    <input type="text" name="school_info" required placeholder="Masalan: Termiz sh., 11-maktab" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
+                                    <input type="text" name="school_info" required placeholder="Masalan: Termiz sh., 11-maktab" data-i18n-placeholder="contact.schoolPh" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-400 transition">
                                 </div>
                             </div>
 

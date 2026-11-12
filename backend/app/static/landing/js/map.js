@@ -194,28 +194,49 @@ class UzbekistanMapController {
             });
         });
 
+        // 3. Listen to Theme Changes (Light / Dark)
+        window.addEventListener('edugate-theme-changed', () => {
+            this.selectRegion(this.currentRegion);
+        });
+
         // Initialize with default region
         this.selectRegion(this.currentRegion);
+    }
+
+    getThemePalette() {
+        const isLight = document.documentElement.classList.contains('light');
+        return {
+            isLight,
+            defaultFill: isLight ? '#CBD5E1' : '#0c1e36',
+            defaultStroke: isLight ? '#94A3B8' : '#1e3a5f',
+            hoverFill: isLight ? '#BAE6FD' : '#075985',
+            hoverStroke: isLight ? '#0284C7' : '#38bdf8',
+            activeFill: '#0284c7',
+            activeStroke: isLight ? '#0369a1' : '#38bdf8',
+            labelColor: isLight ? '#0F172A' : '#cbd5e1',
+            activeLabelColor: isLight ? '#0284c7' : '#38bdf8'
+        };
     }
 
     selectRegion(key) {
         const data = UzbekistanRegionsData[key];
         if (!data) return;
         this.currentRegion = key;
+        const pal = this.getThemePalette();
 
         // 1. Update SVG Region Paths
         document.querySelectorAll('.map-region-path').forEach(path => {
             const regKey = path.getAttribute('data-region');
             if (regKey === key) {
                 path.classList.add('active');
-                path.setAttribute('fill', '#0284c7');
-                path.setAttribute('stroke', '#38bdf8');
+                path.setAttribute('fill', pal.activeFill);
+                path.setAttribute('stroke', pal.activeStroke);
                 path.setAttribute('stroke-width', '2.5');
                 path.setAttribute('filter', 'url(#map-glow-active)');
             } else {
                 path.classList.remove('active');
-                path.setAttribute('fill', '#0c1e36');
-                path.setAttribute('stroke', '#1e3a5f');
+                path.setAttribute('fill', pal.defaultFill);
+                path.setAttribute('stroke', pal.defaultStroke);
                 path.setAttribute('stroke-width', '1.5');
                 path.removeAttribute('filter');
             }
@@ -230,22 +251,22 @@ class UzbekistanMapController {
 
             if (regKey === key) {
                 if (dot) {
-                    dot.setAttribute('fill', '#38bdf8');
+                    dot.setAttribute('fill', pal.activeLabelColor);
                     dot.setAttribute('r', '4.5');
                 }
                 if (ping) ping.classList.remove('hidden');
                 if (txt) {
-                    txt.setAttribute('fill', '#38bdf8');
+                    txt.setAttribute('fill', pal.activeLabelColor);
                     txt.setAttribute('font-weight', '800');
                 }
             } else {
                 if (dot) {
-                    dot.setAttribute('fill', '#06b6d4');
+                    dot.setAttribute('fill', pal.isLight ? '#64748B' : '#06b6d4');
                     dot.setAttribute('r', '3');
                 }
                 if (ping) ping.classList.add('hidden');
                 if (txt) {
-                    txt.setAttribute('fill', '#cbd5e1');
+                    txt.setAttribute('fill', pal.labelColor);
                     txt.setAttribute('font-weight', '600');
                 }
             }

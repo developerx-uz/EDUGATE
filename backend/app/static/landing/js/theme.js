@@ -31,6 +31,11 @@
         }
 
         updateThemeToggleIcons(effectiveTheme, theme);
+
+        // Dispatch custom event for dynamic components (like SVG Map) to update their palettes
+        try {
+            window.dispatchEvent(new CustomEvent('edugate-theme-changed', { detail: { theme: effectiveTheme } }));
+        } catch (e) {}
     }
 
     function updateThemeToggleIcons(effectiveTheme, userPref) {
