@@ -12,11 +12,122 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chart.js 4 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- EDUGATE Custom CSS -->
-    <link rel="stylesheet" href="./css/admin.css">
     <!-- Alpine.js 3 CDN (defer) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- EDUGATE Modular CSS Stylesheet -->
+    <style>
+    /* EDUGATE Admin Panel Stylesheet */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(30, 41, 59, 0.8);
+    color: #e2e8f0;
+}
+
+.sidebar-item.active {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.toast-enter {
+    animation: toastIn 0.3s ease-out;
+}
+
+.toast-leave {
+    animation: toastOut 0.3s ease-in forwards;
+}
+
+@keyframes toastIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.stat-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.25rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+
+    </style>
 </head>
+
 <body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
@@ -73,6 +184,7 @@
         </form>
     </div>
 </div>
+
 
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
@@ -185,6 +297,7 @@
 </aside>
 
 
+
         <!-- MAIN CONTENT WRAPPER -->
         <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
              :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
@@ -261,6 +374,7 @@
         </div>
     </div>
 </header>
+
 
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
@@ -411,6 +525,7 @@
         </div>
     </div>
 </div>
+
 
                 <!-- VIEW: SCHOOLS -->
 <div x-show="activeTab === 'schools'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
@@ -659,6 +774,7 @@
     </div>
 </div>
 
+
                 <!-- VIEW: STUDENTS -->
 <div x-show="activeTab === 'students'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -789,6 +905,7 @@
     </div>
 </div>
 
+
                 <!-- VIEW: TEACHERS -->
 <div x-show="activeTab === 'teachers'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -884,6 +1001,7 @@
         </div>
     </div>
 </div>
+
 
                 <!-- VIEW: ATTENDANCE -->
 <div x-show="activeTab === 'attendance'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
@@ -1044,6 +1162,7 @@
     </div>
 </div>
 
+
                 <!-- VIEW: DEVICES -->
 <div x-show="activeTab === 'devices'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1108,6 +1227,7 @@
         </div>
     </div>
 </div>
+
 
                 <!-- VIEW: PARENTS -->
 <div x-show="activeTab === 'parents'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
@@ -1200,6 +1320,7 @@
     </div>
 </div>
 
+
                 <!-- VIEW: REPORTS -->
 <div x-show="activeTab === 'reports'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1273,6 +1394,7 @@
         </div>
     </div>
 </div>
+
 
                 <!-- VIEW: SETTINGS -->
 <div x-show="activeTab === 'settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
@@ -1392,6 +1514,7 @@
         </table>
     </div>
 </div>
+
 
             </main>
         </div>
@@ -1701,6 +1824,7 @@
 </div>
 
 
+
     <!-- TOAST NOTIFICATIONS -->
     <!-- TOAST NOTIFICATIONS COMPONENT -->
 <div class="fixed top-4 right-4 z-[70] space-y-2 w-80 max-w-[calc(100vw-2rem)] pointer-events-none">
@@ -1724,9 +1848,995 @@
 </div>
 
 
-    <!-- JAVASCRIPT MODULES -->
-    <script src="./js/api.js"></script>
-    <script src="./js/charts.js"></script>
-    <script src="./js/app.js"></script>
+
+    <!-- MODULAR JAVASCRIPT LOGIC -->
+    <script>
+    /**
+ * EDUGATE API Service Module
+ * Handles all backend HTTP calls, JWT tokens, and prefix resolution.
+ */
+const EdugateAPI = {
+    getToken() {
+        return localStorage.getItem('edugate_token') || '';
+    },
+
+    setToken(token) {
+        if (token) {
+            localStorage.setItem('edugate_token', token);
+        } else {
+            localStorage.removeItem('edugate_token');
+        }
+    },
+
+    getPrefix() {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://developerx.uz/edugate';
+        }
+        const path = window.location.pathname;
+        if (path.startsWith('/EDUGATE')) return '/EDUGATE';
+        if (path.startsWith('/edugate')) return '/edugate';
+        return '';
+    },
+
+    async request(endpoint, options = {}) {
+        let fullUrl = endpoint;
+        if (endpoint.startsWith('/api/v1')) {
+            fullUrl = this.getPrefix() + endpoint;
+        }
+
+        const headers = options.headers || {};
+        const token = this.getToken();
+        if (token) {
+            headers['Authorization'] = 'Bearer ' + token;
+        }
+
+        const response = await fetch(fullUrl, {
+            ...options,
+            headers
+        });
+
+        if (response.status === 401) {
+            this.setToken('');
+            throw new Error('Sessiya muddati tugadi. Iltimos, qayta kiring.');
+        }
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.detail || data.message || 'Xatolik yuz berdi');
+        }
+
+        return data;
+    },
+
+    // Auth
+    async login(username, password) {
+        const prefix = this.getPrefix();
+        const res = await fetch(prefix + '/api/v1/auth/login-json', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Login yoki parol noto\'g\'ri');
+        this.setToken(data.access_token);
+        return data;
+    },
+
+    // Stats
+    async getStats() {
+        return await this.request('/api/v1/admin/stats');
+    },
+
+    async getWeeklyStats() {
+        return await this.request('/api/v1/admin/stats/weekly');
+    },
+
+    getExportUrl() {
+        return this.getPrefix() + '/api/v1/admin/reports/export-csv';
+    },
+
+    // Schools
+    async getSchools() {
+        return await this.request('/api/v1/admin/schools/detailed');
+    },
+
+    async getSchoolClasses(schoolId) {
+        return await this.request('/api/v1/admin/schools/' + schoolId + '/classes');
+    },
+
+    async createSchool(schoolData) {
+        return await this.request('/api/v1/schools/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(schoolData)
+        });
+    },
+
+    async updateSchool(schoolId, schoolData) {
+        return await this.request('/api/v1/admin/schools/' + schoolId, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(schoolData)
+        });
+    },
+
+    async deleteSchool(schoolId) {
+        return await this.request('/api/v1/admin/schools/' + schoolId, {
+            method: 'DELETE'
+        });
+    },
+
+    // Students
+    async getStudents(schoolId = '', className = '') {
+        let url = '/api/v1/admin/students/all';
+        const params = [];
+        if (schoolId) params.push('school_id=' + schoolId);
+        if (className) params.push('class_name=' + encodeURIComponent(className));
+        if (params.length) url += '?' + params.join('&');
+        return await this.request(url);
+    },
+
+    async createStudent(studentData) {
+        return await this.request('/api/v1/students/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(studentData)
+        });
+    },
+
+    async updateStudent(studentId, studentData) {
+        return await this.request('/api/v1/admin/students/' + studentId, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(studentData)
+        });
+    },
+
+    async deleteStudent(studentId) {
+        return await this.request('/api/v1/admin/students/' + studentId, {
+            method: 'DELETE'
+        });
+    },
+
+    async verifyGovId(docNumber, birthDate) {
+        return await this.request('/api/v1/students/verify-gov-id', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                doc_number: docNumber,
+                birth_date: birthDate
+            })
+        });
+    },
+
+    // Teachers
+    async getTeachers(schoolId = '') {
+        let url = '/api/v1/teachers/';
+        if (schoolId) url += '?school_id=' + schoolId;
+        return await this.request(url);
+    },
+
+    async createTeacher(teacherData) {
+        return await this.request('/api/v1/teachers/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(teacherData)
+        });
+    },
+
+    async deleteTeacher(teacherId) {
+        return await this.request('/api/v1/teachers/' + teacherId, {
+            method: 'DELETE'
+        });
+    },
+
+    // Devices
+    async getDevices() {
+        return await this.request('/api/v1/admin/devices/all');
+    },
+
+    async createDevice(deviceData) {
+        return await this.request('/api/v1/devices/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(deviceData)
+        });
+    },
+
+    async deleteDevice(deviceId) {
+        return await this.request('/api/v1/admin/devices/' + deviceId, {
+            method: 'DELETE'
+        });
+    },
+
+    // Parents
+    async getParents() {
+        return await this.request('/api/v1/admin/parents');
+    },
+
+    // Attendance
+    async getTodayLogs() {
+        return await this.request('/api/v1/attendance/today');
+    }
+};
+
+window.EdugateAPI = EdugateAPI;
+
+    </script>
+    <script>
+    /**
+ * EDUGATE Charts Manager
+ * Initializes and updates real Chart.js charts using live backend data.
+ */
+const EdugateCharts = {
+    attendanceChart: null,
+    weeklyChart: null,
+
+    init(todayStats = {}, weeklyData = []) {
+        this.initAttendanceChart(todayStats);
+        this.initWeeklyChart(weeklyData);
+    },
+
+    initAttendanceChart(stats = {}) {
+        const ctx = document.getElementById('attendanceChart');
+        if (!ctx) return;
+
+        const onTime = stats.today_ontime || 0;
+        const late = stats.today_lates || 0;
+        const total = stats.students_count || (onTime + late) || 1;
+        const absent = Math.max(0, total - (onTime + late));
+
+        // If no records yet, show clean zero state representation
+        const chartData = (onTime === 0 && late === 0 && absent === 0) 
+            ? [0, 0, 1] 
+            : [onTime, late, absent];
+
+        if (this.attendanceChart) {
+            this.attendanceChart.destroy();
+        }
+
+        this.attendanceChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["O'z vaqtida", 'Kechikkan', 'Kelmagan'],
+                datasets: [{
+                    data: chartData,
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '72%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            font: { size: 11, family: 'Plus Jakarta Sans' },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyleWidth: 8
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.label}: ${context.raw} ta`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    initWeeklyChart(weeklyData = []) {
+        const ctx = document.getElementById('weeklyChart');
+        if (!ctx) return;
+
+        let labels = ['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'];
+        let onTimeData = [0, 0, 0, 0, 0, 0, 0];
+        let lateData = [0, 0, 0, 0, 0, 0, 0];
+
+        if (Array.isArray(weeklyData) && weeklyData.length > 0) {
+            labels = weeklyData.map(d => d.day_name || d.date);
+            onTimeData = weeklyData.map(d => d.on_time || 0);
+            lateData = weeklyData.map(d => d.late || 0);
+        }
+
+        if (this.weeklyChart) {
+            this.weeklyChart.destroy();
+        }
+
+        this.weeklyChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "O'z vaqtida",
+                        data: onTimeData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.35,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#10b981'
+                    },
+                    {
+                        label: 'Kechikkan',
+                        data: lateData,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        fill: true,
+                        tension: 0.35,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#f59e0b'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(51,65,85,0.2)' },
+                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(51,65,85,0.2)' },
+                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' }, precision: 0 }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#94a3b8',
+                            font: { size: 11, family: 'Plus Jakarta Sans' },
+                            usePointStyle: true,
+                            pointStyleWidth: 8
+                        }
+                    }
+                }
+            }
+        });
+    },
+
+    update(todayStats = {}, weeklyData = []) {
+        if (this.attendanceChart) {
+            const onTime = todayStats.today_ontime || 0;
+            const late = todayStats.today_lates || 0;
+            const total = todayStats.students_count || (onTime + late) || 1;
+            const absent = Math.max(0, total - (onTime + late));
+
+            this.attendanceChart.data.datasets[0].data = [onTime, late, absent];
+            this.attendanceChart.update();
+        }
+
+        if (this.weeklyChart && Array.isArray(weeklyData) && weeklyData.length > 0) {
+            this.weeklyChart.data.labels = weeklyData.map(d => d.day_name || d.date);
+            this.weeklyChart.data.datasets[0].data = weeklyData.map(d => d.on_time || 0);
+            this.weeklyChart.data.datasets[1].data = weeklyData.map(d => d.late || 0);
+            this.weeklyChart.update();
+        }
+    }
+};
+
+window.EdugateCharts = EdugateCharts;
+
+
+    </script>
+    <script>
+    /**
+ * EDUGATE Admin Main Application Logic (Alpine.js Controller)
+ * Full real-life production logic connecting API, Charts, UI state and Modals.
+ */
+function adminApp() {
+    return {
+        // ===== AUTHENTICATION =====
+        token: EdugateAPI.getToken(),
+        loading: false,
+        authError: '',
+        loginForm: { username: '', password: '' },
+        showPassword: false,
+
+        // ===== NAVIGATION =====
+        activeTab: 'dashboard',
+        sidebarOpen: false,
+        sidebarCollapsed: false,
+        searchQuery: '',
+        showNotifPanel: false,
+
+        // ===== STATS & DASHBOARD =====
+        stats: {
+            schools_count: 0,
+            students_count: 0,
+            teachers_count: 0,
+            devices_count: 0,
+            parents_count: 0,
+            today_entries: 0,
+            today_exits: 0,
+            today_lates: 0,
+            today_ontime: 0
+        },
+        weeklyStats: [],
+        notifications: [],
+
+        // ===== SCHOOLS MODULE =====
+        schoolsView: 'schools_list',
+        schoolViewMode: 'grid',
+        schoolSearchQuery: '',
+        schoolsDetailed: [],
+        selectedSchool: null,
+        schoolClasses: [],
+        selectedClass: null,
+        classDetailTab: 'students',
+        classStudents: [],
+        classTeachers: [],
+
+        // ===== STUDENTS MODULE =====
+        allStudents: [],
+        studentsFilter: { search: '', school_id: '', class_name: '' },
+        studentsPage: 1,
+
+        // ===== TEACHERS MODULE =====
+        allTeachers: [],
+        teachersFilter: { search: '', school_id: '' },
+
+        // ===== ATTENDANCE MODULE =====
+        todayLogs: [],
+        autoRefresh: true,
+        refreshInterval: null,
+        attendanceDate: new Date().toISOString().split('T')[0],
+        attendanceFilter: { school_id: '', class_name: '', status: '' },
+
+        // ===== DEVICES & PARENTS =====
+        devices: [],
+        parents: [],
+
+        // ===== REPORTS =====
+        reportType: 'daily',
+
+        // ===== SETTINGS =====
+        settingsTab: 'general',
+        systemSettings: {
+            school_start_time: '08:00',
+            late_threshold_minutes: 15,
+            school_end_time: '14:00',
+            language: 'uz',
+            telegram_bot_token: '',
+            admin_chat_id: '',
+            notify_late: true,
+            notify_entry: true,
+            notify_exit: false
+        },
+
+        // ===== MODALS & DIALOGS =====
+        showAddSchoolModal: false,
+        showAddStudentModal: false,
+        showEditStudentModal: false,
+        showAddTeacherModal: false,
+        showAddDeviceModal: false,
+        showConfirmDialog: false,
+        confirmTitle: '',
+        confirmMessage: '',
+        confirmCallback: null,
+
+        // ===== FORMS =====
+        schoolForm: { name: '', code: '', address: '', phone: '' },
+        editSchoolForm: { id: null },
+        studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '', face_encoding: '', photo_path: '' },
+        editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '' },
+        teacherForm: { school_id: '', first_name: '', last_name: '', phone_number: '', subject: '', class_name: '' },
+        deviceForm: { school_id: '', name: '', device_type: 'AI_CAMERA', direction: 'IN', ip_address: '', location_description: '' },
+
+        // ===== GOV ID SEARCH & FACE CAPTURE =====
+        govDocSearch: '',
+        govBirthDateSearch: '',
+        searchingGov: false,
+        studentPhotoPreview: null,
+
+        // ===== TOASTS =====
+        toasts: [],
+        toastCount: 0,
+
+        // ===== COMPUTED GETTERS =====
+        get filteredSchools() {
+            if (!this.schoolSearchQuery) return this.schoolsDetailed;
+            const q = this.schoolSearchQuery.toLowerCase();
+            return this.schoolsDetailed.filter(s => 
+                (s.name || '').toLowerCase().includes(q) || 
+                (s.code || '').toLowerCase().includes(q) ||
+                (s.address || '').toLowerCase().includes(q)
+            );
+        },
+
+        get filteredStudents() {
+            let list = this.allStudents || [];
+            if (this.studentsFilter.search) {
+                const q = this.studentsFilter.search.toLowerCase();
+                list = list.filter(s => 
+                    (s.full_name || (s.first_name + ' ' + s.last_name) || '').toLowerCase().includes(q) || 
+                    (s.student_code || '').toLowerCase().includes(q) ||
+                    (s.pinfl || '').includes(q) ||
+                    (s.rfid_card_id || '').toLowerCase().includes(q)
+                );
+            }
+            if (this.studentsFilter.school_id) {
+                list = list.filter(s => s.school_id == this.studentsFilter.school_id);
+            }
+            if (this.studentsFilter.class_name) {
+                list = list.filter(s => (s.class_name || '').toLowerCase().includes(this.studentsFilter.class_name.toLowerCase()));
+            }
+            return list;
+        },
+
+        get paginatedStudents() {
+            const start = (this.studentsPage - 1) * 15;
+            return this.filteredStudents.slice(start, start + 15);
+        },
+
+        get filteredTeachers() {
+            let list = this.allTeachers || [];
+            if (this.teachersFilter.search) {
+                const q = this.teachersFilter.search.toLowerCase();
+                list = list.filter(t => 
+                    (t.full_name || (t.first_name + ' ' + t.last_name) || '').toLowerCase().includes(q) ||
+                    (t.subject || '').toLowerCase().includes(q)
+                );
+            }
+            if (this.teachersFilter.school_id) {
+                list = list.filter(t => t.school_id == this.teachersFilter.school_id);
+            }
+            return list;
+        },
+
+        get filteredLogs() {
+            let list = this.todayLogs || [];
+            if (this.attendanceFilter.school_id) {
+                list = list.filter(l => l.school_id == this.attendanceFilter.school_id);
+            }
+            if (this.attendanceFilter.class_name) {
+                list = list.filter(l => (l.class_name || '').toLowerCase().includes(this.attendanceFilter.class_name.toLowerCase()));
+            }
+            if (this.attendanceFilter.status) {
+                list = list.filter(l => l.status === this.attendanceFilter.status);
+            }
+            return list;
+        },
+
+        get onTimeCount() {
+            return (this.todayLogs || []).filter(l => l.status === 'ON_TIME').length;
+        },
+        get lateCount() {
+            return (this.todayLogs || []).filter(l => l.status === 'LATE').length;
+        },
+        get exitCount() {
+            return (this.todayLogs || []).filter(l => l.event_type === 'EXIT').length;
+        },
+
+        // ===== INITIALIZATION =====
+        async initApp() {
+            if (this.token) {
+                await this.refreshAllData();
+
+                // Periodic real-time background refresh
+                if (this.refreshInterval) clearInterval(this.refreshInterval);
+                this.refreshInterval = setInterval(() => {
+                    if (this.autoRefresh && (this.activeTab === 'dashboard' || this.activeTab === 'attendance')) {
+                        this.fetchTodayLogs();
+                        this.fetchStats();
+                    }
+                }, 5000);
+            }
+        },
+
+        async refreshAllData() {
+            try {
+                await Promise.all([
+                    this.fetchStats(),
+                    this.fetchWeeklyStats(),
+                    this.fetchSchoolsDetailed(),
+                    this.fetchAllStudents(),
+                    this.fetchAllTeachers(),
+                    this.fetchDevices(),
+                    this.fetchParents(),
+                    this.fetchTodayLogs()
+                ]);
+
+                this.$nextTick(() => {
+                    EdugateCharts.init(this.stats, this.weeklyStats);
+                });
+            } catch (err) {
+                console.error("Data refresh error:", err);
+            }
+        },
+
+        // ===== TOASTS =====
+        showToast(message, type = 'success') {
+            const id = ++this.toastCount;
+            this.toasts.push({ id, message, type });
+            setTimeout(() => this.removeToast(id), 4000);
+        },
+
+        removeToast(id) {
+            this.toasts = this.toasts.filter(t => t.id !== id);
+        },
+
+        // ===== CONFIRMATION DIALOG =====
+        confirm(title, message, callback) {
+            this.confirmTitle = title;
+            this.confirmMessage = message;
+            this.confirmCallback = callback;
+            this.showConfirmDialog = true;
+        },
+
+        executeConfirmAction() {
+            if (this.confirmCallback) this.confirmCallback();
+            this.showConfirmDialog = false;
+        },
+
+        // ===== AUTHENTICATION =====
+        async login() {
+            this.loading = true;
+            this.authError = '';
+            try {
+                const res = await EdugateAPI.login(this.loginForm.username, this.loginForm.password);
+                this.token = res.access_token;
+                this.showToast('Hush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.', 'success');
+                this.initApp();
+            } catch (err) {
+                this.authError = err.message;
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        logout() {
+            this.token = '';
+            EdugateAPI.setToken('');
+            if (this.refreshInterval) clearInterval(this.refreshInterval);
+            this.showToast('Tizimdan chiqildi', 'info');
+        },
+
+        // ===== DATA FETCH METHODS =====
+        async fetchStats() {
+            try {
+                this.stats = await EdugateAPI.getStats();
+                EdugateCharts.update(this.stats, this.weeklyStats);
+            } catch (e) {}
+        },
+
+        async fetchWeeklyStats() {
+            try {
+                this.weeklyStats = await EdugateAPI.getWeeklyStats();
+                EdugateCharts.update(this.stats, this.weeklyStats);
+            } catch (e) {}
+        },
+
+        async fetchTodayLogs() {
+            try {
+                this.todayLogs = await EdugateAPI.getTodayLogs();
+            } catch (e) {}
+        },
+
+        async fetchSchoolsDetailed() {
+            try {
+                this.schoolsDetailed = await EdugateAPI.getSchools();
+                if (this.schoolsDetailed.length > 0) {
+                    if (!this.studentForm.school_id) this.studentForm.school_id = this.schoolsDetailed[0].id;
+                    if (!this.teacherForm.school_id) this.teacherForm.school_id = this.schoolsDetailed[0].id;
+                    if (!this.deviceForm.school_id) this.deviceForm.school_id = this.schoolsDetailed[0].id;
+                }
+            } catch (e) {}
+        },
+
+        async fetchAllStudents() {
+            try {
+                this.allStudents = await EdugateAPI.getStudents(
+                    this.studentsFilter.school_id,
+                    this.studentsFilter.class_name
+                );
+            } catch (e) {}
+        },
+
+        async fetchAllTeachers() {
+            try {
+                this.allTeachers = await EdugateAPI.getTeachers(this.teachersFilter.school_id);
+            } catch (e) {}
+        },
+
+        async fetchDevices() {
+            try {
+                this.devices = await EdugateAPI.getDevices();
+            } catch (e) {}
+        },
+
+        async fetchParents() {
+            try {
+                this.parents = await EdugateAPI.getParents();
+            } catch (e) {}
+        },
+
+        // ===== NAVIGATION HELPERS =====
+        selectSchool(school) {
+            this.selectedSchool = school;
+            this.studentForm.school_id = school.id;
+            this.teacherForm.school_id = school.id;
+            this.deviceForm.school_id = school.id;
+            this.schoolsView = 'school_classes';
+            EdugateAPI.getSchoolClasses(school.id)
+                .then(res => this.schoolClasses = res)
+                .catch(() => {});
+        },
+
+        selectClass(cls) {
+            this.selectedClass = typeof cls === 'object' ? cls.class_name : cls;
+            this.studentForm.class_name = this.selectedClass;
+            this.teacherForm.class_name = this.selectedClass;
+            this.schoolsView = 'class_detail';
+            this.classDetailTab = 'students';
+            this.fetchClassStudents();
+            this.fetchClassTeachers();
+        },
+
+        async fetchClassStudents() {
+            if (!this.selectedSchool || !this.selectedClass) return;
+            try {
+                this.classStudents = await EdugateAPI.getStudents(this.selectedSchool.id, this.selectedClass);
+            } catch (e) {}
+        },
+
+        async fetchClassTeachers() {
+            if (!this.selectedSchool || !this.selectedClass) return;
+            try {
+                this.classTeachers = await EdugateAPI.getTeachers(this.selectedSchool.id);
+                this.classTeachers = this.classTeachers.filter(t => t.class_name === this.selectedClass);
+            } catch (e) {}
+        },
+
+        // ===== MODAL OPENERS =====
+        openSchoolModal() {
+            this.editSchoolForm = { id: null };
+            this.schoolForm = { name: '', code: '', address: '', phone: '' };
+            this.showAddSchoolModal = true;
+        },
+
+        openStudentModal() {
+            this.studentForm.first_name = '';
+            this.studentForm.last_name = '';
+            this.studentForm.student_code = '';
+            this.studentForm.pinfl = '';
+            this.studentForm.rfid_card_id = '';
+            this.studentPhotoPreview = null;
+            this.showAddStudentModal = true;
+        },
+
+        openClassModal() {
+            this.studentForm.class_name = '';
+            this.showAddStudentModal = true;
+        },
+
+        openEditStudentModal(st) {
+            this.editStudentForm = {
+                id: st.id,
+                school_id: st.school_id,
+                first_name: st.first_name || (st.full_name ? st.full_name.split(' ')[0] : ''),
+                last_name: st.last_name || (st.full_name ? st.full_name.split(' ').slice(1).join(' ') : ''),
+                class_name: st.class_name,
+                student_code: st.student_code,
+                rfid_card_id: st.rfid_card_id || '',
+                pinfl: st.pinfl || ''
+            };
+            this.showEditStudentModal = true;
+        },
+
+        // ===== CREATE / UPDATE ACTIONS =====
+        async saveSchool() {
+            try {
+                if (this.editSchoolForm.id) {
+                    await EdugateAPI.updateSchool(this.editSchoolForm.id, this.schoolForm);
+                    this.showToast('Maktab ma\'lumotlari yangilandi!', 'success');
+                } else {
+                    await EdugateAPI.createSchool(this.schoolForm);
+                    this.showToast('Yangi maktab muvaffaqiyatli saqlandi!', 'success');
+                }
+                this.showAddSchoolModal = false;
+                this.fetchSchoolsDetailed();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async createStudent() {
+            try {
+                await EdugateAPI.createStudent(this.studentForm);
+                this.showToast("O'quvchi muvaffaqiyatli qo'shildi!", 'success');
+                this.showAddStudentModal = false;
+                this.studentForm.first_name = '';
+                this.studentForm.last_name = '';
+                this.studentForm.student_code = '';
+                this.studentForm.rfid_card_id = '';
+                this.studentForm.pinfl = '';
+                this.studentPhotoPreview = null;
+                this.studentForm.face_encoding = '';
+
+                if (this.schoolsView === 'class_detail') this.fetchClassStudents();
+                if (this.selectedSchool) this.selectSchool(this.selectedSchool);
+                this.fetchAllStudents();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async updateStudent() {
+            try {
+                await EdugateAPI.updateStudent(this.editStudentForm.id, this.editStudentForm);
+                this.showToast("O'quvchi ma'lumotlari yangilandi!", 'success');
+                this.showEditStudentModal = false;
+                if (this.schoolsView === 'class_detail') this.fetchClassStudents();
+                this.fetchAllStudents();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async createTeacher() {
+            try {
+                await EdugateAPI.createTeacher(this.teacherForm);
+                this.showToast("O'qituvchi muvaffaqiyatli qo'shildi!", 'success');
+                this.showAddTeacherModal = false;
+                this.teacherForm.first_name = '';
+                this.teacherForm.last_name = '';
+                this.teacherForm.phone_number = '';
+                if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
+                this.fetchAllTeachers();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async createDevice() {
+            try {
+                await EdugateAPI.createDevice(this.deviceForm);
+                this.showToast('Qurilma / Kamera muvaffaqiyatli ulandi!', 'success');
+                this.showAddDeviceModal = false;
+                this.deviceForm.name = '';
+                this.deviceForm.ip_address = '';
+                this.fetchDevices();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        // ===== DELETE ACTIONS =====
+        deleteStudent(id) {
+            this.confirm("O'quvchini o'chirish", "Haqiqatan ham ushbu o'quvchini tizimdan o'chirmoqchimisiz?", async () => {
+                try {
+                    await EdugateAPI.deleteStudent(id);
+                    this.showToast("O'quvchi o'chirildi", 'success');
+                    if (this.schoolsView === 'class_detail') this.fetchClassStudents();
+                    this.fetchAllStudents();
+                    this.fetchStats();
+                } catch (e) {
+                    this.showToast(e.message, 'error');
+                }
+            });
+        },
+
+        deleteTeacher(id) {
+            this.confirm("O'qituvchini o'chirish", "Ushbu o'qituvchini ro'yxatdan o'chirmoqchimisiz?", async () => {
+                try {
+                    await EdugateAPI.deleteTeacher(id);
+                    this.showToast("O'qituvchi o'chirildi", 'success');
+                    if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
+                    this.fetchAllTeachers();
+                    this.fetchStats();
+                } catch (e) {
+                    this.showToast(e.message, 'error');
+                }
+            });
+        },
+
+        deleteSchool(id) {
+            this.confirm("Maktabni o'chirish", "DIQQAT: Maktab va uning barcha sinflari hamda o'quvchilari o'chiriladi!", async () => {
+                try {
+                    await EdugateAPI.deleteSchool(id);
+                    this.showToast("Maktab o'chirildi", 'success');
+                    this.schoolsView = 'schools_list';
+                    this.fetchSchoolsDetailed();
+                    this.fetchStats();
+                } catch (e) {
+                    this.showToast(e.message, 'error');
+                }
+            });
+        },
+
+        // ===== REAL PHOTO & GOV DATA HANDLING =====
+        async searchGovId() {
+            if (!this.govDocSearch) {
+                this.showToast("Hujjat seriyasi yoki JSHSHIR kiriting", 'warning');
+                return;
+            }
+            this.searchingGov = true;
+            try {
+                const data = await EdugateAPI.verifyGovId(this.govDocSearch, this.govBirthDateSearch);
+                if (data && data.found) {
+                    this.studentForm.first_name = data.first_name || '';
+                    this.studentForm.last_name = data.last_name || '';
+                    this.studentForm.class_name = data.suggested_class || this.studentForm.class_name || '7-A';
+                    this.studentForm.pinfl = data.pinfl || '';
+                    if (!this.studentForm.student_code) {
+                        this.studentForm.student_code = (this.selectedSchool ? this.selectedSchool.code : 'SCH') + '-' + Math.floor(1000 + Math.random()*9000);
+                    }
+                    this.showToast("Topildi: " + data.first_name + " " + data.last_name, 'success');
+                } else {
+                    this.showToast("Bazada topilmadi. O'zingiz kiritishingiz mumkin.", 'info');
+                }
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            } finally {
+                this.searchingGov = false;
+            }
+        },
+
+        handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.studentPhotoPreview = e.target.result;
+                // Real base64 payload stored for verification & Face ID recognition
+                this.studentForm.face_encoding = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        // ===== EXPORT REAL REPORT (CSV/EXCEL) =====
+        exportReport(type) {
+            if (type === 'excel' || type === 'csv') {
+                const url = EdugateAPI.getExportUrl();
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `edugate_hisobot_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                this.showToast('Haqiqiy Excel/CSV hisoboti yuklab olinmoqda...', 'success');
+            } else if (type === 'pdf') {
+                window.print();
+            }
+        },
+
+        // ===== UTILITY HELPERS =====
+        getSchoolName(schoolId) {
+            const sc = this.schoolsDetailed.find(s => s.id == schoolId);
+            return sc ? sc.name : '';
+        },
+
+        formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+    };
+}
+
+window.adminApp = adminApp;
+
+
+    </script>
 </body>
 </html>
+
+

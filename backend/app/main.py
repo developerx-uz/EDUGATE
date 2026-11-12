@@ -80,6 +80,18 @@ static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+admin_dir_path = os.path.join(os.path.dirname(__file__), "static", "admin")
+if os.path.exists(admin_dir_path):
+    css_dir = os.path.join(admin_dir_path, "css")
+    js_dir = os.path.join(admin_dir_path, "js")
+    if os.path.exists(css_dir):
+        app.mount("/admin/css", StaticFiles(directory=css_dir), name="admin-css")
+        app.mount("/css", StaticFiles(directory=css_dir), name="css")
+    if os.path.exists(js_dir):
+        app.mount("/admin/js", StaticFiles(directory=js_dir), name="admin-js")
+        app.mount("/js", StaticFiles(directory=js_dir), name="js")
+
+
 # Marshrutlar
 app.include_router(api_router, prefix=settings.API_V1_STR)
 

@@ -12,11 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Chart.js 4 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- EDUGATE Custom CSS -->
-    <link rel="stylesheet" href="./css/admin.css">
     <!-- Alpine.js 3 CDN (defer) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- EDUGATE Modular CSS Stylesheet -->
+    <style>
+    <!-- include: css/admin.css -->
+    </style>
 </head>
+
 <body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
@@ -60,10 +63,17 @@
     <!-- TOAST NOTIFICATIONS -->
     <!-- include: components/toasts.html -->
 
-    <!-- JAVASCRIPT MODULES -->
-    <script src="./js/api.js"></script>
-    <script src="./js/charts.js"></script>
-    <script src="./js/app.js"></script>
+    <!-- MODULAR JAVASCRIPT LOGIC -->
+    <script>
+    <!-- include: js/api.js -->
+    </script>
+    <script>
+    <!-- include: js/charts.js -->
+    </script>
+    <script>
+    <!-- include: js/app.js -->
+    </script>
 </body>
 </html>
+
 
