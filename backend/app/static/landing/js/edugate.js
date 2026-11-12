@@ -13,6 +13,7 @@ class EdugateApp {
         this.initNavbar();
         this.initLanguageSelector();
         this.initModalViewer();
+        this.initPhotoGallery();
         this.initTabSwitcher();
     }
 
