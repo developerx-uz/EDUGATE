@@ -102,3 +102,4 @@
         applyTheme(getSavedTheme());
     });
 })();
+
