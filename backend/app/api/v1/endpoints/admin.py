@@ -249,3 +249,54 @@ async def delete_school(
     await db.delete(school)
     await db.commit()
     return {"message": "Maktab muvaffaqiyatli o'chirildi"}
+
+
+@router.put("/students/{student_id}", summary="O'quvchini tahrirlash")
+async def update_student(
+    student_id: str,
+    payload: dict,
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    result = await db.execute(select(Student).filter(Student.id == student_id))
+    student = result.scalar_one_or_none()
+    if not student:
+        raise HTTPException(status_code=404, detail="O'quvchi topilmadi")
+
+    for field in ["first_name", "last_name", "class_name", "student_code", "pinfl", "rfid_card_id", "school_id"]:
+        if field in payload and payload[field] is not None:
+            setattr(student, field, payload[field])
+
+    await db.commit()
+    await db.refresh(student)
+    return {"message": "O'quvchi ma'lumotlari muvaffaqiyatli yangilandi", "student": {
+        "id": student.id,
+        "first_name": student.first_name,
+        "last_name": student.last_name,
+        "class_name": student.class_name,
+        "student_code": student.student_code
+    }}
+
+
+@router.put("/schools/{school_id}", summary="Maktabni tahrirlash")
+async def update_school(
+    school_id: str,
+    payload: dict,
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    result = await db.execute(select(School).filter(School.id == school_id))
+    school = result.scalar_one_or_none()
+    if not school:
+        raise HTTPException(status_code=404, detail="Maktab topilmadi")
+
+    for field in ["name", "code", "address", "phone"]:
+        if field in payload and payload[field] is not None:
+            setattr(school, field, payload[field])
+
+    await db.commit()
+    await db.refresh(school)
+    return {"message": "Maktab muvaffaqiyatli yangilandi", "school": {
+        "id": school.id,
+        "name": school.name,
+        "code": school.code
+    }}
+
