@@ -163,3 +163,4 @@ const EdugateCharts = {
 };
 
 window.EdugateCharts = EdugateCharts;
+
