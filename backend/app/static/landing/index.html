@@ -23,17 +23,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5.3.5">
+    <link rel="stylesheet" href="css/style.css?v=5.3.6">
     
     <!-- Theme Manager (Initializes OS System preference automatically) -->
-    <script src="js/theme.js?v=5.3.5"></script>
+    <script src="js/theme.js?v=5.3.6"></script>
 </head>
 
 <body class="bg-[#040812] text-slate-200 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
 
     <!-- 1. EXPANDED HEADER NAVBAR (OCHIQ MENYU, OSTIDA YAGONA TOZA CHIZIQ) -->
     <header class="site-header sticky top-0 z-50 bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-800 h-[54px] transition-colors">
-        <div class="w-full max-w-[1440px] mx-auto px-2 sm:px-3 lg:px-4 xl:px-5 2xl:px-8 h-full flex items-center justify-between gap-1 sm:gap-2 lg:gap-2.5 xl:gap-3 2xl:gap-5 overflow-hidden">
+        <div class="w-full max-w-[1440px] mx-auto px-2 sm:px-3 lg:px-4 xl:px-5 2xl:px-8 h-full flex items-center justify-between gap-1 sm:gap-2 lg:gap-2.5 xl:gap-3 2xl:gap-5 overflow-visible">
             <!-- Brand Logo -->
             <a href="#" class="flex items-center gap-2 group shrink-0">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-indigo-500/20 border border-cyan-500/40 flex items-center justify-center p-1 shadow-[0_0_12px_rgba(6,182,212,0.3)] group-hover:scale-105 transition">
@@ -63,21 +63,33 @@
 
             <!-- Actions: ONLINE PREZENTATSIYA, 5-TIL CUSTOM ROOM VA DUAL-ICON MAVZU SWITCHER -->
             <div class="hidden sm:flex items-center gap-1 sm:gap-1.5 lg:gap-2 xl:gap-2.5 shrink-0">
-                <!-- Theme Toggle Button (1 Single Button: Sun / Moon) -->
-                <button type="button" data-theme-toggle id="themeToggleBtn" class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
-                    <i class="fas fa-sun text-sm"></i>
-                </button>
+                <!-- Theme Switcher: Yorug'lik (Sun SVG) va Qorong'ulik (Moon SVG) Segmented Pill -->
+                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
+                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                    </button>
+                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
 
                 <!-- Custom 5-Language Dropdown Room -->
                 <div class="relative" id="customLangDropdown">
                     <button type="button" id="langDropdownTrigger" class="h-[32px] px-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/60 text-slate-200 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer shadow-md select-none" title="Tilni tanlash (5 ta til)">
-                        <span id="activeLangFlag" class="text-sm leading-none">🇺🇿</span>
+                        <span id="activeLangFlag" class="inline-flex items-center leading-none">
+                            <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 640 320"><rect width="640" height="106.6" fill="#0099b5"/><rect y="106.6" width="640" height="106.6" fill="#ffffff"/><rect y="213.2" width="640" height="106.6" fill="#1eb53a"/><rect y="101" width="640" height="5.6" fill="#ce1126"/><rect y="213.2" width="640" height="5.6" fill="#ce1126"/><circle cx="70" cy="53" r="32" fill="#ffffff"/><circle cx="82" cy="53" r="28" fill="#0099b5"/></svg>
+                        </span>
                         <span id="activeLangCode" class="text-cyan-300 font-bold">UZ</span>
                         <i class="fas fa-chevron-down text-[8px] text-slate-400 transition-transform duration-200" id="langChevron"></i>
                     </button>
 
                     <!-- Custom Dropdown Room / Popover (5 Languages) -->
-                    <div id="langDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl border border-cyan-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(6,182,212,0.25)] p-1.5 z-[1000] font-mono text-xs bg-[#070F1E]">
+                    <div id="langDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-48 rounded-xl border border-cyan-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(6,182,212,0.25)] p-1.5 z-[99999] font-mono text-xs bg-[#070F1E]">
                         <div class="px-2.5 py-1 text-[9px] uppercase tracking-wider text-slate-400 border-b border-slate-800/80 mb-1 flex items-center justify-between">
                             <span>Tilni tanlang</span>
                             <span class="text-cyan-400 text-[8px] font-bold">5 TA TIL</span>
@@ -86,7 +98,7 @@
                         <!-- 1. Uzbek -->
                         <button type="button" data-lang-val="uz" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
                             <div class="flex items-center gap-2">
-                                <span class="text-base leading-none">🇺🇿</span>
+                                <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 640 320"><rect width="640" height="106.6" fill="#0099b5"/><rect y="106.6" width="640" height="106.6" fill="#ffffff"/><rect y="213.2" width="640" height="106.6" fill="#1eb53a"/><rect y="101" width="640" height="5.6" fill="#ce1126"/><rect y="213.2" width="640" height="5.6" fill="#ce1126"/><circle cx="70" cy="53" r="32" fill="#ffffff"/><circle cx="82" cy="53" r="28" fill="#0099b5"/></svg>
                                 <span class="font-bold">O'zbekcha</span>
                             </div>
                             <span class="lang-check text-cyan-400 text-xs"><i class="fas fa-check"></i></span>
@@ -95,7 +107,7 @@
                         <!-- 2. English -->
                         <button type="button" data-lang-val="en" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
                             <div class="flex items-center gap-2">
-                                <span class="text-base leading-none">🇬🇧</span>
+                                <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 60 30"><clipPath id="edugate_flag_en_hdr"><path d="M0,0 v30 h60 v-30 z"/></clipPath><g clip-path="url(#edugate_flag_en_hdr)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#edugate_flag_en_hdr)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>
                                 <span class="font-bold">English</span>
                             </div>
                             <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
@@ -104,7 +116,7 @@
                         <!-- 3. Russian -->
                         <button type="button" data-lang-val="ru" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
                             <div class="flex items-center gap-2">
-                                <span class="text-base leading-none">🇷🇺</span>
+                                <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 900 600"><rect width="900" height="200" fill="#fff"/><rect y="200" width="900" height="200" fill="#0039a6"/><rect y="400" width="900" height="200" fill="#d52b1e"/></svg>
                                 <span class="font-bold">Русский</span>
                             </div>
                             <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
@@ -113,7 +125,7 @@
                         <!-- 4. Kazakh -->
                         <button type="button" data-lang-val="kz" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
                             <div class="flex items-center gap-2">
-                                <span class="text-base leading-none">🇰🇿</span>
+                                <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 1000 500"><rect width="1000" height="500" fill="#00afca"/><circle cx="500" cy="250" r="100" fill="#fec50c"/></svg>
                                 <span class="font-bold">Қазақша</span>
                             </div>
                             <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
@@ -122,7 +134,7 @@
                         <!-- 5. Kyrgyz -->
                         <button type="button" data-lang-val="kg" class="lang-option w-full px-2.5 py-1.5 rounded-lg flex items-center justify-between transition cursor-pointer hover:bg-cyan-950/60 hover:text-cyan-300 border border-transparent text-slate-300">
                             <div class="flex items-center gap-2">
-                                <span class="text-base leading-none">🇰🇬</span>
+                                <svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 1000 600"><rect width="1000" height="600" fill="#e8112d"/><circle cx="500" cy="300" r="105" fill="#ffe200"/><circle cx="500" cy="300" r="85" fill="#e8112d"/><circle cx="500" cy="300" r="50" fill="#ffe200"/></svg>
                                 <span class="font-bold">Кыргызча</span>
                             </div>
                             <span class="lang-check text-cyan-400 text-xs hidden"><i class="fas fa-check"></i></span>
@@ -152,9 +164,19 @@
             <a href="#hardware-specs" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.hardware">Uskunalar</a>
             <a href="#contact" class="block text-slate-300 hover:text-cyan-400 py-1 text-sm font-semibold" data-i18n="nav.contact">Bog'lanish</a>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-                <button type="button" data-theme-toggle class="theme-toggle-simple w-[32px] h-[32px] rounded-lg flex items-center justify-center transition cursor-pointer select-none bg-slate-900 border border-slate-800 hover:border-cyan-500/60 shadow-md text-amber-400 shrink-0" title="Mavzuni almashtirish (Yorug' / Qorong'u)">
-                    <i class="fas fa-sun text-sm"></i>
-                </button>
+                <div class="theme-switch-pill" title="Mavzuni tanlash (Yorug'lik / Qorong'u)">
+                    <button type="button" data-theme-set="light" class="theme-btn-light" title="Yorug' rejim (Light)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="4"></circle>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                        </svg>
+                    </button>
+                    <button type="button" data-theme-set="dark" class="theme-btn-dark active" title="Qorong'u rejim (Dark)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
     </header>
 
@@ -2035,10 +2057,10 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="js/translations.js?v=5.3.5"></script>
-    <script src="js/presentation.js?v=5.3.5"></script>
-    <script src="js/scanner.js?v=5.3.5"></script>
-    <script src="js/map.js?v=5.3.5"></script>
-    <script src="js/edugate.js?v=5.3.5"></script>
+    <script src="js/translations.js?v=5.3.6"></script>
+    <script src="js/presentation.js?v=5.3.6"></script>
+    <script src="js/scanner.js?v=5.3.6"></script>
+    <script src="js/map.js?v=5.3.6"></script>
+    <script src="js/edugate.js?v=5.3.6"></script>
 </body>
 </html>

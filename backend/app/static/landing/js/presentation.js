@@ -1477,11 +1477,11 @@ const PRESENTATION_UI_I18N = {
 };
 
 const LANG_META = {
-    'uz': { flag: '🇺🇿', code: 'UZ' },
-    'en': { flag: '🇬🇧', code: 'EN' },
-    'ru': { flag: '🇷🇺', code: 'RU' },
-    'kz': { flag: '🇰🇿', code: 'KZ' },
-    'kg': { flag: '🇰🇬', code: 'KG' }
+    'uz': { flagSvg: '<svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 640 320"><rect width="640" height="106.6" fill="#0099b5"/><rect y="106.6" width="640" height="106.6" fill="#ffffff"/><rect y="213.2" width="640" height="106.6" fill="#1eb53a"/><rect y="101" width="640" height="5.6" fill="#ce1126"/><rect y="213.2" width="640" height="5.6" fill="#ce1126"/><circle cx="70" cy="53" r="32" fill="#ffffff"/><circle cx="82" cy="53" r="28" fill="#0099b5"/></svg>', code: 'UZ' },
+    'en': { flagSvg: '<svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 60 30"><clipPath id="pres_flag_en"><path d="M0,0 v30 h60 v-30 z"/></clipPath><g clip-path="url(#pres_flag_en)"><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#pres_flag_en)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></g></svg>', code: 'EN' },
+    'ru': { flagSvg: '<svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 900 600"><rect width="900" height="200" fill="#fff"/><rect y="200" width="900" height="200" fill="#0039a6"/><rect y="400" width="900" height="200" fill="#d52b1e"/></svg>', code: 'RU' },
+    'kz': { flagSvg: '<svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 1000 500"><rect width="1000" height="500" fill="#00afca"/><circle cx="500" cy="250" r="100" fill="#fec50c"/></svg>', code: 'KZ' },
+    'kg': { flagSvg: '<svg class="lang-flag-svg inline-block w-4 h-3 rounded-[2px] shadow-sm shrink-0" viewBox="0 0 1000 600"><rect width="1000" height="600" fill="#e8112d"/><circle cx="500" cy="300" r="105" fill="#ffe200"/><circle cx="500" cy="300" r="85" fill="#e8112d"/><circle cx="500" cy="300" r="50" fill="#ffe200"/></svg>', code: 'KG' }
 };
 
 class PresentationEngine {
@@ -1596,7 +1596,7 @@ class PresentationEngine {
         const meta = LANG_META[lang] || LANG_META['uz'];
         const activeFlag = document.getElementById('activeLangFlag');
         const activeCode = document.getElementById('activeLangCode');
-        if (activeFlag) activeFlag.textContent = meta.flag;
+        if (activeFlag) activeFlag.innerHTML = meta.flagSvg;
         if (activeCode) activeCode.textContent = meta.code;
 
         // Update active checkmarks in dropdown
