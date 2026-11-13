@@ -61,6 +61,13 @@
                 </div>
             </div>
 
+            <!-- Fullscreen Button -->
+            <button @click="toggleFullscreen()"
+                    class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition cursor-pointer"
+                    title="To'liq ekran rejimiga o'tish (Fullscreen)">
+                <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'" class="text-sm"></i>
+            </button>
+
             <!-- Auto Refresh Indicator -->
             <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/50 text-[11px] text-slate-300">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>

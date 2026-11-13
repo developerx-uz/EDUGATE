@@ -17,6 +17,23 @@ function adminApp() {
         sidebarCollapsed: false,
         searchQuery: '',
         showNotifPanel: false,
+        isFullscreen: false,
+
+        toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    this.isFullscreen = true;
+                }).catch(err => {
+                    console.warn('Fullscreen request failed:', err);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().then(() => {
+                        this.isFullscreen = false;
+                    });
+                }
+            }
+        },
 
         // ===== STATS & DASHBOARD =====
         stats: {
