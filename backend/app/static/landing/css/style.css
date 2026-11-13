@@ -836,6 +836,121 @@ html.light .pres-dot.bg-cyan-500 {
     color: #FFFFFF !important;
 }
 
+/* Presentation Deck Stage Card (Dark & Light) */
+.pres-stage-card {
+    background-color: #070F1E;
+    border: 1px solid rgba(6, 182, 212, 0.45);
+}
+
+html.light .pres-stage-card {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08) !important;
+}
+
+html.light .pres-stage-card #presSlideTitle {
+    color: #0F172A !important;
+}
+
+html.light .pres-stage-card #presSlideOverview {
+    color: #334155 !important;
+}
+
+html.light .pres-stage-card #presSpecsHeading {
+    color: #64748B !important;
+}
+
+html.light .pres-stage-card #presBenefitsHeading {
+    color: #059669 !important;
+}
+
+html.light .pres-spec-box,
+html.light .pres-stage-card #presSlideSpecsGrid > div {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .pres-spec-box span,
+html.light .pres-stage-card #presSlideSpecsGrid span {
+    color: #64748B !important;
+}
+
+html.light .pres-spec-box h5,
+html.light .pres-stage-card #presSlideSpecsGrid h5 {
+    color: #0284C7 !important;
+}
+
+html.light .pres-stage-card #presSlideKeyPoints span {
+    color: #334155 !important;
+}
+
+html.light #presTopSubtitle {
+    color: #334155 !important;
+}
+
+html.light #presSlideCounter {
+    background-color: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+    color: #0284C7 !important;
+}
+
+html.light #presShortcutsHint {
+    color: #64748B !important;
+}
+
+html.light #presShortcutsHint kbd {
+    background-color: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+    color: #1E293B !important;
+}
+
+/* Hardware Studio Pod in Light Mode */
+html.light .hardware-studio-pod,
+html.light #hardware-specs .rounded-2xl {
+    background: #FFFFFF !important;
+    background-image: none !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.06) !important;
+}
+
+html.light #hardware-specs .hw-panel h3 {
+    color: #0F172A !important;
+}
+
+html.light #hardware-specs .hw-panel p {
+    color: #334155 !important;
+}
+
+html.light #hardware-specs .grid-cols-2 > div {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+}
+
+html.light #hardware-specs .grid-cols-2 span:first-child {
+    color: #64748B !important;
+}
+
+html.light #hardware-specs [class*="bg-black/60"],
+html.light #hardware-specs [class*="from-[#061224]"] {
+    background: #F1F5F9 !important;
+    background-image: none !important;
+    border-color: #CBD5E1 !important;
+}
+
+html.light #hardware-specs .group\/studio {
+    background: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Gradients neutralizer for light theme */
+html.light [class*="from-slate-950"],
+html.light [class*="from-[#060c18]"],
+html.light [class*="from-[#061224]"],
+html.light [class*="from-[#070D1A]"] {
+    background-image: none !important;
+}
+
 /* ==========================================================================
    Dashboard Tab Switch Transitions & Interactive Button Animations
    ========================================================================== */

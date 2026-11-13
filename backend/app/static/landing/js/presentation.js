@@ -1764,7 +1764,7 @@ class PresentationEngine {
             // Specs grid
             if (elements.specsGrid) {
                 elements.specsGrid.innerHTML = slide.specs.map(spec => `
-                    <div class="p-3 bg-[#0B132B] rounded-xl border border-slate-800 shadow-md">
+                    <div class="pres-spec-box p-3 bg-[#0B132B] rounded-xl border border-slate-800 shadow-md">
                         <span class="text-[10px] uppercase text-slate-400 font-mono block">${spec.label}</span>
                         <h5 class="text-xs sm:text-sm font-bold text-cyan-300 mt-1">${spec.value}</h5>
                     </div>
