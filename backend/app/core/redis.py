@@ -1,4 +1,5 @@
 import time
+import asyncio
 from typing import Optional
 from app.core.config import settings
 
@@ -38,13 +39,16 @@ class DebounceManager:
     async def initialize(self):
         if HAS_REDIS:
             try:
-                self.redis_client = aioredis.Redis(
+                client = aioredis.Redis(
                     host=settings.REDIS_HOST,
                     port=settings.REDIS_PORT,
                     db=settings.REDIS_DB,
-                    decode_responses=True
+                    decode_responses=True,
+                    socket_connect_timeout=0.5,
+                    socket_timeout=0.5
                 )
-                await self.redis_client.ping()
+                await asyncio.wait_for(client.ping(), timeout=0.5)
+                self.redis_client = client
             except Exception:
                 self.redis_client = None
 

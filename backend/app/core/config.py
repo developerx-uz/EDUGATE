@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Optional, Any
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -6,6 +7,16 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "EDUGATE Attendance System"
     VERSION: str = "1.0.0"
     DEBUG: bool = True
+
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, v: Any) -> bool:
+        if isinstance(v, str):
+            if v.lower() in ("true", "1", "yes", "on", "t"):
+                return True
+            if v.lower() in ("false", "0", "no", "off", "f", "release", "prod", "production"):
+                return False
+        return bool(v)
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = "edugate-super-secret-key-production-ready-32-chars-min"
     ALGORITHM: str = "HS256"
