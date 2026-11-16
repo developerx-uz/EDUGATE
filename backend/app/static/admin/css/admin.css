@@ -748,21 +748,21 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 
 /* Fixed dimension refresh button - Zero Layout Shift (Circular/Pill Shape) */
 .btn-refresh-fixed {
-    width: 34px !important;
-    min-width: 34px !important;
-    max-width: 34px !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    max-height: 34px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    max-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
     box-sizing: border-box !important;
     border-radius: 9999px !important;
 }
 
 @media (min-width: 640px) {
     .btn-refresh-fixed {
-        width: 112px !important;
-        min-width: 112px !important;
-        max-width: 112px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+        max-width: 100px !important;
     }
 }
 

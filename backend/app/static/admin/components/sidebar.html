@@ -3,25 +3,25 @@
        class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0">
 
     <!-- Header: Logo, Brand Text, and Smooth Sliding Toggle Button -->
-    <div class="relative flex items-center h-16 border-b border-neutral-800 flex-shrink-0 overflow-hidden px-4">
+    <div class="relative flex items-center h-[52px] border-b border-neutral-800 flex-shrink-0 overflow-hidden px-3.5">
         <!-- Brand Area (Logo + Text) -->
-        <div class="flex items-center gap-3 min-w-0 transition-all duration-200"
+        <div class="flex items-center gap-2.5 min-w-0 transition-all duration-200"
              :class="sidebarCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'">
-            <div class="flex-shrink-0 w-8 h-8 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
-                <span class="text-white font-extrabold text-sm">E</span>
+            <div class="flex-shrink-0 w-7 h-7 bg-neutral-900 rounded-lg flex items-center justify-center border border-neutral-800">
+                <span class="text-white font-extrabold text-xs">E</span>
             </div>
             <div class="min-w-0 whitespace-nowrap overflow-hidden">
-                <h2 class="text-white font-extrabold text-sm leading-tight truncate">EDUGATE</h2>
-                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik Markazi</p>
+                <h2 class="text-white font-extrabold text-xs leading-tight truncate">EDUGATE</h2>
+                <p class="text-neutral-500 text-[9px] leading-tight truncate">Hokimlik Markazi</p>
             </div>
         </div>
 
-        <!-- Toggle Button (Smoothly slides between left: 208px and left: 22px) -->
+        <!-- Toggle Button (Smoothly slides between left: 214px and left: 24px) -->
         <button @click="toggleSidebar()" 
-                class="sidebar-toggle-btn absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 cursor-pointer"
-                :style="sidebarCollapsed ? 'left: 22px;' : 'left: 208px;'"
+                class="sidebar-toggle-btn absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 cursor-pointer"
+                :style="sidebarCollapsed ? 'left: 24px;' : 'left: 214px;'"
                 :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
-            <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="sidebar-toggle-svg w-4.5 h-4.5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="5" />
                 <line class="sidebar-toggle-line" 
                       :style="sidebarCollapsed ? 'transform: rotate(180deg);' : 'transform: rotate(0deg);'"

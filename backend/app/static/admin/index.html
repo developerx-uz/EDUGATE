@@ -799,21 +799,21 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 
 /* Fixed dimension refresh button - Zero Layout Shift (Circular/Pill Shape) */
 .btn-refresh-fixed {
-    width: 34px !important;
-    min-width: 34px !important;
-    max-width: 34px !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    max-height: 34px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    max-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
     box-sizing: border-box !important;
     border-radius: 9999px !important;
 }
 
 @media (min-width: 640px) {
     .btn-refresh-fixed {
-        width: 112px !important;
-        min-width: 112px !important;
-        max-width: 112px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+        max-width: 100px !important;
     }
 }
 
@@ -1120,25 +1120,25 @@ aside.sidebar-container.collapsed {
        class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0">
 
     <!-- Header: Logo, Brand Text, and Smooth Sliding Toggle Button -->
-    <div class="relative flex items-center h-16 border-b border-neutral-800 flex-shrink-0 overflow-hidden px-4">
+    <div class="relative flex items-center h-[52px] border-b border-neutral-800 flex-shrink-0 overflow-hidden px-3.5">
         <!-- Brand Area (Logo + Text) -->
-        <div class="flex items-center gap-3 min-w-0 transition-all duration-200"
+        <div class="flex items-center gap-2.5 min-w-0 transition-all duration-200"
              :class="sidebarCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'">
-            <div class="flex-shrink-0 w-8 h-8 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
-                <span class="text-white font-extrabold text-sm">E</span>
+            <div class="flex-shrink-0 w-7 h-7 bg-neutral-900 rounded-lg flex items-center justify-center border border-neutral-800">
+                <span class="text-white font-extrabold text-xs">E</span>
             </div>
             <div class="min-w-0 whitespace-nowrap overflow-hidden">
-                <h2 class="text-white font-extrabold text-sm leading-tight truncate">EDUGATE</h2>
-                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik Markazi</p>
+                <h2 class="text-white font-extrabold text-xs leading-tight truncate">EDUGATE</h2>
+                <p class="text-neutral-500 text-[9px] leading-tight truncate">Hokimlik Markazi</p>
             </div>
         </div>
 
-        <!-- Toggle Button (Smoothly slides between left: 208px and left: 22px) -->
+        <!-- Toggle Button (Smoothly slides between left: 214px and left: 24px) -->
         <button @click="toggleSidebar()" 
-                class="sidebar-toggle-btn absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 cursor-pointer"
-                :style="sidebarCollapsed ? 'left: 22px;' : 'left: 208px;'"
+                class="sidebar-toggle-btn absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 cursor-pointer"
+                :style="sidebarCollapsed ? 'left: 24px;' : 'left: 214px;'"
                 :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
-            <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="sidebar-toggle-svg w-4.5 h-4.5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="5" />
                 <line class="sidebar-toggle-line" 
                       :style="sidebarCollapsed ? 'transform: rotate(180deg);' : 'transform: rotate(0deg);'"
@@ -1298,15 +1298,15 @@ aside.sidebar-container.collapsed {
 
             <!-- TOPBAR -->
             <!-- TOPBAR COMPONENT -->
-<header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-6 py-3">
-    <div class="flex items-center justify-between gap-4">
+<header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-5 h-[52px] flex items-center justify-between flex-shrink-0">
+    <div class="flex items-center justify-between gap-3 w-full">
         <!-- Left: Page Title (and mobile menu toggle) -->
         <div class="flex items-center gap-3 min-w-0">
             <!-- Mobile Toggle Button (only on small screens < 768px) -->
             <button @click="toggleSidebar()" 
-                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
+                    class="md:hidden flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
                     title="Menyu">
-                <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="sidebar-toggle-svg w-4 h-4 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="5" />
                     <line class="sidebar-toggle-line" 
                           :style="sidebarCollapsed ? 'transform: rotate(180deg);' : 'transform: rotate(0deg);'"
@@ -1314,7 +1314,7 @@ aside.sidebar-container.collapsed {
                 </svg>
             </button>
 
-            <h1 class="text-base sm:text-lg font-bold text-white truncate"
+            <h1 class="text-sm sm:text-base font-bold text-white truncate"
                 x-text="({
                     dashboard: 'Asosiy Boshqaruv Markazi',
                     schools: 'Maktablar Boshqaruvi',
@@ -1330,11 +1330,11 @@ aside.sidebar-container.collapsed {
         </div>
 
         <!-- Right: Actions & Notifications -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
             <!-- Yangilash Tugmasi (Aylana / Pill Ramka - Faqat Iconka Aylanadi) -->
             <button @click="triggerManualRefresh()" 
                     :disabled="isRefreshing"
-                    class="btn-refresh-fixed flex items-center justify-center gap-2 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 flex-shrink-0 select-none overflow-hidden"
+                    class="btn-refresh-fixed flex items-center justify-center gap-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 flex-shrink-0 select-none overflow-hidden"
                     title="Ma'lumotlarni yangilash">
                 <i class="fas fa-arrows-rotate text-xs text-indigo-400 flex-shrink-0"
                    :class="isRefreshing ? 'fa-spin' : ''"></i>
@@ -1344,9 +1344,9 @@ aside.sidebar-container.collapsed {
             <!-- Notifications Bell -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
-                        class="relative p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-xl transition">
-                    <i class="fas fa-bell text-sm"></i>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
+                        class="relative w-7 h-7 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-lg transition cursor-pointer">
+                    <i class="fas fa-bell text-xs"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
                 </button>
 
                 <!-- Notifications Dropdown Panel -->
@@ -1371,52 +1371,50 @@ aside.sidebar-container.collapsed {
             </div>
 
             <!-- Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙 Ramkalari) -->
-            <div class="theme-switch-pill inline-flex items-center p-0.5 rounded-xl border transition-all duration-200"
+            <div class="theme-switch-pill inline-flex items-center p-0.5 rounded-lg border transition-all duration-200"
                  :class="theme === 'light' ? 'bg-neutral-100 border-neutral-300' : 'bg-neutral-900 border-neutral-800'">
                 <!-- Oq Mavzu Ramkasi (Sun Icon ☀️) -->
                 <button type="button" 
                         @click="applyTheme('light')" 
-                        class="theme-btn-light flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-200 cursor-pointer"
+                        class="theme-btn-light flex items-center justify-center w-6 h-6 rounded-md transition-all duration-200 cursor-pointer"
                         :class="theme === 'light' 
                             ? 'bg-white text-amber-500 shadow-sm border border-neutral-300 font-bold scale-105' 
                             : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/60'"
                         title="Oq mavzu (Yorug')">
-                    <i class="fas fa-sun text-xs"></i>
+                    <i class="fas fa-sun text-[11px]"></i>
                 </button>
                 
                 <!-- Qora Mavzu Ramkasi (Moon Icon 🌙) -->
                 <button type="button" 
                         @click="applyTheme('dark')" 
-                        class="theme-btn-dark flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-200 cursor-pointer"
+                        class="theme-btn-dark flex items-center justify-center w-6 h-6 rounded-md transition-all duration-200 cursor-pointer"
                         :class="theme === 'dark' 
                             ? 'bg-neutral-800 text-white shadow-sm border border-neutral-700 font-bold scale-105' 
                             : 'text-neutral-400 hover:text-neutral-800 hover:bg-neutral-200'"
                         title="Qora mavzu (OLED Qorong'u)">
-                    <i class="fas fa-moon text-xs"></i>
+                    <i class="fas fa-moon text-[11px]"></i>
                 </button>
             </div>
-
-
 
             <!-- Foydalanuvchi Ramkasi (Aylana / Pill Ramka) -->
             <div class="relative">
                 <button @click="showUserMenu = !showUserMenu" 
-                        class="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 transition cursor-pointer group shadow-sm">
+                        class="flex items-center gap-2 pl-1.5 pr-2.5 py-1 rounded-full bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 transition cursor-pointer group shadow-sm">
                     <!-- User Avatar with Online Dot -->
                     <div class="relative">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-indigo-600/20">
-                            <i class="fas fa-user-shield text-xs"></i>
+                        <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-[11px] font-bold shadow-md shadow-indigo-600/20">
+                            <i class="fas fa-user-shield text-[11px]"></i>
                         </div>
-                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-black"></span>
+                        <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-black"></span>
                     </div>
 
                     <!-- User Name & Role -->
                     <div class="text-left hidden sm:block">
                         <p class="text-xs font-bold text-white group-hover:text-indigo-300 transition leading-tight" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</p>
-                        <p class="text-[10px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
+                        <p class="text-[9px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
                     </div>
 
-                    <i class="fas fa-chevron-down text-[10px] text-neutral-400 group-hover:text-white transition ml-1"
+                    <i class="fas fa-chevron-down text-[9px] text-neutral-400 group-hover:text-white transition ml-0.5"
                        :class="showUserMenu ? 'rotate-180' : ''"></i>
                 </button>
 
