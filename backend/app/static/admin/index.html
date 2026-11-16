@@ -2536,6 +2536,113 @@ function adminApp() {
             }
         },
 
+        // ===== GLOBAL SEARCH / COMMAND PALETTE =====
+        showGlobalSearch: false,
+        globalSearchQuery: '',
+
+        openGlobalSearch() {
+            this.showGlobalSearch = true;
+            this.globalSearchQuery = '';
+            if (this.sidebarOpen) this.sidebarOpen = false;
+            setTimeout(() => {
+                const el = this.$refs.globalSearchInput;
+                if (el) el.focus();
+            }, 50);
+        },
+
+        selectSearchResult(item) {
+            this.showGlobalSearch = false;
+            if (item.tab) {
+                this.activeTab = item.tab;
+            }
+            if (item.filterKey && item.filterVal) {
+                if (item.tab === 'schools') {
+                    this.schoolSearchQuery = item.filterVal;
+                } else if (item.tab === 'students') {
+                    this.studentsFilter.search = item.filterVal;
+                }
+            }
+        },
+
+        get searchFilteredItems() {
+            const q = (this.globalSearchQuery || '').trim().toLowerCase();
+            const pages = [
+                { id: 'p-dash', title: "Dashboard Markazi", subtitle: "Tizim umumiy ko'rsatkichlari va tahlili", tab: 'dashboard', type: "Bo'lim", icon: 'fas fa-chart-pie', bgClass: 'bg-indigo-600/20 text-indigo-400' },
+                { id: 'p-sch', title: "Maktablar Boshqaruvi", subtitle: "Barcha ulangan maktablar ro'yxati", tab: 'schools', type: "Bo'lim", icon: 'fas fa-school', bgClass: 'bg-blue-600/20 text-blue-400' },
+                { id: 'p-stu', title: "O'quvchilar Kontingenti", subtitle: "Sinflar va o'quvchilar bazasi", tab: 'students', type: "Bo'lim", icon: 'fas fa-user-graduate', bgClass: 'bg-emerald-600/20 text-emerald-400' },
+                { id: 'p-tea', title: "O'qituvchilar Tarkibi", subtitle: "Pedagog xodimlar va fanlar", tab: 'teachers', type: "Bo'lim", icon: 'fas fa-chalkboard-user', bgClass: 'bg-purple-600/20 text-purple-400' },
+                { id: 'p-att', title: "Davomat Monitoringi", subtitle: "Real-vaqt rejimida jonli davomat", tab: 'attendance', type: "Bo'lim", icon: 'fas fa-clipboard-check', bgClass: 'bg-sky-600/20 text-sky-400' },
+                { id: 'p-dev', title: "Kameralar & Turniketlar", subtitle: "Face ID va qurilmalar holati", tab: 'devices', type: "Bo'lim", icon: 'fas fa-video', bgClass: 'bg-amber-600/20 text-amber-400' },
+                { id: 'p-par', title: "Ota-onalar Ro'yxati", subtitle: "Telegram botga ulangan profil egalari", tab: 'parents', type: "Bo'lim", icon: 'fas fa-users', bgClass: 'bg-teal-600/20 text-teal-400' },
+                { id: 'p-rep', title: "Tahliliy Hisobotlar", subtitle: "Kunlik, oylik hisobotlar va eksport", tab: 'reports', type: "Bo'lim", icon: 'fas fa-chart-bar', bgClass: 'bg-rose-600/20 text-rose-400' },
+                { id: 'p-set', title: "Tizim Sozlamalari", subtitle: "Vaqt parametrlari va Telegram sozlamalari", tab: 'settings', type: "Bo'lim", icon: 'fas fa-gear', bgClass: 'bg-slate-700 text-slate-300' }
+            ];
+
+            if (!q) return pages;
+
+            const res = [];
+            pages.forEach(p => {
+                if (p.title.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q)) {
+                    res.push(p);
+                }
+            });
+
+            if (Array.isArray(this.schoolsDetailed)) {
+                this.schoolsDetailed.forEach(s => {
+                    if ((s.name && s.name.toLowerCase().includes(q)) || (s.code && s.code.toLowerCase().includes(q))) {
+                        res.push({
+                            id: 'sch-' + s.id,
+                            title: s.name,
+                            subtitle: 'Kodi: ' + s.code + (s.phone ? ' • ' + s.phone : ''),
+                            tab: 'schools',
+                            filterKey: 'school',
+                            filterVal: s.name,
+                            type: 'Maktab',
+                            icon: 'fas fa-school',
+                            bgClass: 'bg-blue-600/20 text-blue-400'
+                        });
+                    }
+                });
+            }
+
+            if (Array.isArray(this.students)) {
+                this.students.forEach(st => {
+                    const fullName = ((st.first_name || '') + ' ' + (st.last_name || '')).toLowerCase();
+                    if (fullName.includes(q) || (st.student_code && st.student_code.toLowerCase().includes(q)) || (st.class_name && st.class_name.toLowerCase().includes(q))) {
+                        res.push({
+                            id: 'stu-' + st.id,
+                            title: (st.first_name || '') + ' ' + (st.last_name || ''),
+                            subtitle: (st.class_name ? st.class_name + ' sinf • ' : '') + 'Kod: ' + (st.student_code || ''),
+                            tab: 'students',
+                            filterKey: 'student',
+                            filterVal: st.first_name || st.student_code,
+                            type: "O'quvchi",
+                            icon: 'fas fa-user-graduate',
+                            bgClass: 'bg-emerald-600/20 text-emerald-400'
+                        });
+                    }
+                });
+            }
+
+            if (Array.isArray(this.devices)) {
+                this.devices.forEach(d => {
+                    if ((d.name && d.name.toLowerCase().includes(q)) || (d.ip_address && d.ip_address.includes(q))) {
+                        res.push({
+                            id: 'dev-' + d.id,
+                            title: d.name,
+                            subtitle: (d.ip_address || '') + (d.device_type ? ' • ' + d.device_type : ''),
+                            tab: 'devices',
+                            type: 'Qurilma',
+                            icon: 'fas fa-video',
+                            bgClass: 'bg-amber-600/20 text-amber-400'
+                        });
+                    }
+                });
+            }
+
+            return res.slice(0, 15);
+        },
+
         toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
