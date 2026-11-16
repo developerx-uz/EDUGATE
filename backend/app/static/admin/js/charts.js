@@ -6,6 +6,41 @@ const EdugateCharts = {
     attendanceChart: null,
     weeklyChart: null,
 
+    getTextColor() {
+        return document.documentElement.classList.contains('light') ? '#475569' : '#94a3b8';
+    },
+
+    getGridColor() {
+        return document.documentElement.classList.contains('light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+    },
+
+    setTheme(theme) {
+        const textColor = (theme === 'light') ? '#475569' : '#94a3b8';
+        const gridColor = (theme === 'light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+
+        if (this.attendanceChart && this.attendanceChart.options) {
+            if (this.attendanceChart.options.plugins?.legend?.labels) {
+                this.attendanceChart.options.plugins.legend.labels.color = textColor;
+            }
+            this.attendanceChart.update();
+        }
+
+        if (this.weeklyChart && this.weeklyChart.options) {
+            if (this.weeklyChart.options.scales?.x) {
+                this.weeklyChart.options.scales.x.ticks.color = textColor;
+                this.weeklyChart.options.scales.x.grid.color = gridColor;
+            }
+            if (this.weeklyChart.options.scales?.y) {
+                this.weeklyChart.options.scales.y.ticks.color = textColor;
+                this.weeklyChart.options.scales.y.grid.color = gridColor;
+            }
+            if (this.weeklyChart.options.plugins?.legend?.labels) {
+                this.weeklyChart.options.plugins.legend.labels.color = textColor;
+            }
+            this.weeklyChart.update();
+        }
+    },
+
     init(todayStats = {}, weeklyData = []) {
         this.initAttendanceChart(todayStats);
         this.initWeeklyChart(weeklyData);
@@ -48,7 +83,7 @@ const EdugateCharts = {
                     legend: {
                         position: 'bottom',
                         labels: {
-                            color: '#94a3b8',
+                            color: this.getTextColor(),
                             font: { size: 11, family: 'Plus Jakarta Sans' },
                             padding: 16,
                             usePointStyle: true,
@@ -119,19 +154,19 @@ const EdugateCharts = {
                 maintainAspectRatio: false,
                 scales: {
                     x: {
-                        grid: { color: 'rgba(51,65,85,0.2)' },
-                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' } }
+                        grid: { color: this.getGridColor() },
+                        ticks: { color: this.getTextColor(), font: { size: 11, family: 'Plus Jakarta Sans' } }
                     },
                     y: {
                         beginAtZero: true,
-                        grid: { color: 'rgba(51,65,85,0.2)' },
-                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' }, precision: 0 }
+                        grid: { color: this.getGridColor() },
+                        ticks: { color: this.getTextColor(), font: { size: 11, family: 'Plus Jakarta Sans' }, precision: 0 }
                     }
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: '#94a3b8',
+                            color: this.getTextColor(),
                             font: { size: 11, family: 'Plus Jakarta Sans' },
                             usePointStyle: true,
                             pointStyleWidth: 8
