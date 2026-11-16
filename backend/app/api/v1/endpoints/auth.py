@@ -5,9 +5,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.security import verify_password, create_access_token
+from app.core.security import verify_password, create_access_token, get_password_hash
 from app.models.user import User, UserRole
-from app.schemas.user import Token, UserOut, LoginRequest
+from app.schemas.user import Token, UserOut, LoginRequest, ProfileUpdateRequest, PasswordChangeRequest
 from app.api.deps import get_current_user
 
 router = APIRouter()
@@ -76,3 +76,40 @@ async def read_users_me(
     current_user: User = Depends(get_current_user)
 ) -> Any:
     return current_user
+
+
+@router.put("/profile", response_model=UserOut, summary="Profil ma'lumotlarini yangilash")
+async def update_profile(
+    data: ProfileUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    if data.full_name is not None:
+        current_user.full_name = data.full_name.strip()
+    if data.email is not None:
+        current_user.email = data.email.strip()
+    await db.commit()
+    await db.refresh(current_user)
+    return current_user
+
+
+@router.put("/change-password", summary="Parolni xavfsiz o'zgartirish")
+async def change_password(
+    data: PasswordChangeRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    if not verify_password(data.current_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Hozirgi amaldagi parol noto'g'ri kiritildi."
+        )
+    if len(data.new_password) < 6:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Yangi parol kamida 6 ta belgidan iborat bo'lishi kerak."
+        )
+    current_user.hashed_password = get_password_hash(data.new_password)
+    await db.commit()
+    return {"status": "ok", "message": "Parol muvaffaqiyatli yangilandi."}
+

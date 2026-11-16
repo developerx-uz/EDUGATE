@@ -63,7 +63,7 @@ const EdugateAPI = {
         return data;
     },
 
-    // Auth
+    // Auth & Profile
     async login(username, password) {
         const prefix = this.getPrefix();
         const res = await fetch(prefix + '/api/v1/auth/login-json', {
@@ -75,6 +75,26 @@ const EdugateAPI = {
         if (!res.ok) throw new Error(data.detail || 'Login yoki parol noto\'g\'ri');
         this.setToken(data.access_token);
         return data;
+    },
+
+    async getMe() {
+        return await this.request('/api/v1/auth/me');
+    },
+
+    async updateProfile(fullName, email) {
+        return await this.request('/api/v1/auth/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ full_name: fullName, email: email })
+        });
+    },
+
+    async changePassword(currentPassword, newPassword) {
+        return await this.request('/api/v1/auth/change-password', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+        });
     },
 
     // Stats & Real-Time Pulse

@@ -34,3 +34,14 @@ class Token(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+
+class ProfileUpdateRequest(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+
