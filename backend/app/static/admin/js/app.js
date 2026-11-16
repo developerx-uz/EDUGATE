@@ -205,6 +205,10 @@ function adminApp() {
 
         // ===== INITIALIZATION =====
         async initApp() {
+            document.addEventListener('fullscreenchange', () => {
+                this.isFullscreen = !!document.fullscreenElement;
+            });
+
             if (this.token) {
                 await this.refreshAllData();
 

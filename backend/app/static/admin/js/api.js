@@ -16,8 +16,16 @@ const EdugateAPI = {
     },
 
     getPrefix() {
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return 'http://developerx.uz/edugate';
+        if (window.EDUGATE_API_BASE) {
+            return window.EDUGATE_API_BASE;
+        }
+        // Agar mahalliy backend portida (8000 yoki 8010) ochilgan bo'lsa
+        if (window.location.port === '8000' || window.location.port === '8010') {
+            return window.location.pathname.startsWith('/edugate') ? '/edugate' : '';
+        }
+        // Agar fayl orqali yoki boshqa port (masalan Live Server 5500) orqali ochilgan bo'lsa
+        if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '8000' && window.location.port !== '8010')) {
+            return 'https://developerx.uz/edugate';
         }
         const path = window.location.pathname;
         if (path.startsWith('/EDUGATE')) return '/EDUGATE';

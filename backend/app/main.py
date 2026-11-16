@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -93,6 +94,8 @@ CACHE_HEADERS = {
 
 # Marshrutlar
 app.include_router(api_router, prefix=settings.API_V1_STR)
+if not settings.API_V1_STR.startswith("/edugate"):
+    app.include_router(api_router, prefix="/edugate" + settings.API_V1_STR)
 
 
 @app.get("/", response_class=HTMLResponse, tags=["Public Portal"])
@@ -179,19 +182,44 @@ async def serve_presentation():
     return HTMLResponse("<h1>Prezentatsiya topilmadi</h1>", status_code=404)
 
 
+def render_admin_html() -> str:
+    admin_dir = os.path.join(os.path.dirname(__file__), "static", "admin")
+    template_path = os.path.join(admin_dir, "template.html")
+    if os.path.exists(template_path):
+        with open(template_path, "r", encoding="utf-8") as f:
+            template = f.read()
+
+        def replacer(match):
+            inc_file = match.group(1).strip()
+            full_path = os.path.join(admin_dir, inc_file)
+            if os.path.exists(full_path):
+                with open(full_path, "r", encoding="utf-8") as inc_f:
+                    return inc_f.read()
+            return f"<!-- missing {inc_file} -->"
+
+        content = re.sub(r"<!--\s*include:\s*([^\s>]+)\s*-->", replacer, template)
+        ts = str(int(time.time()))
+        content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
+        return content
+
+    admin_index = os.path.join(admin_dir, "index.html")
+    if os.path.exists(admin_index):
+        with open(admin_index, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<h1>Admin panel topilmadi</h1>"
+
+
 @app.get("/admin", response_class=HTMLResponse, tags=["Admin Portal"])
 @app.get("/admin/", response_class=HTMLResponse, tags=["Admin Portal"])
 @app.get("/edugate/admin", response_class=HTMLResponse, tags=["Admin Portal"])
 @app.get("/edugate/admin/", response_class=HTMLResponse, tags=["Admin Portal"])
 async def serve_admin():
-    admin_index = os.path.join(os.path.dirname(__file__), "static", "admin", "index.html")
-    if os.path.exists(admin_index):
-        with open(admin_index, "r", encoding="utf-8") as f:
-            content = f.read()
-        response = HTMLResponse(content=content)
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-        return response
-    return HTMLResponse("<h1>Admin panel topilmadi</h1>", status_code=404)
+    content = render_admin_html()
+    response = HTMLResponse(content=content)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 
