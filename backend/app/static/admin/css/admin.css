@@ -42,7 +42,7 @@ body {
 .sidebar-item.active {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
-    border: 1px solid #3b82f6 !important;
+    border: 1px solid #333333 !important;
 }
 
 .toast-enter {
@@ -88,7 +88,7 @@ body {
 }
 
 .stat-card:hover {
-    border-color: #3b82f6 !important;
+    border-color: #383838 !important;
     background-color: #080808 !important;
 }
 
@@ -183,7 +183,7 @@ body:not(.theme-light) select:focus,
 html:not(.light) select:focus,
 body:not(.theme-light) textarea:focus,
 html:not(.light) textarea:focus {
-    border-color: #3b82f6 !important;
+    border-color: #525252 !important;
 }
 
 body:not(.theme-light) table th,
@@ -259,7 +259,7 @@ html.dark .sidebar-item:hover {
 html.dark .sidebar-item.active {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
-    border: 1px solid #3b82f6 !important;
+    border: 1px solid #333333 !important;
 }
 
 html.dark aside button[class*="bg-neutral-900"],
@@ -302,7 +302,7 @@ html.dark [class*="bg-slate-800"] {
 }
 
 html.dark .stat-card:hover {
-    border-color: #3b82f6 !important;
+    border-color: #383838 !important;
     background-color: #080808 !important;
 }
 
@@ -332,7 +332,7 @@ html.dark textarea {
 html.dark input:focus,
 html.dark select:focus,
 html.dark textarea:focus {
-    border-color: #3b82f6 !important;
+    border-color: #525252 !important;
 }
 
 html.dark input:-webkit-autofill,

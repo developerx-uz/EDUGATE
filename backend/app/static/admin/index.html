@@ -6,6 +6,30 @@
     <title>EDUGATE — Hokimlik & MMTV Yagona Boshqaruv Markazi</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                colors: {
+                    slate: {
+                        50: '#fafafa',
+                        100: '#f5f5f5',
+                        200: '#e5e5e5',
+                        300: '#d4d4d4',
+                        400: '#a3a3a3',
+                        500: '#737373',
+                        600: '#525252',
+                        700: '#262626',
+                        800: '#141414',
+                        900: '#080808',
+                        950: '#000000',
+                    }
+                }
+            }
+        }
+    }
+    </script>
     <!-- FontAwesome 6 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
@@ -18,14 +42,14 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="static/admin/icons/icon-192.png">
     <link rel="apple-touch-icon" href="static/admin/icons/icon-192.png">
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="EDUGATE">
     <!-- EDUGATE Modular CSS Stylesheet -->
     <style>
-    /* EDUGATE Admin Panel Stylesheet */
+    /* EDUGATE Admin Panel Stylesheet - OLED True Black & Pure White Edition */
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -35,11 +59,17 @@ body {
     display: none !important;
 }
 
+/* ==========================================================================
+   DEFAULT STATE: 100% OLED TRUE BLACK (#000000)
+   ========================================================================== */
+body {
+    background-color: #000000 !important;
+    color: #f4f4f5 !important;
+}
+
 .glass-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #000000 !important;
+    border: 1px solid #1a1a1a !important;
 }
 
 .sidebar-item {
@@ -52,18 +82,18 @@ body {
     font-weight: 600;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    color: #94a3b8;
+    color: #a3a3a3;
 }
 
 .sidebar-item:hover {
-    background-color: rgba(30, 41, 59, 0.8);
-    color: #e2e8f0;
+    background-color: #121212 !important;
+    color: #ffffff !important;
 }
 
 .sidebar-item.active {
-    background-color: rgba(99, 102, 241, 0.2);
-    color: #818cf8;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333333 !important;
 }
 
 .toast-enter {
@@ -97,48 +127,47 @@ body {
 }
 
 .stat-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #000000 !important;
+    border: 1px solid #1a1a1a !important;
     padding: 1.25rem;
     border-radius: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .stat-card:hover {
-    border-color: rgba(99, 102, 241, 0.4);
-    transform: translateY(-1px);
+    border-color: #383838 !important;
+    background-color: #080808 !important;
 }
 
-/* Custom Scrollbars */
+/* Custom Scrollbars in OLED Black */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #000000 !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #222222 !important;
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #333333 !important;
 }
 
-/* Complete Autofill Suppression */
+/* Complete Autofill Suppression in OLED Black */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px #11131c inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
     -webkit-text-fill-color: #ffffff !important;
     caret-color: #ffffff !important;
     transition: background-color 5000s ease-in-out 0s !important;
@@ -149,248 +178,99 @@ input[autocomplete="new-password"] {
     appearance: none;
 }
 
-/* ==========================================================================
-   EDUGATE DUAL THEME ENGINE (1. TO'LIQ OQ #FFFFFF  |  2. TO'LIQ QORA #000000)
-   ========================================================================== */
-
-/* --- 1. TO'LIQ OQ MAVZU (PURE WHITE #FFFFFF) --- */
-html.light,
-html.light body,
-body.theme-light {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
+/* Neutralize all Tailwind blue/slate utilities in Dark/OLED mode */
+body:not(.theme-light),
+html:not(.light) {
+    background-color: #000000 !important;
 }
 
-/* Base Surfaces in Light Theme */
-html.light main,
-html.light aside,
-html.light header,
-html.light [class*="bg-slate-950"],
-html.light [class*="bg-[#08090d]"],
-html.light [class*="bg-[#0a0c13]"],
-html.light [class*="bg-[#0d0f18]"] {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
+body:not(.theme-light) aside,
+html:not(.light) aside,
+body:not(.theme-light) header,
+html:not(.light) header,
+body:not(.theme-light) main,
+html:not(.light) main,
+body:not(.theme-light) [class*="bg-slate-950"],
+html:not(.light) [class*="bg-slate-950"],
+body:not(.theme-light) [class*="bg-slate-900"],
+html:not(.light) [class*="bg-slate-900"],
+body:not(.theme-light) [class*="bg-[#0"],
+html:not(.light) [class*="bg-[#0"],
+body:not(.theme-light) [class*="bg-[#1"],
+html:not(.light) [class*="bg-[#1"] {
+    background-color: #000000 !important;
+    background-image: none !important;
 }
 
-/* Sidebar in Light Theme */
-html.light aside {
-    background-color: #ffffff !important;
-    border-right: 1px solid #e2e8f0 !important;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03) !important;
-}
-html.light aside .border-b,
-html.light aside .border-t,
-html.light aside [class*="border-slate-800"] {
-    border-color: #e2e8f0 !important;
-}
-html.light aside h2 {
-    color: #0f172a !important;
-}
-html.light aside p {
-    color: #64748b !important;
-}
-html.light .sidebar-item {
-    color: #475569 !important;
-}
-html.light .sidebar-item:hover {
-    background-color: #f1f5f9 !important;
-    color: #0f172a !important;
-}
-html.light .sidebar-item.active {
-    background-color: #eef2ff !important;
-    color: #4338ca !important;
-    border: 1px solid #c7d2fe !important;
-}
-html.light aside button[class*="bg-slate-900"] {
-    background-color: #f8fafc !important;
-    border-color: #e2e8f0 !important;
-    color: #475569 !important;
-}
-html.light aside button[class*="bg-slate-900"]:hover {
-    background-color: #f1f5f9 !important;
-    color: #0f172a !important;
-}
-html.light aside kbd {
-    background-color: #e2e8f0 !important;
-    color: #475569 !important;
-    border-color: #cbd5e1 !important;
+body:not(.theme-light) [class*="border-slate-800"],
+html:not(.light) [class*="border-slate-800"],
+body:not(.theme-light) [class*="border-slate-700"],
+html:not(.light) [class*="border-slate-700"],
+body:not(.theme-light) [class*="border-[#1"],
+html:not(.light) [class*="border-[#1"] {
+    border-color: #1a1a1a !important;
 }
 
-/* Topbar in Light Theme */
-html.light header {
-    background-color: #ffffff !important;
-    border-bottom: 1px solid #e2e8f0 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
-}
-html.light header h1 {
-    color: #0f172a !important;
-}
-html.light header button {
-    background-color: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    color: #475569 !important;
-}
-html.light header button:hover {
-    background-color: #f8fafc !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
+body:not(.theme-light) [class*="bg-slate-800"],
+html:not(.light) [class*="bg-slate-800"] {
+    background-color: #0e0e0e !important;
+    border-color: #222222 !important;
 }
 
-/* Cards & Widgets in Light Theme */
-html.light .stat-card,
-html.light .glass-card,
-html.light [class*="bg-slate-900/60"],
-html.light [class*="bg-slate-900/70"],
-html.light [class*="bg-slate-900/80"],
-html.light [class*="bg-slate-900/90"],
-html.light [class*="bg-slate-900"],
-html.light [class*="bg-slate-800/80"],
-html.light [class*="bg-slate-800/60"],
-html.light [class*="bg-slate-800/50"] {
-    background-color: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-}
-html.light .stat-card:hover {
-    border-color: #818cf8 !important;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12) !important;
-}
-
-/* Typography in Light Theme */
-html.light h1, 
-html.light h2, 
-html.light h3, 
-html.light h4, 
-html.light h5, 
-html.light h6 {
-    color: #0f172a !important;
-}
-html.light .text-white {
-    color: #0f172a !important;
-}
-html.light .text-slate-100,
-html.light .text-slate-200,
-html.light .text-slate-300 {
-    color: #334155 !important;
-}
-html.light .text-slate-400 {
-    color: #475569 !important;
-}
-html.light .text-slate-500,
-html.light .text-zinc-400,
-html.light .text-zinc-500 {
-    color: #64748b !important;
-}
-
-/* Tables in Light Theme */
-html.light table th {
-    background-color: #f8fafc !important;
-    color: #475569 !important;
-    border-bottom: 1px solid #e2e8f0 !important;
-}
-html.light table td {
-    color: #1e293b !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-}
-html.light table tr:hover td {
-    background-color: #f8fafc !important;
-}
-
-/* Form Inputs in Light Theme */
-html.light input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
-html.light select,
-html.light textarea {
-    background-color: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
-    color: #0f172a !important;
-}
-html.light input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
-html.light select:focus,
-html.light textarea:focus {
-    border-color: #4f46e5 !important;
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15) !important;
-}
-html.light input::placeholder,
-html.light textarea::placeholder {
-    color: #94a3b8 !important;
-}
-
-/* Autofill in Light Theme */
-html.light input:-webkit-autofill,
-html.light input:-webkit-autofill:hover, 
-html.light input:-webkit-autofill:focus, 
-html.light input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-    -webkit-text-fill-color: #0f172a !important;
-    caret-color: #0f172a !important;
-}
-
-/* Modals & Dropdowns in Light Theme */
-html.light [class*="border-slate-800"],
-html.light [class*="border-slate-700"],
-html.light [class*="border-[#1a1f2e]"],
-html.light [class*="border-[#1d2232]"] {
-    border-color: #e2e8f0 !important;
-}
-html.light .shadow-2xl {
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.08) !important;
-}
-html.light [x-show="showUserMenu"],
-html.light [x-show="showNotifPanel"],
-html.light [x-show="showGlobalSearch"] .relative.w-full {
-    background-color: #ffffff !important;
-    border-color: #e2e8f0 !important;
-}
-
-/* Scrollbars in Light Theme */
-html.light ::-webkit-scrollbar-track {
-    background: #ffffff !important;
-}
-html.light ::-webkit-scrollbar-thumb {
-    background: #cbd5e1 !important;
-}
-html.light ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8 !important;
-}
-
-/* Login Split in Light Theme */
-html.light .login-split-container {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-}
-html.light .login-left-panel {
-    background-color: #fbfbfe !important;
-    border-color: #e2e8f0 !important;
-}
-html.light .login-feature-card {
-    background-color: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
-}
-html.light .login-feature-card:hover {
-    border-color: #818cf8 !important;
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.1) !important;
-}
-html.light .login-right-panel {
-    background-color: #ffffff !important;
-}
-html.light .login-submit-btn {
-    background-color: #0f172a !important;
+body:not(.theme-light) input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+html:not(.light) input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+body:not(.theme-light) select,
+html:not(.light) select,
+body:not(.theme-light) textarea,
+html:not(.light) textarea {
+    background-color: #000000 !important;
+    border: 1px solid #222222 !important;
     color: #ffffff !important;
 }
-html.light .login-submit-btn:hover {
-    background-color: #1e293b !important;
+
+body:not(.theme-light) input:focus,
+html:not(.light) input:focus,
+body:not(.theme-light) select:focus,
+html:not(.light) select:focus,
+body:not(.theme-light) textarea:focus,
+html:not(.light) textarea:focus {
+    border-color: #525252 !important;
 }
 
-/* Badges & Accents in Light Theme */
-html.light .bg-slate-800 {
-    background-color: #f1f5f9 !important;
-    color: #334155 !important;
+body:not(.theme-light) table th,
+html:not(.light) table th {
+    background-color: #0a0a0a !important;
+    color: #a3a3a3 !important;
+    border-color: #1a1a1a !important;
 }
 
+body:not(.theme-light) table td,
+html:not(.light) table td {
+    color: #f4f4f5 !important;
+    border-color: #121212 !important;
+}
 
-/* --- 2. TO'LIQ QORA MAVZU (PURE BLACK #000000) --- */
+body:not(.theme-light) table tr:hover td,
+html:not(.light) table tr:hover td {
+    background-color: #0c0c0c !important;
+}
+
+body:not(.theme-light) .login-feature-card,
+html:not(.light) .login-feature-card {
+    background-color: #000000 !important;
+    background-image: none !important;
+    border: 1px solid #1a1a1a !important;
+}
+
+body:not(.theme-light) .login-submit-btn,
+html:not(.light) .login-submit-btn {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. TO'LIQ QORA MAVZU (EXPLICIT OLED BLACK #000000)
+   -------------------------------------------------------------------------- */
 html.dark,
 html.dark body,
 body.theme-dark {
@@ -398,166 +278,423 @@ body.theme-dark {
     color: #f4f4f5 !important;
 }
 
-/* Base Surfaces in Pure Black Theme */
 html.dark main,
 html.dark [class*="bg-slate-950"],
-html.dark [class*="bg-[#08090d]"] {
+html.dark [class*="bg-[#08090d]"],
+html.dark [class*="bg-black"] {
     background-color: #000000 !important;
     color: #f4f4f5 !important;
 }
 
-/* Sidebar in Pure Black Theme */
 html.dark aside {
     background-color: #000000 !important;
-    border-right: 1px solid #18181b !important;
+    border-right: 1px solid #1a1a1a !important;
 }
+
 html.dark aside .border-b,
 html.dark aside .border-t,
+html.dark aside [class*="border-neutral-800"],
 html.dark aside [class*="border-slate-800"] {
-    border-color: #18181b !important;
+    border-color: #1a1a1a !important;
 }
+
 html.dark .sidebar-item {
-    color: #a1a1aa !important;
+    color: #a3a3a3 !important;
 }
+
 html.dark .sidebar-item:hover {
-    background-color: #121214 !important;
-    color: #ffffff !important;
-}
-html.dark .sidebar-item.active {
-    background-color: rgba(99, 102, 241, 0.18) !important;
-    color: #818cf8 !important;
-    border: 1px solid rgba(99, 102, 241, 0.4) !important;
-}
-html.dark aside button[class*="bg-slate-900"] {
-    background-color: #09090b !important;
-    border-color: #18181b !important;
-    color: #a1a1aa !important;
-}
-html.dark aside button[class*="bg-slate-900"]:hover {
-    background-color: #121214 !important;
+    background-color: #121212 !important;
     color: #ffffff !important;
 }
 
-/* Topbar in Pure Black Theme */
+html.dark .sidebar-item.active {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333333 !important;
+}
+
+html.dark aside button[class*="bg-neutral-900"],
+html.dark aside button[class*="bg-slate-900"] {
+    background-color: #0a0a0a !important;
+    border-color: #1a1a1a !important;
+    color: #a3a3a3 !important;
+}
+
+html.dark aside button[class*="bg-neutral-900"]:hover,
+html.dark aside button[class*="bg-slate-900"]:hover {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
 html.dark header {
     background-color: #000000 !important;
-    border-bottom: 1px solid #18181b !important;
-}
-html.dark header button {
-    background-color: #09090b !important;
-    border-color: #27272a !important;
-    color: #a1a1aa !important;
-}
-html.dark header button:hover {
-    background-color: #121214 !important;
-    color: #ffffff !important;
-    border-color: #3f3f46 !important;
+    border-bottom: 1px solid #1a1a1a !important;
 }
 
-/* Cards & Widgets in Pure Black Theme */
+html.dark header button {
+    background-color: #0a0a0a !important;
+    border-color: #222222 !important;
+    color: #a3a3a3 !important;
+}
+
+html.dark header button:hover {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+    border-color: #333333 !important;
+}
+
 html.dark .stat-card,
 html.dark .glass-card,
 html.dark [class*="bg-slate-900/60"],
-html.dark [class*="bg-slate-900/70"],
-html.dark [class*="bg-slate-900/80"],
-html.dark [class*="bg-slate-900/90"],
 html.dark [class*="bg-slate-900"],
-html.dark [class*="bg-slate-800/80"],
-html.dark [class*="bg-slate-800/60"],
-html.dark [class*="bg-slate-800/50"] {
-    background-color: #09090b !important;
-    border: 1px solid #27272a !important;
-}
-html.dark .stat-card:hover {
-    border-color: #6366f1 !important;
+html.dark [class*="bg-slate-800"] {
+    background-color: #000000 !important;
+    border: 1px solid #1a1a1a !important;
 }
 
-/* Tables in Pure Black Theme */
-html.dark table th {
-    background-color: #0c0c0e !important;
-    color: #a1a1aa !important;
-    border-bottom: 1px solid #27272a !important;
+html.dark .stat-card:hover {
+    border-color: #383838 !important;
+    background-color: #080808 !important;
 }
+
+html.dark table th {
+    background-color: #0a0a0a !important;
+    color: #a3a3a3 !important;
+    border-bottom: 1px solid #1a1a1a !important;
+}
+
 html.dark table td {
     color: #f4f4f5 !important;
-    border-bottom: 1px solid #18181b !important;
-}
-html.dark table tr:hover td {
-    background-color: #121214 !important;
+    border-bottom: 1px solid #121212 !important;
 }
 
-/* Form Inputs in Pure Black Theme */
+html.dark table tr:hover td {
+    background-color: #0c0c0c !important;
+}
+
 html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
 html.dark select,
 html.dark textarea {
-    background-color: #09090b !important;
-    border: 1px solid #27272a !important;
+    background-color: #000000 !important;
+    border: 1px solid #222222 !important;
     color: #ffffff !important;
 }
-html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+
+html.dark input:focus,
 html.dark select:focus,
 html.dark textarea:focus {
-    border-color: #6366f1 !important;
+    border-color: #525252 !important;
 }
 
-/* Autofill in Pure Black Theme */
 html.dark input:-webkit-autofill,
 html.dark input:-webkit-autofill:hover, 
 html.dark input:-webkit-autofill:focus, 
 html.dark input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
     -webkit-text-fill-color: #ffffff !important;
     caret-color: #ffffff !important;
 }
 
-/* Modals & Dropdowns in Pure Black Theme */
+html.dark [class*="border-neutral-800"],
 html.dark [class*="border-slate-800"],
 html.dark [class*="border-slate-700"] {
-    border-color: #27272a !important;
+    border-color: #1a1a1a !important;
 }
+
 html.dark [x-show="showUserMenu"],
 html.dark [x-show="showNotifPanel"],
 html.dark [x-show="showGlobalSearch"] .relative.w-full {
-    background-color: #09090b !important;
-    border-color: #27272a !important;
+    background-color: #000000 !important;
+    border-color: #222222 !important;
 }
 
-/* Scrollbars in Pure Black Theme */
 html.dark ::-webkit-scrollbar-track {
     background: #000000 !important;
 }
+
 html.dark ::-webkit-scrollbar-thumb {
-    background: #27272a !important;
-}
-html.dark ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46 !important;
+    background: #222222 !important;
 }
 
-/* Login Split in Pure Black Theme */
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #333333 !important;
+}
+
 html.dark .login-split-container {
     background-color: #000000 !important;
     color: #f4f4f5 !important;
 }
+
 html.dark .login-left-panel {
-    background-color: #050505 !important;
-    border-color: #18181b !important;
+    background-color: #000000 !important;
+    border-color: #1a1a1a !important;
 }
+
 html.dark .login-feature-card {
-    background-color: #09090b !important;
-    border-color: #27272a !important;
+    background-color: #000000 !important;
+    border-color: #1a1a1a !important;
 }
+
 html.dark .login-right-panel {
     background-color: #000000 !important;
 }
+
 html.dark .login-submit-btn {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
+
 html.dark .login-submit-btn:hover {
-    background-color: #f4f4f5 !important;
+    background-color: #e5e5e5 !important;
 }
+
+/* ==========================================================================
+   1. TO'LIQ OQ MAVZU (PURE WHITE #FFFFFF)
+   ========================================================================== */
+html.light,
+html.light body,
+body.theme-light {
+    background-color: #ffffff !important;
+    color: #0a0a0a !important;
+}
+
+html.light main,
+html.light aside,
+html.light header,
+html.light [class*="bg-slate-950"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-black"],
+html.light [class*="bg-neutral-950"],
+html.light [class*="bg-neutral-900"],
+html.light [class*="bg-[#0"],
+html.light [class*="bg-[#1"] {
+    background-color: #ffffff !important;
+    color: #0a0a0a !important;
+}
+
+html.light aside {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e5e5e5 !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light aside .border-b,
+html.light aside .border-t,
+html.light aside [class*="border-neutral-800"],
+html.light aside [class*="border-slate-800"] {
+    border-color: #e5e5e5 !important;
+}
+
+html.light aside h2 {
+    color: #0a0a0a !important;
+}
+
+html.light aside p {
+    color: #737373 !important;
+}
+
+html.light .sidebar-item {
+    color: #525252 !important;
+}
+
+html.light .sidebar-item:hover {
+    background-color: #f5f5f5 !important;
+    color: #0a0a0a !important;
+}
+
+html.light .sidebar-item.active {
+    background-color: #eff6ff !important;
+    color: #1d4ed8 !important;
+    border: 1px solid #bfdbfe !important;
+}
+
+html.light aside button[class*="bg-neutral-900"],
+html.light aside button[class*="bg-slate-900"] {
+    background-color: #fafafa !important;
+    border-color: #e5e5e5 !important;
+    color: #525252 !important;
+}
+
+html.light aside button[class*="bg-neutral-900"]:hover,
+html.light aside button[class*="bg-slate-900"]:hover {
+    background-color: #f5f5f5 !important;
+    color: #0a0a0a !important;
+}
+
+html.light aside kbd {
+    background-color: #e5e5e5 !important;
+    color: #525252 !important;
+    border-color: #d4d4d4 !important;
+}
+
+html.light header {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light header h1 {
+    color: #0a0a0a !important;
+}
+
+html.light header button {
+    background-color: #ffffff !important;
+    border-color: #e5e5e5 !important;
+    color: #525252 !important;
+}
+
+html.light header button:hover {
+    background-color: #f5f5f5 !important;
+    color: #0a0a0a !important;
+    border-color: #d4d4d4 !important;
+}
+
+html.light .stat-card,
+html.light .glass-card,
+html.light [class*="bg-slate-900/60"],
+html.light [class*="bg-slate-900/70"],
+html.light [class*="bg-slate-900/80"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-slate-800"] {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e5e5 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .stat-card:hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12) !important;
+}
+
+html.light h1, 
+html.light h2, 
+html.light h3, 
+html.light h4, 
+html.light h5, 
+html.light h6 {
+    color: #0a0a0a !important;
+}
+
+html.light .text-white {
+    color: #0a0a0a !important;
+}
+
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300,
+html.light .text-neutral-300,
+html.light .text-neutral-400 {
+    color: #404040 !important;
+}
+
+html.light .text-slate-400,
+html.light .text-slate-500,
+html.light .text-zinc-400,
+html.light .text-zinc-500,
+html.light .text-neutral-500 {
+    color: #737373 !important;
+}
+
+html.light table th {
+    background-color: #fafafa !important;
+    color: #525252 !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+}
+
+html.light table td {
+    color: #171717 !important;
+    border-bottom: 1px solid #f5f5f5 !important;
+}
+
+html.light table tr:hover td {
+    background-color: #fafafa !important;
+}
+
+html.light input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+html.light select,
+html.light textarea {
+    background-color: #ffffff !important;
+    border: 1px solid #d4d4d4 !important;
+    color: #0a0a0a !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+    color: #a3a3a3 !important;
+}
+
+html.light input:-webkit-autofill,
+html.light input:-webkit-autofill:hover, 
+html.light input:-webkit-autofill:focus, 
+html.light input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+    -webkit-text-fill-color: #0a0a0a !important;
+    caret-color: #0a0a0a !important;
+}
+
+html.light [class*="border-neutral-800"],
+html.light [class*="border-slate-800"],
+html.light [class*="border-slate-700"] {
+    border-color: #e5e5e5 !important;
+}
+
+html.light [x-show="showUserMenu"],
+html.light [x-show="showNotifPanel"],
+html.light [x-show="showGlobalSearch"] .relative.w-full {
+    background-color: #ffffff !important;
+    border-color: #e5e5e5 !important;
+}
+
+html.light ::-webkit-scrollbar-track {
+    background: #ffffff !important;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+    background: #d4d4d4 !important;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+    background: #a3a3a3 !important;
+}
+
+html.light .login-split-container {
+    background-color: #ffffff !important;
+    color: #0a0a0a !important;
+}
+
+html.light .login-left-panel {
+    background-color: #fafafa !important;
+    border-color: #e5e5e5 !important;
+}
+
+html.light .login-feature-card {
+    background-color: #ffffff !important;
+    border-color: #e5e5e5 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .login-right-panel {
+    background-color: #ffffff !important;
+}
+
+html.light .login-submit-btn {
+    background-color: #0a0a0a !important;
+    color: #ffffff !important;
+}
+
+html.light .login-submit-btn:hover {
+    background-color: #262626 !important;
+}
+
     </style>
-    <!-- Early theme initializer to prevent flash of unstyled theme -->
+    <!-- Early theme initializer to prevent flash of wrong theme -->
     <script>
     (function() {
         try {
@@ -575,19 +712,15 @@ html.dark .login-submit-btn:hover {
     </script>
 </head>
 
-<body class="antialiased selection:bg-indigo-500/20 selection:text-indigo-400 transition-colors duration-200" :class="theme === 'light' ? 'theme-light' : 'theme-dark'" x-data="adminApp()" x-init="initApp()">
+<body class="antialiased selection:bg-neutral-800 selection:text-white transition-colors duration-200" :class="theme === 'light' ? 'theme-light bg-white text-neutral-900' : 'theme-dark bg-black text-white'" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
     <!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
-<div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
+<div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-black text-slate-100 select-none">
     
     <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
-    <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
+    <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-black border-b lg:border-b-0 lg:border-r border-neutral-900 flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
-        <!-- Ambient background glows -->
-        <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-
         <!-- Top: Logo (Production button removed as requested) -->
         <div class="relative z-10 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -616,10 +749,10 @@ html.dark .login-submit-btn:hover {
                 </p>
             </div>
 
-            <!-- REDESIGNED FEATURE CARDS (YANGILANGAN DIZAYN) -->
+            <!-- REDESIGNED FEATURE CARDS (OLED TRUE BLACK) -->
             <div class="flex flex-col gap-3 pt-2">
                 <!-- Card 1: Face ID -->
-                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
                             <i class="fas fa-shield-halved text-lg"></i>
@@ -637,7 +770,7 @@ html.dark .login-submit-btn:hover {
                 </div>
 
                 <!-- Card 2: Telegram Bot -->
-                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
                             <i class="fab fa-telegram text-xl"></i>
@@ -655,7 +788,7 @@ html.dark .login-submit-btn:hover {
                 </div>
 
                 <!-- Card 3: Central Database & Analytics -->
-                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
                             <i class="fas fa-chart-pie text-lg"></i>
@@ -685,13 +818,13 @@ html.dark .login-submit-btn:hover {
     </div>
 
     <!-- RIGHT PANEL: CLEAN LOGIN CONSOLE -->
-    <div class="login-right-panel w-full lg:w-2/5 h-full bg-[#08090d] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
+    <div class="login-right-panel w-full lg:w-2/5 h-full bg-black flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
         <!-- Top Controls: Theme Switcher -->
         <div class="flex items-center justify-end w-full">
             <button @click="toggleTheme()" 
                     type="button"
-                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-zinc-700/80 bg-zinc-900/80 hover:bg-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white transition cursor-pointer shadow-sm"
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-neutral-800 bg-neutral-900/90 hover:bg-neutral-800 text-xs font-semibold text-neutral-300 hover:text-white transition cursor-pointer shadow-sm"
                     :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
                 <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'"></i>
                 <span x-text="theme === 'light' ? 'Qora Mavzu' : 'Oq Mavzu'"></span>
@@ -721,7 +854,7 @@ html.dark .login-submit-btn:hover {
                         <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
                                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-4 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-medium">
+                               class="w-full pl-9 pr-4 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-medium">
                     </div>
                 </div>
 
@@ -736,7 +869,7 @@ html.dark .login-submit-btn:hover {
                         <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
                                autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-10 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-mono">
+                               class="w-full pl-9 pr-10 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-mono">
                         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
                             <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
@@ -751,7 +884,7 @@ html.dark .login-submit-btn:hover {
 
                 <!-- Primary Action Button -->
                 <button type="submit" :disabled="loading"
-                        class="login-submit-btn w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
+                        class="login-submit-btn w-full py-3.5 px-4 bg-white hover:bg-neutral-200 text-black font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
                     <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                     <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
                     <span>Tizimga Kirish</span>
@@ -773,34 +906,34 @@ html.dark .login-submit-btn:hover {
 
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
-    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden">
+    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
 
         <!-- MOBILE OVERLAY BACKDROP -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false"
-             class="fixed inset-0 bg-black/50 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
+             class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
 
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="fixed left-0 top-0 h-screen bg-slate-950 border-r border-slate-800 z-30 flex flex-col transition-all duration-300">
+       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300">
 
     <!-- Logo Area with Toggle -->
-    <div class="flex items-center justify-between px-3.5 py-4 border-b border-slate-800/60">
+    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800">
         <div class="flex items-center gap-3 min-w-0" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
             <div @click="toggleSidebar()" 
-                 class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30 cursor-pointer hover:border-indigo-500/60 hover:scale-105 transition"
+                 class="flex-shrink-0 w-10 h-10 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800 cursor-pointer hover:border-neutral-700 hover:scale-105 transition"
                  :title="sidebarCollapsed ? 'Yon panelni ochish' : 'EDUGATE'">
-                <span class="text-indigo-400 font-extrabold text-lg">E</span>
+                <span class="text-white font-extrabold text-lg">E</span>
             </div>
             <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
                 <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
-                <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
+                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
             </div>
         </div>
 
         <!-- Desktop Collapse Button -->
         <button x-show="!sidebarCollapsed" @click="toggleSidebar()" 
-                class="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                class="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition cursor-pointer"
                 title="Yon panelni yopish (kichraytirish)">
             <i class="fas fa-angles-left text-xs"></i>
         </button>
@@ -810,12 +943,12 @@ html.dark .login-submit-btn:hover {
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/80 hover:border-slate-700 transition cursor-pointer mb-3 group"
+                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-3 group"
                 :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                 title="Tizim bo'yicha global qidiruv (Ctrl+K)">
             <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
             <span x-show="!sidebarCollapsed" class="text-xs font-medium flex-1 text-left">Global Qidiruv...</span>
-            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-800 rounded border border-slate-700/60">Ctrl+K</kbd>
+            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700">Ctrl+K</kbd>
         </button>
 
         <!-- Main Group -->
@@ -844,7 +977,7 @@ html.dark .login-submit-btn:hover {
             <span x-show="!sidebarCollapsed">O'qituvchilar</span>
         </div>
 
-        <div class="border-t border-slate-800/60 my-3"></div>
+        <div class="border-t border-neutral-800 my-3"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; sidebarOpen = false"
@@ -866,7 +999,7 @@ html.dark .login-submit-btn:hover {
             <span x-show="!sidebarCollapsed">Ota-onalar</span>
         </div>
 
-        <div class="border-t border-slate-800/60 my-3"></div>
+        <div class="border-t border-neutral-800 my-3"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; sidebarOpen = false"
@@ -884,9 +1017,9 @@ html.dark .login-submit-btn:hover {
     </nav>
 
     <!-- Bottom Actions -->
-    <div class="px-3 pb-4 space-y-2 border-t border-slate-800/60 pt-3">
+    <div class="px-3 pb-4 space-y-2 border-t border-neutral-800 pt-3">
         <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all cursor-pointer"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-sm font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
                 :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
             <i class="fas fa-plus text-xs"></i>
             <span x-show="!sidebarCollapsed">Yangi Maktab</span>
@@ -894,13 +1027,13 @@ html.dark .login-submit-btn:hover {
 
         <!-- Admin Profile Info -->
         <div class="flex items-center gap-3 px-3 py-2" :class="sidebarCollapsed ? 'justify-center px-0' : ''">
-            <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 text-slate-300"
+            <div class="w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center flex-shrink-0 text-neutral-300"
                  :title="sidebarCollapsed ? 'Superadmin • Hokimlik Markazi' : ''">
                 <i class="fas fa-user-shield text-sm"></i>
             </div>
             <div x-show="!sidebarCollapsed" class="min-w-0">
                 <p class="text-sm font-semibold text-white truncate">Superadmin</p>
-                <p class="text-xs text-slate-500 truncate">Hokimlik Markazi</p>
+                <p class="text-xs text-neutral-500 truncate">Hokimlik Markazi</p>
             </div>
         </div>
 
@@ -915,19 +1048,18 @@ html.dark .login-submit-btn:hover {
 </aside>
 
 
-
         <!-- MAIN CONTENT WRAPPER -->
         <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
              :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
 
             <!-- TOPBAR -->
             <!-- TOPBAR COMPONENT -->
-<header class="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3">
+<header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-6 py-3">
     <div class="flex items-center justify-between gap-4">
         <!-- Left: Universal Sidebar Toggle + Page title -->
         <div class="flex items-center gap-3">
             <button @click="toggleSidebar()" 
-                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
                     :title="sidebarCollapsed ? 'Yon panelni kengaytirish' : 'Yon panelni yopish'">
                 <i :class="sidebarCollapsed ? 'fas fa-bars-staggered text-sm text-indigo-400' : 'fas fa-bars text-sm'"></i>
             </button>
@@ -950,25 +1082,25 @@ html.dark .login-submit-btn:hover {
             <!-- Notifications Bell -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
-                        class="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition">
+                        class="relative p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-xl transition">
                     <i class="fas fa-bell text-sm"></i>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-slate-900"></span>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
                 </button>
 
                 <!-- Notifications Dropdown Panel -->
                 <div x-show="showNotifPanel" @click.outside="showNotifPanel = false" x-cloak
-                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-slate-800 space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-neutral-800 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-neutral-800">
                         <span class="text-xs font-bold text-white uppercase tracking-wider">Bildirishnomalar</span>
                         <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer" @click="showNotifPanel = false">Yopish</span>
                     </div>
                     <div class="space-y-2 text-xs">
                         <template x-for="item in notifications" :key="item.id">
-                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-800/60 transition">
+                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-neutral-900 transition">
                                 <i :class="['fas', item.icon, item.color, 'mt-0.5']"></i>
                                 <div class="flex-1 min-w-0">
                                     <p class="text-white text-xs font-medium" x-text="item.text"></p>
-                                    <span class="text-[10px] text-slate-500" x-text="item.time"></span>
+                                    <span class="text-[10px] text-neutral-500" x-text="item.time"></span>
                                 </div>
                             </div>
                         </template>
@@ -978,7 +1110,7 @@ html.dark .login-submit-btn:hover {
 
             <!-- Theme Toggle Button (To'liq Oq ☀️ / To'liq Qora 🌙) -->
             <button @click="toggleTheme()" 
-                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
                     :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
                 <i :class="theme === 'light' ? 'fas fa-moon text-amber-500 text-sm' : 'fas fa-sun text-amber-400 text-sm'"></i>
             </button>
@@ -988,58 +1120,58 @@ html.dark .login-submit-btn:hover {
             <!-- Foydalanuvchi Ramkasi (User Profile Box) -->
             <div class="relative">
                 <button @click="showUserMenu = !showUserMenu" 
-                        class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 hover:border-slate-600 transition cursor-pointer group shadow-sm">
+                        class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 transition cursor-pointer group shadow-sm">
                     <!-- User Avatar with Online Dot -->
                     <div class="relative">
                         <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-indigo-600/20">
                             <i class="fas fa-user-shield text-xs"></i>
                         </div>
-                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-slate-900"></span>
+                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-black"></span>
                     </div>
 
                     <!-- User Name & Role -->
                     <div class="text-left hidden sm:block">
                         <p class="text-xs font-bold text-white group-hover:text-indigo-300 transition leading-tight">Superadmin</p>
-                        <p class="text-[10px] text-slate-400 font-medium leading-tight">Hokimlik Markazi</p>
+                        <p class="text-[10px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
                     </div>
 
-                    <i class="fas fa-chevron-down text-[10px] text-slate-400 group-hover:text-white transition ml-0.5"></i>
+                    <i class="fas fa-chevron-down text-[10px] text-neutral-400 group-hover:text-white transition ml-0.5"></i>
                 </button>
 
                 <!-- User Dropdown Menu -->
                 <div x-show="showUserMenu" @click.outside="showUserMenu = false" x-cloak
-                     class="absolute right-0 mt-2 w-56 glass-card rounded-2xl p-2 shadow-2xl z-50 border border-slate-700/80 space-y-1">
-                    <div class="px-3 py-2 border-b border-slate-800 mb-1">
+                     class="absolute right-0 mt-2 w-56 glass-card rounded-2xl p-2 shadow-2xl z-50 border border-neutral-800 space-y-1">
+                    <div class="px-3 py-2 border-b border-neutral-800 mb-1">
                         <p class="text-xs font-bold text-white">Superadmin</p>
-                        <p class="text-[10px] text-slate-400">admin@edugate.uz</p>
+                        <p class="text-[10px] text-neutral-400">admin@edugate.uz</p>
                         <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[9px] font-bold uppercase tracking-wider">Hokimiyat Portali</span>
                     </div>
 
                     <div @click="activeTab = 'settings'; showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
-                        <i class="fas fa-gear text-slate-400 text-xs w-4 text-center"></i>
+                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
+                        <i class="fas fa-gear text-neutral-400 text-xs w-4 text-center"></i>
                         <span>Tizim Sozlamalari</span>
                     </div>
 
                     <div @click="openSchoolModal(); showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
                         <span>Yangi Maktab Qo'shish</span>
                     </div>
 
                     <!-- Theme Toggle in Dropdown -->
                     <div @click="toggleTheme(); showUserMenu = false"
-                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <div class="flex items-center gap-2.5">
                             <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'" class="text-xs w-4 text-center"></i>
                             <span x-text="theme === 'light' ? 'To\'liq Qora rejim' : 'To\'liq Oq rejim'"></span>
                         </div>
                         <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold"
-                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'"
+                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-neutral-800 text-neutral-300 border border-neutral-700'"
                               x-text="theme === 'light' ? 'OQ' : 'QORA'"></span>
                     </div>
 
-                    <div class="border-t border-slate-800 my-1"></div>
+                    <div class="border-t border-neutral-800 my-1"></div>
 
                     <div @click="logout(); showUserMenu = false"
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-rose-400 hover:bg-rose-500/10 cursor-pointer transition font-semibold">
@@ -1055,7 +1187,7 @@ html.dark .login-submit-btn:hover {
 
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
-            <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <main class="flex-1 overflow-y-auto p-6 space-y-6" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
                 <!-- VIEW: DASHBOARD -->
 <div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
     <!-- Top Stats Row (Real-time DB Counts) -->
@@ -2811,16 +2943,16 @@ const EdugateCharts = {
     weeklyChart: null,
 
     getTextColor() {
-        return document.documentElement.classList.contains('light') ? '#475569' : '#94a3b8';
+        return document.documentElement.classList.contains('light') ? '#525252' : '#a3a3a3';
     },
 
     getGridColor() {
-        return document.documentElement.classList.contains('light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+        return document.documentElement.classList.contains('light') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
     },
 
     setTheme(theme) {
-        const textColor = (theme === 'light') ? '#475569' : '#94a3b8';
-        const gridColor = (theme === 'light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+        const textColor = (theme === 'light') ? '#525252' : '#a3a3a3';
+        const gridColor = (theme === 'light') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
 
         if (this.attendanceChart && this.attendanceChart.options) {
             if (this.attendanceChart.options.plugins?.legend?.labels) {

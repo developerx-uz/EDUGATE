@@ -69,17 +69,17 @@
     </script>
 </head>
 
-<body class="antialiased selection:bg-indigo-500/20 selection:text-indigo-400 transition-colors duration-200" :class="theme === 'light' ? 'theme-light' : 'theme-dark'" x-data="adminApp()" x-init="initApp()">
+<body class="antialiased selection:bg-neutral-800 selection:text-white transition-colors duration-200" :class="theme === 'light' ? 'theme-light bg-white text-neutral-900' : 'theme-dark bg-black text-white'" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
     <!-- include: components/login.html -->
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
-    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden">
+    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
 
         <!-- MOBILE OVERLAY BACKDROP -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false"
-             class="fixed inset-0 bg-black/50 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
+             class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
 
         <!-- SIDEBAR -->
         <!-- include: components/sidebar.html -->
@@ -92,7 +92,7 @@
             <!-- include: components/topbar.html -->
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
-            <main class="flex-1 overflow-y-auto p-6 space-y-6">
+            <main class="flex-1 overflow-y-auto p-6 space-y-6" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
                 <!-- include: views/dashboard.html -->
                 <!-- include: views/schools.html -->
                 <!-- include: views/students.html -->
