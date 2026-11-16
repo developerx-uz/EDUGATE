@@ -1,14 +1,9 @@
 <!-- TOPBAR COMPONENT -->
 <header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-6 py-3">
     <div class="flex items-center justify-between gap-4">
-        <!-- Left: Universal Sidebar Toggle + Page title -->
-        <div class="flex items-center gap-3">
-            <button @click="toggleSidebar()" 
-                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
-                    :title="sidebarCollapsed ? 'Yon panelni kengaytirish' : 'Yon panelni yopish'">
-                <i :class="sidebarCollapsed ? 'fas fa-bars-staggered text-sm text-indigo-400' : 'fas fa-bars text-sm'"></i>
-            </button>
-            <h1 class="text-lg font-bold text-white hidden sm:block"
+        <!-- Left: Page Title -->
+        <div class="flex items-center gap-3 min-w-0">
+            <h1 class="text-base sm:text-lg font-bold text-white truncate"
                 x-text="({
                     dashboard: 'Asosiy Boshqaruv Markazi',
                     schools: 'Maktablar Boshqaruvi',

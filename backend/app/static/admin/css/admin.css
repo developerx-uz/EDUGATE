@@ -766,4 +766,22 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     }
 }
 
+/* Zero-animation Instant Sidebar Logo/Toggle Swap */
+.sidebar-logo-box,
+.sidebar-logo-box *,
+.sidebar-logo-normal,
+.sidebar-logo-hover {
+    transition: none !important;
+    animation: none !important;
+}
+
+aside.w-20 .sidebar-logo-box:hover .sidebar-logo-normal {
+    display: none !important;
+}
+
+aside.w-20 .sidebar-logo-box:hover .sidebar-logo-hover {
+    display: flex !important;
+}
+
+
 
