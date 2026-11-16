@@ -5,7 +5,7 @@ from app.models.device import DeviceDirection, DeviceType
 
 
 class DeviceCreate(BaseModel):
-    school_id: str
+    school_id: Optional[str] = None
     name: str
     device_type: DeviceType = DeviceType.AI_CAMERA
     direction: DeviceDirection = DeviceDirection.IN

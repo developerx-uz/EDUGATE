@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class TeacherCreate(BaseModel):
-    school_id: str
+    school_id: Optional[str] = None
     first_name: str
     last_name: str
     phone_number: Optional[str] = None
