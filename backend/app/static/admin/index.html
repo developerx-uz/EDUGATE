@@ -828,6 +828,28 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     overflow: visible;
 }
 
+/* Perfect Synchronized 1-Tekisda Sidebar Transitions */
+aside.sidebar-container {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: width;
+}
+
+.main-content-wrapper {
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: margin-left;
+}
+
+.sidebar-toggle-btn {
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease !important;
+    will-change: left;
+}
+
+.sidebar-item-label {
+    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease !important;
+    will-change: opacity, max-width, transform;
+}
+
+
 
 
 
@@ -1071,28 +1093,26 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-[width] duration-300 select-none overflow-hidden no-scrollbar">
+       class="sidebar-container fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar">
 
-    <!-- Header: Logo, Brand Text, and Toggle Button -->
-    <div class="flex items-center px-3.5 py-4 border-b border-neutral-800 flex-shrink-0 h-[68px]"
-         :class="sidebarCollapsed ? 'justify-center' : 'justify-between'">
-
-        <!-- Brand Logo & Text when expanded -->
-        <div x-show="!sidebarCollapsed" class="flex items-center gap-3 min-w-0">
-            <!-- Brand Logo Box (E) -->
-            <div class="flex-shrink-0 w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
-                <span class="text-white font-extrabold text-base">E</span>
+    <!-- Header: Logo, Brand Text, and Smooth Sliding Toggle Button -->
+    <div class="relative flex items-center h-16 border-b border-neutral-800 flex-shrink-0 overflow-hidden px-4">
+        <!-- Brand Area (Logo + Text) -->
+        <div class="flex items-center gap-3 min-w-0 transition-all duration-200"
+             :class="sidebarCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'">
+            <div class="flex-shrink-0 w-8 h-8 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
+                <span class="text-white font-extrabold text-sm">E</span>
             </div>
-            <!-- Brand Text -->
-            <div class="min-w-0">
+            <div class="min-w-0 whitespace-nowrap overflow-hidden">
                 <h2 class="text-white font-extrabold text-sm leading-tight truncate">EDUGATE</h2>
                 <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik Markazi</p>
             </div>
         </div>
 
-        <!-- Toggle Button (Both Open & Close with Animated Inner Line) -->
+        <!-- Toggle Button (Smoothly slides between left: 208px and left: 22px) -->
         <button @click="toggleSidebar()" 
-                class="flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
+                class="sidebar-toggle-btn absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 cursor-pointer"
+                :style="sidebarCollapsed ? 'left: 22px;' : 'left: 208px;'"
                 :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
             <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="5" />
@@ -1107,83 +1127,150 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-3 space-y-1 no-scrollbar">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center gap-3 px-3 py-2 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-2.5 group"
-                :class="sidebarCollapsed ? 'justify-center px-0' : ''"
-                title="Tizim bo'yicha global qidiruv (Ctrl+K)">
-            <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
-            <span x-show="!sidebarCollapsed" class="text-xs font-medium flex-1 text-left truncate">Global Qidiruv...</span>
-            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700">Ctrl+K</kbd>
+                class="w-full flex items-center h-10 px-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer mb-2 group overflow-hidden"
+                :title="sidebarCollapsed ? 'Tizim bo\'yicha global qidiruv (Ctrl+K)' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden flex-1 text-left"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[130px] translate-x-0'">
+                Global Qidiruv...
+            </span>
+            <kbd class="sidebar-item-label hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700"
+                 :class="sidebarCollapsed ? 'opacity-0 max-w-0' : 'opacity-100'">
+                Ctrl+K
+            </kbd>
         </button>
 
         <!-- Main Group -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'dashboard', 'justify-center px-0': sidebarCollapsed}"
-             title="Dashboard">
-            <i class="fas fa-chart-pie w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Dashboard</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'dashboard'}"
+             :title="sidebarCollapsed ? 'Dashboard' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-pie w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Dashboard
+            </span>
         </div>
+
         <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'schools', 'justify-center px-0': sidebarCollapsed}"
-             title="Maktablar">
-            <i class="fas fa-school w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Maktablar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'schools'}"
+             :title="sidebarCollapsed ? 'Maktablar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-school w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Maktablar
+            </span>
         </div>
+
         <div @click="activeTab = 'students'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'students', 'justify-center px-0': sidebarCollapsed}"
-             title="O'quvchilar">
-            <i class="fas fa-user-graduate w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">O'quvchilar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'students'}"
+             :title="sidebarCollapsed ? 'O\'quvchilar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user-graduate w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                O'quvchilar
+            </span>
         </div>
+
         <div @click="activeTab = 'teachers'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'teachers', 'justify-center px-0': sidebarCollapsed}"
-             title="O'qituvchilar">
-            <i class="fas fa-chalkboard-user w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">O'qituvchilar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'teachers'}"
+             :title="sidebarCollapsed ? 'O\'qituvchilar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chalkboard-user w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                O'qituvchilar
+            </span>
         </div>
 
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'attendance', 'justify-center px-0': sidebarCollapsed}"
-             title="Davomat">
-            <i class="fas fa-clipboard-check w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Davomat</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'attendance'}"
+             :title="sidebarCollapsed ? 'Davomat' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clipboard-check w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Davomat
+            </span>
         </div>
+
         <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'devices', 'justify-center px-0': sidebarCollapsed}"
-             title="Kameralar & Turniketlar">
-            <i class="fas fa-video w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Kameralar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'devices'}"
+             :title="sidebarCollapsed ? 'Kameralar & Turniketlar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-video w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Kameralar
+            </span>
         </div>
+
         <div @click="activeTab = 'parents'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'parents', 'justify-center px-0': sidebarCollapsed}"
-             title="Ota-onalar">
-            <i class="fas fa-users w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Ota-onalar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'parents'}"
+             :title="sidebarCollapsed ? 'Ota-onalar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-users w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Ota-onalar
+            </span>
         </div>
 
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'reports', 'justify-center px-0': sidebarCollapsed}"
-             title="Hisobotlar">
-            <i class="fas fa-chart-bar w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Hisobotlar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'reports'}"
+             :title="sidebarCollapsed ? 'Hisobotlar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-bar w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Hisobotlar
+            </span>
         </div>
+
         <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item" :class="{'active': activeTab === 'settings', 'justify-center px-0': sidebarCollapsed}"
-             title="Sozlamalar">
-            <i class="fas fa-gear w-5 text-center text-sm"></i>
-            <span x-show="!sidebarCollapsed" class="truncate">Sozlamalar</span>
+             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'settings'}"
+             :title="sidebarCollapsed ? 'Sozlamalar' : ''">
+            <div class="w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-gear w-5 text-center text-sm"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Sozlamalar
+            </span>
         </div>
     </nav>
 </aside>
 
 
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="flex-1 flex flex-col overflow-hidden transition-[margin] duration-300"
+        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden"
              :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
 
             <!-- TOPBAR -->
