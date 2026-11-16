@@ -5,6 +5,7 @@ from datetime import datetime, date, timedelta
 from typing import List, Optional, Any
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.responses import Response
+from pydantic import BaseModel
 from sqlalchemy import select, func, delete
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,9 +17,17 @@ from app.models.teacher import Teacher
 from app.models.device import Device, DeviceType, DeviceDirection
 from app.models.parent import Parent
 from app.models.attendance import AttendanceLog, AttendanceEventType, AttendanceStatus
-from app.core.security import generate_device_token
+from app.models.user import User, UserRole
+from app.core.security import generate_device_token, get_password_hash
+from app.api.deps import get_current_user, require_superadmin, require_not_read_only
 
 router = APIRouter()
+
+
+class SchoolAccountSetRequest(BaseModel):
+    username: str
+    password: Optional[str] = None
+    full_name: Optional[str] = None
 
 
 @router.get("/stats", summary="Superadmin Dashboard Asosiy Statistikasi")
