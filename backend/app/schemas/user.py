@@ -9,6 +9,7 @@ class UserBase(BaseModel):
     full_name: Optional[str] = None
     role: str = "SUPERADMIN"
     school_id: Optional[str] = None
+    school_name: Optional[str] = None
     is_superadmin: bool = True
 
 
@@ -29,6 +30,8 @@ class Token(BaseModel):
     token_type: str = "bearer"
     role: str = "SUPERADMIN"
     full_name: Optional[str] = "Hokimlik Bosh Superadmini"
+    school_id: Optional[str] = None
+    school_name: Optional[str] = None
 
 
 class LoginRequest(BaseModel):

@@ -7,13 +7,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.security import verify_password, create_access_token, get_password_hash
 from app.models.user import User, UserRole
+from app.models.school import School
 from app.schemas.user import Token, UserOut, LoginRequest, ProfileUpdateRequest, PasswordChangeRequest
 from app.api.deps import get_current_user
 
 router = APIRouter()
 
 
-@router.post("/login", response_model=Token, summary="Hokimlik / Vazirlik Superadmin Login")
+@router.post("/login", response_model=Token, summary="Tizimga kirish (Superadmin, Xalq Ta'limi, Maktab)")
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_db)
@@ -33,16 +34,30 @@ async def login(
             detail="Foydalanuvchi hisobi faol emas."
         )
 
-    access_token = create_access_token(data={"sub": user.username, "role": str(user.role.value if hasattr(user.role, 'value') else user.role)})
+    role_str = str(user.role.value if hasattr(user.role, 'value') else user.role)
+    school_name = None
+    if user.school_id:
+        res_s = await db.execute(select(School).filter(School.id == user.school_id))
+        s_obj = res_s.scalar_one_or_none()
+        if s_obj:
+            school_name = s_obj.name
+
+    access_token = create_access_token(data={
+        "sub": user.username,
+        "role": role_str,
+        "school_id": user.school_id
+    })
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "role": str(user.role.value if hasattr(user.role, 'value') else user.role),
-        "full_name": user.full_name or "Viloyat / Shahar Hokimligi Superadmini"
+        "role": role_str,
+        "full_name": user.full_name or user.username,
+        "school_id": user.school_id,
+        "school_name": school_name
     }
 
 
-@router.post("/login-json", response_model=Token, summary="Hokimlik / Vazirlik Superadmin Login (JSON)")
+@router.post("/login-json", response_model=Token, summary="Tizimga kirish (JSON formatda)")
 async def login_json(
     login_data: LoginRequest,
     db: AsyncSession = Depends(get_db)
@@ -62,20 +77,54 @@ async def login_json(
             detail="Foydalanuvchi hisobi faol emas."
         )
 
-    access_token = create_access_token(data={"sub": user.username, "role": str(user.role.value if hasattr(user.role, 'value') else user.role)})
+    role_str = str(user.role.value if hasattr(user.role, 'value') else user.role)
+    school_name = None
+    if user.school_id:
+        res_s = await db.execute(select(School).filter(School.id == user.school_id))
+        s_obj = res_s.scalar_one_or_none()
+        if s_obj:
+            school_name = s_obj.name
+
+    access_token = create_access_token(data={
+        "sub": user.username,
+        "role": role_str,
+        "school_id": user.school_id
+    })
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "role": str(user.role.value if hasattr(user.role, 'value') else user.role),
-        "full_name": user.full_name or "Viloyat / Shahar Hokimligi Superadmini"
+        "role": role_str,
+        "full_name": user.full_name or user.username,
+        "school_id": user.school_id,
+        "school_name": school_name
     }
 
 
 @router.get("/me", response_model=UserOut, summary="Joriy foydalanuvchi ma'lumotlari")
 async def read_users_me(
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
 ) -> Any:
-    return current_user
+    school_name = None
+    if current_user.school_id:
+        res_s = await db.execute(select(School).filter(School.id == current_user.school_id))
+        s_obj = res_s.scalar_one_or_none()
+        if s_obj:
+            school_name = s_obj.name
+
+    role_str = str(current_user.role.value if hasattr(current_user.role, 'value') else current_user.role)
+    return {
+        "id": current_user.id,
+        "username": current_user.username,
+        "email": current_user.email,
+        "full_name": current_user.full_name,
+        "role": role_str,
+        "school_id": current_user.school_id,
+        "school_name": school_name,
+        "is_superadmin": current_user.is_superadmin,
+        "is_active": current_user.is_active,
+        "created_at": current_user.created_at
+    }
 
 
 @router.put("/profile", response_model=UserOut, summary="Profil ma'lumotlarini yangilash")

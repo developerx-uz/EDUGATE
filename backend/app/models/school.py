@@ -17,6 +17,7 @@ class School(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now().replace(tzinfo=None))
 
     # Bog'lanishlar
+    admin_user = relationship("User", back_populates="school", uselist=False, cascade="all, delete-orphan")
     devices = relationship("Device", back_populates="school", cascade="all, delete-orphan")
     students = relationship("Student", back_populates="school", cascade="all, delete-orphan")
     teachers = relationship("Teacher", back_populates="school", cascade="all, delete-orphan")

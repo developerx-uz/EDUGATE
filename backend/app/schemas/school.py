@@ -9,15 +9,18 @@ class SchoolCreate(BaseModel):
     address: Optional[str] = None
     phone: Optional[str] = None
     settings: Optional[Dict[str, Any]] = None
+    admin_username: Optional[str] = None
+    admin_password: Optional[str] = None
 
 
 class SchoolOut(BaseModel):
     id: str
     name: str
     code: str
-    address: Optional[str]
-    phone: Optional[str]
-    settings: Dict[str, Any]
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    settings: Dict[str, Any] = {}
+    admin_username: Optional[str] = None
     created_at: datetime
 
     class Config:

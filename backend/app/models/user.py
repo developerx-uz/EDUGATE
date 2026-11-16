@@ -7,8 +7,9 @@ from app.core.database import Base
 
 
 class UserRole(str, enum.Enum):
-    SUPERADMIN = "SUPERADMIN"       # Hokimlik / Vazirlik (Barcha maktablar ustidan nazorat)
-    SCHOOL_ADMIN = "SCHOOL_ADMIN"   # Maktab Direktori (Faqat o'z maktabi nazorati)
+    SUPERADMIN = "SUPERADMIN"             # Sayt & Server / DevOps ma'murlari (/admin)
+    MINISTRY_VIEWER = "MINISTRY_VIEWER"   # Xalq Ta'limi / MMTV / Hokimlik (Faqat ko'rish - Read-Only)
+    SCHOOL_ADMIN = "SCHOOL_ADMIN"         # Maktab boshqaruvi (1 maktab = 1 login)
 
 
 class User(Base):
@@ -25,4 +26,4 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now().replace(tzinfo=None))
 
-    school = relationship("School")
+    school = relationship("School", back_populates="admin_user")

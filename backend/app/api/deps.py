@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.config import settings
 from app.models.device import Device
-from app.models.user import User
+from app.models.user import User, UserRole
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login", auto_error=False)
 
@@ -64,9 +64,28 @@ async def get_current_user(
 async def get_current_superadmin(
     current_user: User = Depends(get_current_user)
 ) -> User:
-    if not current_user.is_superadmin:
+    role_str = str(current_user.role.value if hasattr(current_user.role, 'value') else current_user.role)
+    if role_str != UserRole.SUPERADMIN.value and not current_user.is_superadmin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Ushbu amalni bajarish uchun Superadmin huquqi talab qilinadi."
+            detail="Ushbu amalni bajarish uchun Superadmin (Server & Tizim ma'muri) huquqi talab qilinadi."
+        )
+    return current_user
+
+
+async def require_superadmin(
+    current_user: User = Depends(get_current_user)
+) -> User:
+    return await get_current_superadmin(current_user)
+
+
+async def require_not_read_only(
+    current_user: User = Depends(get_current_user)
+) -> User:
+    role_str = str(current_user.role.value if hasattr(current_user.role, 'value') else current_user.role)
+    if role_str == UserRole.MINISTRY_VIEWER.value:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun mo'ljallangan. Ma'lumotlarni o'chirish yoki tahrirlash huquqi mavjud emas."
         )
     return current_user
