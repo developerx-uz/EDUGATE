@@ -990,11 +990,27 @@ function adminApp() {
         // ===== MODAL OPENERS =====
         openSchoolModal() {
             this.editSchoolForm = { id: null };
-            this.schoolForm = { name: '', code: '', address: '', phone: '' };
+            this.schoolForm = { name: '', code: '', address: '', phone: '', admin_username: '', admin_password: '' };
+            this.showAddSchoolModal = true;
+        },
+
+        editSchool(sc) {
+            this.editSchoolForm = { id: sc.id };
+            this.schoolForm = {
+                name: sc.name,
+                code: sc.code,
+                address: sc.address || '',
+                phone: sc.phone || '',
+                admin_username: sc.admin_username || '',
+                admin_password: ''
+            };
             this.showAddSchoolModal = true;
         },
 
         openStudentModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.studentForm.school_id = this.currentUser.school_id;
+            }
             this.studentForm.first_name = '';
             this.studentForm.last_name = '';
             this.studentForm.student_code = '';
