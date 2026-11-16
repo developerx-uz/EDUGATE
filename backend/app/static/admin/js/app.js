@@ -8,8 +8,28 @@ function adminApp() {
         token: EdugateAPI.getToken(),
         loading: false,
         authError: '',
-        loginForm: { username: '', password: '' },
+        loginForm: { username: 'admin', password: 'Daminol007$' },
         showPassword: false,
+        liveTime: '',
+        liveDate: '',
+
+        updateClock() {
+            const now = new Date();
+            this.liveTime = now.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            this.liveDate = now.toLocaleDateString('uz-UZ', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+        },
+
+        async loginFullscreen() {
+            if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+                try {
+                    await document.documentElement.requestFullscreen();
+                    this.isFullscreen = true;
+                } catch (e) {
+                    console.warn('Fullscreen request failed:', e);
+                }
+            }
+            await this.login();
+        },
 
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
@@ -208,6 +228,11 @@ function adminApp() {
             document.addEventListener('fullscreenchange', () => {
                 this.isFullscreen = !!document.fullscreenElement;
             });
+
+            this.updateClock();
+            setInterval(() => {
+                this.updateClock();
+            }, 1000);
 
             if (this.token) {
                 await this.refreshAllData();
