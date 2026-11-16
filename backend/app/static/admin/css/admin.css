@@ -92,7 +92,24 @@ body {
     background-color: #080808 !important;
 }
 
-/* Custom Scrollbars in OLED Black */
+/* Complete Scrollbar Elimination for Sidebar (Maydalashganda va Kattalashganda) */
+aside,
+aside nav,
+.no-scrollbar {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+aside::-webkit-scrollbar,
+aside nav::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+}
+
+/* Custom Scrollbars in OLED Black for other containers */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

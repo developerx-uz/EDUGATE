@@ -1,9 +1,9 @@
 <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300">
+       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300 select-none overflow-hidden no-scrollbar">
 
     <!-- Logo Area with Toggle -->
-    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800">
+    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800 flex-shrink-0">
         <div class="flex items-center gap-3 min-w-0" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
             <div @click="toggleSidebar()" 
                  class="flex-shrink-0 w-10 h-10 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800 cursor-pointer hover:border-neutral-700 hover:scale-105 transition"
@@ -24,11 +24,11 @@
         </button>
     </div>
 
-    <!-- Navigation Menu -->
-    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+    <!-- Navigation Menu (Scrollbar Completely Disabled) -->
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3 space-y-0.5 no-scrollbar">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-3 group"
+                class="w-full flex items-center gap-3 px-3 py-2 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-2.5 group"
                 :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                 title="Tizim bo'yicha global qidiruv (Ctrl+K)">
             <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
@@ -62,7 +62,7 @@
             <span x-show="!sidebarCollapsed">O'qituvchilar</span>
         </div>
 
-        <div class="border-t border-neutral-800 my-3"></div>
+        <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; sidebarOpen = false"
@@ -84,7 +84,7 @@
             <span x-show="!sidebarCollapsed">Ota-onalar</span>
         </div>
 
-        <div class="border-t border-neutral-800 my-3"></div>
+        <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; sidebarOpen = false"
@@ -101,33 +101,13 @@
         </div>
     </nav>
 
-    <!-- Bottom Actions -->
-    <div class="px-3 pb-4 space-y-2 border-t border-neutral-800 pt-3">
+    <!-- Bottom Actions: Only Quick Action (Profile & Logout moved to Topbar as requested) -->
+    <div class="px-3 pb-3 pt-2 border-t border-neutral-800 flex-shrink-0">
         <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-sm font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
                 :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
-            <i class="fas fa-plus text-xs"></i>
+            <i class="fas fa-plus text-[10px]"></i>
             <span x-show="!sidebarCollapsed">Yangi Maktab</span>
-        </button>
-
-        <!-- Admin Profile Info -->
-        <div class="flex items-center gap-3 px-3 py-2" :class="sidebarCollapsed ? 'justify-center px-0' : ''">
-            <div class="w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center flex-shrink-0 text-neutral-300"
-                 :title="sidebarCollapsed ? 'Superadmin • Hokimlik Markazi' : ''">
-                <i class="fas fa-user-shield text-sm"></i>
-            </div>
-            <div x-show="!sidebarCollapsed" class="min-w-0">
-                <p class="text-sm font-semibold text-white truncate">Superadmin</p>
-                <p class="text-xs text-neutral-500 truncate">Hokimlik Markazi</p>
-            </div>
-        </div>
-
-        <!-- Logout -->
-        <button @click="logout()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs font-semibold transition-all cursor-pointer"
-                :title="sidebarCollapsed ? 'Tizimdan chiqish' : ''">
-            <i class="fas fa-right-from-bracket"></i>
-            <span x-show="!sidebarCollapsed">Chiqish</span>
         </button>
     </div>
 </aside>

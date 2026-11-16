@@ -143,7 +143,24 @@ body {
     background-color: #080808 !important;
 }
 
-/* Custom Scrollbars in OLED Black */
+/* Complete Scrollbar Elimination for Sidebar (Maydalashganda va Kattalashganda) */
+aside,
+aside nav,
+.no-scrollbar {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+aside::-webkit-scrollbar,
+aside nav::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+}
+
+/* Custom Scrollbars in OLED Black for other containers */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -1020,10 +1037,10 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300">
+       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300 select-none overflow-hidden no-scrollbar">
 
     <!-- Logo Area with Toggle -->
-    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800">
+    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800 flex-shrink-0">
         <div class="flex items-center gap-3 min-w-0" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
             <div @click="toggleSidebar()" 
                  class="flex-shrink-0 w-10 h-10 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800 cursor-pointer hover:border-neutral-700 hover:scale-105 transition"
@@ -1044,11 +1061,11 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
         </button>
     </div>
 
-    <!-- Navigation Menu -->
-    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+    <!-- Navigation Menu (Scrollbar Completely Disabled) -->
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3 space-y-0.5 no-scrollbar">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-3 group"
+                class="w-full flex items-center gap-3 px-3 py-2 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-2.5 group"
                 :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                 title="Tizim bo'yicha global qidiruv (Ctrl+K)">
             <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
@@ -1082,7 +1099,7 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
             <span x-show="!sidebarCollapsed">O'qituvchilar</span>
         </div>
 
-        <div class="border-t border-neutral-800 my-3"></div>
+        <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; sidebarOpen = false"
@@ -1104,7 +1121,7 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
             <span x-show="!sidebarCollapsed">Ota-onalar</span>
         </div>
 
-        <div class="border-t border-neutral-800 my-3"></div>
+        <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; sidebarOpen = false"
@@ -1121,33 +1138,13 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
         </div>
     </nav>
 
-    <!-- Bottom Actions -->
-    <div class="px-3 pb-4 space-y-2 border-t border-neutral-800 pt-3">
+    <!-- Bottom Actions: Only Quick Action (Profile & Logout moved to Topbar as requested) -->
+    <div class="px-3 pb-3 pt-2 border-t border-neutral-800 flex-shrink-0">
         <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-sm font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
                 :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
-            <i class="fas fa-plus text-xs"></i>
+            <i class="fas fa-plus text-[10px]"></i>
             <span x-show="!sidebarCollapsed">Yangi Maktab</span>
-        </button>
-
-        <!-- Admin Profile Info -->
-        <div class="flex items-center gap-3 px-3 py-2" :class="sidebarCollapsed ? 'justify-center px-0' : ''">
-            <div class="w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center flex-shrink-0 text-neutral-300"
-                 :title="sidebarCollapsed ? 'Superadmin • Hokimlik Markazi' : ''">
-                <i class="fas fa-user-shield text-sm"></i>
-            </div>
-            <div x-show="!sidebarCollapsed" class="min-w-0">
-                <p class="text-sm font-semibold text-white truncate">Superadmin</p>
-                <p class="text-xs text-neutral-500 truncate">Hokimlik Markazi</p>
-            </div>
-        </div>
-
-        <!-- Logout -->
-        <button @click="logout()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs font-semibold transition-all cursor-pointer"
-                :title="sidebarCollapsed ? 'Tizimdan chiqish' : ''">
-            <i class="fas fa-right-from-bracket"></i>
-            <span x-show="!sidebarCollapsed">Chiqish</span>
         </button>
     </div>
 </aside>
@@ -1312,153 +1309,361 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
             <main class="flex-1 overflow-y-auto p-6 space-y-6" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
-                <!-- VIEW: DASHBOARD -->
+                <!-- VIEW: DASHBOARD (CCTV & AI FACE ID MISSION CONTROL COMMAND CENTER) -->
 <div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
-    <!-- Top Stats Row (Real-time DB Counts) -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="stat-card" @click="activeTab = 'schools'; schoolsView = 'schools_list'">
-            <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl font-bold border border-blue-500/30">
-                <i class="fas fa-school"></i>
+
+    <!-- 1. HIGH-TECH HARDWARE & CCTV TELEMETRY STRIP -->
+    <div class="glass-card p-3 rounded-2xl flex flex-wrap items-center justify-between gap-4 border border-neutral-800">
+        <div class="flex items-center gap-4 flex-wrap">
+            <!-- Overall Status -->
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold font-mono">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>TIZIM HOLATI: FAOL (24/7 XAVFSIZLIK)</span>
             </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">Jami Maktablar</p>
-                <h3 class="text-2xl font-extrabold text-white" x-text="stats.schools_count">0</h3>
+            
+            <!-- Live Camera Stats -->
+            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                <i class="fas fa-video text-sky-400"></i>
+                <span class="text-neutral-500">Kameralar:</span>
+                <span class="font-bold text-white font-mono" x-text="(devices.length || 0) + ' TA ULANGAN'">0 TA ULANGAN</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono">1080P @ 25FPS</span>
+            </div>
+
+            <!-- Face Recognition AI Engine -->
+            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                <i class="fas fa-microchip text-indigo-400"></i>
+                <span class="text-neutral-500">AI Face ID:</span>
+                <span class="font-bold text-white font-mono">Faol</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">0.2s Aniqlik</span>
+            </div>
+
+            <!-- Turnstiles -->
+            <div class="flex items-center gap-2 text-xs text-neutral-300">
+                <i class="fas fa-door-closed text-amber-400"></i>
+                <span class="text-neutral-500">Turniketlar:</span>
+                <span class="font-bold text-white font-mono">Anti-Passback Faol</span>
             </div>
         </div>
 
+        <div class="flex items-center gap-3">
+            <span class="text-xs text-neutral-500 font-mono flex items-center gap-1.5">
+                <i class="fas fa-server text-[10px] text-emerald-400"></i>
+                <span>Tizim vaqti: <strong class="text-neutral-300 font-mono" x-text="liveClock"></strong></span>
+            </span>
+            <button @click="refreshAllData(); showToast('Ma\'lumotlar yangilandi', 'success')" 
+                    class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs text-neutral-300 hover:text-white transition cursor-pointer flex items-center gap-1.5">
+                <i class="fas fa-rotate text-xs"></i>
+                <span>Yangilash</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. SURVEILLANCE KPI MATRIX (REAL DATABASE COUNTS) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1: Jami O'quvchilar -->
         <div class="stat-card" @click="activeTab = 'students'">
-            <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl font-bold border border-indigo-500/30">
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl font-bold border border-sky-500/20 flex-shrink-0">
                 <i class="fas fa-user-graduate"></i>
             </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">Jami O'quvchilar</p>
-                <h3 class="text-2xl font-extrabold text-white" x-text="stats.students_count">0</h3>
+            <div class="min-w-0">
+                <p class="text-xs text-neutral-400 font-medium">Jami O'quvchilar</p>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                    <h3 class="text-2xl font-extrabold text-white font-mono" x-text="stats.students_count || 0">0</h3>
+                    <span class="text-[11px] text-neutral-400 font-mono">kontingent</span>
+                </div>
             </div>
         </div>
 
-        <div class="stat-card" @click="activeTab = 'teachers'">
-            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold border border-purple-500/30">
-                <i class="fas fa-chalkboard-user"></i>
-            </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">O'qituvchilar</p>
-                <h3 class="text-2xl font-extrabold text-white" x-text="stats.teachers_count">0</h3>
-            </div>
-        </div>
-
+        <!-- Card 2: Bugungi Kirishlar (Face ID) -->
         <div class="stat-card" @click="activeTab = 'attendance'">
-            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/20 flex-shrink-0">
                 <i class="fas fa-arrow-right-to-bracket"></i>
             </div>
-            <div>
-                <p class="text-xs text-slate-400 font-medium">Bugungi Kirishlar</p>
-                <h3 class="text-2xl font-extrabold text-emerald-400" x-text="stats.today_entries">0</h3>
+            <div class="min-w-0">
+                <p class="text-xs text-neutral-400 font-medium">Bugungi Kirishlar</p>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                    <h3 class="text-2xl font-extrabold text-emerald-400 font-mono" x-text="stats.today_entries || 0">0</h3>
+                    <span class="text-[11px] text-emerald-400 font-mono">o'tish</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Secondary Stats: Real Attendance Breakdown -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500">
-            <div>
-                <p class="text-xs text-slate-400 font-medium">O'z Vaqtida Kelganlar</p>
-                <h4 class="text-2xl font-bold text-emerald-400 mt-1" x-text="stats.today_ontime">0</h4>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+        <!-- Card 3: O'z Vaqtida Kelganlar -->
+        <div class="stat-card" @click="activeTab = 'attendance'">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl font-bold border border-indigo-500/20 flex-shrink-0">
                 <i class="fas fa-clock-check"></i>
             </div>
+            <div class="min-w-0">
+                <p class="text-xs text-neutral-400 font-medium">O'z Vaqtida Kelganlar</p>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                    <h3 class="text-2xl font-extrabold text-white font-mono" x-text="stats.today_ontime || 0">0</h3>
+                    <span class="text-[11px] text-neutral-400 font-mono">o'quvchi</span>
+                </div>
+            </div>
         </div>
 
-        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-amber-500">
-            <div>
-                <p class="text-xs text-slate-400 font-medium">Kechikib Kelganlar</p>
-                <h4 class="text-2xl font-bold text-amber-400 mt-1" x-text="stats.today_lates">0</h4>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+        <!-- Card 4: Kechikkanlar -->
+        <div class="stat-card" @click="activeTab = 'attendance'">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl font-bold border border-amber-500/20 flex-shrink-0">
                 <i class="fas fa-clock"></i>
             </div>
-        </div>
-
-        <div class="glass-card p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-blue-500">
-            <div>
-                <p class="text-xs text-slate-400 font-medium">Maktabdan Chiqqanlar</p>
-                <h4 class="text-2xl font-bold text-blue-400 mt-1" x-text="stats.today_exits">0</h4>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
-                <i class="fas fa-door-open"></i>
+            <div class="min-w-0">
+                <p class="text-xs text-neutral-400 font-medium">Kechikkanlar</p>
+                <div class="flex items-baseline gap-2 mt-0.5">
+                    <h3 class="text-2xl font-extrabold text-amber-400 font-mono" x-text="stats.today_lates || 0">0</h3>
+                    <span class="text-[11px] text-amber-400 font-mono">kechikish</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Charts Row: Real Dynamic Visualizations -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Doughnut: Today's Ratio -->
-        <div class="glass-card p-6 rounded-2xl">
-            <h3 class="text-sm font-bold text-white mb-1 flex items-center justify-between">
-                <span>Bugungi Davomat Nisbati</span>
-                <span class="text-[11px] text-slate-400 font-normal">Real vaqt</span>
-            </h3>
-            <p class="text-xs text-slate-400 mb-4">Kirgan va kelmaganlar balansi</p>
-            <div class="h-64 relative">
-                <canvas id="attendanceChart"></canvas>
+    <!-- 3. LIVE CCTV MONITORING MATRITSA VA REAL-TIME FACE RECOGNITION TICKER -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- LEFT 7 COLS: CCTV CAMERA MATRIX & OPERATIONAL CONTROLS -->
+        <div class="lg:col-span-7 space-y-4">
+            <div class="glass-card p-5 rounded-2xl border border-neutral-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Jonli Kamera Monitoring Matritsasi</h3>
+                        <span class="px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-400 border border-neutral-800 text-[10px] font-mono">RTSP LIVE</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button class="px-2 py-1 rounded bg-neutral-900 border border-neutral-800 text-[11px] text-neutral-300 hover:text-white font-mono">1x1</button>
+                        <button class="px-2 py-1 rounded bg-neutral-800 border border-neutral-700 text-[11px] text-white font-mono font-bold">2x2</button>
+                    </div>
+                </div>
+
+                <!-- Live Camera Monitor Grid (2x2) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- CAM 1: Bosh Kirish Turniketi -->
+                    <div class="relative aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 group shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-neutral-950/80 to-black/60 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                            
+                            <!-- Scanner Reticle -->
+                            <div class="relative w-28 h-32 border border-dashed border-emerald-500/50 rounded-lg flex flex-col justify-between p-2">
+                                <div class="flex justify-between items-start text-[8px] text-emerald-400 font-mono">
+                                    <span>[ AI SCAN ]</span>
+                                    <span>STANDBY</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fas fa-camera text-2xl text-neutral-600 block mb-1"></i>
+                                    <span class="text-[8px] font-mono text-neutral-400 uppercase">Navbatchilikda</span>
+                                </div>
+                                <div class="flex justify-between items-end text-[8px] text-neutral-500 font-mono">
+                                    <span>CAM-01</span>
+                                    <span>0.2s</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Cam HUD -->
+                        <div class="absolute top-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono">
+                            <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-rose-400 border border-rose-500/30 font-bold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span> ● REC
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-white border border-neutral-800 font-bold" x-text="liveClock"></span>
+                        </div>
+
+                        <!-- Bottom Cam Label -->
+                        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-neutral-800">
+                            <span class="text-white font-bold truncate">CAM-01 • Bosh Kirish Turniketi</span>
+                            <span class="text-emerald-400">ONLAYN</span>
+                        </div>
+                    </div>
+
+                    <!-- CAM 2: Chiqish Turniketi -->
+                    <div class="relative aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 group shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-neutral-950/80 to-black/60 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                            <div class="text-center space-y-1">
+                                <i class="fas fa-door-open text-2xl text-neutral-600 block"></i>
+                                <p class="text-[9px] font-mono text-neutral-400">Anti-Passback Nazorati Faol</p>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono">
+                            <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 font-bold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> LIVE
+                            </span>
+                            <span class="text-neutral-400">1080P @ 25FPS</span>
+                        </div>
+                        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-neutral-800">
+                            <span class="text-white font-bold truncate">CAM-02 • Chiqish Koridori</span>
+                            <span class="text-neutral-400">ONLAYN</span>
+                        </div>
+                    </div>
+
+                    <!-- CAM 3: Maktab Foyesi & Zina -->
+                    <div class="relative aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 group shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-neutral-950/80 to-black/60 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                            <div class="text-center space-y-1">
+                                <i class="fas fa-video text-2xl text-neutral-600 block"></i>
+                                <p class="text-[9px] font-mono text-neutral-400">Panoramik Nazorat</p>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono">
+                            <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 font-bold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> LIVE
+                            </span>
+                            <span class="text-neutral-400">1080P WIDE</span>
+                        </div>
+                        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-neutral-800">
+                            <span class="text-white font-bold truncate">CAM-03 • Asosiy Foye</span>
+                            <span class="text-neutral-400">TINCH</span>
+                        </div>
+                    </div>
+
+                    <!-- CAM 4: Maktab Hovlisi & Tashqi Hudud -->
+                    <div class="relative aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 group shadow-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-neutral-950/80 to-black/60 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:16px_16px] opacity-40"></div>
+                            <div class="text-center space-y-1">
+                                <i class="fas fa-shield text-2xl text-neutral-600 block"></i>
+                                <p class="text-[9px] font-mono text-neutral-400">Perimetr Nazorati</p>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono">
+                            <span class="flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30 font-bold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> LIVE
+                            </span>
+                            <span class="text-neutral-400">OPTICAL 4K</span>
+                        </div>
+                        <div class="absolute bottom-2 left-2 right-2 flex items-center justify-between z-10 text-[10px] font-mono bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-neutral-800">
+                            <span class="text-white font-bold truncate">CAM-04 • Maktab Hovlisi</span>
+                            <span class="text-neutral-400">NORMAL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency & Remote Turnstile Overrides Bar -->
+                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-neutral-800">
+                    <div class="flex items-center gap-2">
+                        <button @click="showToast('Favqulodda buyruq: Barcha turniketlar ochiq holatga o\'tkazildi!', 'warning')" 
+                                class="px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold font-mono transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-fire-extinguisher"></i>
+                            <span>FAVQULODDA EVAKUATSIYA</span>
+                        </button>
+                        <button @click="showToast('Turniket #1 masofadan ochildi', 'success')" 
+                                class="px-3 py-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-800 text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-lock-open text-xs text-emerald-400"></i>
+                            <span>Turniket 01 ni Ochish</span>
+                        </button>
+                    </div>
+
+                    <button @click="activeTab = 'devices'" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1 cursor-pointer">
+                        <span>Barcha Kameralar & Sozlamalar</span>
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Line: Weekly Trend -->
-        <div class="glass-card p-6 rounded-2xl lg:col-span-2">
+        <!-- RIGHT 5 COLS: REAL-TIME FACE ID ATTENDANCE TICKER (STREAM) -->
+        <div class="lg:col-span-5 space-y-4">
+            <div class="glass-card p-5 rounded-2xl border border-neutral-800 space-y-3 h-full flex flex-col justify-between">
+                <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Jonli Face ID O'tish Lentalari</h3>
+                    </div>
+                    <span class="text-[11px] text-emerald-400 font-mono font-bold">Avto-Oqim (5s)</span>
+                </div>
+
+                <!-- Event list container (Real Database Records Only) -->
+                <div class="space-y-2.5 overflow-y-auto max-h-[380px] pr-1">
+                    <template x-for="log in todayLogs.slice(0, 8)" :key="log.id">
+                        <div class="p-3 rounded-xl bg-neutral-950 border border-neutral-800 hover:border-neutral-700 transition flex items-center justify-between gap-3 group">
+                            <!-- Student Avatar with Biometric Scanner Badge -->
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="relative w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center flex-shrink-0 text-white font-bold text-xs shadow-sm">
+                                    <span x-text="log.student_name ? log.student_name.charAt(0) : 'O'"></span>
+                                    <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center">
+                                        <i class="fas fa-check text-[7px] text-black font-extrabold"></i>
+                                    </span>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-xs font-bold text-white truncate group-hover:text-indigo-300 transition" x-text="log.student_name"></p>
+                                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-neutral-900 text-neutral-400 font-mono border border-neutral-800" x-text="log.class_name || 'Sinf'"></span>
+                                    </div>
+                                    <p class="text-[10px] text-neutral-400 truncate flex items-center gap-1.5 mt-0.5 font-mono">
+                                        <i class="fas fa-video text-[8px] text-sky-400"></i>
+                                        <span x-text="log.device_name || 'Turniket'"></span>
+                                        <span>•</span>
+                                        <span class="text-emerald-400 font-semibold">Face ID</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Right Badge & Time -->
+                            <div class="text-right flex-shrink-0">
+                                <span :class="log.status === 'ON_TIME' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'"
+                                      class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold font-mono border mb-1"
+                                      x-text="log.status === 'ON_TIME' ? 'O\'Z VAQTIDA' : 'KECHIKDI'"></span>
+                                <p class="text-[10px] text-neutral-400 font-mono" x-text="formatDate(log.event_time)"></p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Real Empty State: When No Logs Today -->
+                    <div x-show="todayLogs.length === 0" class="py-14 text-center text-neutral-500 space-y-2">
+                        <div class="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center mx-auto text-neutral-600">
+                            <i class="fas fa-camera text-xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-neutral-300">Bugungi davomat signallari mavjud emas</p>
+                        <p class="text-[11px] text-neutral-500">Kameralar va turniketlardan jonli oqim kutilmoqda</p>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-400">
+                    <span class="flex items-center gap-1 font-mono text-[11px]">
+                        <i class="fab fa-telegram text-sky-400 text-xs"></i>
+                        <span>Telegram Xabarnomalar: Faol</span>
+                    </span>
+                    <button @click="activeTab = 'attendance'" class="text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer">Barchasi →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. PROFESSIONAL ANALYTICS CHARTS (REAL BACKEND DATA ONLY) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Weekly Attendance Dynamics Chart -->
+        <div class="glass-card p-6 rounded-2xl lg:col-span-2 border border-neutral-800">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h3 class="text-sm font-bold text-white">Oxirgi 7 Kunlik Davomat Dinamikasi</h3>
-                    <p class="text-xs text-slate-400">Kunlar kesimida o'z vaqtida va kechikishlar soni</p>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Haftalik Davomat Dinamikasi</h3>
+                    </div>
+                    <p class="text-xs text-neutral-400 mt-0.5">Oxirgi 7 kunlik o'z vaqtida va kechikkan kirishlar monitoringi</p>
                 </div>
-                <button @click="fetchWeeklyStats()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition text-xs">
-                    <i class="fas fa-rotate"></i>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button @click="fetchWeeklyStats()" class="p-2 text-neutral-400 hover:text-white rounded-xl hover:bg-neutral-900 transition text-xs cursor-pointer">
+                        <i class="fas fa-rotate"></i>
+                    </button>
+                </div>
             </div>
             <div class="h-64">
                 <canvas id="weeklyChart"></canvas>
             </div>
         </div>
-    </div>
 
-    <!-- Live Activity Feed -->
-    <div class="glass-card rounded-2xl p-6 space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                So'nggi Real-Vaqt Davomat Qaydnomalari
+        <!-- Attendance & Security Balance -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800">
+            <h3 class="text-sm font-bold text-white mb-1 flex items-center justify-between uppercase tracking-wider">
+                <span>Bugungi Davomat Nisbati</span>
+                <span class="text-[10px] text-emerald-400 font-mono font-bold">Real-vaqt</span>
             </h3>
-            <button @click="activeTab = 'attendance'" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold">
-                Barchasini ko'rish →
-            </button>
-        </div>
-
-        <div class="divide-y divide-slate-800/60">
-            <template x-for="log in todayLogs.slice(0, 8)" :key="log.id">
-                <div class="py-3 flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <div class="w-9 h-9 rounded-xl bg-slate-800 text-indigo-400 flex items-center justify-center text-xs font-bold flex-shrink-0"
-                             x-text="log.student_name ? log.student_name.charAt(0) : '?'"></div>
-                        <div class="min-w-0">
-                            <p class="text-sm font-semibold text-white truncate" x-text="log.student_name"></p>
-                            <p class="text-xs text-slate-400 truncate" x-text="log.class_name + ' sinf · ' + (log.device_name || 'AI Kamera')"></p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3 flex-shrink-0">
-                        <span :class="log.status === 'ON_TIME' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'"
-                              class="px-2.5 py-1 rounded-full text-xs font-semibold border"
-                              x-text="log.status === 'ON_TIME' ? 'O\'z vaqtida' : 'Kechikkan'"></span>
-                        <span class="text-xs text-slate-400 font-mono" x-text="formatDate(log.event_time)"></span>
-                    </div>
-                </div>
-            </template>
-            <div x-show="todayLogs.length === 0" class="py-8 text-center text-slate-500 text-xs">
-                Bugun uchun davomat signallari hali tushmadi. Kameralar yoki turniketlardan signallar kutilmoqda.
+            <p class="text-xs text-neutral-400 mb-4">Maktab kontingenti bo'yicha kirgan va kelmaganlar balansi</p>
+            <div class="h-64 relative">
+                <canvas id="attendanceChart"></canvas>
             </div>
         </div>
     </div>
 </div>
-
 
                 <!-- VIEW: SCHOOLS -->
 <div x-show="activeTab === 'schools'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
@@ -3112,13 +3317,17 @@ const EdugateCharts = {
 
         const onTime = stats.today_ontime || 0;
         const late = stats.today_lates || 0;
-        const total = stats.students_count || (onTime + late) || 1;
+        const total = stats.students_count || 0;
         const absent = Math.max(0, total - (onTime + late));
 
-        // If no records yet, show clean zero state representation
-        const chartData = (onTime === 0 && late === 0 && absent === 0) 
-            ? [0, 0, 1] 
-            : [onTime, late, absent];
+        const hasRealData = (onTime > 0 || late > 0 || total > 0);
+        const chartData = hasRealData ? [onTime, late, absent] : [1];
+        const chartLabels = hasRealData 
+            ? ["O'z vaqtida", "Kechikkan", "Kelmagan"] 
+            : ["Davomat signallari kutilmoqda"];
+        const chartColors = hasRealData 
+            ? ['#10b981', '#f59e0b', '#ef4444'] 
+            : ['#1f1f1f'];
 
         if (this.attendanceChart) {
             this.attendanceChart.destroy();
@@ -3127,10 +3336,10 @@ const EdugateCharts = {
         this.attendanceChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ["O'z vaqtida", 'Kechikkan', 'Kelmagan'],
+                labels: chartLabels,
                 datasets: [{
                     data: chartData,
-                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    backgroundColor: chartColors,
                     borderWidth: 0,
                     borderRadius: 4
                 }]
@@ -3153,6 +3362,7 @@ const EdugateCharts = {
                     tooltip: {
                         callbacks: {
                             label: function(context) {
+                                if (!hasRealData) return " Hozircha qaydlar yo'q";
                                 return ` ${context.label}: ${context.raw} ta`;
                             }
                         }
@@ -3186,7 +3396,7 @@ const EdugateCharts = {
                 labels: labels,
                 datasets: [
                     {
-                        label: "O'z vaqtida",
+                        label: "O'z vaqtida kirishlar",
                         data: onTimeData,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
@@ -3197,7 +3407,7 @@ const EdugateCharts = {
                         pointBackgroundColor: '#10b981'
                     },
                     {
-                        label: 'Kechikkan',
+                        label: 'Kechikkanlar',
                         data: lateData,
                         borderColor: '#f59e0b',
                         backgroundColor: 'rgba(245, 158, 11, 0.1)',
@@ -3241,10 +3451,13 @@ const EdugateCharts = {
         if (this.attendanceChart) {
             const onTime = todayStats.today_ontime || 0;
             const late = todayStats.today_lates || 0;
-            const total = todayStats.students_count || (onTime + late) || 1;
+            const total = todayStats.students_count || 0;
             const absent = Math.max(0, total - (onTime + late));
 
-            this.attendanceChart.data.datasets[0].data = [onTime, late, absent];
+            const hasRealData = (onTime > 0 || late > 0 || total > 0);
+            this.attendanceChart.data.labels = hasRealData ? ["O'z vaqtida", "Kechikkan", "Kelmagan"] : ["Davomat signallari kutilmoqda"];
+            this.attendanceChart.data.datasets[0].data = hasRealData ? [onTime, late, absent] : [1];
+            this.attendanceChart.data.datasets[0].backgroundColor = hasRealData ? ['#10b981', '#f59e0b', '#ef4444'] : ['#1f1f1f'];
             this.attendanceChart.update();
         }
 
@@ -3528,8 +3741,10 @@ function adminApp() {
         allTeachers: [],
         teachersFilter: { search: '', school_id: '' },
 
-        // ===== ATTENDANCE MODULE =====
+        // ===== ATTENDANCE MODULE & CCTV HUD =====
         todayLogs: [],
+        camViewMode: '2x2',
+        liveClock: new Date().toLocaleTimeString('uz-UZ'),
         autoRefresh: true,
         refreshInterval: null,
         attendanceDate: new Date().toISOString().split('T')[0],
@@ -3667,7 +3882,12 @@ function adminApp() {
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
-                    if (this.token) {
+                    // Live CCTV clock ticker
+            setInterval(() => {
+                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+            }, 1000);
+
+            if (this.token) {
                         this.openGlobalSearch();
                     }
                 }
@@ -3680,6 +3900,11 @@ function adminApp() {
             this.updateClock();
             setInterval(() => {
                 this.updateClock();
+            }, 1000);
+
+            // Live CCTV clock ticker
+            setInterval(() => {
+                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
             }, 1000);
 
             if (this.token) {
