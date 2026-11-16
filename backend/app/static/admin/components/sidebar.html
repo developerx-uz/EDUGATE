@@ -2,38 +2,63 @@
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
        class="fixed left-0 top-0 h-screen bg-slate-950 border-r border-slate-800 z-30 flex flex-col transition-all duration-300">
 
-    <!-- Logo Area -->
-    <div class="flex items-center gap-3 px-4 py-5 border-b border-slate-800/60">
-        <div class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30">
-            <span class="text-indigo-400 font-extrabold text-lg">E</span>
+    <!-- Logo Area with Toggle -->
+    <div class="flex items-center justify-between px-3.5 py-4 border-b border-slate-800/60">
+        <div class="flex items-center gap-3 min-w-0" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
+            <div @click="toggleSidebar()" 
+                 class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30 cursor-pointer hover:border-indigo-500/60 hover:scale-105 transition"
+                 :title="sidebarCollapsed ? 'Yon panelni ochish' : 'EDUGATE'">
+                <span class="text-indigo-400 font-extrabold text-lg">E</span>
+            </div>
+            <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
+                <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
+                <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
+            </div>
         </div>
-        <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
-            <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
-            <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
-        </div>
+
+        <!-- Desktop Collapse Button -->
+        <button x-show="!sidebarCollapsed" @click="toggleSidebar()" 
+                class="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                title="Yon panelni yopish (kichraytirish)">
+            <i class="fas fa-angles-left text-xs"></i>
+        </button>
     </div>
 
     <!-- Navigation Menu -->
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+        <!-- Global Search Button in Sidebar -->
+        <button @click="openGlobalSearch()" 
+                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/80 hover:border-slate-700 transition cursor-pointer mb-3 group"
+                :class="sidebarCollapsed ? 'justify-center px-2' : ''"
+                title="Tizim bo'yicha global qidiruv (Ctrl+K)">
+            <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
+            <span x-show="!sidebarCollapsed" class="text-xs font-medium flex-1 text-left">Global Qidiruv...</span>
+            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-800 rounded border border-slate-700/60">Ctrl+K</kbd>
+        </button>
+
         <!-- Main Group -->
         <div @click="activeTab = 'dashboard'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'dashboard'}">
-            <i class="fas fa-chart-pie w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'dashboard', 'justify-center px-2': sidebarCollapsed}"
+             title="Dashboard">
+            <i class="fas fa-chart-pie w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Dashboard</span>
         </div>
         <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'schools'}">
-            <i class="fas fa-school w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'schools', 'justify-center px-2': sidebarCollapsed}"
+             title="Maktablar">
+            <i class="fas fa-school w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Maktablar</span>
         </div>
         <div @click="activeTab = 'students'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'students'}">
-            <i class="fas fa-user-graduate w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'students', 'justify-center px-2': sidebarCollapsed}"
+             title="O'quvchilar">
+            <i class="fas fa-user-graduate w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">O'quvchilar</span>
         </div>
         <div @click="activeTab = 'teachers'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'teachers'}">
-            <i class="fas fa-chalkboard-user w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'teachers', 'justify-center px-2': sidebarCollapsed}"
+             title="O'qituvchilar">
+            <i class="fas fa-chalkboard-user w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">O'qituvchilar</span>
         </div>
 
@@ -41,18 +66,21 @@
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'attendance'}">
-            <i class="fas fa-clipboard-check w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'attendance', 'justify-center px-2': sidebarCollapsed}"
+             title="Davomat">
+            <i class="fas fa-clipboard-check w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Davomat</span>
         </div>
         <div @click="activeTab = 'devices'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'devices'}">
-            <i class="fas fa-video w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'devices', 'justify-center px-2': sidebarCollapsed}"
+             title="Kameralar & Turniketlar">
+            <i class="fas fa-video w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Kameralar</span>
         </div>
         <div @click="activeTab = 'parents'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'parents'}">
-            <i class="fas fa-users w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'parents', 'justify-center px-2': sidebarCollapsed}"
+             title="Ota-onalar">
+            <i class="fas fa-users w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Ota-onalar</span>
         </div>
 
@@ -60,13 +88,15 @@
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'reports'}">
-            <i class="fas fa-chart-bar w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'reports', 'justify-center px-2': sidebarCollapsed}"
+             title="Hisobotlar">
+            <i class="fas fa-chart-bar w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Hisobotlar</span>
         </div>
         <div @click="activeTab = 'settings'; sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'settings'}">
-            <i class="fas fa-gear w-5 text-center"></i>
+             class="sidebar-item" :class="{'active': activeTab === 'settings', 'justify-center px-2': sidebarCollapsed}"
+             title="Sozlamalar">
+            <i class="fas fa-gear w-5 text-center text-sm"></i>
             <span x-show="!sidebarCollapsed">Sozlamalar</span>
         </div>
     </nav>
@@ -74,14 +104,16 @@
     <!-- Bottom Actions -->
     <div class="px-3 pb-4 space-y-2 border-t border-slate-800/60 pt-3">
         <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-            <i class="fas fa-plus"></i>
+                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all cursor-pointer"
+                :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
+            <i class="fas fa-plus text-xs"></i>
             <span x-show="!sidebarCollapsed">Yangi Maktab</span>
         </button>
 
         <!-- Admin Profile Info -->
-        <div class="flex items-center gap-3 px-3 py-2">
-            <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 text-slate-300">
+        <div class="flex items-center gap-3 px-3 py-2" :class="sidebarCollapsed ? 'justify-center px-0' : ''">
+            <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 text-slate-300"
+                 :title="sidebarCollapsed ? 'Superadmin • Hokimlik Markazi' : ''">
                 <i class="fas fa-user-shield text-sm"></i>
             </div>
             <div x-show="!sidebarCollapsed" class="min-w-0">
@@ -92,10 +124,10 @@
 
         <!-- Logout -->
         <button @click="logout()"
-                class="w-full flex items-center justify-center gap-2 px-4 py-2 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs font-semibold transition-all">
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 text-rose-400 hover:bg-rose-500/10 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+                :title="sidebarCollapsed ? 'Tizimdan chiqish' : ''">
             <i class="fas fa-right-from-bracket"></i>
             <span x-show="!sidebarCollapsed">Chiqish</span>
         </button>
     </div>
 </aside>
-
