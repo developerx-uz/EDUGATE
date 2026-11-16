@@ -5,11 +5,11 @@
 
 :root {
     --bg-dark: #000000;
-    --bg-surface: #050505;
-    --bg-card: rgba(10, 10, 12, 0.90);
-    --bg-card-hover: rgba(18, 18, 22, 0.98);
-    --border-dim: rgba(255, 255, 255, 0.08);
-    --border-glow: rgba(6, 182, 212, 0.35);
+    --bg-surface: #000000;
+    --bg-card: #050505;
+    --bg-card-hover: #0c0c0c;
+    --border-dim: #1a1a1a;
+    --border-glow: rgba(255, 255, 255, 0.15);
     --cyan-primary: #06B6D4;
     --cyan-glow: #22D3EE;
     --indigo-primary: #6366F1;
@@ -37,23 +37,51 @@ section[id] {
 }
 
 body {
-    background-color: #000000;
+    background-color: #000000 !important;
+    background-image: none !important;
     color: #CBD5E1;
     font-family: var(--font-body);
     overflow-x: clip;
     line-height: 1.45;
-    background-image: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 35%),
-        radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.98), #000000),
-        radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 24px 24px;
-    background-attachment: fixed;
 }
 
-html.dark body {
+html.dark body,
+html:not(.light) body {
     background-color: #000000 !important;
+    background-image: none !important;
+}
+
+/* OLED Dark Mode Overrides for all panels, sections, headers, and cards */
+html:not(.light) header,
+html.dark header,
+html:not(.light) footer,
+html.dark footer,
+html:not(.light) section,
+html.dark section,
+html:not(.light) [class*="bg-[#0"],
+html.dark [class*="bg-[#0"],
+html:not(.light) [class*="bg-slate-950"],
+html.dark [class*="bg-slate-950"],
+html:not(.light) [class*="bg-slate-900"],
+html.dark [class*="bg-slate-900"] {
+    background-color: #000000 !important;
+    background-image: none !important;
+}
+
+html:not(.light) .hud-card,
+html.dark .hud-card,
+html:not(.light) [class*="bg-slate-800"],
+html.dark [class*="bg-slate-800"] {
+    background-color: #070707 !important;
+    background: #070707 !important;
+    border-color: #1a1a1a !important;
+}
+
+html:not(.light) [class*="border-slate-800"],
+html.dark [class*="border-slate-800"],
+html:not(.light) [class*="border-slate-700"],
+html.dark [class*="border-slate-700"] {
+    border-color: #1a1a1a !important;
 }
 
 /* Compact Scrollbars */

@@ -1,10 +1,10 @@
 <!-- TOPBAR COMPONENT -->
-<header class="sticky top-0 z-10 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-6 py-3">
+<header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-6 py-3">
     <div class="flex items-center justify-between gap-4">
         <!-- Left: Universal Sidebar Toggle + Page title -->
         <div class="flex items-center gap-3">
             <button @click="toggleSidebar()" 
-                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
                     :title="sidebarCollapsed ? 'Yon panelni kengaytirish' : 'Yon panelni yopish'">
                 <i :class="sidebarCollapsed ? 'fas fa-bars-staggered text-sm text-indigo-400' : 'fas fa-bars text-sm'"></i>
             </button>
@@ -27,25 +27,25 @@
             <!-- Notifications Bell -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
-                        class="relative p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition">
+                        class="relative p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-xl transition">
                     <i class="fas fa-bell text-sm"></i>
-                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-slate-900"></span>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
                 </button>
 
                 <!-- Notifications Dropdown Panel -->
                 <div x-show="showNotifPanel" @click.outside="showNotifPanel = false" x-cloak
-                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-slate-800 space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-neutral-800 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-neutral-800">
                         <span class="text-xs font-bold text-white uppercase tracking-wider">Bildirishnomalar</span>
                         <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer" @click="showNotifPanel = false">Yopish</span>
                     </div>
                     <div class="space-y-2 text-xs">
                         <template x-for="item in notifications" :key="item.id">
-                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-800/60 transition">
+                            <div class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-neutral-900 transition">
                                 <i :class="['fas', item.icon, item.color, 'mt-0.5']"></i>
                                 <div class="flex-1 min-w-0">
                                     <p class="text-white text-xs font-medium" x-text="item.text"></p>
-                                    <span class="text-[10px] text-slate-500" x-text="item.time"></span>
+                                    <span class="text-[10px] text-neutral-500" x-text="item.time"></span>
                                 </div>
                             </div>
                         </template>
@@ -55,7 +55,7 @@
 
             <!-- Theme Toggle Button (To'liq Oq ☀️ / To'liq Qora 🌙) -->
             <button @click="toggleTheme()" 
-                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
                     :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
                 <i :class="theme === 'light' ? 'fas fa-moon text-amber-500 text-sm' : 'fas fa-sun text-amber-400 text-sm'"></i>
             </button>
@@ -65,58 +65,58 @@
             <!-- Foydalanuvchi Ramkasi (User Profile Box) -->
             <div class="relative">
                 <button @click="showUserMenu = !showUserMenu" 
-                        class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 hover:border-slate-600 transition cursor-pointer group shadow-sm">
+                        class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 transition cursor-pointer group shadow-sm">
                     <!-- User Avatar with Online Dot -->
                     <div class="relative">
                         <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-xs font-bold shadow-md shadow-indigo-600/20">
                             <i class="fas fa-user-shield text-xs"></i>
                         </div>
-                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-slate-900"></span>
+                        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-black"></span>
                     </div>
 
                     <!-- User Name & Role -->
                     <div class="text-left hidden sm:block">
                         <p class="text-xs font-bold text-white group-hover:text-indigo-300 transition leading-tight">Superadmin</p>
-                        <p class="text-[10px] text-slate-400 font-medium leading-tight">Hokimlik Markazi</p>
+                        <p class="text-[10px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
                     </div>
 
-                    <i class="fas fa-chevron-down text-[10px] text-slate-400 group-hover:text-white transition ml-0.5"></i>
+                    <i class="fas fa-chevron-down text-[10px] text-neutral-400 group-hover:text-white transition ml-0.5"></i>
                 </button>
 
                 <!-- User Dropdown Menu -->
                 <div x-show="showUserMenu" @click.outside="showUserMenu = false" x-cloak
-                     class="absolute right-0 mt-2 w-56 glass-card rounded-2xl p-2 shadow-2xl z-50 border border-slate-700/80 space-y-1">
-                    <div class="px-3 py-2 border-b border-slate-800 mb-1">
+                     class="absolute right-0 mt-2 w-56 glass-card rounded-2xl p-2 shadow-2xl z-50 border border-neutral-800 space-y-1">
+                    <div class="px-3 py-2 border-b border-neutral-800 mb-1">
                         <p class="text-xs font-bold text-white">Superadmin</p>
-                        <p class="text-[10px] text-slate-400">admin@edugate.uz</p>
+                        <p class="text-[10px] text-neutral-400">admin@edugate.uz</p>
                         <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[9px] font-bold uppercase tracking-wider">Hokimiyat Portali</span>
                     </div>
 
                     <div @click="activeTab = 'settings'; showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
-                        <i class="fas fa-gear text-slate-400 text-xs w-4 text-center"></i>
+                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
+                        <i class="fas fa-gear text-neutral-400 text-xs w-4 text-center"></i>
                         <span>Tizim Sozlamalari</span>
                     </div>
 
                     <div @click="openSchoolModal(); showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
                         <span>Yangi Maktab Qo'shish</span>
                     </div>
 
                     <!-- Theme Toggle in Dropdown -->
                     <div @click="toggleTheme(); showUserMenu = false"
-                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <div class="flex items-center gap-2.5">
                             <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'" class="text-xs w-4 text-center"></i>
                             <span x-text="theme === 'light' ? 'To\'liq Qora rejim' : 'To\'liq Oq rejim'"></span>
                         </div>
                         <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold"
-                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'"
+                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-neutral-800 text-neutral-300 border border-neutral-700'"
                               x-text="theme === 'light' ? 'OQ' : 'QORA'"></span>
                     </div>
 
-                    <div class="border-t border-slate-800 my-1"></div>
+                    <div class="border-t border-neutral-800 my-1"></div>
 
                     <div @click="logout(); showUserMenu = false"
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-rose-400 hover:bg-rose-500/10 cursor-pointer transition font-semibold">
