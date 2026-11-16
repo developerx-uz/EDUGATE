@@ -55,7 +55,7 @@ async def lifespan(app: FastAPI):
     await engine.dispose()
 
 
-root_path = os.getenv("ROOT_PATH", "/edugate")
+root_path = os.getenv("ROOT_PATH", "")
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -230,10 +230,19 @@ async def serve_service_worker():
     return Response(content="// SW not found", media_type="application/javascript")
 
 
-@app.get("/admin", response_class=HTMLResponse, tags=["Admin Portal"])
-@app.get("/admin/", response_class=HTMLResponse, tags=["Admin Portal"])
-@app.get("/edugate/admin", response_class=HTMLResponse, tags=["Admin Portal"])
-@app.get("/edugate/admin/", response_class=HTMLResponse, tags=["Admin Portal"])
+@app.api_route("/static/admin/icons/{icon_name}", methods=["GET", "HEAD"], tags=["PWA"])
+@app.api_route("/edugate/static/admin/icons/{icon_name}", methods=["GET", "HEAD"], tags=["PWA"])
+async def serve_pwa_icon(icon_name: str):
+    icon_path = os.path.join(os.path.dirname(__file__), "static", "admin", "icons", icon_name)
+    if os.path.exists(icon_path):
+        return FileResponse(icon_path, media_type="image/png", headers=CACHE_HEADERS)
+    return Response(status_code=404)
+
+
+@app.api_route("/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
+@app.api_route("/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
+@app.api_route("/edugate/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
+@app.api_route("/edugate/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 async def serve_admin():
     content = render_admin_html()
     response = HTMLResponse(content=content)
