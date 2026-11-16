@@ -831,6 +831,8 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 /* Perfect Synchronized 1-Tekisda Sidebar & Content Transitions */
 aside.sidebar-container {
     width: 260px;
+    height: 100vh;
+    flex-shrink: 0;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: width;
 }
@@ -840,23 +842,24 @@ aside.sidebar-container.collapsed {
 }
 
 .main-content-wrapper {
-    margin-left: 260px;
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    will-change: margin-left;
-    min-width: 0;
-}
-
-.main-content-wrapper.collapsed {
-    margin-left: 80px !important;
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    margin-left: 0 !important;
 }
 
 @media (max-width: 767.98px) {
     aside.sidebar-container {
+        position: fixed !important;
         width: 260px !important;
+        height: 100vh !important;
+        z-index: 30 !important;
     }
-    .main-content-wrapper,
-    .main-content-wrapper.collapsed {
-        margin-left: 0 !important;
+    aside.sidebar-container.collapsed {
+        width: 260px !important;
     }
 }
 
@@ -1114,7 +1117,7 @@ aside.sidebar-container.collapsed {
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'collapsed w-20' : 'w-[260px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="sidebar-container fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar">
+       class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0">
 
     <!-- Header: Logo, Brand Text, and Smooth Sliding Toggle Button -->
     <div class="relative flex items-center h-16 border-b border-neutral-800 flex-shrink-0 overflow-hidden px-4">
@@ -1291,8 +1294,7 @@ aside.sidebar-container.collapsed {
 
 
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden"
-             :class="sidebarCollapsed ? 'collapsed' : ''">
+        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden min-w-0">
 
             <!-- TOPBAR -->
             <!-- TOPBAR COMPONENT -->
