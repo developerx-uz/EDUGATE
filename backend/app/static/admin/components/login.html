@@ -1,242 +1,69 @@
-<!-- ENTERPRISE FULLSCREEN SITUATIONAL COMMAND CENTER LOGIN PORTAL -->
-<div x-show="!token" x-cloak class="fixed inset-0 z-50 flex flex-col justify-between bg-slate-950 text-slate-100 overflow-hidden select-none cyber-grid">
-    <!-- Ambient Holographic Glows -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[140px]"></div>
-        <div class="absolute top-1/2 -right-40 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[140px]"></div>
-        <div class="absolute -bottom-40 left-1/3 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[120px]"></div>
+<!-- MINIMALIST CLEAN FULLSCREEN LOGIN (ZERO SCROLL) -->
+<div x-show="!token" x-cloak 
+     class="fixed inset-0 z-50 flex flex-col justify-between bg-[#090d16] text-slate-100 overflow-hidden select-none p-6">
+    
+    <!-- Top Bar: Minimal Brand & Fullscreen Toggle -->
+    <div class="w-full flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                <i class="fas fa-building-columns text-sm"></i>
+            </div>
+            <span class="text-sm font-bold tracking-wider text-white">EDUGATE</span>
+        </div>
+
+        <button type="button" @click="toggleFullscreen()"
+                class="px-2.5 py-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg transition text-xs flex items-center gap-1.5 border border-transparent hover:border-slate-700 cursor-pointer">
+            <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'"></i>
+            <span class="text-[11px] font-medium" x-text="isFullscreen ? 'Kichik ekran' : 'To\'liq ekran'"></span>
+        </button>
     </div>
 
-    <!-- TOP TELEMETRY STATUS BAR -->
-    <header class="relative z-10 w-full px-6 py-3.5 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md flex items-center justify-between">
-        <!-- Republic & Ministry Emblem -->
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
-                <i class="fas fa-building-columns text-lg text-white"></i>
+    <!-- Center: Clean Minimal Login Box -->
+    <div class="w-full max-w-sm mx-auto my-auto">
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 backdrop-blur-sm shadow-xl">
+            <!-- Header -->
+            <div class="mb-6">
+                <h1 class="text-xl font-bold text-white tracking-tight">Tizimga kirish</h1>
+                <p class="text-xs text-slate-400 mt-1">Admin boshqaruv paneliga kirish</p>
             </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-black tracking-widest text-indigo-400 uppercase">EDUGATE ENTERPRISE</span>
-                    <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">v5.4</span>
+
+            <!-- Form -->
+            <form @submit.prevent="login()" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Foydalanuvchi nomi</label>
+                    <input type="text" x-model="loginForm.username" required placeholder="admin"
+                           class="w-full px-3.5 py-2.5 bg-slate-800/60 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition">
                 </div>
-                <h2 class="text-xs font-semibold text-slate-300 hidden sm:block">O'ZBEKISTON RESPUBLIKASI MAKTABGACHA VA MAKTAB TA'LIMI VAZIRLIGI — YAGONA SITUATSION MARKAZI</h2>
-            </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Parol</label>
+                    <div class="relative">
+                        <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="••••••••"
+                               class="w-full px-3.5 pr-10 py-2.5 bg-slate-800/60 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition">
+                        <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition cursor-pointer">
+                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Error message -->
+                <div x-show="authError" class="p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
+                    <i class="fas fa-circle-exclamation"></i>
+                    <span x-text="authError"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" :disabled="loading"
+                        class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition flex items-center justify-center gap-2 text-sm disabled:opacity-50 cursor-pointer shadow-sm">
+                    <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
+                    <span>Kirish</span>
+                </button>
+            </form>
         </div>
+    </div>
 
-        <!-- Center: Status Pulse -->
-        <div class="hidden md:flex items-center gap-4">
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>TIZIM HOLATI: ONLAYN (24/7)</span>
-            </div>
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs">
-                <i class="fas fa-shield-check text-indigo-400"></i>
-                <span>TIER-3 GOV CLOUD SHLYUZI</span>
-            </div>
-        </div>
-
-        <!-- Right: Live Clock & Fullscreen Toggle -->
-        <div class="flex items-center gap-3">
-            <div class="text-right hidden sm:block">
-                <div class="text-sm font-mono font-bold text-white tracking-wider" x-text="liveTime || '12:00:00'"></div>
-                <div class="text-[10px] text-slate-400 font-medium uppercase" x-text="liveDate"></div>
-            </div>
-            <button type="button" @click="toggleFullscreen()"
-                    class="flex items-center gap-2 px-3.5 py-2 bg-slate-800/90 hover:bg-indigo-600/30 border border-slate-700 hover:border-indigo-500/50 rounded-xl text-slate-200 hover:text-white transition shadow-sm text-xs font-semibold cursor-pointer">
-                <i :class="isFullscreen ? 'fas fa-compress text-indigo-400' : 'fas fa-expand text-indigo-400'"></i>
-                <span x-text="isFullscreen ? 'Kichik ekran' : 'Katta Ekran (Fullscreen)'"></span>
-            </button>
-        </div>
-    </header>
-
-    <!-- MAIN BODY: FULLSCREEN TWO-COLUMN COCKPIT -->
-    <main class="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 py-6 lg:py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center overflow-y-auto">
-        
-        <!-- LEFT 7 COLS: SITUATIONAL MONITOR & LIVE TELEMETRY -->
-        <div class="lg:col-span-7 space-y-6">
-            <div class="space-y-2">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-wider">
-                    <i class="fas fa-satellite-dish animate-pulse"></i> Markazlashgan Davomat Ekotizimi
-                </div>
-                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Hokimlik & Maktablar <br class="hidden sm:inline">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">Yagona Situatsion Boshqaruv Markazi</span>
-                </h1>
-                <p class="text-slate-400 text-sm leading-relaxed max-w-2xl">
-                    Viloyatdagi umumta'lim maktablarining kirish-chiqish turniketlari, sun'iy intellektli Face ID terminallari, o'quvchilar davomati va ota-onalar xabarnoma tizimining yagona markaziy boshqaruv platformasi.
-                </p>
-            </div>
-
-            <!-- 4 LIVE TELEMETRY STAT CARDS -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div class="glass-card p-3.5 rounded-2xl border border-slate-800/80 hover:border-indigo-500/40 transition">
-                    <div class="flex items-center justify-between text-indigo-400 text-xs mb-1">
-                        <span class="font-bold">Maktablar</span>
-                        <i class="fas fa-school"></i>
-                    </div>
-                    <div class="text-2xl font-black text-white" x-text="stats.schools_count || '24+'"></div>
-                    <p class="text-[10px] text-slate-400 mt-0.5">Ulangan muassasalar</p>
-                </div>
-
-                <div class="glass-card p-3.5 rounded-2xl border border-slate-800/80 hover:border-purple-500/40 transition">
-                    <div class="flex items-center justify-between text-purple-400 text-xs mb-1">
-                        <span class="font-bold">O'quvchilar</span>
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="text-2xl font-black text-white" x-text="stats.students_count || '28,450'"></div>
-                    <p class="text-[10px] text-slate-400 mt-0.5">Nazoratdagi o'quvchi</p>
-                </div>
-
-                <div class="glass-card p-3.5 rounded-2xl border border-slate-800/80 hover:border-emerald-500/40 transition">
-                    <div class="flex items-center justify-between text-emerald-400 text-xs mb-1">
-                        <span class="font-bold">Face ID Tezligi</span>
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="text-2xl font-black text-emerald-400">0.2s</div>
-                    <p class="text-[10px] text-slate-400 mt-0.5">99.8% aniqlikda tanish</p>
-                </div>
-
-                <div class="glass-card p-3.5 rounded-2xl border border-slate-800/80 hover:border-blue-500/40 transition">
-                    <div class="flex items-center justify-between text-blue-400 text-xs mb-1">
-                        <span class="font-bold">Turniketlar</span>
-                        <i class="fas fa-door-open"></i>
-                    </div>
-                    <div class="text-2xl font-black text-white" x-text="stats.devices_count || '96 ta'"></div>
-                    <p class="text-[10px] text-slate-400 mt-0.5">Faol kirish nuqtalari</p>
-                </div>
-            </div>
-
-            <!-- ECOSYSTEM INTEGRATION BAR -->
-            <div class="glass-card p-4 rounded-2xl border border-slate-800/80 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fas fa-network-wired text-indigo-400"></i> Davlat Tizimlari Bilan Integratsiya Holati
-                    </span>
-                    <span class="text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Barchasi barqaror
-                    </span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                    <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
-                            <i class="fas fa-graduation-cap text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-slate-200">e-Maktab API</p>
-                            <p class="text-[10px] text-slate-500">Sinxronizatsiya faol</p>
-                        </div>
-                    </div>
-                    <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold">
-                            <i class="fab fa-telegram text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-slate-200">Telegram Bot</p>
-                            <p class="text-[10px] text-slate-500">Ota-onalar xabarnomasi</p>
-                        </div>
-                    </div>
-                    <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
-                            <i class="fas fa-shield-halved text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-slate-200">Xavfsizlik Xizmati</p>
-                            <p class="text-[10px] text-slate-500">Anti-Passback & Filtr</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RIGHT 5 COLS: EXECUTIVE SUPERADMIN ACCESS CONSOLE -->
-        <div class="lg:col-span-5">
-            <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-indigo-500/30 bg-slate-900/90 relative overflow-hidden">
-                <!-- Glowing Top Accent Line -->
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
-
-                <div class="text-center mb-6">
-                    <div class="inline-flex items-center justify-center w-14 h-14 bg-indigo-600/20 rounded-2xl mb-3 border border-indigo-500/40 shadow-inner">
-                        <i class="fas fa-fingerprint text-2xl text-indigo-400"></i>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-white tracking-tight">SUPERADMIN KONSOLI</h3>
-                    <p class="text-slate-400 text-xs mt-1">Viloyat va Shahar Hokimligi Boshqaruv Portali</p>
-                    <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-[10px] font-bold uppercase tracking-wider">
-                        <i class="fas fa-lock-keyhole text-[9px]"></i> Ruxsat: To'liq boshqaruv
-                    </div>
-                </div>
-
-                <!-- FORM -->
-                <form @submit.prevent="login()" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Foydalanuvchi nomi</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
-                                <i class="fas fa-user-shield text-sm"></i>
-                            </span>
-                            <input type="text" x-model="loginForm.username" required placeholder="admin"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-800/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition font-medium">
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-1.5">
-                            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Maxfiy parol</label>
-                            <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer hover:underline" @click="loginForm.username='admin'; loginForm.password='Daminol007$'">Standart parol</span>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
-                                <i class="fas fa-key text-sm"></i>
-                            </span>
-                            <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="••••••••"
-                                   class="w-full pl-10 pr-11 py-3 bg-slate-800/90 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition font-mono">
-                            <button type="button" @click="showPassword = !showPassword" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition cursor-pointer">
-                                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- ERROR MESSAGE -->
-                    <div x-show="authError" class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
-                        <i class="fas fa-triangle-exclamation"></i>
-                        <span x-text="authError"></span>
-                    </div>
-
-                    <!-- BUTTON 1: STANDARD LOGIN -->
-                    <button type="submit" :disabled="loading"
-                            class="w-full py-3.5 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-2 text-sm disabled:opacity-50 cursor-pointer">
-                        <i x-show="loading" class="fas fa-circle-notch fa-spin"></i>
-                        <i x-show="!loading" class="fas fa-arrow-right-to-bracket"></i>
-                        <span>Tizimga Kirish</span>
-                    </button>
-
-                    <!-- BUTTON 2: FULLSCREEN LOGIN (FOR SITUATIONAL DEVORLAR / VIDEO WALLS) -->
-                    <button type="button" @click="loginFullscreen()" :disabled="loading"
-                            class="w-full py-3 bg-slate-800/90 hover:bg-slate-800 border border-indigo-500/50 hover:border-indigo-400 text-indigo-300 hover:text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-xs cursor-pointer shadow-sm">
-                        <i class="fas fa-expand text-indigo-400"></i>
-                        <span>Katta Ekran (Fullscreen) Rejimida Kirish</span>
-                    </button>
-                </form>
-
-                <!-- SECURITY FOOTER NOTE -->
-                <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
-                    <span class="flex items-center gap-1">
-                        <i class="fas fa-lock text-emerald-400"></i> 256-bit SSL Shifrlash
-                    </span>
-                    <span class="font-mono">IP: Himoyalangan</span>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- BOTTOM FOOTER STATUS BAR -->
-    <footer class="relative z-10 w-full px-6 py-2.5 border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
-        <div class="flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span>EDUGATE Ekotizimi © 2026. Barcha huquqlar davlat standarti asosida himoyalangan.</span>
-        </div>
-        <div class="flex items-center gap-4">
-            <span>Markaziy Shlyuz: <b class="text-slate-400 font-mono">developerx.uz/edugate</b></span>
-            <span>Yagona Server: <b class="text-emerald-400">200 OK (Faol)</b></span>
-        </div>
-    </footer>
+    <!-- Bottom: Minimal Muted Footer -->
+    <div class="w-full text-center text-[11px] text-slate-500">
+        <span>EDUGATE © 2026</span>
+    </div>
 </div>
