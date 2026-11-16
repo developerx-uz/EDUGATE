@@ -1,0 +1,6 @@
+[tool.pyright]
+include = ["backend", "bot", "edge_device"]
+extraPaths = ["backend", "bot"]
+
+[tool.pytest.ini_options]
+pythonpath = ["backend", "bot"]
