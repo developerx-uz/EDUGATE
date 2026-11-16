@@ -53,6 +53,13 @@
                 </div>
             </div>
 
+            <!-- Theme Toggle Button (To'liq Oq ☀️ / To'liq Qora 🌙) -->
+            <button @click="toggleTheme()" 
+                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
+                <i :class="theme === 'light' ? 'fas fa-moon text-amber-500 text-sm' : 'fas fa-sun text-amber-400 text-sm'"></i>
+            </button>
+
 
 
             <!-- Foydalanuvchi Ramkasi (User Profile Box) -->
@@ -95,6 +102,18 @@
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
                         <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
                         <span>Yangi Maktab Qo'shish</span>
+                    </div>
+
+                    <!-- Theme Toggle in Dropdown -->
+                    <div @click="toggleTheme(); showUserMenu = false"
+                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                        <div class="flex items-center gap-2.5">
+                            <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'" class="text-xs w-4 text-center"></i>
+                            <span x-text="theme === 'light' ? 'To\'liq Qora rejim' : 'To\'liq Oq rejim'"></span>
+                        </div>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold"
+                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'"
+                              x-text="theme === 'light' ? 'OQ' : 'QORA'"></span>
                     </div>
 
                     <div class="border-t border-slate-800 my-1"></div>
