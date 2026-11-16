@@ -81,12 +81,13 @@ function adminApp() {
 
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
-        sidebarOpen: false,
-        sidebarCollapsed: (() => {
+        sidebarOpen: (() => {
             try {
-                return localStorage.getItem('sidebar_collapsed') === 'true';
+                const saved = localStorage.getItem('edugate_sidebar_open');
+                if (saved !== null) return saved === 'true';
+                return window.innerWidth >= 1024;
             } catch (e) {
-                return false;
+                return window.innerWidth >= 1024;
             }
         })(),
         searchQuery: '',
@@ -95,14 +96,10 @@ function adminApp() {
         isFullscreen: false,
 
         toggleSidebar() {
-            if (window.innerWidth < 768) {
-                this.sidebarOpen = !this.sidebarOpen;
-            } else {
-                this.sidebarCollapsed = !this.sidebarCollapsed;
-                try {
-                    localStorage.setItem('sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
-                } catch (e) {}
-            }
+            this.sidebarOpen = !this.sidebarOpen;
+            try {
+                localStorage.setItem('edugate_sidebar_open', this.sidebarOpen ? 'true' : 'false');
+            } catch (e) {}
         },
 
         // ===== GLOBAL SEARCH / COMMAND PALETTE =====
