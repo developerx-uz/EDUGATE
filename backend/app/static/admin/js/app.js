@@ -264,8 +264,18 @@ function adminApp() {
         allTeachers: [],
         teachersFilter: { search: '', school_id: '' },
 
-        // ===== ATTENDANCE MODULE =====
+        // ===== ATTENDANCE MODULE & CCTV HUD =====
         todayLogs: [],
+        camViewMode: '2x2',
+        liveClock: new Date().toLocaleTimeString('uz-UZ'),
+        mockLogs: [
+            { id: 'm1', student_name: "Azizbek Rahimov", class_name: "10-A", device_name: "CAM-01 (Turniket #1)", status: "ON_TIME", event_time: new Date(Date.now() - 35000).toISOString() },
+            { id: 'm2', student_name: "Madina Karimova", class_name: "9-B", device_name: "CAM-01 (Turniket #1)", status: "ON_TIME", event_time: new Date(Date.now() - 85000).toISOString() },
+            { id: 'm3', student_name: "Jasur Olimov", class_name: "11-A", device_name: "CAM-02 (Turniket #2)", status: "ON_TIME", event_time: new Date(Date.now() - 145000).toISOString() },
+            { id: 'm4', student_name: "Shahnoza Yusupova", class_name: "8-V", device_name: "CAM-01 (Turniket #1)", status: "LATE", event_time: new Date(Date.now() - 210000).toISOString() },
+            { id: 'm5', student_name: "Diyorbek Bekmurodov", class_name: "10-B", device_name: "CAM-02 (Turniket #2)", status: "ON_TIME", event_time: new Date(Date.now() - 320000).toISOString() },
+            { id: 'm6', student_name: "Gulnoza Aliyeva", class_name: "7-A", device_name: "CAM-01 (Turniket #1)", status: "ON_TIME", event_time: new Date(Date.now() - 410000).toISOString() },
+        ],
         autoRefresh: true,
         refreshInterval: null,
         attendanceDate: new Date().toISOString().split('T')[0],
@@ -403,7 +413,12 @@ function adminApp() {
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
-                    if (this.token) {
+                    // Live CCTV clock ticker
+            setInterval(() => {
+                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+            }, 1000);
+
+            if (this.token) {
                         this.openGlobalSearch();
                     }
                 }
@@ -416,6 +431,11 @@ function adminApp() {
             this.updateClock();
             setInterval(() => {
                 this.updateClock();
+            }, 1000);
+
+            // Live CCTV clock ticker
+            setInterval(() => {
+                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
             }, 1000);
 
             if (this.token) {
