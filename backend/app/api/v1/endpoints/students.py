@@ -13,7 +13,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.core.database import get_db
 from app.models.student import Student
+from app.models.user import User, UserRole
 from app.schemas.student import StudentCreate, StudentOut
+from app.api.deps import get_current_user
 
 router = APIRouter()
 
@@ -155,10 +157,22 @@ async def upload_student_photo_base64(
 @router.post("/", response_model=StudentOut, status_code=status.HTTP_201_CREATED, summary="Yangi o'quvchi qo'shish")
 async def create_student(
     student_in: StudentCreate,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
+    if current_user.role == UserRole.MINISTRY_VIEWER:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun. Yangi o'quvchi qo'shish taqiqlangan."
+        )
+
+    # Qat'iy: maktab o'zining maktabidan boshqa maktabga o'quvchi qo'sha olmaydi
+    effective_school_id = current_user.school_id if current_user.role == UserRole.SCHOOL_ADMIN else (student_in.school_id or current_user.school_id)
+    if not effective_school_id:
+        raise HTTPException(status_code=400, detail="Maktab tanlanishi shart")
+
     student = Student(
-        school_id=student_in.school_id,
+        school_id=effective_school_id,
         first_name=student_in.first_name,
         last_name=student_in.last_name,
         student_code=student_in.student_code,
@@ -177,11 +191,15 @@ async def create_student(
 
 @router.get("/", response_model=List[StudentOut], summary="O'quvchilar ro'yxati")
 async def list_students(
-    school_id: str,
+    school_id: Optional[str] = None,
     class_name: Optional[str] = None,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    query = select(Student).filter(Student.school_id == school_id, Student.is_active == True)
+    effective_school_id = current_user.school_id if current_user.role == UserRole.SCHOOL_ADMIN else (school_id or current_user.school_id)
+    query = select(Student).filter(Student.is_active == True)
+    if effective_school_id:
+        query = query.filter(Student.school_id == effective_school_id)
     if class_name:
         query = query.filter(Student.class_name == class_name)
     result = await db.execute(query.order_by(Student.created_at.desc()))

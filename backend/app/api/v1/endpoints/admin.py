@@ -240,6 +240,7 @@ async def get_weekly_stats(
 
 @router.get("/reports/export-csv", summary="Haqiqiy Davomat va O'quvchilar Hisoboti (CSV)")
 async def export_attendance_report_csv(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
     output = io.StringIO()
@@ -264,8 +265,11 @@ async def export_attendance_report_csv(
         select(Student)
         .options(selectinload(Student.school), selectinload(Student.attendance_logs))
         .filter(Student.is_active == True)
-        .order_by(Student.class_name.asc(), Student.last_name.asc())
     )
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        query = query.filter(Student.school_id == current_user.school_id)
+
+    query = query.order_by(Student.class_name.asc(), Student.last_name.asc())
     result = await db.execute(query)
     students = result.scalars().all()
 
@@ -299,12 +303,15 @@ async def export_attendance_report_csv(
     )
 
 
-
 @router.get("/schools/detailed", summary="Maktablar ro'yxati va statistikasi")
 async def get_schools_detailed(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
-    result = await db.execute(select(School).order_by(School.created_at.desc()))
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        result = await db.execute(select(School).filter(School.id == current_user.school_id))
+    else:
+        result = await db.execute(select(School).order_by(School.created_at.desc()))
     schools = result.scalars().all()
 
     output = []
@@ -319,12 +326,19 @@ async def get_schools_detailed(
         res_dev = await db.execute(select(Device).filter(Device.school_id == sc.id, Device.is_active == True))
         devices = res_dev.scalars().all()
 
+        # Maktabning yagona login hisobi (1 maktab = 1 login)
+        res_u = await db.execute(select(User).filter(User.school_id == sc.id, User.role == UserRole.SCHOOL_ADMIN))
+        school_admin_user = res_u.scalar_one_or_none()
+
         output.append({
             "id": sc.id,
             "name": sc.name,
             "code": sc.code,
             "address": sc.address,
             "phone": sc.phone,
+            "admin_username": school_admin_user.username if school_admin_user else None,
+            "admin_full_name": school_admin_user.full_name if school_admin_user else None,
+            "has_login": bool(school_admin_user),
             "students_count": len(students),
             "teachers_count": len(teachers),
             "devices_count": len(devices),
@@ -339,8 +353,12 @@ async def get_schools_detailed(
 @router.get("/schools/{school_id}/classes", summary="Maktabdagi sinflar va statistikasi")
 async def get_school_classes(
     school_id: str,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    if current_user.role == UserRole.SCHOOL_ADMIN and current_user.school_id != school_id:
+        raise HTTPException(status_code=403, detail="Boshqa maktab sinflarini ko'rish taqiqlangan.")
+
     res_st = await db.execute(select(Student).filter(Student.school_id == school_id, Student.is_active == True))
     students = res_st.scalars().all()
 
@@ -369,15 +387,111 @@ async def get_school_classes(
     return classes_list
 
 
+@router.get("/schools/{school_id}/account", summary="Maktabning yagona loginini ko'rish (Faqat Superadmin)")
+async def get_school_account(
+    school_id: str,
+    current_user: User = Depends(require_superadmin),
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    res = await db.execute(select(User).filter(User.school_id == school_id, User.role == UserRole.SCHOOL_ADMIN))
+    user = res.scalar_one_or_none()
+    if not user:
+        return {"has_account": False, "school_id": school_id}
+    return {
+        "has_account": True,
+        "school_id": school_id,
+        "user_id": user.id,
+        "username": user.username,
+        "full_name": user.full_name,
+        "is_active": user.is_active,
+        "created_at": user.created_at
+    }
+
+
+@router.post("/schools/{school_id}/account", summary="Maktab yagona loginini yaratish yoki parolini yangilash (1 maktab = 1 login)")
+async def set_school_account(
+    school_id: str,
+    payload: SchoolAccountSetRequest,
+    current_user: User = Depends(require_superadmin),
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    res_sc = await db.execute(select(School).filter(School.id == school_id))
+    school = res_sc.scalar_one_or_none()
+    if not school:
+        raise HTTPException(status_code=404, detail="Maktab topilmadi")
+
+    username = payload.username.strip().lower()
+    if not username:
+        raise HTTPException(status_code=400, detail="Foydalanuvchi nomi kiritilishi shart")
+
+    # Qoida: 1 maktab = 1 login (2-login mumkin emas)
+    res_user = await db.execute(select(User).filter(User.school_id == school_id, User.role == UserRole.SCHOOL_ADMIN))
+    existing_school_user = res_user.scalar_one_or_none()
+
+    if existing_school_user:
+        # Username o'zgartirilayotgan bo'lsa, boshqa foydalanuvchida yo'qligini tekshirish
+        if existing_school_user.username != username:
+            chk = (await db.execute(select(User).filter(User.username == username, User.id != existing_school_user.id))).scalar_one_or_none()
+            if chk:
+                raise HTTPException(status_code=400, detail=f"'{username}' foydalanuvchi nomi allaqachon band.")
+            existing_school_user.username = username
+
+        if payload.password and len(payload.password.strip()) >= 6:
+            existing_school_user.hashed_password = get_password_hash(payload.password.strip())
+        if payload.full_name:
+            existing_school_user.full_name = payload.full_name.strip()
+
+        await db.commit()
+        await db.refresh(existing_school_user)
+        return {
+            "message": "Maktab logini va paroli muvaffaqiyatli yangilandi (1 maktab = 1 login)",
+            "username": existing_school_user.username,
+            "school_id": school_id
+        }
+    else:
+        # Yangi hisob ochish
+        chk = (await db.execute(select(User).filter(User.username == username))).scalar_one_or_none()
+        if chk:
+            raise HTTPException(status_code=400, detail=f"'{username}' foydalanuvchi nomi allaqachon band.")
+
+        if not payload.password or len(payload.password.strip()) < 6:
+            raise HTTPException(status_code=400, detail="Parol kamida 6 ta belgidan iborat bo'lishi kerak")
+
+        new_user = User(
+            school_id=school_id,
+            username=username,
+            full_name=payload.full_name or f"{school.name} Ma'muri",
+            email=f"{username}@edugate.uz",
+            hashed_password=get_password_hash(payload.password.strip()),
+            role=UserRole.SCHOOL_ADMIN,
+            is_superadmin=False,
+            is_active=True
+        )
+        db.add(new_user)
+        await db.commit()
+        return {
+            "message": "Maktab uchun yagona login muvaffaqiyatli yaratildi (1 maktab = 1 login)",
+            "username": new_user.username,
+            "school_id": school_id
+        }
+
+
 @router.get("/students/all", summary="Barcha o'quvchilar (Boshqaruv uchun)")
 async def get_all_students(
     school_id: Optional[str] = Query(None),
     class_name: Optional[str] = Query(None),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    # Maktab ma'muri faqat o'z maktabi o'quvchilarini ko'ra oladi
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        effective_school_id = current_user.school_id
+    else:
+        effective_school_id = school_id
+
     query = select(Student).options(selectinload(Student.school))
-    if school_id:
-        query = query.filter(Student.school_id == school_id)
+    if effective_school_id:
+        query = query.filter(Student.school_id == effective_school_id)
     if class_name:
         query = query.filter(Student.class_name == class_name)
 
@@ -406,11 +520,18 @@ async def get_all_students(
 @router.get("/devices/all", summary="Barcha qurilmalar va kameralar")
 async def get_all_devices(
     school_id: Optional[str] = Query(None),
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    # 2. Faqat o'zining kameralarini kuzata oladi
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        effective_school_id = current_user.school_id
+    else:
+        effective_school_id = school_id
+
     query = select(Device).options(selectinload(Device.school))
-    if school_id:
-        query = query.filter(Device.school_id == school_id)
+    if effective_school_id:
+        query = query.filter(Device.school_id == effective_school_id)
 
     result = await db.execute(query.order_by(Device.created_at.desc()))
     devices = result.scalars().all()
@@ -435,9 +556,13 @@ async def get_all_devices(
 
 @router.get("/parents", summary="Ota-onalar ro'yxati va Telegram Status")
 async def get_parents(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     query = select(Parent).options(selectinload(Parent.students)).order_by(Parent.created_at.desc())
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        query = query.join(Parent.students).filter(Student.school_id == current_user.school_id).distinct()
+
     result = await db.execute(query)
     parents = result.scalars().all()
 
@@ -457,12 +582,21 @@ async def get_parents(
 @router.delete("/students/{student_id}", summary="O'quvchini o'chirish")
 async def delete_student(
     student_id: str,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    # Xalq Ta'limi hech narsani o'chira olmaydi
+    if current_user.role == UserRole.MINISTRY_VIEWER:
+        raise HTTPException(status_code=403, detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun. Ma'lumotlarni o'chirish taqiqlangan.")
+
     result = await db.execute(select(Student).filter(Student.id == student_id))
     student = result.scalar_one_or_none()
     if not student:
         raise HTTPException(status_code=404, detail="O'quvchi topilmadi")
+
+    # Maktab ma'muri faqat o'z o'quvchisini o'chira oladi
+    if current_user.role == UserRole.SCHOOL_ADMIN and student.school_id != current_user.school_id:
+        raise HTTPException(status_code=403, detail="Boshqa maktab o'quvchisini o'chirish taqiqlangan.")
 
     await db.delete(student)
     await db.commit()
@@ -472,21 +606,29 @@ async def delete_student(
 @router.delete("/devices/{device_id}", summary="Qurilmani o'chirish")
 async def delete_device(
     device_id: str,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    if current_user.role == UserRole.MINISTRY_VIEWER:
+        raise HTTPException(status_code=403, detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun. Qurilmani o'chirish taqiqlangan.")
+
     result = await db.execute(select(Device).filter(Device.id == device_id))
     device = result.scalar_one_or_none()
     if not device:
         raise HTTPException(status_code=404, detail="Qurilma topilmadi")
+
+    if current_user.role == UserRole.SCHOOL_ADMIN and device.school_id != current_user.school_id:
+        raise HTTPException(status_code=403, detail="Boshqa maktab qurilmasini o'chirish taqiqlangan.")
 
     await db.delete(device)
     await db.commit()
     return {"message": "Qurilma muvaffaqiyatli o'chirildi"}
 
 
-@router.delete("/schools/{school_id}", summary="Maktabni o'chirish")
+@router.delete("/schools/{school_id}", summary="Maktabni o'chirish (Faqat Superadmin)")
 async def delete_school(
     school_id: str,
+    current_user: User = Depends(require_superadmin),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     result = await db.execute(select(School).filter(School.id == school_id))
@@ -503,16 +645,28 @@ async def delete_school(
 async def update_student(
     student_id: str,
     payload: dict,
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
+    if current_user.role == UserRole.MINISTRY_VIEWER:
+        raise HTTPException(status_code=403, detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun. O'quvchini tahrirlash taqiqlangan.")
+
     result = await db.execute(select(Student).filter(Student.id == student_id))
     student = result.scalar_one_or_none()
     if not student:
         raise HTTPException(status_code=404, detail="O'quvchi topilmadi")
 
-    for field in ["first_name", "last_name", "class_name", "student_code", "pinfl", "rfid_card_id", "school_id"]:
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        if student.school_id != current_user.school_id:
+            raise HTTPException(status_code=403, detail="Boshqa maktab o'quvchisini tahrirlash huquqi mavjud emas.")
+        payload.pop("school_id", None)
+
+    for field in ["first_name", "last_name", "class_name", "student_code", "pinfl", "rfid_card_id"]:
         if field in payload and payload[field] is not None:
             setattr(student, field, payload[field])
+
+    if current_user.role == UserRole.SUPERADMIN and "school_id" in payload and payload["school_id"]:
+        student.school_id = payload["school_id"]
 
     await db.commit()
     await db.refresh(student)
@@ -525,10 +679,11 @@ async def update_student(
     }}
 
 
-@router.put("/schools/{school_id}", summary="Maktabni tahrirlash")
+@router.put("/schools/{school_id}", summary="Maktabni tahrirlash (Faqat Superadmin)")
 async def update_school(
     school_id: str,
     payload: dict,
+    current_user: User = Depends(require_superadmin),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     result = await db.execute(select(School).filter(School.id == school_id))
