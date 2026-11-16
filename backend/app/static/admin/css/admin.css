@@ -766,22 +766,17 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     }
 }
 
-/* Zero-animation Instant Sidebar Logo/Toggle Swap */
-.sidebar-logo-box,
-.sidebar-logo-box *,
-.sidebar-logo-normal,
-.sidebar-logo-hover {
-    transition: none !important;
-    animation: none !important;
+/* Sidebar Toggle Line Rotation (Smooth 180deg Spin on Click) */
+.sidebar-toggle-line {
+    transform-box: view-box;
+    transform-origin: 12px 12px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-aside.w-20 .sidebar-logo-box:hover .sidebar-logo-normal {
-    display: none !important;
+.sidebar-toggle-svg {
+    overflow: visible;
 }
 
-aside.w-20 .sidebar-logo-box:hover .sidebar-logo-hover {
-    display: flex !important;
-}
 
 
 
