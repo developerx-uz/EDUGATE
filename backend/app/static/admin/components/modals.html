@@ -105,9 +105,6 @@
         </form>
     </div>
 </div>
-        </form>
-    </div>
-</div>
 
 <!-- 2. ADD STUDENT MODAL -->
 <div x-show="showAddStudentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
@@ -143,9 +140,9 @@
         </div>
 
         <form @submit.prevent="createStudent()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="studentForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -211,9 +208,9 @@
             <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="updateStudent()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="editStudentForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -265,9 +262,9 @@
             <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="createTeacher()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="teacherForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -313,9 +310,9 @@
             <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="createDevice()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="deviceForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
