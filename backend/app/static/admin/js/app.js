@@ -8,7 +8,7 @@ function adminApp() {
         token: EdugateAPI.getToken(),
         loading: false,
         authError: '',
-        loginForm: { username: 'admin', password: 'Daminol007$' },
+        loginForm: { username: '', password: '' },
         showPassword: false,
         liveTime: '',
         liveDate: '',
@@ -245,6 +245,15 @@ function adminApp() {
                         this.fetchStats();
                     }
                 }, 5000);
+            } else {
+                // Ensure zero autofill on login modal
+                this.loginForm = { username: '', password: '' };
+                setTimeout(() => {
+                    this.loginForm = { username: '', password: '' };
+                }, 50);
+                setTimeout(() => {
+                    this.loginForm = { username: '', password: '' };
+                }, 250);
             }
         },
 
@@ -312,6 +321,7 @@ function adminApp() {
         logout() {
             this.token = '';
             EdugateAPI.setToken('');
+            this.loginForm = { username: '', password: '' };
             if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
         },
