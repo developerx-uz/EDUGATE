@@ -260,7 +260,11 @@ body {
                 <p class="text-xs text-zinc-400 mt-1.5">Boshqaruv paneliga kirish uchun hisob ma'lumotlarini kiriting</p>
             </div>
 
-            <form @submit.prevent="login()" class="space-y-4">
+            <form @submit.prevent="login()" class="space-y-4" autocomplete="off" data-lpignore="true">
+                <!-- Anti-autofill dummy hidden fields to absorb browser auto-fill heuristics -->
+                <input type="text" name="prevent_autofill_username" style="display:none" autocomplete="off" tabindex="-1">
+                <input type="password" name="prevent_autofill_password" style="display:none" autocomplete="new-password" tabindex="-1">
+
                 <div>
                     <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
                         <i class="fas fa-user text-[10px]"></i> FOYDALANUVCHI NOMI
@@ -270,6 +274,8 @@ body {
                             <i class="fas fa-user text-xs"></i>
                         </span>
                         <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
+                               autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                               readonly onfocus="this.removeAttribute('readonly');"
                                class="w-full pl-9 pr-4 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-medium">
                     </div>
                 </div>
@@ -283,6 +289,8 @@ body {
                             <i class="fas fa-key text-xs"></i>
                         </span>
                         <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
+                               autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false"
+                               readonly onfocus="this.removeAttribute('readonly');"
                                class="w-full pl-9 pr-10 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-mono">
                         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
                             <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
@@ -2622,6 +2630,15 @@ function adminApp() {
                         this.fetchStats();
                     }
                 }, 5000);
+            } else {
+                // Ensure zero autofill on login modal
+                this.loginForm = { username: '', password: '' };
+                setTimeout(() => {
+                    this.loginForm = { username: '', password: '' };
+                }, 50);
+                setTimeout(() => {
+                    this.loginForm = { username: '', password: '' };
+                }, 250);
             }
         },
 
@@ -2689,6 +2706,7 @@ function adminApp() {
         logout() {
             this.token = '';
             EdugateAPI.setToken('');
+            this.loginForm = { username: '', password: '' };
             if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
         },
