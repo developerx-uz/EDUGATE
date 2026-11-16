@@ -75,6 +75,10 @@ function adminApp() {
             this.applyTheme(nextTheme);
         },
 
+        setTheme(t) {
+            this.applyTheme(t);
+        },
+
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
         sidebarOpen: false,

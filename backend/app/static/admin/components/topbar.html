@@ -53,12 +53,31 @@
                 </div>
             </div>
 
-            <!-- Theme Toggle Button (To'liq Oq ☀️ / To'liq Qora 🌙) -->
-            <button @click="toggleTheme()" 
-                    class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 transition cursor-pointer flex items-center justify-center shadow-sm"
-                    :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
-                <i :class="theme === 'light' ? 'fas fa-moon text-amber-500 text-sm' : 'fas fa-sun text-amber-400 text-sm'"></i>
-            </button>
+            <!-- Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙 Ramkalari) -->
+            <div class="theme-switch-pill inline-flex items-center p-0.5 rounded-xl border transition-all duration-200"
+                 :class="theme === 'light' ? 'bg-neutral-100 border-neutral-300' : 'bg-neutral-900 border-neutral-800'">
+                <!-- Oq Mavzu Ramkasi (Sun Icon ☀️) -->
+                <button type="button" 
+                        @click="applyTheme('light')" 
+                        class="theme-btn-light flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-200 cursor-pointer"
+                        :class="theme === 'light' 
+                            ? 'bg-white text-amber-500 shadow-sm border border-neutral-300 font-bold scale-105' 
+                            : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/60'"
+                        title="Oq mavzu (Yorug')">
+                    <i class="fas fa-sun text-xs"></i>
+                </button>
+                
+                <!-- Qora Mavzu Ramkasi (Moon Icon 🌙) -->
+                <button type="button" 
+                        @click="applyTheme('dark')" 
+                        class="theme-btn-dark flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-200 cursor-pointer"
+                        :class="theme === 'dark' 
+                            ? 'bg-neutral-800 text-white shadow-sm border border-neutral-700 font-bold scale-105' 
+                            : 'text-neutral-400 hover:text-neutral-800 hover:bg-neutral-200'"
+                        title="Qora mavzu (OLED Qorong'u)">
+                    <i class="fas fa-moon text-xs"></i>
+                </button>
+            </div>
 
 
 
