@@ -26,7 +26,7 @@
     <!-- include: components/login.html -->
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
-    <div x-show="token" class="flex h-screen overflow-hidden">
+    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden">
 
         <!-- MOBILE OVERLAY BACKDROP -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false"

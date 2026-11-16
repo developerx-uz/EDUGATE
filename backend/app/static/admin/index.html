@@ -132,110 +132,132 @@ body {
 <body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
-    <!-- MINIMAL 2-COLUMN FULLSCREEN LOGIN (ZERO SCROLL) -->
-<div x-show="!token" x-cloak 
-     class="fixed inset-0 z-50 flex flex-col justify-between bg-[#090d16] text-slate-100 overflow-hidden select-none p-6 sm:p-10">
+    <!-- TWO-PANEL SPLIT SCREEN LOGIN (ZERO SCROLL, NO FLICKER) -->
+<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#070b14] text-slate-100 select-none">
     
-    <!-- Top Bar: Minimal Logo & Fullscreen Toggle -->
-    <div class="w-full flex items-center justify-between max-w-6xl mx-auto">
-        <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                <i class="fas fa-building-columns text-sm"></i>
+    <!-- LEFT PANEL: BRAND & 2-3 KEY HIGHLIGHTS -->
+    <div class="w-full lg:w-1/2 h-full bg-[#070b14] border-b lg:border-b-0 lg:border-r border-slate-800/80 flex flex-col justify-between p-8 sm:p-12 xl:p-16 overflow-hidden">
+        
+        <!-- Top: Brand Logo -->
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                <i class="fas fa-building-columns text-base"></i>
             </div>
-            <span class="text-sm font-bold tracking-wider text-white">EDUGATE</span>
+            <div>
+                <span class="text-base font-extrabold tracking-wider text-white">EDUGATE</span>
+                <span class="block text-[10px] text-slate-500 font-medium uppercase tracking-widest">Maktab Ekotizimi</span>
+            </div>
         </div>
 
-        <button type="button" @click="toggleFullscreen()"
-                class="px-2.5 py-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg transition text-xs flex items-center gap-1.5 border border-slate-800 cursor-pointer">
-            <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'"></i>
-            <span class="text-[11px] font-medium" x-text="isFullscreen ? 'Kichik ekran' : 'To\'liq ekran'"></span>
-        </button>
-    </div>
-
-    <!-- Center: 2-Column Split (Left: 2-3 Simple Highlights | Right: Clean Login Card) -->
-    <div class="w-full max-w-6xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-        
-        <!-- LEFT 7 COLS: 2-3 ODDIY MA'LUMOTLAR -->
-        <div class="lg:col-span-7 space-y-6">
-            <div class="space-y-2">
-                <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Boshqaruv Tizimi</span>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
+        <!-- Center: Headline & 3 Clean Highlights -->
+        <div class="space-y-6 my-auto max-w-lg">
+            <div class="space-y-2.5">
+                <span class="inline-block px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
+                    Boshqaruv Tizimi
+                </span>
+                <h1 class="text-2xl sm:text-3xl xl:text-4xl font-extrabold text-white tracking-tight leading-snug">
                     Maktab davomati va xavfsizlik nazorati platformasi
                 </h1>
-                <p class="text-slate-400 text-sm leading-relaxed max-w-lg">
+                <p class="text-slate-400 text-sm leading-relaxed">
                     Face ID kameralari, turniketlar va ota-onalar xabarnoma tizimining yagona markaziy boshqaruv paneli.
                 </p>
             </div>
 
-            <!-- 3 TA ODDIY PUNKT -->
-            <div class="space-y-3 pt-2">
-                <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                        <i class="fas fa-camera text-xs"></i>
+            <!-- 3 Clean Minimal Highlights -->
+            <div class="space-y-3.5 pt-3">
+                <div class="flex items-start gap-3.5">
+                    <div class="w-9 h-9 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
+                        <i class="fas fa-camera text-sm"></i>
                     </div>
                     <div>
                         <h4 class="text-sm font-semibold text-white">Face ID va Turniket nazorati</h4>
-                        <p class="text-xs text-slate-400">O'quvchilar va xodimlar kirish-chiqishini real vaqtda aniqlash</p>
+                        <p class="text-xs text-slate-400 mt-0.5">O'quvchilar va xodimlar kirish-chiqishini real vaqtda aniqlash</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                        <i class="fab fa-telegram text-xs"></i>
+                <div class="flex items-start gap-3.5">
+                    <div class="w-9 h-9 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
+                        <i class="fab fa-telegram text-sm"></i>
                     </div>
                     <div>
                         <h4 class="text-sm font-semibold text-white">Ota-onalar xabarnomasi</h4>
-                        <p class="text-xs text-slate-400">Telegram bot orqali kirish, chiqish va kechikishlar haqida tezkor xabar</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Telegram bot orqali kirish, chiqish va kechikishlar haqida tezkor xabar</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                        <i class="fas fa-chart-simple text-xs"></i>
+                <div class="flex items-start gap-3.5">
+                    <div class="w-9 h-9 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
+                        <i class="fas fa-chart-simple text-sm"></i>
                     </div>
                     <div>
                         <h4 class="text-sm font-semibold text-white">Statistika va Hisobotlar</h4>
-                        <p class="text-xs text-slate-400">Kunlik davomat tahlili va Excel/CSV formatida yuklab olish</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Kunlik davomat tahlili va Excel/CSV formatida yuklab olish</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT 5 COLS: TIZIMGA KIRISH RAMKASI -->
-        <div class="lg:col-span-5">
-            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-                <div class="mb-5">
-                    <h2 class="text-lg font-bold text-white tracking-tight">Tizimga kirish</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">Boshqaruv paneliga kirish uchun ma'lumotlarni kiriting</p>
+        <!-- Bottom: Subtle Footer -->
+        <div class="text-xs text-slate-500">
+            <span>EDUGATE © 2026. Barcha huquqlar himoyalangan.</span>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: DEDICATED LOGIN CONSOLE -->
+    <div class="w-full lg:w-1/2 h-full bg-[#0c1220] flex flex-col justify-between p-8 sm:p-12 xl:p-16 overflow-hidden">
+        
+        <!-- Top: Fullscreen Toggle on Top-Right -->
+        <div class="flex items-center justify-end">
+            <button type="button" @click="toggleFullscreen()"
+                    class="px-3 py-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-xl transition text-xs flex items-center gap-1.5 border border-slate-800 cursor-pointer">
+                <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'"></i>
+                <span class="text-xs font-medium" x-text="isFullscreen ? 'Kichik ekran' : 'To\'liq ekran'"></span>
+            </button>
+        </div>
+
+        <!-- Center: Login Card -->
+        <div class="w-full max-w-md mx-auto my-auto">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-md">
+                <div class="mb-6">
+                    <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Tizimga kirish</h2>
+                    <p class="text-xs text-slate-400 mt-1">Boshqaruv paneliga kirish uchun ma'lumotlarni kiriting</p>
                 </div>
 
                 <form @submit.prevent="login()" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Foydalanuvchi nomi</label>
-                        <input type="text" x-model="loginForm.username" required placeholder="admin"
-                               class="w-full px-3.5 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition">
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Foydalanuvchi nomi</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                <i class="fas fa-user text-sm"></i>
+                            </span>
+                            <input type="text" x-model="loginForm.username" required placeholder="admin"
+                                   class="w-full pl-10 pr-4 py-3 bg-slate-800/70 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1.5">Parol</label>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Parol</label>
                         <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+                                <i class="fas fa-lock text-sm"></i>
+                            </span>
                             <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="••••••••"
-                                   class="w-full px-3.5 pr-10 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition">
-                            <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition cursor-pointer">
+                                   class="w-full pl-10 pr-11 py-3 bg-slate-800/70 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition font-mono">
+                            <button type="button" @click="showPassword = !showPassword" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition cursor-pointer">
                                 <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Error message -->
-                    <div x-show="authError" class="p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
+                    <!-- Error Alert -->
+                    <div x-show="authError" class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
                         <i class="fas fa-circle-exclamation"></i>
                         <span x-text="authError"></span>
                     </div>
 
-                    <!-- Submit Button -->
+                    <!-- Login Button -->
                     <button type="submit" :disabled="loading"
-                            class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition flex items-center justify-center gap-2 text-sm disabled:opacity-50 cursor-pointer shadow-sm">
+                            class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2 text-sm disabled:opacity-50 cursor-pointer shadow-lg shadow-indigo-600/20 mt-2">
                         <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                         <span>Kirish</span>
                     </button>
@@ -243,18 +265,18 @@ body {
             </div>
         </div>
 
+        <!-- Bottom: Muted Connection Status -->
+        <div class="flex items-center justify-center sm:justify-end text-xs text-slate-500 gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span>Xavfsiz boshqaruv shlyuzi</span>
+        </div>
     </div>
 
-    <!-- Bottom: Minimal Footer -->
-    <div class="w-full max-w-6xl mx-auto flex items-center justify-between text-[11px] text-slate-500">
-        <span>EDUGATE © 2026</span>
-        <span>Yagona Maktab Davomati Ekotizimi</span>
-    </div>
 </div>
 
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
-    <div x-show="token" class="flex h-screen overflow-hidden">
+    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden">
 
         <!-- MOBILE OVERLAY BACKDROP -->
         <div x-show="sidebarOpen" @click="sidebarOpen = false"
