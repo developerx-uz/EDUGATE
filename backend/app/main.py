@@ -210,8 +210,8 @@ def render_admin_html() -> str:
     return "<h1>Admin panel topilmadi</h1>"
 
 
-@app.get("/manifest.json", tags=["PWA"])
-@app.get("/edugate/manifest.json", tags=["PWA"])
+@app.api_route("/manifest.json", methods=["GET", "HEAD"], tags=["PWA"])
+@app.api_route("/edugate/manifest.json", methods=["GET", "HEAD"], tags=["PWA"])
 async def serve_manifest():
     manifest_file = os.path.join(os.path.dirname(__file__), "static", "admin", "manifest.json")
     if os.path.exists(manifest_file):
@@ -219,8 +219,8 @@ async def serve_manifest():
     return JSONResponse({"name": "EDUGATE", "short_name": "EDUGATE"})
 
 
-@app.get("/sw.js", tags=["PWA"])
-@app.get("/edugate/sw.js", tags=["PWA"])
+@app.api_route("/sw.js", methods=["GET", "HEAD"], tags=["PWA"])
+@app.api_route("/edugate/sw.js", methods=["GET", "HEAD"], tags=["PWA"])
 async def serve_service_worker():
     sw_file = os.path.join(os.path.dirname(__file__), "static", "admin", "sw.js")
     if os.path.exists(sw_file):
