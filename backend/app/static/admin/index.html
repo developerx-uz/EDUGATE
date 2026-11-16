@@ -619,7 +619,7 @@ html.dark .login-submit-btn:hover {
             <!-- REDESIGNED FEATURE CARDS (YANGILANGAN DIZAYN) -->
             <div class="flex flex-col gap-3 pt-2">
                 <!-- Card 1: Face ID -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
                             <i class="fas fa-shield-halved text-lg"></i>
@@ -637,7 +637,7 @@ html.dark .login-submit-btn:hover {
                 </div>
 
                 <!-- Card 2: Telegram Bot -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
                             <i class="fab fa-telegram text-xl"></i>
@@ -655,7 +655,7 @@ html.dark .login-submit-btn:hover {
                 </div>
 
                 <!-- Card 3: Central Database & Analytics -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
                             <i class="fas fa-chart-pie text-lg"></i>
@@ -685,10 +685,18 @@ html.dark .login-submit-btn:hover {
     </div>
 
     <!-- RIGHT PANEL: CLEAN LOGIN CONSOLE -->
-    <div class="w-full lg:w-2/5 h-full bg-[#08090d] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
+    <div class="login-right-panel w-full lg:w-2/5 h-full bg-[#08090d] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
-        <!-- Top Spacer -->
-        <div class="h-6"></div>
+        <!-- Top Controls: Theme Switcher -->
+        <div class="flex items-center justify-end w-full">
+            <button @click="toggleTheme()" 
+                    type="button"
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-zinc-700/80 bg-zinc-900/80 hover:bg-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white transition cursor-pointer shadow-sm"
+                    :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
+                <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'"></i>
+                <span x-text="theme === 'light' ? 'Qora Mavzu' : 'Oq Mavzu'"></span>
+            </button>
+        </div>
 
         <!-- Center: Clean Borderless Form -->
         <div class="w-full max-w-[380px] mx-auto my-auto space-y-6">
@@ -741,9 +749,9 @@ html.dark .login-submit-btn:hover {
                     <span x-text="authError"></span>
                 </div>
 
-                <!-- Primary White Button -->
+                <!-- Primary Action Button -->
                 <button type="submit" :disabled="loading"
-                        class="w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
+                        class="login-submit-btn w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
                     <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                     <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
                     <span>Tizimga Kirish</span>
@@ -968,6 +976,13 @@ html.dark .login-submit-btn:hover {
                 </div>
             </div>
 
+            <!-- Theme Toggle Button (To'liq Oq ☀️ / To'liq Qora 🌙) -->
+            <button @click="toggleTheme()" 
+                    class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer flex items-center justify-center shadow-sm"
+                    :title="theme === 'light' ? 'To\'liq qora rejimga o\'tish' : 'To\'liq oq rejimga o\'tish'">
+                <i :class="theme === 'light' ? 'fas fa-moon text-amber-500 text-sm' : 'fas fa-sun text-amber-400 text-sm'"></i>
+            </button>
+
 
 
             <!-- Foydalanuvchi Ramkasi (User Profile Box) -->
@@ -1010,6 +1025,18 @@ html.dark .login-submit-btn:hover {
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
                         <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
                         <span>Yangi Maktab Qo'shish</span>
+                    </div>
+
+                    <!-- Theme Toggle in Dropdown -->
+                    <div @click="toggleTheme(); showUserMenu = false"
+                         class="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer transition">
+                        <div class="flex items-center gap-2.5">
+                            <i :class="theme === 'light' ? 'fas fa-moon text-amber-500' : 'fas fa-sun text-amber-400'" class="text-xs w-4 text-center"></i>
+                            <span x-text="theme === 'light' ? 'To\'liq Qora rejim' : 'To\'liq Oq rejim'"></span>
+                        </div>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold"
+                              :class="theme === 'light' ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'"
+                              x-text="theme === 'light' ? 'OQ' : 'QORA'"></span>
                     </div>
 
                     <div class="border-t border-slate-800 my-1"></div>
@@ -2783,6 +2810,41 @@ const EdugateCharts = {
     attendanceChart: null,
     weeklyChart: null,
 
+    getTextColor() {
+        return document.documentElement.classList.contains('light') ? '#475569' : '#94a3b8';
+    },
+
+    getGridColor() {
+        return document.documentElement.classList.contains('light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+    },
+
+    setTheme(theme) {
+        const textColor = (theme === 'light') ? '#475569' : '#94a3b8';
+        const gridColor = (theme === 'light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+
+        if (this.attendanceChart && this.attendanceChart.options) {
+            if (this.attendanceChart.options.plugins?.legend?.labels) {
+                this.attendanceChart.options.plugins.legend.labels.color = textColor;
+            }
+            this.attendanceChart.update();
+        }
+
+        if (this.weeklyChart && this.weeklyChart.options) {
+            if (this.weeklyChart.options.scales?.x) {
+                this.weeklyChart.options.scales.x.ticks.color = textColor;
+                this.weeklyChart.options.scales.x.grid.color = gridColor;
+            }
+            if (this.weeklyChart.options.scales?.y) {
+                this.weeklyChart.options.scales.y.ticks.color = textColor;
+                this.weeklyChart.options.scales.y.grid.color = gridColor;
+            }
+            if (this.weeklyChart.options.plugins?.legend?.labels) {
+                this.weeklyChart.options.plugins.legend.labels.color = textColor;
+            }
+            this.weeklyChart.update();
+        }
+    },
+
     init(todayStats = {}, weeklyData = []) {
         this.initAttendanceChart(todayStats);
         this.initWeeklyChart(weeklyData);
@@ -2825,7 +2887,7 @@ const EdugateCharts = {
                     legend: {
                         position: 'bottom',
                         labels: {
-                            color: '#94a3b8',
+                            color: this.getTextColor(),
                             font: { size: 11, family: 'Plus Jakarta Sans' },
                             padding: 16,
                             usePointStyle: true,
@@ -2896,19 +2958,19 @@ const EdugateCharts = {
                 maintainAspectRatio: false,
                 scales: {
                     x: {
-                        grid: { color: 'rgba(51,65,85,0.2)' },
-                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' } }
+                        grid: { color: this.getGridColor() },
+                        ticks: { color: this.getTextColor(), font: { size: 11, family: 'Plus Jakarta Sans' } }
                     },
                     y: {
                         beginAtZero: true,
-                        grid: { color: 'rgba(51,65,85,0.2)' },
-                        ticks: { color: '#94a3b8', font: { size: 11, family: 'Plus Jakarta Sans' }, precision: 0 }
+                        grid: { color: this.getGridColor() },
+                        ticks: { color: this.getTextColor(), font: { size: 11, family: 'Plus Jakarta Sans' }, precision: 0 }
                     }
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: '#94a3b8',
+                            color: this.getTextColor(),
                             font: { size: 11, family: 'Plus Jakarta Sans' },
                             usePointStyle: true,
                             pointStyleWidth: 8
@@ -2975,6 +3037,50 @@ function adminApp() {
                 }
             }
             await this.login();
+        },
+
+        // ===== THEME MANAGEMENT (TO'LIQ OQ & TO'LIQ QORA) =====
+        theme: (() => {
+            try {
+                return localStorage.getItem('edugate_admin_theme') || 'dark';
+            } catch (e) {
+                return 'dark';
+            }
+        })(),
+
+        applyTheme(t) {
+            this.theme = (t === 'light' || t === 'dark') ? t : 'dark';
+            const root = document.documentElement;
+            const body = document.body;
+            if (this.theme === 'light') {
+                root.classList.add('light');
+                root.classList.remove('dark');
+                if (body) {
+                    body.classList.add('theme-light');
+                    body.classList.remove('theme-dark');
+                }
+            } else {
+                root.classList.add('dark');
+                root.classList.remove('light');
+                if (body) {
+                    body.classList.add('theme-dark');
+                    body.classList.remove('theme-light');
+                }
+            }
+            try {
+                localStorage.setItem('edugate_admin_theme', this.theme);
+            } catch (e) {}
+
+            try {
+                if (window.EdugateCharts && typeof window.EdugateCharts.setTheme === 'function') {
+                    window.EdugateCharts.setTheme(this.theme);
+                }
+            } catch (e) {}
+        },
+
+        toggleTheme() {
+            const nextTheme = this.theme === 'light' ? 'dark' : 'light';
+            this.applyTheme(nextTheme);
         },
 
         // ===== NAVIGATION =====
@@ -3296,6 +3402,8 @@ function adminApp() {
 
         // ===== INITIALIZATION =====
         async initApp() {
+            this.applyTheme(this.theme);
+
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
