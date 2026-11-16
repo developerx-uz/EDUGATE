@@ -13,6 +13,75 @@ function adminApp() {
         liveTime: '',
         liveDate: '',
 
+        // ===== 3-PORTAL ARCHITECTURE (SUPERADMIN, XALQ TA'LIMI, MAKTABLAR) =====
+        portalMode: (() => {
+            if (window.EDUGATE_INITIAL_PORTAL) return window.EDUGATE_INITIAL_PORTAL;
+            const host = window.location.hostname.toLowerCase();
+            if (host.startsWith('journal.') || host.startsWith('school.') || host.startsWith('maktab.')) return 'school';
+            if (host.startsWith('edu.') || host.startsWith('monitoring.') || host.startsWith('mmtv.')) return 'monitoring';
+            if (host.startsWith('admin.')) return 'admin';
+
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('/journal') || path.includes('/school') || path.includes('/maktab')) return 'school';
+            if (path.includes('/edu') || path.includes('/monitoring') || path.includes('/mmtv')) return 'monitoring';
+            if (path.includes('/admin')) return 'admin';
+            return 'admin';
+        })(),
+
+        setPortalMode(mode) {
+            this.portalMode = mode;
+            this.authError = '';
+            if (!this.token) {
+                this.loginForm = { username: '', password: '' };
+            }
+        },
+
+        get isSuperadmin() {
+            if (!this.currentUser) return this.portalMode === 'admin';
+            const role = (this.currentUser.role || '').toUpperCase();
+            return role === 'SUPERADMIN' || this.currentUser.is_superadmin;
+        },
+
+        get isMinistryViewer() {
+            if (this.currentUser) {
+                const role = (this.currentUser.role || '').toUpperCase();
+                return role === 'MINISTRY_VIEWER';
+            }
+            return this.portalMode === 'monitoring';
+        },
+
+        get isSchoolAdmin() {
+            if (this.currentUser) {
+                const role = (this.currentUser.role || '').toUpperCase();
+                return role === 'SCHOOL_ADMIN';
+            }
+            return this.portalMode === 'school';
+        },
+
+        get isReadOnly() {
+            return this.isMinistryViewer;
+        },
+
+        get portalTitle() {
+            if (this.isSchoolAdmin) {
+                return this.currentUser?.school_name || 'Maktab Kabineti';
+            }
+            if (this.isMinistryViewer) {
+                return "Xalq Ta'limi";
+            }
+            return 'EDUGATE';
+        },
+
+        get portalSubtitle() {
+            if (this.isSchoolAdmin) {
+                return '1 Maktab = 1 Login';
+            }
+            if (this.isMinistryViewer) {
+                return "Faqat Ko'rish (Read-Only)";
+            }
+            return 'Server & Tizim Boshqaruvi';
+        },
+
         updateClock() {
             const now = new Date();
             this.liveTime = now.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -328,6 +397,7 @@ function adminApp() {
 
         // ===== MODALS & DIALOGS =====
         showAddSchoolModal: false,
+        showSchoolAccountModal: false,
         showAddStudentModal: false,
         showEditStudentModal: false,
         showAddTeacherModal: false,
@@ -338,8 +408,9 @@ function adminApp() {
         confirmCallback: null,
 
         // ===== FORMS =====
-        schoolForm: { name: '', code: '', address: '', phone: '' },
+        schoolForm: { name: '', code: '', address: '', phone: '', admin_username: '', admin_password: '' },
         editSchoolForm: { id: null },
+        schoolAccountForm: { school_id: null, school_name: '', username: '', password: '', full_name: '', has_account: false },
         studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '', face_encoding: '', photo_path: '' },
         editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '' },
         teacherForm: { school_id: '', first_name: '', last_name: '', phone_number: '', subject: '', class_name: '' },
