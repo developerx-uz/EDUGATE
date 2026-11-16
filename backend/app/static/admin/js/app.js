@@ -104,6 +104,9 @@ function adminApp() {
                 try {
                     localStorage.setItem('edugate_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
                 } catch (e) {}
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                }, 310);
             }
         },
 

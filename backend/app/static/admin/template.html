@@ -85,7 +85,8 @@
         <!-- include: components/sidebar.html -->
 
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden md:ml-20">
+        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden"
+             :class="sidebarCollapsed ? 'collapsed' : ''">
 
             <!-- TOPBAR -->
             <!-- include: components/topbar.html -->

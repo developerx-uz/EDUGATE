@@ -777,12 +777,37 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     overflow: visible;
 }
 
-/* Perfect Synchronized 1-Tekisda Sidebar Transitions */
+/* Perfect Synchronized 1-Tekisda Sidebar & Content Transitions */
 aside.sidebar-container {
+    width: 260px;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: width;
 }
 
+aside.sidebar-container.collapsed {
+    width: 80px !important;
+}
+
+.main-content-wrapper {
+    margin-left: 260px;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: margin-left;
+    min-width: 0;
+}
+
+.main-content-wrapper.collapsed {
+    margin-left: 80px !important;
+}
+
+@media (max-width: 767.98px) {
+    aside.sidebar-container {
+        width: 260px !important;
+    }
+    .main-content-wrapper,
+    .main-content-wrapper.collapsed {
+        margin-left: 0 !important;
+    }
+}
 
 .sidebar-toggle-btn {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease !important;
