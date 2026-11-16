@@ -28,17 +28,20 @@ async def lifespan(app: FastAPI):
             await conn.execute(text("ALTER TABLE students ADD COLUMN IF NOT EXISTS birth_cert_number VARCHAR(50);"))
             await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'SUPERADMIN';"))
             await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS school_id VARCHAR(36);"))
+            # 1 maktab = 1 login qat'iy cheklov indeksi (NULL bo'lmagan maktablar uchun yagona)
+            await conn.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_users_school_id ON users (school_id) WHERE school_id IS NOT NULL;"))
         except Exception:
             pass
 
-    # Initial Hokimlik Superadmin foydalanuvchisini yaratish
+    # Initial foydalanuvchilar: Superadmin va Xalq Ta'limi
     async with AsyncSession(engine) as session:
+        # 1. Superadmin (Server & Tizim Boshqaruvi)
         res = await session.execute(select(User).filter(User.username == "admin"))
         user = res.scalar_one_or_none()
         if not user:
             superadmin = User(
                 username="admin",
-                email="hokimiyat@edugate.uz",
+                email="admin@edugate.uz",
                 full_name="Viloyat va Shahar Hokimligi Superadmini",
                 hashed_password=get_password_hash("Daminol007$"),
                 role=UserRole.SUPERADMIN,
@@ -46,6 +49,22 @@ async def lifespan(app: FastAPI):
                 is_active=True
             )
             session.add(superadmin)
+            await session.commit()
+
+        # 2. Xalq Ta'limi (MMTV / Hokimlik Monitoring - Read-Only)
+        res_xt = await session.execute(select(User).filter(User.username == "xalq_talimi"))
+        user_xt = res_xt.scalar_one_or_none()
+        if not user_xt:
+            xt_user = User(
+                username="xalq_talimi",
+                email="monitoring@edugate.uz",
+                full_name="Xalq Ta'limi Vazirligi (Monitoring Inspeksiya)",
+                hashed_password=get_password_hash("XalqTalimi2026!"),
+                role=UserRole.MINISTRY_VIEWER,
+                is_superadmin=False,
+                is_active=True
+            )
+            session.add(xt_user)
             await session.commit()
 
     # Redis keshini ishga tushirish
@@ -105,14 +124,25 @@ if not settings.API_V1_STR.startswith("/edugate"):
 @app.api_route("/edugate", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
 @app.api_route("/edugate/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
 @app.api_route("/edugate/index.html", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
-async def serve_landing():
+async def serve_landing(request: Request):
+    # Subdomain orqali kelgan so'rovlarni o'z portaliga to'g'ridan-to'g'ri ulash
+    host = request.headers.get("host", "").lower()
+    if host.startswith(("journal.", "school.", "maktab.")):
+        content = render_admin_html(portal_mode="school")
+        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+    if host.startswith(("edu.", "monitoring.", "mmtv.")):
+        content = render_admin_html(portal_mode="monitoring")
+        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+    if host.startswith("admin."):
+        content = render_admin_html(portal_mode="admin")
+        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+
     landing_index = os.path.join(os.path.dirname(__file__), "static", "landing", "index.html")
     if os.path.exists(landing_index):
         with open(landing_index, "r", encoding="utf-8") as f:
             content = f.read()
         
         # Har safar sahifa ochilganda yoki refresh qilinganda avtomatik yangi timestamp qo'yish
-        # Natijada brauzer hech qachon eski keshni ishlatmaydi va har doim yangi fayllarni yuklaydi
         import time, re
         ts = str(int(time.time()))
         content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
@@ -187,7 +217,7 @@ async def serve_presentation():
     return HTMLResponse("<h1>Prezentatsiya topilmadi</h1>", status_code=404)
 
 
-def render_admin_html() -> str:
+def render_admin_html(portal_mode: str = "admin") -> str:
     admin_dir = os.path.join(os.path.dirname(__file__), "static", "admin")
     template_path = os.path.join(admin_dir, "template.html")
     if os.path.exists(template_path):
@@ -205,6 +235,11 @@ def render_admin_html() -> str:
         content = re.sub(r"<!--\s*include:\s*([^\s>]+)\s*-->", replacer, template)
         ts = str(int(time.time()))
         content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
+        
+        # Inject initial portal mode script
+        portal_script = f'<script>window.EDUGATE_INITIAL_PORTAL = "{portal_mode}";</script>'
+        if "</head>" in content:
+            content = content.replace("</head>", f"    {portal_script}\n</head>")
         return content
 
     admin_index = os.path.join(admin_dir, "index.html")
@@ -258,17 +293,50 @@ async def block_docs(rest_of_path: str = ""):
     raise HTTPException(status_code=404, detail="Not Found")
 
 
+# 1. SUPERADMIN PORTAL (Sayt & Server Boshqaruvi / DevOps)
 @app.api_route("/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/edugate/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/edugate/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
-async def serve_admin():
-    content = render_admin_html()
-    response = HTMLResponse(content=content)
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
+async def serve_admin(request: Request):
+    content = render_admin_html(portal_mode="admin")
+    return HTMLResponse(content=content, headers=CACHE_HEADERS)
+
+
+# 2. XALQ TA'LIMI PORTALI (MMTV / Hokimlik Monitoring - Faqat Ko'rish / Read-Only)
+@app.api_route("/edu", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edu/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/monitoring", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/monitoring/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/mmtv", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/mmtv/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/edu", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/edu/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/monitoring", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/monitoring/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/mmtv", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+@app.api_route("/edugate/mmtv/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
+async def serve_ministry(request: Request):
+    content = render_admin_html(portal_mode="monitoring")
+    return HTMLResponse(content=content, headers=CACHE_HEADERS)
+
+
+# 3. MAKTABLAR PORTALI (Elektron Jurnal & Maktab Kabineti - 1 Maktab = 1 Login)
+@app.api_route("/journal", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/journal/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/school", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/school/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/maktab", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/maktab/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/journal", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/journal/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/school", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/school/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/maktab", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+@app.api_route("/edugate/maktab/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
+async def serve_school(request: Request):
+    content = render_admin_html(portal_mode="school")
+    return HTMLResponse(content=content, headers=CACHE_HEADERS)
 
 
 
