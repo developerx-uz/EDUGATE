@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, JSONResponse, Response
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -80,6 +80,7 @@ app.add_middleware(
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
+    app.mount("/edugate/static", StaticFiles(directory=static_dir), name="edugate_static")
 
 landing_dir = os.path.join(os.path.dirname(__file__), "static", "landing")
 landing_assets_dir = os.path.join(landing_dir, "assets")
@@ -207,6 +208,26 @@ def render_admin_html() -> str:
         with open(admin_index, "r", encoding="utf-8") as f:
             return f.read()
     return "<h1>Admin panel topilmadi</h1>"
+
+
+@app.get("/manifest.json", tags=["PWA"])
+@app.get("/edugate/manifest.json", tags=["PWA"])
+async def serve_manifest():
+    manifest_file = os.path.join(os.path.dirname(__file__), "static", "admin", "manifest.json")
+    if os.path.exists(manifest_file):
+        return FileResponse(manifest_file, media_type="application/manifest+json", headers=CACHE_HEADERS)
+    return JSONResponse({"name": "EDUGATE", "short_name": "EDUGATE"})
+
+
+@app.get("/sw.js", tags=["PWA"])
+@app.get("/edugate/sw.js", tags=["PWA"])
+async def serve_service_worker():
+    sw_file = os.path.join(os.path.dirname(__file__), "static", "admin", "sw.js")
+    if os.path.exists(sw_file):
+        headers = dict(CACHE_HEADERS)
+        headers["Service-Worker-Allowed"] = "/"
+        return FileResponse(sw_file, media_type="application/javascript", headers=headers)
+    return Response(content="// SW not found", media_type="application/javascript")
 
 
 @app.get("/admin", response_class=HTMLResponse, tags=["Admin Portal"])

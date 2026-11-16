@@ -14,6 +14,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- Alpine.js 3 CDN (defer) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Native PWA for Chrome App Installation -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="static/admin/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="static/admin/icons/icon-192.png">
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EDUGATE">
     <!-- EDUGATE Modular CSS Stylesheet -->
     <style>
     <!-- include: css/admin.css -->
@@ -72,6 +81,19 @@
     </script>
     <script>
     <!-- include: js/app.js -->
+    </script>
+    <!-- Register Service Worker for Native Chrome PWA install (no UI button) -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            const isEdugate = window.location.pathname.includes('/edugate');
+            const swUrl = isEdugate ? '/edugate/sw.js' : '/sw.js';
+            const scopeUrl = isEdugate ? '/edugate/' : '/';
+            navigator.serviceWorker.register(swUrl, { scope: scopeUrl })
+                .then(reg => console.log('EDUGATE PWA service worker registered', reg.scope))
+                .catch(err => console.warn('EDUGATE SW registration failed:', err));
+        });
+    }
     </script>
 </body>
 </html>
