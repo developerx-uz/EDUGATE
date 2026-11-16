@@ -135,7 +135,7 @@ body {
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .stat-card:hover {
@@ -834,10 +834,6 @@ aside.sidebar-container {
     will-change: width;
 }
 
-.main-content-wrapper {
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    will-change: margin-left;
-}
 
 .sidebar-toggle-btn {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease !important;
@@ -1092,8 +1088,9 @@ aside.sidebar-container {
 
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
-<aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="sidebar-container fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar">
+<aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px] shadow-[8px_0_30px_rgba(0,0,0,0.8)]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
+       class="sidebar-container fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar"
+       @click.outside="if (!sidebarCollapsed) toggleSidebar()">
 
     <!-- Header: Logo, Brand Text, and Smooth Sliding Toggle Button -->
     <div class="relative flex items-center h-16 border-b border-neutral-800 flex-shrink-0 overflow-hidden px-4">
@@ -1143,7 +1140,7 @@ aside.sidebar-container {
         </button>
 
         <!-- Main Group -->
-        <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'dashboard'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'dashboard'}"
              :title="sidebarCollapsed ? 'Dashboard' : ''">
@@ -1156,7 +1153,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'schools'}"
              :title="sidebarCollapsed ? 'Maktablar' : ''">
@@ -1169,7 +1166,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'students'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'students'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'students'}"
              :title="sidebarCollapsed ? 'O\'quvchilar' : ''">
@@ -1182,7 +1179,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'teachers'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'teachers'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'teachers'}"
              :title="sidebarCollapsed ? 'O\'qituvchilar' : ''">
@@ -1198,7 +1195,7 @@ aside.sidebar-container {
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
-        <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'attendance'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'attendance'}"
              :title="sidebarCollapsed ? 'Davomat' : ''">
@@ -1211,7 +1208,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'devices'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'devices'}"
              :title="sidebarCollapsed ? 'Kameralar & Turniketlar' : ''">
@@ -1224,7 +1221,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'parents'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'parents'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'parents'}"
              :title="sidebarCollapsed ? 'Ota-onalar' : ''">
@@ -1240,7 +1237,7 @@ aside.sidebar-container {
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
-        <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'reports'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'reports'}"
              :title="sidebarCollapsed ? 'Hisobotlar' : ''">
@@ -1253,7 +1250,7 @@ aside.sidebar-container {
             </span>
         </div>
 
-        <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'settings'; if (!sidebarCollapsed) toggleSidebar(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'settings'}"
              :title="sidebarCollapsed ? 'Sozlamalar' : ''">
@@ -1270,8 +1267,7 @@ aside.sidebar-container {
 
 
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden"
-             :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
+        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden md:ml-20">
 
             <!-- TOPBAR -->
             <!-- TOPBAR COMPONENT -->

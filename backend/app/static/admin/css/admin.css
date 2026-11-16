@@ -84,7 +84,7 @@ body {
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .stat-card:hover {
@@ -783,10 +783,6 @@ aside.sidebar-container {
     will-change: width;
 }
 
-.main-content-wrapper {
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    will-change: margin-left;
-}
 
 .sidebar-toggle-btn {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease !important;
