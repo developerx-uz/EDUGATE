@@ -30,21 +30,41 @@ class SchoolAccountSetRequest(BaseModel):
     full_name: Optional[str] = None
 
 
-@router.get("/stats", summary="Superadmin Dashboard Asosiy Statistikasi")
+@router.get("/stats", summary="Dashboard Asosiy Statistikasi (Rolga moslashgan)")
 async def get_dashboard_stats(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     today_start = datetime.combine(date.today(), datetime.min.time())
 
-    schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
-    students_count = (await db.execute(select(func.count(Student.id)))).scalar() or 0
-    teachers_count = (await db.execute(select(func.count(Teacher.id)))).scalar() or 0
-    devices_count = (await db.execute(select(func.count(Device.id)))).scalar() or 0
-    parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
+    if current_user.role == UserRole.SCHOOL_ADMIN:
+        sc_id = current_user.school_id
+        schools_count = 1
+        students_count = (await db.execute(select(func.count(Student.id)).filter(Student.school_id == sc_id, Student.is_active == True))).scalar() or 0
+        teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.school_id == sc_id, Teacher.is_active == True))).scalar() or 0
+        devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.school_id == sc_id, Device.is_active == True))).scalar() or 0
+        
+        parents_count = (await db.execute(
+            select(func.count(func.distinct(Parent.id)))
+            .join(Parent.students)
+            .filter(Student.school_id == sc_id)
+        )).scalar() or 0
 
-    today_logs = (await db.execute(
-        select(AttendanceLog).filter(AttendanceLog.event_time >= today_start)
-    )).scalars().all()
+        today_logs = (await db.execute(
+            select(AttendanceLog)
+            .join(AttendanceLog.student)
+            .filter(Student.school_id == sc_id, AttendanceLog.event_time >= today_start)
+        )).scalars().all()
+    else:
+        schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
+        students_count = (await db.execute(select(func.count(Student.id)).filter(Student.is_active == True))).scalar() or 0
+        teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.is_active == True))).scalar() or 0
+        devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.is_active == True))).scalar() or 0
+        parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
+
+        today_logs = (await db.execute(
+            select(AttendanceLog).filter(AttendanceLog.event_time >= today_start)
+        )).scalars().all()
 
     today_entries = sum(1 for log in today_logs if log.event_type == AttendanceEventType.ENTRY)
     today_exits = sum(1 for log in today_logs if log.event_type == AttendanceEventType.EXIT)
@@ -64,41 +84,70 @@ async def get_dashboard_stats(
     }
 
 
-@router.get("/realtime/pulse", summary="Real-time 1s Auto-Refresh Pulse & State Delta")
+@router.get("/realtime/pulse", summary="Real-time 1s Auto-Refresh Pulse & State Delta (Rolga moslashgan)")
 async def get_realtime_pulse(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     now = datetime.now()
     today_start = datetime.combine(now.date(), datetime.min.time())
 
-    # Fast scalar counts
-    schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
-    students_count = (await db.execute(select(func.count(Student.id)))).scalar() or 0
-    teachers_count = (await db.execute(select(func.count(Teacher.id)))).scalar() or 0
-    devices_count = (await db.execute(select(func.count(Device.id)))).scalar() or 0
-    parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
+    is_school = current_user.role == UserRole.SCHOOL_ADMIN
+    sc_id = current_user.school_id if is_school else None
 
-    # Today attendance breakdown
-    today_events_res = await db.execute(
-        select(AttendanceLog.event_type, AttendanceLog.status)
-        .filter(AttendanceLog.event_time >= today_start)
-    )
-    today_events = today_events_res.all()
+    if is_school:
+        schools_count = 1
+        students_count = (await db.execute(select(func.count(Student.id)).filter(Student.school_id == sc_id, Student.is_active == True))).scalar() or 0
+        teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.school_id == sc_id, Teacher.is_active == True))).scalar() or 0
+        devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.school_id == sc_id, Device.is_active == True))).scalar() or 0
+        parents_count = (await db.execute(
+            select(func.count(func.distinct(Parent.id)))
+            .join(Parent.students)
+            .filter(Student.school_id == sc_id)
+        )).scalar() or 0
+
+        today_events_res = await db.execute(
+            select(AttendanceLog.event_type, AttendanceLog.status)
+            .join(AttendanceLog.student)
+            .filter(Student.school_id == sc_id, AttendanceLog.event_time >= today_start)
+        )
+        today_events = today_events_res.all()
+
+        logs_res = await db.execute(
+            select(AttendanceLog)
+            .options(selectinload(AttendanceLog.student), selectinload(AttendanceLog.device))
+            .join(AttendanceLog.student)
+            .filter(Student.school_id == sc_id, AttendanceLog.event_time >= today_start)
+            .order_by(AttendanceLog.event_time.desc())
+            .limit(25)
+        )
+        logs = logs_res.scalars().all()
+    else:
+        schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
+        students_count = (await db.execute(select(func.count(Student.id)).filter(Student.is_active == True))).scalar() or 0
+        teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.is_active == True))).scalar() or 0
+        devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.is_active == True))).scalar() or 0
+        parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
+
+        today_events_res = await db.execute(
+            select(AttendanceLog.event_type, AttendanceLog.status)
+            .filter(AttendanceLog.event_time >= today_start)
+        )
+        today_events = today_events_res.all()
+
+        logs_res = await db.execute(
+            select(AttendanceLog)
+            .options(selectinload(AttendanceLog.student), selectinload(AttendanceLog.device))
+            .filter(AttendanceLog.event_time >= today_start)
+            .order_by(AttendanceLog.event_time.desc())
+            .limit(25)
+        )
+        logs = logs_res.scalars().all()
 
     today_entries = sum(1 for et, _ in today_events if et == AttendanceEventType.ENTRY)
     today_exits = sum(1 for et, _ in today_events if et == AttendanceEventType.EXIT)
     today_lates = sum(1 for _, st in today_events if st == AttendanceStatus.LATE)
     today_ontime = sum(1 for _, st in today_events if st == AttendanceStatus.ON_TIME)
-
-    # Latest 25 logs for real-time live feed / CCTV HUD
-    logs_res = await db.execute(
-        select(AttendanceLog)
-        .options(selectinload(AttendanceLog.student), selectinload(AttendanceLog.device))
-        .filter(AttendanceLog.event_time >= today_start)
-        .order_by(AttendanceLog.event_time.desc())
-        .limit(25)
-    )
-    logs = logs_res.scalars().all()
 
     serialized_logs = []
     for l in logs:
@@ -147,24 +196,29 @@ async def get_realtime_pulse(
     }
 
 
-@router.get("/stats/weekly", summary="Haftalik Davomat Haqiqiy Statistikasi")
+@router.get("/stats/weekly", summary="Haftalik Davomat Statistikasi (Rolga moslashgan)")
 async def get_weekly_stats(
+    current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ) -> Any:
     today = date.today()
     days_data = []
+    is_school = current_user.role == UserRole.SCHOOL_ADMIN
+    sc_id = current_user.school_id if is_school else None
 
     for i in range(6, -1, -1):
         day_date = today - timedelta(days=i)
         day_start = datetime.combine(day_date, datetime.min.time())
         day_end = datetime.combine(day_date, datetime.max.time())
 
-        result = await db.execute(
-            select(AttendanceLog).filter(
-                AttendanceLog.event_time >= day_start,
-                AttendanceLog.event_time <= day_end
-            )
+        query = select(AttendanceLog).filter(
+            AttendanceLog.event_time >= day_start,
+            AttendanceLog.event_time <= day_end
         )
+        if is_school:
+            query = query.join(AttendanceLog.student).filter(Student.school_id == sc_id)
+
+        result = await db.execute(query)
         logs = result.scalars().all()
 
         ontime = sum(1 for l in logs if l.status == AttendanceStatus.ON_TIME and l.event_type == AttendanceEventType.ENTRY)
@@ -178,6 +232,8 @@ async def get_weekly_stats(
             "late": late,
             "total": total
         })
+
+    return days_data
 
     return days_data
 
