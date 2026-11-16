@@ -896,24 +896,29 @@ aside.sidebar-container.collapsed nav {
 }
 
 aside.sidebar-container.collapsed .sidebar-item {
-    width: 56px !important;
-    min-width: 56px !important;
-    max-width: 56px !important;
-    height: 36px !important;
-    min-height: 36px !important;
-    max-height: 36px !important;
+    width: 58px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
     padding: 0 !important;
-    margin: 2.5px auto !important;
+    margin: 2px auto !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    border-radius: 10px !important;
+    border-radius: 9px !important;
     box-sizing: border-box !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-item:active {
+    transform: scale(0.97) !important;
 }
 
 aside.sidebar-container.collapsed .sidebar-icon-box {
-    width: 56px !important;
-    height: 36px !important;
+    width: 100% !important;
+    height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     display: flex !important;
@@ -995,89 +1000,111 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
     <!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
 <div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-black text-slate-100 select-none">
     
-    <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
+    <!-- LEFT PANEL: BRAND, HEADLINE & ADAPTIVE FEATURE CARDS -->
     <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-black border-b lg:border-b-0 lg:border-r border-neutral-900 flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
-        <!-- Top: Logo (Production button removed as requested) -->
+        <!-- Top: Logo & Current Portal Badge -->
         <div class="relative z-10 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
-                    <i class="fas fa-building-columns text-base"></i>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg ring-1 ring-white/20"
+                     :class="portalMode === 'school' ? 'bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-gradient-to-tr from-amber-500 to-yellow-400 text-black shadow-amber-500/25' : 'bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-indigo-500/25')">
+                    <i :class="portalMode === 'school' ? 'fas fa-school' : (portalMode === 'monitoring' ? 'fas fa-landmark' : 'fas fa-server')" class="text-base"></i>
                 </div>
                 <div>
                     <span class="text-xl font-black tracking-tight text-white block leading-none">EDUGATE</span>
-                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase">Yagona Boshqaruv Markazi</span>
+                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase"
+                          x-text="portalMode === 'school' ? 'Elektron Jurnal & Maktab Portali' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi Monitoring Portali' : 'Server & Tizim Boshqaruvi')"></span>
                 </div>
+            </div>
+
+            <!-- Direct URL hint badge -->
+            <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] font-mono text-zinc-400">
+                <i class="fas fa-globe text-[10px] text-indigo-400"></i>
+                <span x-text="portalMode === 'school' ? 'journal.domain.com' : (portalMode === 'monitoring' ? 'edu.domain.uz' : 'admin.domain.uz')"></span>
             </div>
         </div>
 
         <!-- Center: Enterprise Headline & Redesigned Feature Cards -->
         <div class="relative z-10 space-y-6 my-auto max-w-2xl">
             <div class="space-y-3">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold tracking-wide">
-                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
-                    <span>ENTERPRISE BOSHQARUV PORTALI</span>
+                <!-- Dynamic Pill -->
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border"
+                     :class="portalMode === 'school' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400')">
+                    <span class="w-1.5 h-1.5 rounded-full animate-pulse"
+                          :class="portalMode === 'school' ? 'bg-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-400' : 'bg-indigo-400')"></span>
+                    <span x-text="portalMode === 'school' ? '1 MAKTAB = 1 LOGIN • QAT\'IY MAKTAB ISOLYATSIYASI' : (portalMode === 'monitoring' ? 'XALQ TA\'LIMI • FAQAT KO\'RISH (READ-ONLY)' : 'ENTERPRISE SERVER & DEVOPS BOSHQARUVI')"></span>
                 </div>
-                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Maktab Davomati, Face ID & Xavfsizlik Ekotizimi
-                </h1>
-                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl">
-                    Kameralar, aqlli turniketlar, Telegram bot va markaziy ma'lumotlar bazasini xavfsiz va markazlashgan boshqaruv portali.
-                </p>
+
+                <!-- Dynamic Title -->
+                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight"
+                    x-text="portalMode === 'school' ? 'Maktab Davomati, O\'quvchilar & Shaxsiy Kameralar' : (portalMode === 'monitoring' ? 'Hududiy Maktablar Monitoring & Nazorat Markazi' : 'Serverlar, Maktablar & Markaziy Tizim Infratuzilmasi')"></h1>
+
+                <!-- Dynamic Description -->
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl"
+                   x-text="portalMode === 'school' ? 'Har bir maktab uchun bitta yagona login ta\'minlangan. Faqat o\'z o\'quvchilaringizni qo\'shing, o\'z kameralaringizni kuzating va o\'z statistikangizni tahlil qiling.' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi Vazirligi va Hokimlik uchun monitoring tizimi. Barcha maktablar davomati va kameralarini shaffof ko\'ring (ma\'lumotlarni o\'chirish huquqi mavjud emas).' : 'DevOps va texnik ma\'murlar uchun serverlar, ma\'lumotlar bazasi, tizim sozlamalari hamda barcha maktablar loginlarini boshqarish markazi.')"></p>
             </div>
 
             <!-- REDESIGNED FEATURE CARDS (OLED TRUE BLACK) -->
             <div class="flex flex-col gap-3 pt-2">
-                <!-- Card 1: Face ID -->
+                <!-- Card 1 -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
-                            <i class="fas fa-shield-halved text-lg"></i>
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
+                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border border-indigo-500/25 text-indigo-400')">
+                            <i :class="portalMode === 'school' ? 'fas fa-user-graduate' : (portalMode === 'monitoring' ? 'fas fa-chart-line' : 'fas fa-server')" class="text-lg"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Face ID & Turniket Nazorati</h3>
-                                <span class="px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 text-[10px] font-semibold border border-indigo-500/25">0.2s Aniqlik</span>
+                                <h3 class="text-sm font-bold text-white transition-colors"
+                                    x-text="portalMode === 'school' ? 'O\'quvchilarni Qo\'shish & Boshqarish' : (portalMode === 'monitoring' ? 'Barcha Maktablar Shaffof Reytingi' : 'Serverlar & VPS Infratuzilmasi')"></h3>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
+                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-indigo-500/15 text-indigo-400 border-indigo-500/25')"
+                                      x-text="portalMode === 'school' ? 'O\'z Maktabingiz' : (portalMode === 'monitoring' ? 'Monitoring' : 'DevOps')"></span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                                0.2s tezlikda yuzni aniqlash, Anti-Passback spam filtri va turniketlarni avtomatik boshqarish.
-                            </p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
+                               x-text="portalMode === 'school' ? 'Siz faqat o\'z maktabingiz o\'quvchilarini kiritasiz, tahrirlaysiz va sinflar bo\'yicha shakllantirasiz.' : (portalMode === 'monitoring' ? 'Respublika, viloyat va tuman kesimida davomat foizlari, o\'quvchilar va o\'qituvchilar soni.' : 'Hetzner Cloud serverlari, Docker konteynerlar va PostgreSQL ma\'lumotlar bazasi boshqaruvi.')"></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Telegram Bot -->
+                <!-- Card 2 -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
-                            <i class="fab fa-telegram text-xl"></i>
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
+                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-sky-500/10 border border-sky-500/25 text-sky-400' : 'bg-sky-500/10 border border-sky-500/25 text-sky-400')">
+                            <i :class="portalMode === 'school' ? 'fas fa-video' : (portalMode === 'monitoring' ? 'fas fa-video' : 'fas fa-key')" class="text-lg"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">Telegram Xabarnoma Tizimi</h3>
-                                <span class="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 text-[10px] font-semibold border border-sky-500/25">Instant Push</span>
+                                <h3 class="text-sm font-bold text-white transition-colors"
+                                    x-text="portalMode === 'school' ? 'Faqat O\'z Kameralaringizni Kuzatish' : (portalMode === 'monitoring' ? 'Jonli AI Kameralar & Turniketlar' : '1 Maktab = 1 Login Boshqaruvi')"></h3>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
+                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-sky-500/15 text-sky-400 border-sky-500/25' : 'bg-sky-500/15 text-sky-400 border-sky-500/25')"
+                                      x-text="portalMode === 'school' ? 'Maxfiy Oqim' : (portalMode === 'monitoring' ? 'Jonli Oqim' : 'Xavfsizlik')"></span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                                Ota-onalarga farzandining kirish, chiqish va kechikishlari haqida zudlik bilan avto-bildirishnomalar.
-                            </p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
+                               x-text="portalMode === 'school' ? 'Boshqa maktablar kameralariga kirish taqiqlangan. Faqat o\'z binoingizdagi turniket va Face ID kameralarini ko\'rasiz.' : (portalMode === 'monitoring' ? 'Barcha maktablardagi kirish-chiqish nuqtalaridagi jonli Face ID va turniket hodisalarini kuzatish.' : 'Har bir maktab uchun aniq 1 ta login yaratish va parolini xavfsiz boshqarish (2-login mumkin emas).')"></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Central Database & Analytics -->
+                <!-- Card 3 -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
-                            <i class="fas fa-chart-pie text-lg"></i>
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
+                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border border-amber-500/25 text-amber-400' : 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400')">
+                            <i :class="portalMode === 'school' ? 'fas fa-chart-pie' : (portalMode === 'monitoring' ? 'fas fa-lock' : 'fas fa-sliders')" class="text-lg"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Yagona Baza & Markaziy Tahlil</h3>
-                                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-semibold border border-emerald-500/25">Real-Vaqt</span>
+                                <h3 class="text-sm font-bold text-white transition-colors"
+                                    x-text="portalMode === 'school' ? 'Faqat O\'z Statistikangiz & Hisobotlar' : (portalMode === 'monitoring' ? 'Qat\'iy Read-Only (O\'chirib Bo\'lmaydi)' : 'Tizim Sozlamalari & API Shlyuz')"></h3>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
+                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25')"
+                                      x-text="portalMode === 'school' ? 'Shaxsiy Tahlil' : (portalMode === 'monitoring' ? 'Himoyalangan' : 'Markaziy')"></span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                                Barcha maktablar va sinflar davomatini to'liq nazorat qilish, shaffof reytinglar hamda Excel eksport.
-                            </p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
+                               x-text="portalMode === 'school' ? 'Bugungi kelganlar, kechikkanlar, ota-onalarga yuborilgan bildirishnomalar va Excel hisobot eksporti.' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi portali foydalanuvchilari ma\'lumotlarni o\'chira olmaydi yoki tahrirlay olmaydi — faqat nazorat.' : 'Telegram bot tokenlari, global vaqt parametrlari va tashqi e-Maktab tizim integratsiyalari.')"></p>
                         </div>
                     </div>
                 </div>
@@ -1087,21 +1114,28 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         <!-- Bottom: DeveloperX Footer -->
         <div class="relative z-10 flex items-center justify-between text-xs text-zinc-500">
             <span>DeveloperX Agency • Toshkent, O'zbekiston</span>
-            <div class="flex items-center gap-1.5">
-                <i class="fas fa-server text-[10px]"></i>
-                <span>Hetzner Cloud VPS</span>
+            <div class="flex items-center gap-1.5 font-mono text-[11px]">
+                <i class="fas fa-shield text-[10px]"></i>
+                <span x-text="portalMode === 'school' ? '1 Maktab = 1 Login' : (portalMode === 'monitoring' ? 'Read-Only Nazorat' : 'Superadmin Hub')"></span>
             </div>
         </div>
     </div>
 
-    <!-- RIGHT PANEL: CLEAN LOGIN CONSOLE -->
+    <!-- RIGHT PANEL: DEDICATED LOGIN CONSOLE -->
     <div class="login-right-panel w-full lg:w-2/5 h-full bg-black flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
-        <!-- Top Controls: Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙 Ramkalari) -->
-        <div class="h-10 flex items-center justify-end w-full">
+        <!-- Top Controls: Portal Switcher Pill & Dual Theme Switcher -->
+        <div class="flex items-center justify-between w-full gap-2">
+            <!-- Dedicated Portal Tag -->
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-bold"
+                 :class="portalMode === 'school' ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border-indigo-500/25 text-indigo-400')">
+                <i :class="portalMode === 'school' ? 'fas fa-school' : (portalMode === 'monitoring' ? 'fas fa-landmark' : 'fas fa-server')"></i>
+                <span x-text="portalMode === 'school' ? 'Maktab Portali' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi' : 'Server / Admin')"></span>
+            </div>
+
+            <!-- Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙) -->
             <div class="theme-switch-pill inline-flex items-center p-1 rounded-xl border transition-all duration-200"
                  :class="theme === 'light' ? 'bg-neutral-100 border-neutral-300' : 'bg-neutral-900 border-neutral-800'">
-                <!-- Oq Mavzu Ramkasi (Sun Icon ☀️) -->
                 <button type="button" 
                         @click="applyTheme('light')" 
                         class="theme-btn-light flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 cursor-pointer"
@@ -1112,7 +1146,6 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <i class="fas fa-sun text-sm"></i>
                 </button>
                 
-                <!-- Qora Mavzu Ramkasi (Moon Icon 🌙) -->
                 <button type="button" 
                         @click="applyTheme('dark')" 
                         class="theme-btn-dark flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 cursor-pointer"
@@ -1125,30 +1158,61 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </div>
         </div>
 
-        <!-- Center: Clean Borderless Form -->
-        <div class="w-full max-w-[380px] mx-auto my-auto space-y-6">
-            <div>
-                <h2 class="text-3xl font-bold text-white tracking-tight">Tizimga Kirish</h2>
-                <p class="text-xs text-zinc-400 mt-1.5">Boshqaruv paneliga kirish uchun hisob ma'lumotlarini kiriting</p>
+        <!-- Center: Portal Selector Switcher & Clean Login Form -->
+        <div class="w-full max-w-[390px] mx-auto my-auto space-y-5">
+            
+            <!-- PORTAL SWITCHER TABS (User switches portals directly) -->
+            <div class="p-1 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center gap-1 text-[11px] font-semibold">
+                <button type="button" @click="setPortalMode('admin')"
+                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
+                        :class="portalMode === 'admin' ? 'bg-white text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
+                    <i class="fas fa-server text-[10px]"></i>
+                    <span>Admin</span>
+                </button>
+                <button type="button" @click="setPortalMode('monitoring')"
+                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
+                        :class="portalMode === 'monitoring' ? 'bg-amber-400 text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
+                    <i class="fas fa-landmark text-[10px]"></i>
+                    <span>Xalq Ta'limi</span>
+                </button>
+                <button type="button" @click="setPortalMode('school')"
+                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
+                        :class="portalMode === 'school' ? 'bg-emerald-500 text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
+                    <i class="fas fa-school text-[10px]"></i>
+                    <span>Maktab</span>
+                </button>
             </div>
 
+            <!-- Header Titles based on selected portal -->
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight"
+                    x-text="portalMode === 'school' ? 'Maktab Kabineti' : (portalMode === 'monitoring' ? 'MMTV Monitoring' : 'Server Administratsiyasi')"></h2>
+                <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
+                   x-text="portalMode === 'school' ? 'Maktabingizning yagona logini va paroli orqali kiring (1 maktab = 1 login)' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi nazorat tizimiga kirish (Faqat ko\'rish / Read-Only)' : 'Serverlar, maktablar va tizimni boshqarish uchun hisobga kiring')"></p>
+            </div>
+
+            <!-- Login Form -->
             <form @submit.prevent="login()" class="space-y-4" autocomplete="off" data-lpignore="true">
-                <!-- Anti-autofill dummy hidden fields to absorb browser auto-fill heuristics -->
                 <input type="text" name="prevent_autofill_username" style="display:none" autocomplete="off" tabindex="-1">
                 <input type="password" name="prevent_autofill_password" style="display:none" autocomplete="new-password" tabindex="-1">
 
                 <div>
-                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                        <i class="fas fa-user text-[10px]"></i> FOYDALANUVCHI NOMI
+                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between mb-2">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-user text-[10px]"></i>
+                            <span x-text="portalMode === 'school' ? 'MAKTAB YAGONA LOGINI' : (portalMode === 'monitoring' ? 'INSPEKSIYA XODIMI LOGINI' : 'SUPERADMIN LOGINI')"></span>
+                        </span>
+                        <span class="text-[9px] font-mono text-zinc-500" x-text="portalMode === 'school' ? '1 maktab = 1 login' : ''"></span>
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
                             <i class="fas fa-user text-xs"></i>
                         </span>
-                        <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
+                        <input type="text" x-model="loginForm.username" required 
+                               :placeholder="portalMode === 'school' ? 'Masalan: maktab_21 yoki login' : (portalMode === 'monitoring' ? 'xalq_talimi' : 'admin')"
                                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-4 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-medium">
+                               class="w-full pl-9 pr-4 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-neutral-500 transition font-medium">
                     </div>
                 </div>
 
@@ -1163,7 +1227,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                         <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
                                autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-10 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-mono">
+                               class="w-full pl-9 pr-10 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-neutral-500 transition font-mono">
                         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
                             <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
@@ -1176,24 +1240,25 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <span x-text="authError"></span>
                 </div>
 
-                <!-- Primary Action Button -->
+                <!-- Primary Action Button with Dynamic Color -->
                 <button type="submit" :disabled="loading"
-                        class="login-submit-btn w-full py-3.5 px-4 bg-white hover:bg-neutral-200 text-black font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
+                        class="login-submit-btn w-full py-3.5 px-4 font-extrabold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50"
+                        :class="portalMode === 'school' ? 'bg-emerald-500 hover:bg-emerald-400 text-black' : (portalMode === 'monitoring' ? 'bg-amber-400 hover:bg-amber-300 text-black' : 'bg-white hover:bg-neutral-200 text-black')">
                     <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                     <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
-                    <span>Tizimga Kirish</span>
+                    <span x-text="portalMode === 'school' ? 'Maktab Kabinetiga Kirish' : (portalMode === 'monitoring' ? 'Monitoring Paneliga Kirish' : 'Server Paneliga Kirish')"></span>
                 </button>
             </form>
 
             <!-- Bottom Sub-footer -->
-            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-4">
+            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-2">
                 <i class="fas fa-shield text-[10px]"></i>
-                <span>Xavfsiz Shifrlangan Tizim • DeveloperX 2026</span>
+                <span x-text="portalMode === 'school' ? 'Faqat o\'z maktabingiz o\'quvchilari va kameralari' : (portalMode === 'monitoring' ? 'Faqat ko\'rish huquqi bilan himoyalangan' : 'Superadmin to\'liq boshqaruv huquqlari')"></span>
             </div>
         </div>
 
         <!-- Bottom Spacer -->
-        <div class="h-6"></div>
+        <div class="h-4"></div>
     </div>
 
 </div>
@@ -1220,8 +1285,8 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                 <span class="text-white font-extrabold text-xs">E</span>
             </div>
             <div class="min-w-0 whitespace-nowrap overflow-hidden">
-                <h2 class="text-white font-extrabold text-xs leading-tight truncate">EDUGATE</h2>
-                <p class="text-neutral-500 text-[9px] leading-tight truncate">Hokimlik Markazi</p>
+                <h2 class="text-white font-extrabold text-xs leading-tight truncate" x-text="portalTitle">EDUGATE</h2>
+                <p class="text-neutral-500 text-[9px] leading-tight truncate" x-text="portalSubtitle">Boshqaruv Markazi</p>
             </div>
         </div>
 
@@ -1255,7 +1320,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </span>
         </div>
 
-        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div x-show="!isSchoolAdmin" @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'schools'}"
              :title="sidebarCollapsed ? 'Maktablar' : ''">
@@ -1352,7 +1417,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </span>
         </div>
 
-        <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div x-show="isSuperadmin" @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'settings'}"
              :title="sidebarCollapsed ? 'Sozlamalar' : ''">
@@ -1486,7 +1551,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <!-- User Name & Role -->
                     <div class="text-left hidden sm:block">
                         <p class="text-xs font-bold text-white group-hover:text-indigo-300 transition leading-tight" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</p>
-                        <p class="text-[9px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
+                        <p class="text-[9px] text-neutral-400 font-medium leading-tight" x-text="portalSubtitle">Hokimlik Markazi</p>
                     </div>
 
                     <i class="fas fa-chevron-down text-[9px] text-neutral-400 group-hover:text-white transition ml-0.5"
@@ -1499,7 +1564,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <div class="px-3 py-2 border-b border-neutral-800 mb-1">
                         <p class="text-xs font-bold text-white truncate" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</p>
                         <p class="text-[10px] text-neutral-400 font-mono truncate" x-text="currentUser?.email || (currentUser?.username ? '@' + currentUser.username : 'admin@edugate.uz')">admin@edugate.uz</p>
-                        <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[9px] font-bold uppercase tracking-wider font-mono">Hokimiyat Portali</span>
+                        <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider font-mono border"
+                              :class="isSchoolAdmin ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : (isMinistryViewer ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20')"
+                              x-text="isSchoolAdmin ? 'Maktab Portali (1 Login)' : (isMinistryViewer ? 'Xalq Ta\'limi (Read-Only)' : 'Superadmin Portali')"></span>
                     </div>
 
                     <!-- Profil Sozlamalari Tugmasi -->
@@ -1925,7 +1992,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
-                <button @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
+                <button x-show="isSuperadmin && !isReadOnly" @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
                     <i class="fas fa-plus"></i> Yangi Maktab
                 </button>
             </div>
@@ -1937,12 +2004,20 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                 <div @click="selectSchool(sc)" class="glass-card p-6 rounded-2xl relative group cursor-pointer hover:border-indigo-500/60 hover:bg-slate-800/80 transition space-y-4">
                     <div class="flex items-start justify-between">
                         <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold font-mono" x-text="sc.code"></span>
-                        <div class="flex items-center gap-1" @click.stop>
-                            <button @click.stop="editSchoolForm.id = sc.id; schoolForm.name = sc.name; schoolForm.code = sc.code; schoolForm.address = sc.address; schoolForm.phone = sc.phone; showAddSchoolModal = true" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
-                                <i class="fas fa-pen-to-square"></i>
+                        <div class="flex items-center gap-1.5" @click.stop>
+                            <!-- 1 Maktab = 1 Login tugmasi -->
+                            <button x-show="isSuperadmin" @click.stop="openSchoolAccountModal(sc)"
+                                    class="px-2 py-1 rounded-lg text-[10px] font-mono font-bold border transition flex items-center gap-1 cursor-pointer"
+                                    :class="sc.has_login ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/25 hover:bg-amber-500/20'"
+                                    title="Maktabning yagona loginini boshqarish (1 maktab = 1 login)">
+                                <i class="fas fa-key text-[9px]"></i>
+                                <span x-text="sc.admin_username || 'Login berish'"></span>
                             </button>
-                            <button @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
-                                <i class="fas fa-trash-can"></i>
+                            <button x-show="isSuperadmin && !isReadOnly" @click.stop="editSchool(sc)" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
+                                <i class="fas fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button x-show="isSuperadmin && !isReadOnly" @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
+                                <i class="fas fa-trash-can text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -1987,6 +2062,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <tr>
                         <th class="px-6 py-4">Kodi</th>
                         <th class="px-6 py-4">Maktab Nomi</th>
+                        <th class="px-6 py-4">Yagona Login (1 maktab = 1 login)</th>
                         <th class="px-6 py-4">Manzil</th>
                         <th class="px-6 py-4">Sinflar</th>
                         <th class="px-6 py-4">O'quvchilar</th>
@@ -1998,11 +2074,23 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                         <tr @click="selectSchool(sc)" class="hover:bg-slate-800/30 transition cursor-pointer">
                             <td class="px-6 py-4 font-mono text-xs text-indigo-400 font-bold" x-text="sc.code"></td>
                             <td class="px-6 py-4 font-semibold text-white" x-text="sc.name"></td>
+                            <td class="px-6 py-4" @click.stop>
+                                <button x-show="isSuperadmin" @click.stop="openSchoolAccountModal(sc)"
+                                        class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition inline-flex items-center gap-1.5 cursor-pointer"
+                                        :class="sc.has_login ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/25 hover:bg-amber-500/20'">
+                                    <i class="fas fa-key text-[10px]"></i>
+                                    <span x-text="sc.admin_username || 'Login berish'"></span>
+                                </button>
+                            </td>
                             <td class="px-6 py-4 text-xs text-slate-400" x-text="sc.address || '-'"></td>
                             <td class="px-6 py-4 text-xs font-bold text-indigo-300" x-text="sc.classes_count || 0"></td>
                             <td class="px-6 py-4 text-xs font-bold text-blue-400" x-text="sc.students_count || 0"></td>
                             <td class="px-6 py-4 text-right" @click.stop>
-                                <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                                <div x-show="isSuperadmin && !isReadOnly" class="inline-flex items-center gap-2">
+                                    <button @click.stop="editSchool(sc)" class="text-indigo-400 hover:text-indigo-300 text-xs font-semibold">Tahrirlash</button>
+                                    <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                                </div>
+                                <span x-show="isReadOnly" class="text-slate-500 text-xs italic">Faqat ko'rish</span>
                             </td>
                         </tr>
                     </template>
@@ -2147,7 +2235,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">Barcha maktablar va sinflar bo'yicha o'quvchilar kontingenti</p>
         </div>
-        <button @click="openStudentModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
+        <button x-show="!isReadOnly" @click="openStudentModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
             <i class="fas fa-plus"></i> Yangi O'quvchi
         </button>
     </div>
@@ -2163,7 +2251,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                            class="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500">
                 </div>
             </div>
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Maktab</label>
                 <select x-model="studentsFilter.school_id" class="w-full px-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white text-xs focus:outline-none focus:border-indigo-500">
                     <option value="">Barcha maktablar</option>
@@ -2230,7 +2318,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
+                                <div x-show="!isReadOnly" class="flex items-center justify-end gap-2">
                                     <button @click="openEditStudentModal(st)" class="p-1.5 text-slate-400 hover:text-indigo-400 transition" title="Tahrirlash">
                                         <i class="fas fa-pen-to-square"></i>
                                     </button>
@@ -2238,6 +2326,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                                         <i class="fas fa-trash-can"></i>
                                     </button>
                                 </div>
+                                <span x-show="isReadOnly" class="text-slate-500 text-xs italic">Faqat ko'rish</span>
                             </td>
                         </tr>
                     </template>
@@ -2278,7 +2367,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">Maktablar o'qituvchilar tarkibi va sinf biriktiruvlari</p>
         </div>
-        <button @click="showAddTeacherModal = true" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-2 transition">
+        <button x-show="!isReadOnly" @click="openTeacherModal()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-purple-600/30 flex items-center gap-2 transition">
             <i class="fas fa-plus"></i> Yangi O'qituvchi
         </button>
     </div>
@@ -2294,7 +2383,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                            class="w-full pl-9 pr-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white placeholder-slate-500 text-xs focus:outline-none focus:border-purple-500">
                 </div>
             </div>
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Maktab</label>
                 <select x-model="teachersFilter.school_id" class="w-full px-3 py-2 bg-slate-800/80 border border-slate-700/60 rounded-xl text-white text-xs focus:outline-none focus:border-purple-500">
                     <option value="">Barcha maktablar</option>
@@ -2323,7 +2412,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                         <th class="px-6 py-4">Fan / Lavozim</th>
                         <th class="px-6 py-4">Telefon</th>
                         <th class="px-6 py-4">Biriktirilgan Sinf</th>
-                        <th class="px-6 py-4 text-right">Amallar</th>
+                        <th x-show="!isReadOnly" class="px-6 py-4 text-right">Amallar</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-800/50">
@@ -2345,7 +2434,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                             <td class="px-6 py-4">
                                 <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold" x-text="tc.class_name ? (tc.class_name + ' Sinf') : 'Umumiy'"></span>
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td x-show="!isReadOnly" class="px-6 py-4 text-right">
                                 <button @click="deleteTeacher(tc.id)" class="p-1.5 text-slate-400 hover:text-rose-400 transition" title="O'chirish">
                                     <i class="fas fa-trash-can"></i>
                                 </button>
@@ -2535,7 +2624,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">AI Face ID kameralar, turniket kontrollerlari va Edge mini-PC lar</p>
         </div>
-        <button @click="showAddDeviceModal = true" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
+        <button x-show="!isReadOnly" @click="openDeviceModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
             <i class="fas fa-plus"></i> Yangi Qurilma Qo'shish
         </button>
     </div>
@@ -2548,7 +2637,12 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
                     </span>
-                    <span class="text-xs text-indigo-400 font-semibold" x-text="dev.school_name || getSchoolName(dev.school_id)"></span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-indigo-400 font-semibold" x-text="dev.school_name || getSchoolName(dev.school_id)"></span>
+                        <button x-show="!isReadOnly" @click="deleteDevice(dev.id)" class="p-1.5 text-slate-500 hover:text-rose-400 transition" title="O'chirish">
+                            <i class="fas fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="flex items-start gap-4">
@@ -3197,9 +3291,80 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon Raqami</label>
                 <input type="text" x-model="schoolForm.phone" placeholder="+998712345678" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
             </div>
+
+            <!-- Maktab Yagona Logini (1 Maktab = 1 Login) -->
+            <div x-show="!editSchoolForm.id" class="p-3 bg-emerald-950/40 border border-emerald-800/50 rounded-xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                        <i class="fas fa-key"></i> Maktab Yagona Logini (1 Maktab = 1 Login)
+                    </span>
+                    <span class="text-[10px] text-zinc-400 font-mono">journal.domain.com</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-300 mb-1">Login Nomi *</label>
+                        <input type="text" x-model="schoolForm.admin_username" placeholder="maktab_sch101" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-300 mb-1">Boshlang'ich Parol *</label>
+                        <input type="text" x-model="schoolForm.admin_password" placeholder="Maktab2026!" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-400">Har bir maktab uchun faqat 1 ta login mavjud bo'ladi. Ular faqat o'z o'quvchilari va kameralarini ko'ra oladi.</p>
+            </div>
+
             <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
                 <button type="button" @click="showAddSchoolModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
                 <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 1B. SCHOOL SINGLE LOGIN MANAGEMENT MODAL (1 MAKTAB = 1 LOGIN) -->
+<div x-show="showSchoolAccountModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4" x-cloak>
+    <div class="w-full max-w-md glass-card rounded-2xl p-6 border border-slate-700/60 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div>
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-key text-emerald-400"></i>
+                    <span>Maktab Yagona Logini</span>
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5" x-text="schoolAccountForm.school_name"></p>
+            </div>
+            <button @click="showSchoolAccountModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
+        </div>
+
+        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400 flex items-center gap-2">
+            <i class="fas fa-circle-check text-sm flex-shrink-0"></i>
+            <span>Qat'iy qoida: Har bir maktab uchun faqat 1 ta yagona login bo'ladi (2-login mumkin emas). Maktab ma'muri faqat o'z kabinetini boshqaradi.</span>
+        </div>
+
+        <form @submit.prevent="saveSchoolAccount()" class="space-y-4" autocomplete="off">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Logini (Foydalanuvchi nomi) *</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 font-mono text-xs">@</span>
+                    <input type="text" x-model="schoolAccountForm.username" required placeholder="maktab_21" class="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-emerald-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1" x-text="schoolAccountForm.has_account ? 'Yangi Parol o\'rnatish (Ixtiyoriy)' : 'Boshlang\'ich Parol *'"></label>
+                <input type="text" x-model="schoolAccountForm.password" :required="!schoolAccountForm.has_account" placeholder="Kamida 6 ta belgi" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm font-mono focus:outline-none focus:border-emerald-500">
+                <p class="text-[10px] text-slate-500 mt-1" x-show="schoolAccountForm.has_account">Parolni o'zgartirmaslik uchun bo'sh qoldiring.</p>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Mas'ul Shaxs / Direktor F.I.SH</label>
+                <input type="text" x-model="schoolAccountForm.full_name" placeholder="Masalan: Karim Aliyev" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500">
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" @click="showSchoolAccountModal = false" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold">Bekor qilish</button>
+                <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/30 transition">
+                    Saqlash (1 Maktab = 1 Login)
+                </button>
             </div>
         </form>
     </div>
@@ -3239,9 +3404,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <form @submit.prevent="createStudent()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="studentForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -3307,9 +3472,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="updateStudent()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="editStudentForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -3361,9 +3526,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="createTeacher()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="teacherForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -3409,9 +3574,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
         <form @submit.prevent="createDevice()" class="space-y-4" autocomplete="off">
-            <div>
+            <div x-show="!isSchoolAdmin">
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
-                <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
+                <select x-model="deviceForm.school_id" :required="!isSchoolAdmin" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
                     <template x-for="sc in schoolsDetailed" :key="sc.id">
                         <option :value="sc.id" x-text="sc.name"></option>
                     </template>
@@ -3695,6 +3860,19 @@ const EdugateAPI = {
     async deleteSchool(schoolId) {
         return await this.request('/api/v1/admin/schools/' + schoolId, {
             method: 'DELETE'
+        });
+    },
+
+    // 1 Maktab = 1 Login Hisobi
+    async getSchoolAccount(schoolId) {
+        return await this.request('/api/v1/admin/schools/' + schoolId + '/account');
+    },
+
+    async saveSchoolAccount(schoolId, accountData) {
+        return await this.request('/api/v1/admin/schools/' + schoolId + '/account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(accountData)
         });
     },
 
@@ -4023,6 +4201,75 @@ function adminApp() {
         liveTime: '',
         liveDate: '',
 
+        // ===== 3-PORTAL ARCHITECTURE (SUPERADMIN, XALQ TA'LIMI, MAKTABLAR) =====
+        portalMode: (() => {
+            if (window.EDUGATE_INITIAL_PORTAL) return window.EDUGATE_INITIAL_PORTAL;
+            const host = window.location.hostname.toLowerCase();
+            if (host.startsWith('journal.') || host.startsWith('school.') || host.startsWith('maktab.')) return 'school';
+            if (host.startsWith('edu.') || host.startsWith('monitoring.') || host.startsWith('mmtv.')) return 'monitoring';
+            if (host.startsWith('admin.')) return 'admin';
+
+            const path = window.location.pathname.toLowerCase();
+            if (path.includes('/journal') || path.includes('/school') || path.includes('/maktab')) return 'school';
+            if (path.includes('/edu') || path.includes('/monitoring') || path.includes('/mmtv')) return 'monitoring';
+            if (path.includes('/admin')) return 'admin';
+            return 'admin';
+        })(),
+
+        setPortalMode(mode) {
+            this.portalMode = mode;
+            this.authError = '';
+            if (!this.token) {
+                this.loginForm = { username: '', password: '' };
+            }
+        },
+
+        get isSuperadmin() {
+            if (!this.currentUser) return this.portalMode === 'admin';
+            const role = (this.currentUser.role || '').toUpperCase();
+            return role === 'SUPERADMIN' || this.currentUser.is_superadmin;
+        },
+
+        get isMinistryViewer() {
+            if (this.currentUser) {
+                const role = (this.currentUser.role || '').toUpperCase();
+                return role === 'MINISTRY_VIEWER';
+            }
+            return this.portalMode === 'monitoring';
+        },
+
+        get isSchoolAdmin() {
+            if (this.currentUser) {
+                const role = (this.currentUser.role || '').toUpperCase();
+                return role === 'SCHOOL_ADMIN';
+            }
+            return this.portalMode === 'school';
+        },
+
+        get isReadOnly() {
+            return this.isMinistryViewer;
+        },
+
+        get portalTitle() {
+            if (this.isSchoolAdmin) {
+                return this.currentUser?.school_name || 'Maktab Kabineti';
+            }
+            if (this.isMinistryViewer) {
+                return "Xalq Ta'limi";
+            }
+            return 'EDUGATE';
+        },
+
+        get portalSubtitle() {
+            if (this.isSchoolAdmin) {
+                return '1 Maktab = 1 Login';
+            }
+            if (this.isMinistryViewer) {
+                return "Faqat Ko'rish (Read-Only)";
+            }
+            return 'Server & Tizim Boshqaruvi';
+        },
+
         updateClock() {
             const now = new Date();
             this.liveTime = now.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -4338,6 +4585,7 @@ function adminApp() {
 
         // ===== MODALS & DIALOGS =====
         showAddSchoolModal: false,
+        showSchoolAccountModal: false,
         showAddStudentModal: false,
         showEditStudentModal: false,
         showAddTeacherModal: false,
@@ -4348,8 +4596,9 @@ function adminApp() {
         confirmCallback: null,
 
         // ===== FORMS =====
-        schoolForm: { name: '', code: '', address: '', phone: '' },
+        schoolForm: { name: '', code: '', address: '', phone: '', admin_username: '', admin_password: '' },
         editSchoolForm: { id: null },
+        schoolAccountForm: { school_id: null, school_name: '', username: '', password: '', full_name: '', has_account: false },
         studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '', face_encoding: '', photo_path: '' },
         editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '' },
         teacherForm: { school_id: '', first_name: '', last_name: '', phone_number: '', subject: '', class_name: '' },
@@ -4665,8 +4914,21 @@ function adminApp() {
             try {
                 const res = await EdugateAPI.login(this.loginForm.username, this.loginForm.password);
                 this.token = res.access_token;
+
+                // Auto switch portalMode based on returned user role
+                const role = (res.role || '').toUpperCase();
+                if (role === 'SCHOOL_ADMIN') {
+                    this.portalMode = 'school';
+                } else if (role === 'MINISTRY_VIEWER') {
+                    this.portalMode = 'monitoring';
+                } else if (role === 'SUPERADMIN') {
+                    if (this.portalMode !== 'school') {
+                        this.portalMode = 'admin';
+                    }
+                }
+
                 this.showToast('Hush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.', 'success');
-                this.initApp();
+                await this.initApp();
             } catch (err) {
                 this.authError = err.message;
             } finally {
@@ -4697,9 +4959,82 @@ function adminApp() {
                     this.currentUser = user;
                     this.profileForm.full_name = user.full_name || '';
                     this.profileForm.email = user.email || '';
+
+                    const role = (user.role || '').toUpperCase();
+                    if (role === 'SCHOOL_ADMIN') {
+                        this.portalMode = 'school';
+                        if (user.school_id) {
+                            this.studentForm.school_id = user.school_id;
+                            this.teacherForm.school_id = user.school_id;
+                            this.deviceForm.school_id = user.school_id;
+                            this.studentsFilter.school_id = user.school_id;
+                            this.teachersFilter.school_id = user.school_id;
+                            this.attendanceFilter.school_id = user.school_id;
+                        }
+                        if (this.activeTab === 'schools' || this.activeTab === 'settings') {
+                            this.activeTab = 'dashboard';
+                        }
+                    } else if (role === 'MINISTRY_VIEWER') {
+                        this.portalMode = 'monitoring';
+                        if (this.activeTab === 'settings') {
+                            this.activeTab = 'dashboard';
+                        }
+                    }
                 }
             } catch (err) {
                 console.warn('Foydalanuvchi ma\'lumotlarini yuklashda xatolik:', err);
+            }
+        },
+
+        // ===== 1 MAKTAB = 1 LOGIN BOSHQARUV USULLARI (SUPERADMIN UCHUN) =====
+        onSchoolCodeChange() {
+            if (!this.editSchoolForm.id && this.schoolForm.code) {
+                const cleanCode = this.schoolForm.code.trim().toLowerCase();
+                this.schoolForm.admin_username = 'maktab_' + cleanCode;
+                if (!this.schoolForm.admin_password) {
+                    this.schoolForm.admin_password = 'Maktab_' + this.schoolForm.code.trim() + '2026!';
+                }
+            }
+        },
+
+        async openSchoolAccountModal(school) {
+            this.schoolAccountForm.school_id = school.id;
+            this.schoolAccountForm.school_name = school.name;
+            this.schoolAccountForm.username = school.admin_username || ('maktab_' + (school.code || '').toLowerCase());
+            this.schoolAccountForm.password = '';
+            this.schoolAccountForm.full_name = school.admin_full_name || (school.name + " Ma'muri");
+            this.schoolAccountForm.has_account = !!school.has_login;
+            this.showSchoolAccountModal = true;
+            try {
+                const acc = await EdugateAPI.getSchoolAccount(school.id);
+                if (acc && acc.has_account) {
+                    this.schoolAccountForm.username = acc.username;
+                    this.schoolAccountForm.full_name = acc.full_name || this.schoolAccountForm.full_name;
+                    this.schoolAccountForm.has_account = true;
+                }
+            } catch (e) {}
+        },
+
+        async saveSchoolAccount() {
+            if (!this.schoolAccountForm.username) {
+                this.showToast('Login nomini kiriting', 'error');
+                return;
+            }
+            if (!this.schoolAccountForm.has_account && (!this.schoolAccountForm.password || this.schoolAccountForm.password.length < 6)) {
+                this.showToast('Parol kamida 6 ta belgidan iborat bo\'lishi shart', 'error');
+                return;
+            }
+            try {
+                const res = await EdugateAPI.saveSchoolAccount(this.schoolAccountForm.school_id, {
+                    username: this.schoolAccountForm.username,
+                    password: this.schoolAccountForm.password || undefined,
+                    full_name: this.schoolAccountForm.full_name
+                });
+                this.showToast(res.message || 'Maktab logini saqlandi! (1 maktab = 1 login)', 'success');
+                this.showSchoolAccountModal = false;
+                this.fetchSchoolsDetailed();
+            } catch (e) {
+                this.showToast(e.message || 'Xatolik yuz berdi', 'error');
             }
         },
 
@@ -4843,11 +5178,27 @@ function adminApp() {
         // ===== MODAL OPENERS =====
         openSchoolModal() {
             this.editSchoolForm = { id: null };
-            this.schoolForm = { name: '', code: '', address: '', phone: '' };
+            this.schoolForm = { name: '', code: '', address: '', phone: '', admin_username: '', admin_password: '' };
+            this.showAddSchoolModal = true;
+        },
+
+        editSchool(sc) {
+            this.editSchoolForm = { id: sc.id };
+            this.schoolForm = {
+                name: sc.name,
+                code: sc.code,
+                address: sc.address || '',
+                phone: sc.phone || '',
+                admin_username: sc.admin_username || '',
+                admin_password: ''
+            };
             this.showAddSchoolModal = true;
         },
 
         openStudentModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.studentForm.school_id = this.currentUser.school_id;
+            }
             this.studentForm.first_name = '';
             this.studentForm.last_name = '';
             this.studentForm.student_code = '';
@@ -4858,8 +5209,33 @@ function adminApp() {
         },
 
         openClassModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.studentForm.school_id = this.currentUser.school_id;
+            }
             this.studentForm.class_name = '';
             this.showAddStudentModal = true;
+        },
+
+        openTeacherModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.teacherForm.school_id = this.currentUser.school_id;
+            }
+            this.teacherForm.first_name = '';
+            this.teacherForm.last_name = '';
+            this.teacherForm.subject = '';
+            this.teacherForm.phone_number = '';
+            this.teacherForm.class_name = '';
+            this.showAddTeacherModal = true;
+        },
+
+        openDeviceModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.deviceForm.school_id = this.currentUser.school_id;
+            }
+            this.deviceForm.name = '';
+            this.deviceForm.ip_address = '';
+            this.deviceForm.location_description = '';
+            this.showAddDeviceModal = true;
         },
 
         openEditStudentModal(st) {
@@ -4980,6 +5356,19 @@ function adminApp() {
                     this.showToast("O'qituvchi o'chirildi", 'success');
                     if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
                     this.fetchAllTeachers();
+                    this.fetchStats();
+                } catch (e) {
+                    this.showToast(e.message, 'error');
+                }
+            });
+        },
+
+        deleteDevice(id) {
+            this.confirm("Qurilmani o'chirish", "Ushbu kamera yoki turniket qurilmasini o'chirmoqchimisiz?", async () => {
+                try {
+                    await EdugateAPI.deleteDevice(id);
+                    this.showToast("Qurilma o'chirildi", 'success');
+                    this.fetchDevices();
                     this.fetchStats();
                 } catch (e) {
                     this.showToast(e.message, 'error');
