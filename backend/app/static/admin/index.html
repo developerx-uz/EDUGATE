@@ -1065,137 +1065,141 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
 
         <!-- MOBILE OVERLAY BACKDROP -->
-        <div x-show="sidebarOpen" @click="sidebarOpen = false"
+        <div x-show="sidebarOpenMobile" @click="sidebarOpenMobile = false"
              class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
 
         <!-- SIDEBAR -->
         <!-- SIDEBAR COMPONENT -->
-<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-       class="fixed left-0 top-0 h-screen w-[260px] bg-black border-r border-neutral-800 z-30 flex flex-col transition-transform duration-300 select-none overflow-hidden no-scrollbar">
+<aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
+       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-[width] duration-300 select-none overflow-hidden no-scrollbar">
 
-    <!-- Header: Logo, Brand Text, and Close Button -->
-    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800 flex-shrink-0">
-        <div class="flex items-center gap-3 min-w-0">
+    <!-- Header: Logo, Brand Text, and Toggle Button -->
+    <div class="flex items-center px-3.5 py-4 border-b border-neutral-800 flex-shrink-0 h-[68px]"
+         :class="sidebarCollapsed ? 'justify-center' : 'justify-between'">
+
+        <!-- Brand Logo & Text when expanded -->
+        <div x-show="!sidebarCollapsed" class="flex items-center gap-3 min-w-0">
             <!-- Brand Logo Box (E) -->
-            <div class="flex-shrink-0 w-10 h-10 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
-                <span class="text-white font-extrabold text-lg">E</span>
+            <div class="flex-shrink-0 w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800">
+                <span class="text-white font-extrabold text-base">E</span>
             </div>
             <!-- Brand Text -->
             <div class="min-w-0">
-                <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
-                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
+                <h2 class="text-white font-extrabold text-sm leading-tight truncate">EDUGATE</h2>
+                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik Markazi</p>
             </div>
         </div>
 
-        <!-- Close Button (Yon panelni yopish) -->
+        <!-- Toggle Button (Both Open & Close with Animated Inner Line) -->
         <button @click="toggleSidebar()" 
-                class="flex items-center justify-center w-8 h-8 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/60 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
-                title="Yon panelni yopish">
+                class="flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
+                :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
             <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="5" />
                 <line class="sidebar-toggle-line" 
-                      :style="sidebarOpen ? 'transform: rotate(0deg);' : 'transform: rotate(180deg);'"
+                      :style="sidebarCollapsed ? 'transform: rotate(180deg);' : 'transform: rotate(0deg);'"
                       x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
             </svg>
         </button>
     </div>
 
     <!-- Navigation Menu (Scrollbar Completely Disabled) -->
-    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3 space-y-0.5 no-scrollbar">
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-3 space-y-1 no-scrollbar">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
                 class="w-full flex items-center gap-3 px-3 py-2 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-2.5 group"
+                :class="sidebarCollapsed ? 'justify-center px-0' : ''"
                 title="Tizim bo'yicha global qidiruv (Ctrl+K)">
             <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
-            <span class="text-xs font-medium flex-1 text-left">Global Qidiruv...</span>
-            <kbd class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700">Ctrl+K</kbd>
+            <span x-show="!sidebarCollapsed" class="text-xs font-medium flex-1 text-left truncate">Global Qidiruv...</span>
+            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700">Ctrl+K</kbd>
         </button>
 
         <!-- Main Group -->
-        <div @click="activeTab = 'dashboard'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'dashboard'}"
+        <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'dashboard', 'justify-center px-0': sidebarCollapsed}"
              title="Dashboard">
             <i class="fas fa-chart-pie w-5 text-center text-sm"></i>
-            <span>Dashboard</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Dashboard</span>
         </div>
-        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'schools'}"
+        <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'schools', 'justify-center px-0': sidebarCollapsed}"
              title="Maktablar">
             <i class="fas fa-school w-5 text-center text-sm"></i>
-            <span>Maktablar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Maktablar</span>
         </div>
-        <div @click="activeTab = 'students'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'students'}"
+        <div @click="activeTab = 'students'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'students', 'justify-center px-0': sidebarCollapsed}"
              title="O'quvchilar">
             <i class="fas fa-user-graduate w-5 text-center text-sm"></i>
-            <span>O'quvchilar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">O'quvchilar</span>
         </div>
-        <div @click="activeTab = 'teachers'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'teachers'}"
+        <div @click="activeTab = 'teachers'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'teachers', 'justify-center px-0': sidebarCollapsed}"
              title="O'qituvchilar">
             <i class="fas fa-chalkboard-user w-5 text-center text-sm"></i>
-            <span>O'qituvchilar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">O'qituvchilar</span>
         </div>
 
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
-        <div @click="activeTab = 'attendance'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'attendance'}"
+        <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'attendance', 'justify-center px-0': sidebarCollapsed}"
              title="Davomat">
             <i class="fas fa-clipboard-check w-5 text-center text-sm"></i>
-            <span>Davomat</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Davomat</span>
         </div>
-        <div @click="activeTab = 'devices'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'devices'}"
+        <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'devices', 'justify-center px-0': sidebarCollapsed}"
              title="Kameralar & Turniketlar">
             <i class="fas fa-video w-5 text-center text-sm"></i>
-            <span>Kameralar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Kameralar</span>
         </div>
-        <div @click="activeTab = 'parents'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'parents'}"
+        <div @click="activeTab = 'parents'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'parents', 'justify-center px-0': sidebarCollapsed}"
              title="Ota-onalar">
             <i class="fas fa-users w-5 text-center text-sm"></i>
-            <span>Ota-onalar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Ota-onalar</span>
         </div>
 
         <div class="border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
-        <div @click="activeTab = 'reports'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'reports'}"
+        <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'reports', 'justify-center px-0': sidebarCollapsed}"
              title="Hisobotlar">
             <i class="fas fa-chart-bar w-5 text-center text-sm"></i>
-            <span>Hisobotlar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Hisobotlar</span>
         </div>
-        <div @click="activeTab = 'settings'; if (window.innerWidth < 1024) sidebarOpen = false"
-             class="sidebar-item" :class="{'active': activeTab === 'settings'}"
+        <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item" :class="{'active': activeTab === 'settings', 'justify-center px-0': sidebarCollapsed}"
              title="Sozlamalar">
             <i class="fas fa-gear w-5 text-center text-sm"></i>
-            <span>Sozlamalar</span>
+            <span x-show="!sidebarCollapsed" class="truncate">Sozlamalar</span>
         </div>
     </nav>
 </aside>
 
 
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300"
-             :class="sidebarOpen ? 'md:ml-[260px]' : 'md:ml-0'">
+        <div class="flex-1 flex flex-col overflow-hidden transition-[margin] duration-300"
+             :class="sidebarCollapsed ? 'md:ml-20' : 'md:ml-[260px]'">
 
             <!-- TOPBAR -->
             <!-- TOPBAR COMPONENT -->
 <header class="sticky top-0 z-10 bg-black border-b border-neutral-800 px-6 py-3">
     <div class="flex items-center justify-between gap-4">
-        <!-- Left: Open Sidebar Button (when closed) & Page Title -->
+        <!-- Left: Page Title (and mobile menu toggle) -->
         <div class="flex items-center gap-3 min-w-0">
-            <!-- Open Sidebar Button -->
-            <button x-show="!sidebarOpen" @click="toggleSidebar()" 
-                    class="flex items-center justify-center w-8 h-8 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
-                    title="Yon panelni ochish">
+            <!-- Mobile Toggle Button (only on small screens < 768px) -->
+            <button @click="toggleSidebar()" 
+                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0"
+                    title="Menyu">
                 <svg class="sidebar-toggle-svg w-5 h-5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="5" />
                     <line class="sidebar-toggle-line" 
-                          :style="sidebarOpen ? 'transform: rotate(0deg);' : 'transform: rotate(180deg);'"
+                          :style="sidebarCollapsed ? 'transform: rotate(180deg);' : 'transform: rotate(0deg);'"
                           x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
                 </svg>
             </button>
@@ -3904,25 +3908,30 @@ function adminApp() {
 
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
-        sidebarOpen: (() => {
+        sidebarCollapsed: (() => {
             try {
-                const saved = localStorage.getItem('edugate_sidebar_open');
+                const saved = localStorage.getItem('edugate_sidebar_collapsed');
                 if (saved !== null) return saved === 'true';
-                return window.innerWidth >= 1024;
+                return false;
             } catch (e) {
-                return window.innerWidth >= 1024;
+                return false;
             }
         })(),
+        sidebarOpenMobile: false,
         searchQuery: '',
         showNotifPanel: false,
         showUserMenu: false,
         isFullscreen: false,
 
         toggleSidebar() {
-            this.sidebarOpen = !this.sidebarOpen;
-            try {
-                localStorage.setItem('edugate_sidebar_open', this.sidebarOpen ? 'true' : 'false');
-            } catch (e) {}
+            if (window.innerWidth < 768) {
+                this.sidebarOpenMobile = !this.sidebarOpenMobile;
+            } else {
+                this.sidebarCollapsed = !this.sidebarCollapsed;
+                try {
+                    localStorage.setItem('edugate_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
+                } catch (e) {}
+            }
         },
 
         // ===== GLOBAL SEARCH / COMMAND PALETTE =====
