@@ -145,6 +145,19 @@ const EdugateAPI = {
         });
     },
 
+    // 1 Maktab = 1 Login Hisobi
+    async getSchoolAccount(schoolId) {
+        return await this.request('/api/v1/admin/schools/' + schoolId + '/account');
+    },
+
+    async saveSchoolAccount(schoolId, accountData) {
+        return await this.request('/api/v1/admin/schools/' + schoolId + '/account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(accountData)
+        });
+    },
+
     // Students
     async getStudents(schoolId = '', className = '') {
         let url = '/api/v1/admin/students/all';
