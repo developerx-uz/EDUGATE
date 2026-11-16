@@ -24,6 +24,32 @@
 
         <!-- Right: Actions & Notifications -->
         <div class="flex items-center gap-3">
+            <!-- Yangilash Tugmasi (Barcha Menyularda Ko'rinuvchi Real-Time Yangilash) -->
+            <button @click="triggerManualRefresh()" 
+                    :disabled="isRefreshing"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 group"
+                    title="Ma'lumotlarni yangilash (Har 1 soniyada avto-yangilanish faol)">
+                <i class="fas fa-arrows-rotate text-xs text-indigo-400 group-hover:rotate-180 transition-transform duration-500"
+                   :class="isRefreshing || isSyncing ? 'fa-spin' : ''"></i>
+                <span class="hidden sm:inline" x-text="isRefreshing ? 'Yangilanmoqda...' : 'Yangilash'">Yangilash</span>
+                
+                <!-- 1s Real-Time Pulse Indicator -->
+                <div class="flex items-center gap-1 pl-1 border-l border-neutral-800" title="1s Real-Time Rejim">
+                    <span class="relative flex h-2 w-2">
+                        <span x-show="realtimeStatus === 'online'" 
+                              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2"
+                              :class="{
+                                  'bg-emerald-500': realtimeStatus === 'online',
+                                  'bg-amber-400': realtimeStatus === 'syncing',
+                                  'bg-rose-500': realtimeStatus === 'offline'
+                              }"></span>
+                    </span>
+                    <span class="text-[9px] font-mono text-neutral-400 hidden xl:inline" 
+                          x-text="realtimeStatus === 'online' ? '1s' : (realtimeStatus === 'syncing' ? '...' : 'uzildi')">1s</span>
+                </div>
+            </button>
+
             <!-- Notifications Bell -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
@@ -115,12 +141,6 @@
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <i class="fas fa-gear text-neutral-400 text-xs w-4 text-center"></i>
                         <span>Tizim Sozlamalari</span>
-                    </div>
-
-                    <div @click="openSchoolModal(); showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
-                        <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
-                        <span>Yangi Maktab Qo'shish</span>
                     </div>
 
                     <!-- Theme Toggle in Dropdown -->

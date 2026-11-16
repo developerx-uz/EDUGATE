@@ -273,6 +273,17 @@ function adminApp() {
         attendanceDate: new Date().toISOString().split('T')[0],
         attendanceFilter: { school_id: '', class_name: '', status: '' },
 
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        isSyncing: false,
+        isRefreshing: false,
+        realtimeStatus: 'online', // 'online' | 'syncing' | 'offline'
+        realtimeTimer: null,
+        lastPulseHash: '',
+        syncFailures: 0,
+        lastSyncTime: '',
+        _prevStatsJson: '',
+        _visibilityBound: false,
+
         // ===== DEVICES & PARENTS =====
         devices: [],
         parents: [],
@@ -405,12 +416,7 @@ function adminApp() {
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
-                    // Live CCTV clock ticker
-            setInterval(() => {
-                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
-            }, 1000);
-
-            if (this.token) {
+                    if (this.token) {
                         this.openGlobalSearch();
                     }
                 }
@@ -421,26 +427,17 @@ function adminApp() {
             });
 
             this.updateClock();
-            setInterval(() => {
-                this.updateClock();
-            }, 1000);
-
-            // Live CCTV clock ticker
-            setInterval(() => {
-                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
-            }, 1000);
+            this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+            if (!this._clockInterval) {
+                this._clockInterval = setInterval(() => {
+                    this.updateClock();
+                    this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+                }, 1000);
+            }
 
             if (this.token) {
                 await this.refreshAllData();
-
-                // Periodic real-time background refresh
-                if (this.refreshInterval) clearInterval(this.refreshInterval);
-                this.refreshInterval = setInterval(() => {
-                    if (this.autoRefresh && (this.activeTab === 'dashboard' || this.activeTab === 'attendance')) {
-                        this.fetchTodayLogs();
-                        this.fetchStats();
-                    }
-                }, 5000);
+                this.startRealtimeEngine();
             } else {
                 // Ensure zero autofill on login modal
                 this.loginForm = { username: '', password: '' };
@@ -450,6 +447,137 @@ function adminApp() {
                 setTimeout(() => {
                     this.loginForm = { username: '', password: '' };
                 }, 250);
+            }
+        },
+
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        startRealtimeEngine() {
+            this.stopRealtimeEngine();
+            // Boshlanishida birinchi tick
+            this.scheduleNextPulse(800);
+
+            // Brauzer yoki telefon ekrani o'chirilganda/yoqilganda avtomatik sezish
+            if (!this._visibilityBound) {
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && this.token) {
+                        this.scheduleNextPulse(100);
+                    }
+                });
+                this._visibilityBound = true;
+            }
+        },
+
+        stopRealtimeEngine() {
+            if (this.realtimeTimer) {
+                clearTimeout(this.realtimeTimer);
+                this.realtimeTimer = null;
+            }
+        },
+
+        scheduleNextPulse(delayMs = 1000) {
+            if (this.realtimeTimer) {
+                clearTimeout(this.realtimeTimer);
+            }
+            this.realtimeTimer = setTimeout(() => {
+                this.performRealtimePulse();
+            }, delayMs);
+        },
+
+        async performRealtimePulse() {
+            // 1. Foydalanuvchi tizimga kirmagan bo'lsa, davom etmaymiz
+            if (!this.token) {
+                return;
+            }
+
+            // 2. QAT'IY BACKPRESSURE: Agar oldingi so'rov hali serverdan javob olmagan bo'lsa ("yetib kelmagan bo'lsa"),
+            // yangi so'rov HECH QACHON jo'natilmaydi! Bu telefon qotishlarini va brauzer osilishini 100% oldini oladi.
+            if (this.isSyncing) {
+                return;
+            }
+
+            // 3. Agar foydalanuvchi telefon ekranini qulflagan yoki boshqa ilovaga o'tgan bo'lsa,
+            // telefon qizib ketmasligi va batareya tejalishi uchun kechiktiramiz
+            if (document.hidden) {
+                this.scheduleNextPulse(3000);
+                return;
+            }
+
+            this.isSyncing = true;
+            this.realtimeStatus = 'syncing';
+
+            try {
+                // Serverdan yagona tezkor puls so'rovi (faqat va faqat server o'zi beradi)
+                const pulse = await EdugateAPI.getPulse();
+
+                // FOYDALANUVCHIGA SERVERDAN JAVOB YETIB KELDI ("OK")
+                if (pulse && pulse.status === 'ok') {
+                    // Statistika va grafiklar yangilanishi
+                    if (pulse.stats) {
+                        const sJson = JSON.stringify(pulse.stats);
+                        if (this._prevStatsJson !== sJson) {
+                            this.stats = pulse.stats;
+                            this._prevStatsJson = sJson;
+                            if (window.EdugateCharts && typeof window.EdugateCharts.update === 'function') {
+                                window.EdugateCharts.update(this.stats, this.weeklyStats);
+                            }
+                        }
+                    }
+
+                    // Jonli davomat loglari (real-time CCTV va jadval)
+                    if (Array.isArray(pulse.today_logs)) {
+                        this.todayLogs = pulse.today_logs;
+                    }
+
+                    // Versiya tekshiruvi: Agar ma'lumotlar bazasida o'zgarish bo'lgan bo'lsa (maktab, o'quvchi va h.k.)
+                    if (pulse.version_hash && this.lastPulseHash && pulse.version_hash !== this.lastPulseHash) {
+                        if (this.activeTab === 'schools') this.fetchSchoolsDetailed();
+                        else if (this.activeTab === 'students') this.fetchAllStudents();
+                        else if (this.activeTab === 'teachers') this.fetchAllTeachers();
+                        else if (this.activeTab === 'devices') this.fetchDevices();
+                        else if (this.activeTab === 'parents') this.fetchParents();
+                    }
+                    this.lastPulseHash = pulse.version_hash;
+
+                    this.realtimeStatus = 'online';
+                    this.syncFailures = 0;
+                    this.lastSyncTime = new Date().toLocaleTimeString('uz-UZ');
+                } else {
+                    this.realtimeStatus = 'offline';
+                }
+            } catch (err) {
+                // Agar server javob bermasa yoki internet uzilsa ("yo'q")
+                this.syncFailures++;
+                this.realtimeStatus = this.syncFailures > 2 ? 'offline' : 'syncing';
+            } finally {
+                this.isSyncing = false;
+                // SERVERDAN JAVOB OLINGANDAN SO'NG GINA (foydalanuvchi qabul qilib olgach), 
+                // AYNAN 1 SEKUND (1000ms) KUTIB KEYINGI TICK YUBORILADI!
+                const nextDelay = this.syncFailures > 3 ? 3000 : 1000;
+                this.scheduleNextPulse(nextDelay);
+            }
+        },
+
+        async triggerManualRefresh() {
+            if (this.isRefreshing) return;
+            this.isRefreshing = true;
+            try {
+                await Promise.all([
+                    this.fetchStats(),
+                    this.fetchWeeklyStats(),
+                    this.fetchSchoolsDetailed(),
+                    this.fetchAllStudents(),
+                    this.fetchAllTeachers(),
+                    this.fetchDevices(),
+                    this.fetchParents(),
+                    this.fetchTodayLogs()
+                ]);
+                this.lastSyncTime = new Date().toLocaleTimeString('uz-UZ');
+                this.realtimeStatus = 'online';
+                this.showToast("Barcha ma'lumotlar muvaffaqiyatli yangilandi", 'success');
+            } catch (e) {
+                this.showToast("Yangilashda xatolik: " + (e.message || 'Server xatosi'), 'error');
+            } finally {
+                this.isRefreshing = false;
             }
         },
 
@@ -518,6 +646,7 @@ function adminApp() {
             this.token = '';
             EdugateAPI.setToken('');
             this.loginForm = { username: '', password: '' };
+            this.stopRealtimeEngine();
             if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
         },

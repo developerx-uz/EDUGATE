@@ -1137,16 +1137,6 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
             <span x-show="!sidebarCollapsed">Sozlamalar</span>
         </div>
     </nav>
-
-    <!-- Bottom Actions: Only Quick Action (Profile & Logout moved to Topbar as requested) -->
-    <div class="px-3 pb-3 pt-2 border-t border-neutral-800 flex-shrink-0">
-        <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
-                :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
-            <i class="fas fa-plus text-[10px]"></i>
-            <span x-show="!sidebarCollapsed">Yangi Maktab</span>
-        </button>
-    </div>
 </aside>
 
 
@@ -1181,6 +1171,32 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 
         <!-- Right: Actions & Notifications -->
         <div class="flex items-center gap-3">
+            <!-- Yangilash Tugmasi (Barcha Menyularda Ko'rinuvchi Real-Time Yangilash) -->
+            <button @click="triggerManualRefresh()" 
+                    :disabled="isRefreshing"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 group"
+                    title="Ma'lumotlarni yangilash (Har 1 soniyada avto-yangilanish faol)">
+                <i class="fas fa-arrows-rotate text-xs text-indigo-400 group-hover:rotate-180 transition-transform duration-500"
+                   :class="isRefreshing || isSyncing ? 'fa-spin' : ''"></i>
+                <span class="hidden sm:inline" x-text="isRefreshing ? 'Yangilanmoqda...' : 'Yangilash'">Yangilash</span>
+                
+                <!-- 1s Real-Time Pulse Indicator -->
+                <div class="flex items-center gap-1 pl-1 border-l border-neutral-800" title="1s Real-Time Rejim">
+                    <span class="relative flex h-2 w-2">
+                        <span x-show="realtimeStatus === 'online'" 
+                              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2"
+                              :class="{
+                                  'bg-emerald-500': realtimeStatus === 'online',
+                                  'bg-amber-400': realtimeStatus === 'syncing',
+                                  'bg-rose-500': realtimeStatus === 'offline'
+                              }"></span>
+                    </span>
+                    <span class="text-[9px] font-mono text-neutral-400 hidden xl:inline" 
+                          x-text="realtimeStatus === 'online' ? '1s' : (realtimeStatus === 'syncing' ? '...' : 'uzildi')">1s</span>
+                </div>
+            </button>
+
             <!-- Notifications Bell -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
@@ -1272,12 +1288,6 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
                          class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
                         <i class="fas fa-gear text-neutral-400 text-xs w-4 text-center"></i>
                         <span>Tizim Sozlamalari</span>
-                    </div>
-
-                    <div @click="openSchoolModal(); showUserMenu = false"
-                         class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 cursor-pointer transition">
-                        <i class="fas fa-plus text-indigo-400 text-xs w-4 text-center"></i>
-                        <span>Yangi Maktab Qo'shish</span>
                     </div>
 
                     <!-- Theme Toggle in Dropdown -->
@@ -3121,7 +3131,11 @@ const EdugateAPI = {
         return data;
     },
 
-    // Stats
+    // Stats & Real-Time Pulse
+    async getPulse() {
+        return await this.request('/api/v1/admin/realtime/pulse');
+    },
+
     async getStats() {
         return await this.request('/api/v1/admin/stats');
     },
@@ -3750,6 +3764,17 @@ function adminApp() {
         attendanceDate: new Date().toISOString().split('T')[0],
         attendanceFilter: { school_id: '', class_name: '', status: '' },
 
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        isSyncing: false,
+        isRefreshing: false,
+        realtimeStatus: 'online', // 'online' | 'syncing' | 'offline'
+        realtimeTimer: null,
+        lastPulseHash: '',
+        syncFailures: 0,
+        lastSyncTime: '',
+        _prevStatsJson: '',
+        _visibilityBound: false,
+
         // ===== DEVICES & PARENTS =====
         devices: [],
         parents: [],
@@ -3882,12 +3907,7 @@ function adminApp() {
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
-                    // Live CCTV clock ticker
-            setInterval(() => {
-                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
-            }, 1000);
-
-            if (this.token) {
+                    if (this.token) {
                         this.openGlobalSearch();
                     }
                 }
@@ -3898,26 +3918,17 @@ function adminApp() {
             });
 
             this.updateClock();
-            setInterval(() => {
-                this.updateClock();
-            }, 1000);
-
-            // Live CCTV clock ticker
-            setInterval(() => {
-                this.liveClock = new Date().toLocaleTimeString('uz-UZ');
-            }, 1000);
+            this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+            if (!this._clockInterval) {
+                this._clockInterval = setInterval(() => {
+                    this.updateClock();
+                    this.liveClock = new Date().toLocaleTimeString('uz-UZ');
+                }, 1000);
+            }
 
             if (this.token) {
                 await this.refreshAllData();
-
-                // Periodic real-time background refresh
-                if (this.refreshInterval) clearInterval(this.refreshInterval);
-                this.refreshInterval = setInterval(() => {
-                    if (this.autoRefresh && (this.activeTab === 'dashboard' || this.activeTab === 'attendance')) {
-                        this.fetchTodayLogs();
-                        this.fetchStats();
-                    }
-                }, 5000);
+                this.startRealtimeEngine();
             } else {
                 // Ensure zero autofill on login modal
                 this.loginForm = { username: '', password: '' };
@@ -3927,6 +3938,137 @@ function adminApp() {
                 setTimeout(() => {
                     this.loginForm = { username: '', password: '' };
                 }, 250);
+            }
+        },
+
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        startRealtimeEngine() {
+            this.stopRealtimeEngine();
+            // Boshlanishida birinchi tick
+            this.scheduleNextPulse(800);
+
+            // Brauzer yoki telefon ekrani o'chirilganda/yoqilganda avtomatik sezish
+            if (!this._visibilityBound) {
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden && this.token) {
+                        this.scheduleNextPulse(100);
+                    }
+                });
+                this._visibilityBound = true;
+            }
+        },
+
+        stopRealtimeEngine() {
+            if (this.realtimeTimer) {
+                clearTimeout(this.realtimeTimer);
+                this.realtimeTimer = null;
+            }
+        },
+
+        scheduleNextPulse(delayMs = 1000) {
+            if (this.realtimeTimer) {
+                clearTimeout(this.realtimeTimer);
+            }
+            this.realtimeTimer = setTimeout(() => {
+                this.performRealtimePulse();
+            }, delayMs);
+        },
+
+        async performRealtimePulse() {
+            // 1. Foydalanuvchi tizimga kirmagan bo'lsa, davom etmaymiz
+            if (!this.token) {
+                return;
+            }
+
+            // 2. QAT'IY BACKPRESSURE: Agar oldingi so'rov hali serverdan javob olmagan bo'lsa ("yetib kelmagan bo'lsa"),
+            // yangi so'rov HECH QACHON jo'natilmaydi! Bu telefon qotishlarini va brauzer osilishini 100% oldini oladi.
+            if (this.isSyncing) {
+                return;
+            }
+
+            // 3. Agar foydalanuvchi telefon ekranini qulflagan yoki boshqa ilovaga o'tgan bo'lsa,
+            // telefon qizib ketmasligi va batareya tejalishi uchun kechiktiramiz
+            if (document.hidden) {
+                this.scheduleNextPulse(3000);
+                return;
+            }
+
+            this.isSyncing = true;
+            this.realtimeStatus = 'syncing';
+
+            try {
+                // Serverdan yagona tezkor puls so'rovi (faqat va faqat server o'zi beradi)
+                const pulse = await EdugateAPI.getPulse();
+
+                // FOYDALANUVCHIGA SERVERDAN JAVOB YETIB KELDI ("OK")
+                if (pulse && pulse.status === 'ok') {
+                    // Statistika va grafiklar yangilanishi
+                    if (pulse.stats) {
+                        const sJson = JSON.stringify(pulse.stats);
+                        if (this._prevStatsJson !== sJson) {
+                            this.stats = pulse.stats;
+                            this._prevStatsJson = sJson;
+                            if (window.EdugateCharts && typeof window.EdugateCharts.update === 'function') {
+                                window.EdugateCharts.update(this.stats, this.weeklyStats);
+                            }
+                        }
+                    }
+
+                    // Jonli davomat loglari (real-time CCTV va jadval)
+                    if (Array.isArray(pulse.today_logs)) {
+                        this.todayLogs = pulse.today_logs;
+                    }
+
+                    // Versiya tekshiruvi: Agar ma'lumotlar bazasida o'zgarish bo'lgan bo'lsa (maktab, o'quvchi va h.k.)
+                    if (pulse.version_hash && this.lastPulseHash && pulse.version_hash !== this.lastPulseHash) {
+                        if (this.activeTab === 'schools') this.fetchSchoolsDetailed();
+                        else if (this.activeTab === 'students') this.fetchAllStudents();
+                        else if (this.activeTab === 'teachers') this.fetchAllTeachers();
+                        else if (this.activeTab === 'devices') this.fetchDevices();
+                        else if (this.activeTab === 'parents') this.fetchParents();
+                    }
+                    this.lastPulseHash = pulse.version_hash;
+
+                    this.realtimeStatus = 'online';
+                    this.syncFailures = 0;
+                    this.lastSyncTime = new Date().toLocaleTimeString('uz-UZ');
+                } else {
+                    this.realtimeStatus = 'offline';
+                }
+            } catch (err) {
+                // Agar server javob bermasa yoki internet uzilsa ("yo'q")
+                this.syncFailures++;
+                this.realtimeStatus = this.syncFailures > 2 ? 'offline' : 'syncing';
+            } finally {
+                this.isSyncing = false;
+                // SERVERDAN JAVOB OLINGANDAN SO'NG GINA (foydalanuvchi qabul qilib olgach), 
+                // AYNAN 1 SEKUND (1000ms) KUTIB KEYINGI TICK YUBORILADI!
+                const nextDelay = this.syncFailures > 3 ? 3000 : 1000;
+                this.scheduleNextPulse(nextDelay);
+            }
+        },
+
+        async triggerManualRefresh() {
+            if (this.isRefreshing) return;
+            this.isRefreshing = true;
+            try {
+                await Promise.all([
+                    this.fetchStats(),
+                    this.fetchWeeklyStats(),
+                    this.fetchSchoolsDetailed(),
+                    this.fetchAllStudents(),
+                    this.fetchAllTeachers(),
+                    this.fetchDevices(),
+                    this.fetchParents(),
+                    this.fetchTodayLogs()
+                ]);
+                this.lastSyncTime = new Date().toLocaleTimeString('uz-UZ');
+                this.realtimeStatus = 'online';
+                this.showToast("Barcha ma'lumotlar muvaffaqiyatli yangilandi", 'success');
+            } catch (e) {
+                this.showToast("Yangilashda xatolik: " + (e.message || 'Server xatosi'), 'error');
+            } finally {
+                this.isRefreshing = false;
             }
         },
 
@@ -3995,6 +4137,7 @@ function adminApp() {
             this.token = '';
             EdugateAPI.setToken('');
             this.loginForm = { username: '', password: '' };
+            this.stopRealtimeEngine();
             if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
         },

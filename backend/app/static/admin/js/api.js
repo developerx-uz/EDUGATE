@@ -77,7 +77,11 @@ const EdugateAPI = {
         return data;
     },
 
-    // Stats
+    // Stats & Real-Time Pulse
+    async getPulse() {
+        return await this.request('/api/v1/admin/realtime/pulse');
+    },
+
     async getStats() {
         return await this.request('/api/v1/admin/stats');
     },

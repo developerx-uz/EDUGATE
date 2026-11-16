@@ -55,6 +55,89 @@ async def get_dashboard_stats(
     }
 
 
+@router.get("/realtime/pulse", summary="Real-time 1s Auto-Refresh Pulse & State Delta")
+async def get_realtime_pulse(
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    now = datetime.now()
+    today_start = datetime.combine(now.date(), datetime.min.time())
+
+    # Fast scalar counts
+    schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
+    students_count = (await db.execute(select(func.count(Student.id)))).scalar() or 0
+    teachers_count = (await db.execute(select(func.count(Teacher.id)))).scalar() or 0
+    devices_count = (await db.execute(select(func.count(Device.id)))).scalar() or 0
+    parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
+
+    # Today attendance breakdown
+    today_events_res = await db.execute(
+        select(AttendanceLog.event_type, AttendanceLog.status)
+        .filter(AttendanceLog.event_time >= today_start)
+    )
+    today_events = today_events_res.all()
+
+    today_entries = sum(1 for et, _ in today_events if et == AttendanceEventType.ENTRY)
+    today_exits = sum(1 for et, _ in today_events if et == AttendanceEventType.EXIT)
+    today_lates = sum(1 for _, st in today_events if st == AttendanceStatus.LATE)
+    today_ontime = sum(1 for _, st in today_events if st == AttendanceStatus.ON_TIME)
+
+    # Latest 25 logs for real-time live feed / CCTV HUD
+    logs_res = await db.execute(
+        select(AttendanceLog)
+        .options(selectinload(AttendanceLog.student), selectinload(AttendanceLog.device))
+        .filter(AttendanceLog.event_time >= today_start)
+        .order_by(AttendanceLog.event_time.desc())
+        .limit(25)
+    )
+    logs = logs_res.scalars().all()
+
+    serialized_logs = []
+    for l in logs:
+        st_name = l.student.full_name if l.student else "Noma'lum"
+        st_code = l.student.student_code if l.student else ""
+        cls_name = l.student.class_name if l.student else ""
+        serialized_logs.append({
+            "id": l.id,
+            "student_id": l.student_id,
+            "student_name": st_name,
+            "student_code": st_code,
+            "class_name": cls_name,
+            "event_type": l.event_type.value if hasattr(l.event_type, "value") else str(l.event_type),
+            "status": l.status.value if hasattr(l.status, "value") else str(l.status),
+            "confidence": l.confidence,
+            "event_time": l.event_time.isoformat() if l.event_time else "",
+            "is_notified": l.is_notified
+        })
+
+    version_hash = f"{schools_count}_{students_count}_{teachers_count}_{devices_count}_{parents_count}_{len(today_events)}"
+
+    return {
+        "status": "ok",
+        "server_time": now.isoformat(),
+        "stats": {
+            "schools_count": schools_count,
+            "students_count": students_count,
+            "teachers_count": teachers_count,
+            "devices_count": devices_count,
+            "parents_count": parents_count,
+            "today_entries": today_entries,
+            "today_exits": today_exits,
+            "today_lates": today_lates,
+            "today_ontime": today_ontime
+        },
+        "today_logs": serialized_logs,
+        "counts": {
+            "schools": schools_count,
+            "students": students_count,
+            "teachers": teachers_count,
+            "devices": devices_count,
+            "parents": parents_count,
+            "logs": len(today_events)
+        },
+        "version_hash": version_hash
+    }
+
+
 @router.get("/stats/weekly", summary="Haftalik Davomat Haqiqiy Statistikasi")
 async def get_weekly_stats(
     db: AsyncSession = Depends(get_db)

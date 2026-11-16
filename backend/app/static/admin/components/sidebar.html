@@ -100,14 +100,4 @@
             <span x-show="!sidebarCollapsed">Sozlamalar</span>
         </div>
     </nav>
-
-    <!-- Bottom Actions: Only Quick Action (Profile & Logout moved to Topbar as requested) -->
-    <div class="px-3 pb-3 pt-2 border-t border-neutral-800 flex-shrink-0">
-        <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
-                :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
-            <i class="fas fa-plus text-[10px]"></i>
-            <span x-show="!sidebarCollapsed">Yangi Maktab</span>
-        </button>
-    </div>
 </aside>
