@@ -112,7 +112,7 @@
                     <!-- User Name & Role -->
                     <div class="text-left hidden sm:block">
                         <p class="text-xs font-bold text-white group-hover:text-indigo-300 transition leading-tight" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</p>
-                        <p class="text-[9px] text-neutral-400 font-medium leading-tight">Hokimlik Markazi</p>
+                        <p class="text-[9px] text-neutral-400 font-medium leading-tight" x-text="portalSubtitle">Hokimlik Markazi</p>
                     </div>
 
                     <i class="fas fa-chevron-down text-[9px] text-neutral-400 group-hover:text-white transition ml-0.5"
@@ -125,7 +125,9 @@
                     <div class="px-3 py-2 border-b border-neutral-800 mb-1">
                         <p class="text-xs font-bold text-white truncate" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</p>
                         <p class="text-[10px] text-neutral-400 font-mono truncate" x-text="currentUser?.email || (currentUser?.username ? '@' + currentUser.username : 'admin@edugate.uz')">admin@edugate.uz</p>
-                        <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[9px] font-bold uppercase tracking-wider font-mono">Hokimiyat Portali</span>
+                        <span class="inline-block mt-1.5 px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider font-mono border"
+                              :class="isSchoolAdmin ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : (isMinistryViewer ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20')"
+                              x-text="isSchoolAdmin ? 'Maktab Portali (1 Login)' : (isMinistryViewer ? 'Xalq Ta\'limi (Read-Only)' : 'Superadmin Portali')"></span>
                     </div>
 
                     <!-- Profil Sozlamalari Tugmasi -->

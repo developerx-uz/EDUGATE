@@ -34,7 +34,7 @@
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
-                <button @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
+                <button x-show="isSuperadmin && !isReadOnly" @click="openSchoolModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-1.5 transition">
                     <i class="fas fa-plus"></i> Yangi Maktab
                 </button>
             </div>
@@ -46,12 +46,20 @@
                 <div @click="selectSchool(sc)" class="glass-card p-6 rounded-2xl relative group cursor-pointer hover:border-indigo-500/60 hover:bg-slate-800/80 transition space-y-4">
                     <div class="flex items-start justify-between">
                         <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold font-mono" x-text="sc.code"></span>
-                        <div class="flex items-center gap-1" @click.stop>
-                            <button @click.stop="editSchoolForm.id = sc.id; schoolForm.name = sc.name; schoolForm.code = sc.code; schoolForm.address = sc.address; schoolForm.phone = sc.phone; showAddSchoolModal = true" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
-                                <i class="fas fa-pen-to-square"></i>
+                        <div class="flex items-center gap-1.5" @click.stop>
+                            <!-- 1 Maktab = 1 Login tugmasi -->
+                            <button x-show="isSuperadmin" @click.stop="openSchoolAccountModal(sc)"
+                                    class="px-2 py-1 rounded-lg text-[10px] font-mono font-bold border transition flex items-center gap-1 cursor-pointer"
+                                    :class="sc.has_login ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/25 hover:bg-amber-500/20'"
+                                    title="Maktabning yagona loginini boshqarish (1 maktab = 1 login)">
+                                <i class="fas fa-key text-[9px]"></i>
+                                <span x-text="sc.admin_username || 'Login berish'"></span>
                             </button>
-                            <button @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
-                                <i class="fas fa-trash-can"></i>
+                            <button x-show="isSuperadmin && !isReadOnly" @click.stop="editSchool(sc)" class="p-1.5 text-slate-500 hover:text-indigo-400 rounded-lg transition" title="Tahrirlash">
+                                <i class="fas fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button x-show="isSuperadmin && !isReadOnly" @click.stop="deleteSchool(sc.id)" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg transition" title="O'chirish">
+                                <i class="fas fa-trash-can text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -96,6 +104,7 @@
                     <tr>
                         <th class="px-6 py-4">Kodi</th>
                         <th class="px-6 py-4">Maktab Nomi</th>
+                        <th class="px-6 py-4">Yagona Login (1 maktab = 1 login)</th>
                         <th class="px-6 py-4">Manzil</th>
                         <th class="px-6 py-4">Sinflar</th>
                         <th class="px-6 py-4">O'quvchilar</th>
@@ -107,11 +116,23 @@
                         <tr @click="selectSchool(sc)" class="hover:bg-slate-800/30 transition cursor-pointer">
                             <td class="px-6 py-4 font-mono text-xs text-indigo-400 font-bold" x-text="sc.code"></td>
                             <td class="px-6 py-4 font-semibold text-white" x-text="sc.name"></td>
+                            <td class="px-6 py-4" @click.stop>
+                                <button x-show="isSuperadmin" @click.stop="openSchoolAccountModal(sc)"
+                                        class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition inline-flex items-center gap-1.5 cursor-pointer"
+                                        :class="sc.has_login ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25 hover:bg-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/25 hover:bg-amber-500/20'">
+                                    <i class="fas fa-key text-[10px]"></i>
+                                    <span x-text="sc.admin_username || 'Login berish'"></span>
+                                </button>
+                            </td>
                             <td class="px-6 py-4 text-xs text-slate-400" x-text="sc.address || '-'"></td>
                             <td class="px-6 py-4 text-xs font-bold text-indigo-300" x-text="sc.classes_count || 0"></td>
                             <td class="px-6 py-4 text-xs font-bold text-blue-400" x-text="sc.students_count || 0"></td>
                             <td class="px-6 py-4 text-right" @click.stop>
-                                <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                                <div x-show="isSuperadmin && !isReadOnly" class="inline-flex items-center gap-2">
+                                    <button @click.stop="editSchool(sc)" class="text-indigo-400 hover:text-indigo-300 text-xs font-semibold">Tahrirlash</button>
+                                    <button @click.stop="deleteSchool(sc.id)" class="text-rose-400 hover:text-rose-300 text-xs font-semibold">O'chirish</button>
+                                </div>
+                                <span x-show="isReadOnly" class="text-slate-500 text-xs italic">Faqat ko'rish</span>
                             </td>
                         </tr>
                     </template>
