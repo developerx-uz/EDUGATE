@@ -63,9 +63,10 @@
 
             <!-- Fullscreen Button -->
             <button @click="toggleFullscreen()"
-                    class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition cursor-pointer"
+                    class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-indigo-600/30 border border-slate-700 hover:border-indigo-500/50 rounded-xl text-slate-300 hover:text-white transition cursor-pointer text-xs font-semibold"
                     title="To'liq ekran rejimiga o'tish (Fullscreen)">
-                <i :class="isFullscreen ? 'fas fa-compress' : 'fas fa-expand'" class="text-sm"></i>
+                <i :class="isFullscreen ? 'fas fa-compress text-indigo-400' : 'fas fa-expand text-indigo-400'" class="text-xs"></i>
+                <span class="hidden md:inline" x-text="isFullscreen ? 'Kichik ekran' : 'Katta Ekran (Fullscreen)'"></span>
             </button>
 
             <!-- Auto Refresh Indicator -->
