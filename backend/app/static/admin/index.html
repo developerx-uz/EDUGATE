@@ -797,6 +797,26 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     background-color: #e5e5e5 !important;
 }
 
+/* Fixed dimension refresh button - Zero Layout Shift */
+.btn-refresh-fixed {
+    width: 34px !important;
+    min-width: 34px !important;
+    max-width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    box-sizing: border-box !important;
+}
+
+@media (min-width: 640px) {
+    .btn-refresh-fixed {
+        width: 130px !important;
+        min-width: 130px !important;
+        max-width: 130px !important;
+    }
+}
+
+
 
     </style>
     <!-- Early theme initializer to prevent flash of wrong theme -->
@@ -1171,30 +1191,14 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 
         <!-- Right: Actions & Notifications -->
         <div class="flex items-center gap-3">
-            <!-- Yangilash Tugmasi (Barcha Menyularda Ko'rinuvchi Real-Time Yangilash) -->
+            <!-- Yangilash Tugmasi (O'lchami Mutlaqo O'zgarmas Qat'iy Ramka - Zero Layout Shift) -->
             <button @click="triggerManualRefresh()" 
                     :disabled="isRefreshing"
-                    class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 group"
-                    title="Ma'lumotlarni yangilash (Har 1 soniyada avto-yangilanish faol)">
-                <i class="fas fa-arrows-rotate text-xs text-indigo-400 group-hover:rotate-180 transition-transform duration-500"
-                   :class="isRefreshing || isSyncing ? 'fa-spin' : ''"></i>
-                <span class="hidden sm:inline" x-text="isRefreshing ? 'Yangilanmoqda...' : 'Yangilash'">Yangilash</span>
-                
-                <!-- 1s Real-Time Pulse Indicator -->
-                <div class="flex items-center gap-1 pl-1 border-l border-neutral-800" title="1s Real-Time Rejim">
-                    <span class="relative flex h-2 w-2">
-                        <span x-show="realtimeStatus === 'online'" 
-                              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2"
-                              :class="{
-                                  'bg-emerald-500': realtimeStatus === 'online',
-                                  'bg-amber-400': realtimeStatus === 'syncing',
-                                  'bg-rose-500': realtimeStatus === 'offline'
-                              }"></span>
-                    </span>
-                    <span class="text-[9px] font-mono text-neutral-400 hidden xl:inline" 
-                          x-text="realtimeStatus === 'online' ? '1s' : (realtimeStatus === 'syncing' ? '...' : 'uzildi')">1s</span>
-                </div>
+                    class="btn-refresh-fixed flex items-center justify-center gap-2 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 flex-shrink-0 select-none overflow-hidden"
+                    title="Ma'lumotlarni yangilash">
+                <i class="fas fa-arrows-rotate text-xs text-indigo-400 flex-shrink-0"
+                   :class="isRefreshing ? 'fa-spin' : ''"></i>
+                <span class="hidden sm:inline text-center truncate" x-text="isRefreshing ? 'Yangilanmoqda' : 'Yangilash'">Yangilash</span>
             </button>
 
             <!-- Notifications Bell -->
@@ -1355,16 +1359,11 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
             </div>
         </div>
 
-        <div class="flex items-center gap-3">
-            <span class="text-xs text-neutral-500 font-mono flex items-center gap-1.5">
-                <i class="fas fa-server text-[10px] text-emerald-400"></i>
-                <span>Tizim vaqti: <strong class="text-neutral-300 font-mono" x-text="liveClock"></strong></span>
-            </span>
-            <button @click="refreshAllData(); showToast('Ma\'lumotlar yangilandi', 'success')" 
-                    class="px-2.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs text-neutral-300 hover:text-white transition cursor-pointer flex items-center gap-1.5">
-                <i class="fas fa-rotate text-xs"></i>
-                <span>Yangilash</span>
-            </button>
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-neutral-900 border border-neutral-800 text-[11px] font-mono text-neutral-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>YAGONA MONITORING MARKAZI</span>
+            </div>
         </div>
     </div>
 
