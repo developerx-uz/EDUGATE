@@ -43,6 +43,7 @@ function adminApp() {
         })(),
         searchQuery: '',
         showNotifPanel: false,
+        showUserMenu: false,
         isFullscreen: false,
 
         toggleSidebar() {
