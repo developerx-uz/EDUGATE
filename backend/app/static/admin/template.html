@@ -27,9 +27,25 @@
     <style>
     <!-- include: css/admin.css -->
     </style>
+    <!-- Early theme initializer to prevent flash of wrong theme -->
+    <script>
+    (function() {
+        try {
+            var saved = localStorage.getItem('edugate_admin_theme');
+            var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+            if (theme === 'light') {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            }
+        } catch(e) {}
+    })();
+    </script>
 </head>
 
-<body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
+<body class="antialiased selection:bg-indigo-500/20 selection:text-indigo-400 transition-colors duration-200" :class="theme === 'light' ? 'theme-light' : 'theme-dark'" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
     <!-- include: components/login.html -->

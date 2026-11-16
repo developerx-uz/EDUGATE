@@ -100,8 +100,11 @@ if not settings.API_V1_STR.startswith("/edugate"):
     app.include_router(api_router, prefix="/edugate" + settings.API_V1_STR)
 
 
-@app.get("/", response_class=HTMLResponse, tags=["Public Portal"])
-@app.get("/index.html", response_class=HTMLResponse, tags=["Public Portal"])
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
+@app.api_route("/index.html", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
+@app.api_route("/edugate", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
+@app.api_route("/edugate/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
+@app.api_route("/edugate/index.html", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
 async def serve_landing():
     landing_index = os.path.join(os.path.dirname(__file__), "static", "landing", "index.html")
     if os.path.exists(landing_index):
