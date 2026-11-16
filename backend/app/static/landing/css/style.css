@@ -4,10 +4,10 @@
    ========================================================================== */
 
 :root {
-    --bg-dark: #040812;
-    --bg-surface: #070D1A;
-    --bg-card: rgba(11, 19, 36, 0.82);
-    --bg-card-hover: rgba(16, 28, 54, 0.95);
+    --bg-dark: #000000;
+    --bg-surface: #050505;
+    --bg-card: rgba(10, 10, 12, 0.90);
+    --bg-card-hover: rgba(18, 18, 22, 0.98);
     --border-dim: rgba(255, 255, 255, 0.08);
     --border-glow: rgba(6, 182, 212, 0.35);
     --cyan-primary: #06B6D4;
@@ -37,19 +37,23 @@ section[id] {
 }
 
 body {
-    background-color: var(--bg-dark);
+    background-color: #000000;
     color: #CBD5E1;
     font-family: var(--font-body);
     overflow-x: clip;
     line-height: 1.45;
     background-image: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.09) 0%, transparent 40%),
-        radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.09) 0%, transparent 35%),
-        radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
-        linear-gradient(to bottom, rgba(4, 8, 18, 0.96), rgba(4, 8, 18, 1)),
-        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.98), #000000),
+        radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 24px 24px;
     background-attachment: fixed;
+}
+
+html.dark body {
+    background-color: #000000 !important;
 }
 
 /* Compact Scrollbars */
@@ -518,36 +522,32 @@ html.light {
 }
 
 html.light body {
-    background-color: #F8FAFC !important;
+    background-color: #FFFFFF !important;
     color: #1E293B !important;
-    background-image: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 35%),
-        radial-gradient(circle at 50% 60%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
-        linear-gradient(to bottom, #F8FAFC 0%, #F1F5F9 100%) !important;
+    background-image: none !important;
 }
 
 html.light header {
-    background-color: rgba(255, 255, 255, 0.96) !important;
+    background-color: rgba(255, 255, 255, 0.98) !important;
     border-color: #E2E8F0 !important;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
 }
 
 html.light footer {
-    background-color: #F1F5F9 !important;
+    background-color: #FFFFFF !important;
     border-color: #E2E8F0 !important;
     color: #64748B !important;
 }
 
-/* Sections */
+/* Sections - Pure White */
 html.light section {
-    background-color: transparent !important;
+    background-color: #FFFFFF !important;
     background-image: none !important;
     border-color: #E2E8F0 !important;
 }
 
 html.light section:nth-of-type(even) {
-    background-color: rgba(241, 245, 249, 0.65) !important;
+    background-color: #FFFFFF !important;
 }
 
 /* All Cards, Panels, Drawers, and Containers with dark background variants */

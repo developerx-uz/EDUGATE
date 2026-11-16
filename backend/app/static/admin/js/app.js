@@ -31,6 +31,50 @@ function adminApp() {
             await this.login();
         },
 
+        // ===== THEME MANAGEMENT (TO'LIQ OQ & TO'LIQ QORA) =====
+        theme: (() => {
+            try {
+                return localStorage.getItem('edugate_admin_theme') || 'dark';
+            } catch (e) {
+                return 'dark';
+            }
+        })(),
+
+        applyTheme(t) {
+            this.theme = (t === 'light' || t === 'dark') ? t : 'dark';
+            const root = document.documentElement;
+            const body = document.body;
+            if (this.theme === 'light') {
+                root.classList.add('light');
+                root.classList.remove('dark');
+                if (body) {
+                    body.classList.add('theme-light');
+                    body.classList.remove('theme-dark');
+                }
+            } else {
+                root.classList.add('dark');
+                root.classList.remove('light');
+                if (body) {
+                    body.classList.add('theme-dark');
+                    body.classList.remove('theme-light');
+                }
+            }
+            try {
+                localStorage.setItem('edugate_admin_theme', this.theme);
+            } catch (e) {}
+
+            try {
+                if (window.EdugateCharts && typeof window.EdugateCharts.setTheme === 'function') {
+                    window.EdugateCharts.setTheme(this.theme);
+                }
+            } catch (e) {}
+        },
+
+        toggleTheme() {
+            const nextTheme = this.theme === 'light' ? 'dark' : 'light';
+            this.applyTheme(nextTheme);
+        },
+
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
         sidebarOpen: false,
@@ -350,6 +394,8 @@ function adminApp() {
 
         // ===== INITIALIZATION =====
         async initApp() {
+            this.applyTheme(this.theme);
+
             document.addEventListener('keydown', (e) => {
                 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                     e.preventDefault();
