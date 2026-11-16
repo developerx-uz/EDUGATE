@@ -2829,6 +2829,15 @@ function adminApp() {
 
         // ===== INITIALIZATION =====
         async initApp() {
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                    e.preventDefault();
+                    if (this.token) {
+                        this.openGlobalSearch();
+                    }
+                }
+            });
+
             document.addEventListener('fullscreenchange', () => {
                 this.isFullscreen = !!document.fullscreenElement;
             });
