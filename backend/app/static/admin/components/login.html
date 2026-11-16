@@ -1,29 +1,32 @@
-<!-- TWO-PANEL SPLIT SCREEN LOGIN (INFINITETV STYLE - ZERO SCROLL) -->
-<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#0b0d13] text-slate-100 select-none">
+<!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
+<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
     
-    <!-- LEFT PANEL: BRAND, BADGE, HEADLINE & 3 CARDS IN A ROW -->
-    <div class="w-full lg:w-3/5 h-full bg-[#0a0a0c] border-b lg:border-b-0 lg:border-r border-[#1a1e29] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
+    <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
+    <div class="relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
-        <!-- Top: Logo & Production Pill -->
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                    <i class="fas fa-building-columns text-sm"></i>
-                </div>
-                <span class="text-lg font-bold tracking-tight text-white">EDUGATE</span>
-            </div>
+        <!-- Ambient background glows -->
+        <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#131c15] text-[#22c55e] border border-[#1b3a24] text-xs font-mono font-medium">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse"></span>
-                <span>Production v5.4</span>
+        <!-- Top: Logo (Production button removed as requested) -->
+        <div class="relative z-10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
+                    <i class="fas fa-building-columns text-base"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-white block leading-none">EDUGATE</span>
+                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase">Yagona Boshqaruv Markazi</span>
+                </div>
             </div>
         </div>
 
-        <!-- Center: Enterprise Badge, Headline & 3 Horizontal Feature Cards -->
-        <div class="space-y-6 my-auto max-w-2xl">
+        <!-- Center: Enterprise Headline & Redesigned Feature Cards -->
+        <div class="relative z-10 space-y-6 my-auto max-w-2xl">
             <div class="space-y-3">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider">
-                    <i class="fas fa-crown text-[11px]"></i> ENTERPRISE BOSHQARUV MARKAZI
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold tracking-wide">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                    <span>ENTERPRISE BOSHQARUV PORTALI</span>
                 </div>
                 <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
                     Maktab Davomati, Face ID & Xavfsizlik Ekotizimi
@@ -33,42 +36,66 @@
                 </p>
             </div>
 
-            <!-- 3 Horizontal Cards in a row -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
-                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-shield-halved"></i>
+            <!-- REDESIGNED FEATURE CARDS (YANGILANGAN DIZAYN) -->
+            <div class="flex flex-col gap-3 pt-2">
+                <!-- Card 1: Face ID -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
+                            <i class="fas fa-shield-halved text-lg"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2.5">
+                                <h3 class="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Face ID & Turniket Nazorati</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 text-[10px] font-semibold border border-indigo-500/25">0.2s Aniqlik</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                0.2s tezlikda yuzni aniqlash, Anti-Passback spam filtri va turniketlarni avtomatik boshqarish.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="text-sm font-bold text-white">Face ID & Turniket</h3>
-                    <p class="text-[11px] text-zinc-400 leading-relaxed">
-                        0.2s tezlikda yuzni aniqlash, Anti-Passback spam filtri va avtomatik ochilish.
-                    </p>
                 </div>
 
-                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
-                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center text-xs">
-                        <i class="fab fa-telegram"></i>
+                <!-- Card 2: Telegram Bot -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
+                            <i class="fab fa-telegram text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2.5">
+                                <h3 class="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">Telegram Xabarnoma Tizimi</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 text-[10px] font-semibold border border-sky-500/25">Instant Push</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                Ota-onalarga farzandining kirish, chiqish va kechikishlari haqida zudlik bilan avto-bildirishnomalar.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="text-sm font-bold text-white">Telegram Xabarnoma</h3>
-                    <p class="text-[11px] text-zinc-400 leading-relaxed">
-                        Ota-onalarga kirish, chiqish va kechikishlar haqida zudlik bilan avto-bildirishnoma.
-                    </p>
                 </div>
 
-                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-database"></i>
+                <!-- Card 3: Central Database & Analytics -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
+                            <i class="fas fa-chart-pie text-lg"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2.5">
+                                <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Yagona Baza & Markaziy Tahlil</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-semibold border border-emerald-500/25">Real-Vaqt</span>
+                            </div>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                Barcha maktablar va sinflar davomatini to'liq nazorat qilish, shaffof reytinglar hamda Excel eksport.
+                            </p>
+                        </div>
                     </div>
-                    <h3 class="text-sm font-bold text-white">Yagona Baza & Tahlil</h3>
-                    <p class="text-[11px] text-zinc-400 leading-relaxed">
-                        Barcha maktablar va sinflar davomatini to'liq nazorat qilish hamda Excel eksport.
-                    </p>
                 </div>
             </div>
         </div>
 
         <!-- Bottom: DeveloperX Footer -->
-        <div class="flex items-center justify-between text-xs text-zinc-500">
+        <div class="relative z-10 flex items-center justify-between text-xs text-zinc-500">
             <span>DeveloperX Agency • Toshkent, O'zbekiston</span>
             <div class="flex items-center gap-1.5">
                 <i class="fas fa-server text-[10px]"></i>
@@ -77,8 +104,8 @@
         </div>
     </div>
 
-    <!-- RIGHT PANEL: INFINITETV STYLE CLEAN LOGIN CONSOLE -->
-    <div class="w-full lg:w-2/5 h-full bg-[#0b0d13] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
+    <!-- RIGHT PANEL: CLEAN LOGIN CONSOLE -->
+    <div class="w-full lg:w-2/5 h-full bg-[#08090d] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
         <!-- Top Spacer -->
         <div class="h-6"></div>
@@ -100,7 +127,7 @@
                             <i class="fas fa-user text-xs"></i>
                         </span>
                         <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
-                               class="w-full pl-9 pr-4 py-3 bg-[#131620] border border-[#1f2433] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-medium">
+                               class="w-full pl-9 pr-4 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-medium">
                     </div>
                 </div>
 
@@ -113,18 +140,11 @@
                             <i class="fas fa-key text-xs"></i>
                         </span>
                         <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
-                               class="w-full pl-9 pr-10 py-3 bg-[#131620] border border-[#1f2433] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-mono">
+                               class="w-full pl-9 pr-10 py-3 bg-[#11131c] border border-[#1d2232] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-mono">
                         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
                             <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
                     </div>
-                </div>
-
-                <!-- TLS Badge -->
-                <div class="flex justify-end pt-1">
-                    <span class="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
-                        <i class="fas fa-shield-halved text-[10px]"></i> TLS 256-bit
-                    </span>
                 </div>
 
                 <!-- Error Alert -->
@@ -135,33 +155,15 @@
 
                 <!-- Primary White Button -->
                 <button type="submit" :disabled="loading"
-                        class="w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-3 disabled:opacity-50">
+                        class="w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
                     <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                     <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
                     <span>Tizimga Kirish</span>
                 </button>
-
-                <!-- Divider -->
-                <div class="relative my-5">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-[#1f2433]"></div>
-                    </div>
-                    <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-zinc-500">
-                        <span class="bg-[#0b0d13] px-3">MA'LUMOTLAR BAZASI</span>
-                    </div>
-                </div>
-
-                <!-- Secondary Database Hub Button -->
-                <a href="/docs" target="_blank"
-                   class="w-full py-3 px-4 bg-[#141824] hover:bg-[#1a2030] border border-[#22293d] rounded-xl text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer">
-                    <i class="fas fa-database text-indigo-400 text-xs"></i>
-                    <span>Edugate Database & API Hub</span>
-                    <i class="fas fa-arrow-up-right-from-square text-[10px] text-zinc-500"></i>
-                </a>
             </form>
 
             <!-- Bottom Sub-footer -->
-            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-3">
+            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-4">
                 <i class="fas fa-shield text-[10px]"></i>
                 <span>Xavfsiz Shifrlangan Tizim • DeveloperX 2026</span>
             </div>
