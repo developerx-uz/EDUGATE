@@ -1,24 +1,24 @@
 <!-- SIDEBAR COMPONENT -->
 <aside :class="[sidebarCollapsed ? 'w-20' : 'w-[260px]', sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="fixed left-0 top-0 h-screen bg-slate-950 border-r border-slate-800 z-30 flex flex-col transition-all duration-300">
+       class="fixed left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col transition-all duration-300">
 
     <!-- Logo Area with Toggle -->
-    <div class="flex items-center justify-between px-3.5 py-4 border-b border-slate-800/60">
+    <div class="flex items-center justify-between px-3.5 py-4 border-b border-neutral-800">
         <div class="flex items-center gap-3 min-w-0" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
             <div @click="toggleSidebar()" 
-                 class="flex-shrink-0 w-10 h-10 bg-indigo-600/20 rounded-xl flex items-center justify-center border border-indigo-500/30 cursor-pointer hover:border-indigo-500/60 hover:scale-105 transition"
+                 class="flex-shrink-0 w-10 h-10 bg-neutral-900 rounded-xl flex items-center justify-center border border-neutral-800 cursor-pointer hover:border-neutral-700 hover:scale-105 transition"
                  :title="sidebarCollapsed ? 'Yon panelni ochish' : 'EDUGATE'">
-                <span class="text-indigo-400 font-extrabold text-lg">E</span>
+                <span class="text-white font-extrabold text-lg">E</span>
             </div>
             <div x-show="!sidebarCollapsed" x-transition class="min-w-0">
                 <h2 class="text-white font-extrabold text-base leading-tight truncate">EDUGATE</h2>
-                <p class="text-slate-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
+                <p class="text-neutral-500 text-[10px] leading-tight truncate">Hokimlik & MMTV Yagona Markazi</p>
             </div>
         </div>
 
         <!-- Desktop Collapse Button -->
         <button x-show="!sidebarCollapsed" @click="toggleSidebar()" 
-                class="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                class="hidden md:flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 transition cursor-pointer"
                 title="Yon panelni yopish (kichraytirish)">
             <i class="fas fa-angles-left text-xs"></i>
         </button>
@@ -28,12 +28,12 @@
     <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800/80 hover:border-slate-700 transition cursor-pointer mb-3 group"
+                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition cursor-pointer mb-3 group"
                 :class="sidebarCollapsed ? 'justify-center px-2' : ''"
                 title="Tizim bo'yicha global qidiruv (Ctrl+K)">
             <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
             <span x-show="!sidebarCollapsed" class="text-xs font-medium flex-1 text-left">Global Qidiruv...</span>
-            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-800 rounded border border-slate-700/60">Ctrl+K</kbd>
+            <kbd x-show="!sidebarCollapsed" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700">Ctrl+K</kbd>
         </button>
 
         <!-- Main Group -->
@@ -62,7 +62,7 @@
             <span x-show="!sidebarCollapsed">O'qituvchilar</span>
         </div>
 
-        <div class="border-t border-slate-800/60 my-3"></div>
+        <div class="border-t border-neutral-800 my-3"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; sidebarOpen = false"
@@ -84,7 +84,7 @@
             <span x-show="!sidebarCollapsed">Ota-onalar</span>
         </div>
 
-        <div class="border-t border-slate-800/60 my-3"></div>
+        <div class="border-t border-neutral-800 my-3"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; sidebarOpen = false"
@@ -102,9 +102,9 @@
     </nav>
 
     <!-- Bottom Actions -->
-    <div class="px-3 pb-4 space-y-2 border-t border-slate-800/60 pt-3">
+    <div class="px-3 pb-4 space-y-2 border-t border-neutral-800 pt-3">
         <button @click="openSchoolModal()"
-                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 rounded-xl text-sm font-semibold border border-indigo-500/20 hover:border-indigo-500/40 transition-all cursor-pointer"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-sm font-semibold border border-neutral-800 hover:border-neutral-700 transition-all cursor-pointer"
                 :title="sidebarCollapsed ? 'Yangi Maktab Qo\'shish' : ''">
             <i class="fas fa-plus text-xs"></i>
             <span x-show="!sidebarCollapsed">Yangi Maktab</span>
@@ -112,13 +112,13 @@
 
         <!-- Admin Profile Info -->
         <div class="flex items-center gap-3 px-3 py-2" :class="sidebarCollapsed ? 'justify-center px-0' : ''">
-            <div class="w-9 h-9 bg-slate-800 rounded-xl flex items-center justify-center flex-shrink-0 text-slate-300"
+            <div class="w-9 h-9 bg-neutral-900 rounded-xl flex items-center justify-center flex-shrink-0 text-neutral-300"
                  :title="sidebarCollapsed ? 'Superadmin • Hokimlik Markazi' : ''">
                 <i class="fas fa-user-shield text-sm"></i>
             </div>
             <div x-show="!sidebarCollapsed" class="min-w-0">
                 <p class="text-sm font-semibold text-white truncate">Superadmin</p>
-                <p class="text-xs text-slate-500 truncate">Hokimlik Markazi</p>
+                <p class="text-xs text-neutral-500 truncate">Hokimlik Markazi</p>
             </div>
         </div>
 

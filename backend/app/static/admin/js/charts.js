@@ -7,16 +7,16 @@ const EdugateCharts = {
     weeklyChart: null,
 
     getTextColor() {
-        return document.documentElement.classList.contains('light') ? '#475569' : '#94a3b8';
+        return document.documentElement.classList.contains('light') ? '#525252' : '#a3a3a3';
     },
 
     getGridColor() {
-        return document.documentElement.classList.contains('light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+        return document.documentElement.classList.contains('light') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
     },
 
     setTheme(theme) {
-        const textColor = (theme === 'light') ? '#475569' : '#94a3b8';
-        const gridColor = (theme === 'light') ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.2)';
+        const textColor = (theme === 'light') ? '#525252' : '#a3a3a3';
+        const gridColor = (theme === 'light') ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)';
 
         if (this.attendanceChart && this.attendanceChart.options) {
             if (this.attendanceChart.options.plugins?.legend?.labels) {
