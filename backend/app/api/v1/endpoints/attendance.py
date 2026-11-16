@@ -6,10 +6,11 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.api.deps import get_current_device
+from app.api.deps import get_current_device, get_current_user_optional
 from app.models.device import Device
 from app.models.attendance import AttendanceLog
 from app.models.student import Student
+from app.models.user import User, UserRole
 from app.schemas.attendance import AttendanceEventCreate, AttendanceEventResponse, AttendanceLogOut
 from app.services.attendance_service import AttendanceService
 
@@ -42,8 +43,14 @@ async def receive_attendance_event(
 async def get_today_attendance(
     school_id: Optional[str] = Query(None),
     class_name: Optional[str] = Query(None),
+    current_user: Optional[User] = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db)
 ):
+    # Maktab ma'muri faqat o'z maktabi davomatini ko'ra oladi
+    if current_user:
+        role_str = str(current_user.role.value if hasattr(current_user.role, 'value') else current_user.role)
+        if role_str == UserRole.SCHOOL_ADMIN.value and current_user.school_id:
+            school_id = current_user.school_id
     today_start = datetime.combine(date.today(), datetime.min.time())
     query = (
         select(AttendanceLog)

@@ -1021,8 +1021,33 @@ function adminApp() {
         },
 
         openClassModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.studentForm.school_id = this.currentUser.school_id;
+            }
             this.studentForm.class_name = '';
             this.showAddStudentModal = true;
+        },
+
+        openTeacherModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.teacherForm.school_id = this.currentUser.school_id;
+            }
+            this.teacherForm.first_name = '';
+            this.teacherForm.last_name = '';
+            this.teacherForm.subject = '';
+            this.teacherForm.phone_number = '';
+            this.teacherForm.class_name = '';
+            this.showAddTeacherModal = true;
+        },
+
+        openDeviceModal() {
+            if (this.currentUser && this.currentUser.school_id) {
+                this.deviceForm.school_id = this.currentUser.school_id;
+            }
+            this.deviceForm.name = '';
+            this.deviceForm.ip_address = '';
+            this.deviceForm.location_description = '';
+            this.showAddDeviceModal = true;
         },
 
         openEditStudentModal(st) {
@@ -1143,6 +1168,19 @@ function adminApp() {
                     this.showToast("O'qituvchi o'chirildi", 'success');
                     if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
                     this.fetchAllTeachers();
+                    this.fetchStats();
+                } catch (e) {
+                    this.showToast(e.message, 'error');
+                }
+            });
+        },
+
+        deleteDevice(id) {
+            this.confirm("Qurilmani o'chirish", "Ushbu kamera yoki turniket qurilmasini o'chirmoqchimisiz?", async () => {
+                try {
+                    await EdugateAPI.deleteDevice(id);
+                    this.showToast("Qurilma o'chirildi", 'success');
+                    this.fetchDevices();
                     this.fetchStats();
                 } catch (e) {
                     this.showToast(e.message, 'error');

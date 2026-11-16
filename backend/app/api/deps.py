@@ -61,6 +61,24 @@ async def get_current_user(
     return user
 
 
+async def get_current_user_optional(
+    token: Optional[str] = Depends(oauth2_scheme),
+    db: AsyncSession = Depends(get_db)
+) -> Optional[User]:
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        username: str = payload.get("sub")
+        if not username:
+            return None
+    except JWTError:
+        return None
+
+    result = await db.execute(select(User).filter(User.username == username, User.is_active == True))
+    return result.scalar_one_or_none()
+
+
 async def get_current_superadmin(
     current_user: User = Depends(get_current_user)
 ) -> User:
