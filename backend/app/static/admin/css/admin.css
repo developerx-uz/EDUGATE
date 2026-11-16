@@ -746,7 +746,7 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     background-color: #e5e5e5 !important;
 }
 
-/* Fixed dimension refresh button - Zero Layout Shift */
+/* Fixed dimension refresh button - Zero Layout Shift (Circular/Pill Shape) */
 .btn-refresh-fixed {
     width: 34px !important;
     min-width: 34px !important;
@@ -755,13 +755,14 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     min-height: 34px !important;
     max-height: 34px !important;
     box-sizing: border-box !important;
+    border-radius: 9999px !important;
 }
 
 @media (min-width: 640px) {
     .btn-refresh-fixed {
-        width: 130px !important;
-        min-width: 130px !important;
-        max-width: 130px !important;
+        width: 112px !important;
+        min-width: 112px !important;
+        max-width: 112px !important;
     }
 }
 
