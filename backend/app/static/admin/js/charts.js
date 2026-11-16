@@ -52,17 +52,17 @@ const EdugateCharts = {
 
         const onTime = stats.today_ontime || 0;
         const late = stats.today_lates || 0;
-        const total = stats.students_count || (onTime + late) || 0;
+        const total = stats.students_count || 0;
         const absent = Math.max(0, total - (onTime + late));
 
-        // Agar real ma'lumotlar 0 bo'lsa, xavfsizlik konsoli uchun real operatsion nisbat ko'rsatiladi
-        const hasRealData = (onTime > 0 || late > 0);
-        const chartData = hasRealData 
-            ? [onTime, late, absent] 
-            : [482, 28, 12];
-        const chartLabels = hasRealData
-            ? ["O'z vaqtida", 'Kechikkan', 'Kelmagan']
-            : ["O'z vaqtida (92.3%)", "Kechikkan (5.4%)", "Kelmagan (2.3%)"];
+        const hasRealData = (onTime > 0 || late > 0 || total > 0);
+        const chartData = hasRealData ? [onTime, late, absent] : [1];
+        const chartLabels = hasRealData 
+            ? ["O'z vaqtida", "Kechikkan", "Kelmagan"] 
+            : ["Davomat signallari kutilmoqda"];
+        const chartColors = hasRealData 
+            ? ['#10b981', '#f59e0b', '#ef4444'] 
+            : ['#1f1f1f'];
 
         if (this.attendanceChart) {
             this.attendanceChart.destroy();
@@ -74,7 +74,7 @@ const EdugateCharts = {
                 labels: chartLabels,
                 datasets: [{
                     data: chartData,
-                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    backgroundColor: chartColors,
                     borderWidth: 0,
                     borderRadius: 4
                 }]
@@ -97,6 +97,7 @@ const EdugateCharts = {
                     tooltip: {
                         callbacks: {
                             label: function(context) {
+                                if (!hasRealData) return " Hozircha qaydlar yo'q";
                                 return ` ${context.label}: ${context.raw} ta`;
                             }
                         }
@@ -110,12 +111,11 @@ const EdugateCharts = {
         const ctx = document.getElementById('weeklyChart');
         if (!ctx) return;
 
-        let labels = ['07:00', '07:15', '07:30', '07:45', '08:00', '08:15', '08:30', '08:45'];
-        let onTimeData = [18, 64, 185, 342, 280, 95, 24, 8];
-        let lateData = [0, 0, 4, 12, 48, 38, 14, 2];
+        let labels = ['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'];
+        let onTimeData = [0, 0, 0, 0, 0, 0, 0];
+        let lateData = [0, 0, 0, 0, 0, 0, 0];
 
-        const hasRealWeekly = Array.isArray(weeklyData) && weeklyData.length > 0 && weeklyData.some(d => (d.on_time || 0) > 0);
-        if (hasRealWeekly) {
+        if (Array.isArray(weeklyData) && weeklyData.length > 0) {
             labels = weeklyData.map(d => d.day_name || d.date);
             onTimeData = weeklyData.map(d => d.on_time || 0);
             lateData = weeklyData.map(d => d.late || 0);
@@ -131,10 +131,10 @@ const EdugateCharts = {
                 labels: labels,
                 datasets: [
                     {
-                        label: "Turniket O'tishlar (Face ID)",
+                        label: "O'z vaqtida kirishlar",
                         data: onTimeData,
                         borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         fill: true,
                         tension: 0.35,
                         borderWidth: 2,
@@ -142,10 +142,10 @@ const EdugateCharts = {
                         pointBackgroundColor: '#10b981'
                     },
                     {
-                        label: 'Kechikib Kirishlar',
+                        label: 'Kechikkanlar',
                         data: lateData,
                         borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
                         fill: true,
                         tension: 0.35,
                         borderWidth: 2,
@@ -186,15 +186,17 @@ const EdugateCharts = {
         if (this.attendanceChart) {
             const onTime = todayStats.today_ontime || 0;
             const late = todayStats.today_lates || 0;
-            const total = todayStats.students_count || (onTime + late) || 0;
+            const total = todayStats.students_count || 0;
             const absent = Math.max(0, total - (onTime + late));
 
-            const hasReal = (onTime > 0 || late > 0);
-            this.attendanceChart.data.datasets[0].data = hasReal ? [onTime, late, absent] : [482, 28, 12];
+            const hasRealData = (onTime > 0 || late > 0 || total > 0);
+            this.attendanceChart.data.labels = hasRealData ? ["O'z vaqtida", "Kechikkan", "Kelmagan"] : ["Davomat signallari kutilmoqda"];
+            this.attendanceChart.data.datasets[0].data = hasRealData ? [onTime, late, absent] : [1];
+            this.attendanceChart.data.datasets[0].backgroundColor = hasRealData ? ['#10b981', '#f59e0b', '#ef4444'] : ['#1f1f1f'];
             this.attendanceChart.update();
         }
 
-        if (this.weeklyChart && Array.isArray(weeklyData) && weeklyData.length > 0 && weeklyData.some(d => (d.on_time || 0) > 0)) {
+        if (this.weeklyChart && Array.isArray(weeklyData) && weeklyData.length > 0) {
             this.weeklyChart.data.labels = weeklyData.map(d => d.day_name || d.date);
             this.weeklyChart.data.datasets[0].data = weeklyData.map(d => d.on_time || 0);
             this.weeklyChart.data.datasets[1].data = weeklyData.map(d => d.late || 0);
