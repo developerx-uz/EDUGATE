@@ -75,25 +75,29 @@ body {
 .sidebar-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
     border-radius: 0.75rem;
     font-size: 0.875rem;
     font-weight: 600;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease !important;
     cursor: pointer;
     color: #a3a3a3;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.sidebar-item:active {
+    transform: scale(0.96) !important;
 }
 
 .sidebar-item:hover {
-    background-color: #121212 !important;
+    background-color: #141414 !important;
     color: #ffffff !important;
 }
 
 .sidebar-item.active {
-    background-color: #1a1a1a !important;
+    background-color: #171717 !important;
     color: #ffffff !important;
-    border: 1px solid #333333 !important;
+    border: 1px solid #2a2a2a !important;
 }
 
 .toast-enter {
@@ -864,13 +868,102 @@ aside.sidebar-container.collapsed {
 }
 
 .sidebar-toggle-btn {
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease !important;
-    will-change: left;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease, transform 0.1s ease !important;
+    will-change: left, transform;
+}
+
+.sidebar-toggle-btn:active,
+.btn-refresh-fixed:active,
+.sidebar-search-btn:active,
+header button:active {
+    transform: scale(0.96) !important;
 }
 
 .sidebar-item-label {
     transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease !important;
     will-change: opacity, max-width, transform;
+}
+
+/* ==========================================================================
+   MARKAZLASHGAN TIZIM: COLLAPSED SIDEBAR ITEMS & INDICATORS
+   ========================================================================== */
+aside.sidebar-container.collapsed nav {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-item,
+aside.sidebar-container.collapsed .sidebar-search-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    padding: 0 !important;
+    margin: 3px auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-icon-box {
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-icon-box i {
+    font-size: 15px !important;
+    text-align: center !important;
+    margin: 0 !important;
+    display: inline-block !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-item-label,
+aside.sidebar-container.collapsed kbd {
+    display: none !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    pointer-events: none !important;
+}
+
+aside.sidebar-container.collapsed .sidebar-separator {
+    width: 36px !important;
+    margin: 6px auto !important;
+}
+
+/* Oddiy va Silliq Hover & Active Ranglari */
+.sidebar-search-btn {
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease !important;
+}
+
+.sidebar-search-btn:hover {
+    background-color: #141414 !important;
+    color: #ffffff !important;
+}
+
+html.light aside.sidebar-container.collapsed .sidebar-item.active {
+    background-color: #ebebeb !important;
+    border: 1px solid #d4d4d4 !important;
+    color: #000000 !important;
+}
+
+html.light aside.sidebar-container.collapsed .sidebar-item:hover,
+html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
+    background-color: #f5f5f5 !important;
+    color: #171717 !important;
 }
 
 
@@ -1151,10 +1244,10 @@ aside.sidebar-container.collapsed {
     <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-3 space-y-1 no-scrollbar">
         <!-- Global Search Button in Sidebar -->
         <button @click="openGlobalSearch()" 
-                class="w-full flex items-center h-10 px-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer mb-2 group overflow-hidden"
-                :title="sidebarCollapsed ? 'Tizim bo\'yicha global qidiruv (Ctrl+K)' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-magnifying-glass text-xs text-indigo-400 group-hover:scale-110 transition-transform"></i>
+                class="sidebar-search-btn w-full flex items-center h-10 px-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 cursor-pointer mb-2 overflow-hidden"
+                :title="sidebarCollapsed ? 'Global Qidiruv (Ctrl+K)' : ''">
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-magnifying-glass text-xs text-indigo-400"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden flex-1 text-left"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[130px] translate-x-0'">
@@ -1171,8 +1264,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'dashboard'}"
              :title="sidebarCollapsed ? 'Dashboard' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chart-pie w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-pie text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1184,8 +1277,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'schools'}"
              :title="sidebarCollapsed ? 'Maktablar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-school w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-school text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1197,8 +1290,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'students'}"
              :title="sidebarCollapsed ? 'O\'quvchilar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-user-graduate w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user-graduate text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1210,8 +1303,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'teachers'}"
              :title="sidebarCollapsed ? 'O\'qituvchilar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chalkboard-user w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chalkboard-user text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1219,15 +1312,15 @@ aside.sidebar-container.collapsed {
             </span>
         </div>
 
-        <div class="border-t border-neutral-800/80 my-2"></div>
+        <div class="sidebar-separator border-t border-neutral-800/80 my-2"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'attendance'}"
              :title="sidebarCollapsed ? 'Davomat' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-clipboard-check w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clipboard-check text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1239,8 +1332,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'devices'}"
              :title="sidebarCollapsed ? 'Kameralar & Turniketlar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-video w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-video text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1252,8 +1345,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'parents'}"
              :title="sidebarCollapsed ? 'Ota-onalar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-users w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-users text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1261,15 +1354,15 @@ aside.sidebar-container.collapsed {
             </span>
         </div>
 
-        <div class="border-t border-neutral-800/80 my-2"></div>
+        <div class="sidebar-separator border-t border-neutral-800/80 my-2"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'reports'}"
              :title="sidebarCollapsed ? 'Hisobotlar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chart-bar w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-bar text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
@@ -1281,8 +1374,8 @@ aside.sidebar-container.collapsed {
              class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'settings'}"
              :title="sidebarCollapsed ? 'Sozlamalar' : ''">
-            <div class="w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-gear w-5 text-center text-sm"></i>
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-gear text-sm text-center"></i>
             </div>
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
