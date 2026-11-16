@@ -1,8 +1,8 @@
 <!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
-<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
+<div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
     
     <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
-    <div class="relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
+    <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
         <!-- Ambient background glows -->
         <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -39,7 +39,7 @@
             <!-- REDESIGNED FEATURE CARDS (YANGILANGAN DIZAYN) -->
             <div class="flex flex-col gap-3 pt-2">
                 <!-- Card 1: Face ID -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-indigo-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
                             <i class="fas fa-shield-halved text-lg"></i>
@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- Card 2: Telegram Bot -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-sky-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
                             <i class="fab fa-telegram text-xl"></i>
@@ -75,7 +75,7 @@
                 </div>
 
                 <!-- Card 3: Central Database & Analytics -->
-                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
+                <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#111523]/90 via-[#0d101a]/90 to-[#121625]/90 border border-[#1e2538] hover:border-emerald-500/50 p-4 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 backdrop-blur-sm">
                     <div class="flex items-center gap-4">
                         <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
                             <i class="fas fa-chart-pie text-lg"></i>
