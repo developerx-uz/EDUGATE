@@ -1675,7 +1675,7 @@ body {
             </h3>
             <button @click="showAddSchoolModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-        <form @submit.prevent="saveSchool()" class="space-y-4">
+        <form @submit.prevent="saveSchool()" class="space-y-4" autocomplete="off">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab Nomi *</label>
                 <input type="text" x-model="schoolForm.name" required placeholder="Masalan: Toshkent 101-IDUM" class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-indigo-500">
@@ -1733,7 +1733,7 @@ body {
             </div>
         </div>
 
-        <form @submit.prevent="createStudent()" class="space-y-4">
+        <form @submit.prevent="createStudent()" class="space-y-4" autocomplete="off">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
                 <select x-model="studentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
@@ -1801,7 +1801,7 @@ body {
             <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-user-pen text-indigo-400"></i> O'quvchini Tahrirlash</h3>
             <button @click="showEditStudentModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-        <form @submit.prevent="updateStudent()" class="space-y-4">
+        <form @submit.prevent="updateStudent()" class="space-y-4" autocomplete="off">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
                 <select x-model="editStudentForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
@@ -1855,7 +1855,7 @@ body {
             <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-chalkboard-user text-purple-400"></i> Yangi O'qituvchi Qo'shish</h3>
             <button @click="showAddTeacherModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-        <form @submit.prevent="createTeacher()" class="space-y-4">
+        <form @submit.prevent="createTeacher()" class="space-y-4" autocomplete="off">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
                 <select x-model="teacherForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
@@ -1903,7 +1903,7 @@ body {
             <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-video text-indigo-400"></i> Yangi Kamera / Turniket Qo'shish</h3>
             <button @click="showAddDeviceModal = false" class="text-slate-400 hover:text-white"><i class="fas fa-xmark text-lg"></i></button>
         </div>
-        <form @submit.prevent="createDevice()" class="space-y-4">
+        <form @submit.prevent="createDevice()" class="space-y-4" autocomplete="off">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1">Maktab *</label>
                 <select x-model="deviceForm.school_id" required class="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm">
