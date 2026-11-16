@@ -844,26 +844,25 @@ aside.sidebar-container.collapsed nav {
     align-items: center !important;
 }
 
-aside.sidebar-container.collapsed .sidebar-item,
-aside.sidebar-container.collapsed .sidebar-search-btn {
-    width: 44px !important;
-    min-width: 44px !important;
-    max-width: 44px !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
+aside.sidebar-container.collapsed .sidebar-item {
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     padding: 0 !important;
-    margin: 3px auto !important;
+    margin: 2.5px auto !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     box-sizing: border-box !important;
 }
 
 aside.sidebar-container.collapsed .sidebar-icon-box {
-    width: 44px !important;
-    height: 44px !important;
+    width: 56px !important;
+    height: 36px !important;
     margin: 0 !important;
     padding: 0 !important;
     display: flex !important;
@@ -873,7 +872,7 @@ aside.sidebar-container.collapsed .sidebar-icon-box {
 }
 
 aside.sidebar-container.collapsed .sidebar-icon-box i {
-    font-size: 15px !important;
+    font-size: 14px !important;
     text-align: center !important;
     margin: 0 !important;
     display: inline-block !important;
@@ -889,7 +888,7 @@ aside.sidebar-container.collapsed kbd {
 }
 
 aside.sidebar-container.collapsed .sidebar-separator {
-    width: 36px !important;
+    width: 44px !important;
     margin: 6px auto !important;
 }
 

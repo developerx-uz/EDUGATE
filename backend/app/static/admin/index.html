@@ -895,26 +895,25 @@ aside.sidebar-container.collapsed nav {
     align-items: center !important;
 }
 
-aside.sidebar-container.collapsed .sidebar-item,
-aside.sidebar-container.collapsed .sidebar-search-btn {
-    width: 44px !important;
-    min-width: 44px !important;
-    max-width: 44px !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    max-height: 44px !important;
+aside.sidebar-container.collapsed .sidebar-item {
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
     padding: 0 !important;
-    margin: 3px auto !important;
+    margin: 2.5px auto !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     box-sizing: border-box !important;
 }
 
 aside.sidebar-container.collapsed .sidebar-icon-box {
-    width: 44px !important;
-    height: 44px !important;
+    width: 56px !important;
+    height: 36px !important;
     margin: 0 !important;
     padding: 0 !important;
     display: flex !important;
@@ -924,7 +923,7 @@ aside.sidebar-container.collapsed .sidebar-icon-box {
 }
 
 aside.sidebar-container.collapsed .sidebar-icon-box i {
-    font-size: 15px !important;
+    font-size: 14px !important;
     text-align: center !important;
     margin: 0 !important;
     display: inline-block !important;
@@ -940,7 +939,7 @@ aside.sidebar-container.collapsed kbd {
 }
 
 aside.sidebar-container.collapsed .sidebar-separator {
-    width: 36px !important;
+    width: 44px !important;
     margin: 6px auto !important;
 }
 
@@ -1241,27 +1240,10 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
     </div>
 
     <!-- Navigation Menu (Scrollbar Completely Disabled) -->
-    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-3 space-y-1 no-scrollbar">
-        <!-- Global Search Button in Sidebar -->
-        <button @click="openGlobalSearch()" 
-                class="sidebar-search-btn w-full flex items-center h-10 px-2.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 cursor-pointer mb-2 overflow-hidden"
-                :title="sidebarCollapsed ? 'Global Qidiruv (Ctrl+K)' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-magnifying-glass text-xs text-indigo-400"></i>
-            </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden flex-1 text-left"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[130px] translate-x-0'">
-                Global Qidiruv...
-            </span>
-            <kbd class="sidebar-item-label hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-neutral-400 bg-neutral-800 rounded border border-neutral-700"
-                 :class="sidebarCollapsed ? 'opacity-0 max-w-0' : 'opacity-100'">
-                Ctrl+K
-            </kbd>
-        </button>
-
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-2.5 space-y-1 no-scrollbar">
         <!-- Main Group -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'dashboard'}"
              :title="sidebarCollapsed ? 'Dashboard' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1274,7 +1256,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'schools'}"
              :title="sidebarCollapsed ? 'Maktablar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1287,7 +1269,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'students'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'students'}"
              :title="sidebarCollapsed ? 'O\'quvchilar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1300,7 +1282,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'teachers'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'teachers'}"
              :title="sidebarCollapsed ? 'O\'qituvchilar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1312,11 +1294,11 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </span>
         </div>
 
-        <div class="sidebar-separator border-t border-neutral-800/80 my-2"></div>
+        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
 
         <!-- Monitoring Group -->
         <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'attendance'}"
              :title="sidebarCollapsed ? 'Davomat' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1329,7 +1311,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'devices'}"
              :title="sidebarCollapsed ? 'Kameralar & Turniketlar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1342,7 +1324,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'parents'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'parents'}"
              :title="sidebarCollapsed ? 'Ota-onalar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1354,11 +1336,11 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </span>
         </div>
 
-        <div class="sidebar-separator border-t border-neutral-800/80 my-2"></div>
+        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
 
         <!-- Reports & Settings Group -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'reports'}"
              :title="sidebarCollapsed ? 'Hisobotlar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
@@ -1371,7 +1353,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
         </div>
 
         <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-10 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'settings'}"
              :title="sidebarCollapsed ? 'Sozlamalar' : ''">
             <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
