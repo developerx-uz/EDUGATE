@@ -149,20 +149,440 @@ input[autocomplete="new-password"] {
     appearance: none;
 }
 
+/* ==========================================================================
+   EDUGATE DUAL THEME ENGINE (1. TO'LIQ OQ #FFFFFF  |  2. TO'LIQ QORA #000000)
+   ========================================================================== */
+
+/* --- 1. TO'LIQ OQ MAVZU (PURE WHITE #FFFFFF) --- */
+html.light,
+html.light body,
+body.theme-light {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* Base Surfaces in Light Theme */
+html.light main,
+html.light aside,
+html.light header,
+html.light [class*="bg-slate-950"],
+html.light [class*="bg-[#08090d]"],
+html.light [class*="bg-[#0a0c13]"],
+html.light [class*="bg-[#0d0f18]"] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* Sidebar in Light Theme */
+html.light aside {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.03) !important;
+}
+html.light aside .border-b,
+html.light aside .border-t,
+html.light aside [class*="border-slate-800"] {
+    border-color: #e2e8f0 !important;
+}
+html.light aside h2 {
+    color: #0f172a !important;
+}
+html.light aside p {
+    color: #64748b !important;
+}
+html.light .sidebar-item {
+    color: #475569 !important;
+}
+html.light .sidebar-item:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+html.light .sidebar-item.active {
+    background-color: #eef2ff !important;
+    color: #4338ca !important;
+    border: 1px solid #c7d2fe !important;
+}
+html.light aside button[class*="bg-slate-900"] {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #475569 !important;
+}
+html.light aside button[class*="bg-slate-900"]:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+html.light aside kbd {
+    background-color: #e2e8f0 !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Topbar in Light Theme */
+html.light header {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+html.light header h1 {
+    color: #0f172a !important;
+}
+html.light header button {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #475569 !important;
+}
+html.light header button:hover {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Cards & Widgets in Light Theme */
+html.light .stat-card,
+html.light .glass-card,
+html.light [class*="bg-slate-900/60"],
+html.light [class*="bg-slate-900/70"],
+html.light [class*="bg-slate-900/80"],
+html.light [class*="bg-slate-900/90"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-slate-800/80"],
+html.light [class*="bg-slate-800/60"],
+html.light [class*="bg-slate-800/50"] {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+html.light .stat-card:hover {
+    border-color: #818cf8 !important;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12) !important;
+}
+
+/* Typography in Light Theme */
+html.light h1, 
+html.light h2, 
+html.light h3, 
+html.light h4, 
+html.light h5, 
+html.light h6 {
+    color: #0f172a !important;
+}
+html.light .text-white {
+    color: #0f172a !important;
+}
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300 {
+    color: #334155 !important;
+}
+html.light .text-slate-400 {
+    color: #475569 !important;
+}
+html.light .text-slate-500,
+html.light .text-zinc-400,
+html.light .text-zinc-500 {
+    color: #64748b !important;
+}
+
+/* Tables in Light Theme */
+html.light table th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+html.light table td {
+    color: #1e293b !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+html.light table tr:hover td {
+    background-color: #f8fafc !important;
+}
+
+/* Form Inputs in Light Theme */
+html.light input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+html.light select,
+html.light textarea {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.light input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+html.light select:focus,
+html.light textarea:focus {
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15) !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Autofill in Light Theme */
+html.light input:-webkit-autofill,
+html.light input:-webkit-autofill:hover, 
+html.light input:-webkit-autofill:focus, 
+html.light input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+}
+
+/* Modals & Dropdowns in Light Theme */
+html.light [class*="border-slate-800"],
+html.light [class*="border-slate-700"],
+html.light [class*="border-[#1a1f2e]"],
+html.light [class*="border-[#1d2232]"] {
+    border-color: #e2e8f0 !important;
+}
+html.light .shadow-2xl {
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.08) !important;
+}
+html.light [x-show="showUserMenu"],
+html.light [x-show="showNotifPanel"],
+html.light [x-show="showGlobalSearch"] .relative.w-full {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Scrollbars in Light Theme */
+html.light ::-webkit-scrollbar-track {
+    background: #ffffff !important;
+}
+html.light ::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+/* Login Split in Light Theme */
+html.light .login-split-container {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}
+html.light .login-left-panel {
+    background-color: #fbfbfe !important;
+    border-color: #e2e8f0 !important;
+}
+html.light .login-feature-card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+html.light .login-feature-card:hover {
+    border-color: #818cf8 !important;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.1) !important;
+}
+html.light .login-right-panel {
+    background-color: #ffffff !important;
+}
+html.light .login-submit-btn {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+html.light .login-submit-btn:hover {
+    background-color: #1e293b !important;
+}
+
+/* Badges & Accents in Light Theme */
+html.light .bg-slate-800 {
+    background-color: #f1f5f9 !important;
+    color: #334155 !important;
+}
 
 
+/* --- 2. TO'LIQ QORA MAVZU (PURE BLACK #000000) --- */
+html.dark,
+html.dark body,
+body.theme-dark {
+    background-color: #000000 !important;
+    color: #f4f4f5 !important;
+}
 
+/* Base Surfaces in Pure Black Theme */
+html.dark main,
+html.dark [class*="bg-slate-950"],
+html.dark [class*="bg-[#08090d]"] {
+    background-color: #000000 !important;
+    color: #f4f4f5 !important;
+}
+
+/* Sidebar in Pure Black Theme */
+html.dark aside {
+    background-color: #000000 !important;
+    border-right: 1px solid #18181b !important;
+}
+html.dark aside .border-b,
+html.dark aside .border-t,
+html.dark aside [class*="border-slate-800"] {
+    border-color: #18181b !important;
+}
+html.dark .sidebar-item {
+    color: #a1a1aa !important;
+}
+html.dark .sidebar-item:hover {
+    background-color: #121214 !important;
+    color: #ffffff !important;
+}
+html.dark .sidebar-item.active {
+    background-color: rgba(99, 102, 241, 0.18) !important;
+    color: #818cf8 !important;
+    border: 1px solid rgba(99, 102, 241, 0.4) !important;
+}
+html.dark aside button[class*="bg-slate-900"] {
+    background-color: #09090b !important;
+    border-color: #18181b !important;
+    color: #a1a1aa !important;
+}
+html.dark aside button[class*="bg-slate-900"]:hover {
+    background-color: #121214 !important;
+    color: #ffffff !important;
+}
+
+/* Topbar in Pure Black Theme */
+html.dark header {
+    background-color: #000000 !important;
+    border-bottom: 1px solid #18181b !important;
+}
+html.dark header button {
+    background-color: #09090b !important;
+    border-color: #27272a !important;
+    color: #a1a1aa !important;
+}
+html.dark header button:hover {
+    background-color: #121214 !important;
+    color: #ffffff !important;
+    border-color: #3f3f46 !important;
+}
+
+/* Cards & Widgets in Pure Black Theme */
+html.dark .stat-card,
+html.dark .glass-card,
+html.dark [class*="bg-slate-900/60"],
+html.dark [class*="bg-slate-900/70"],
+html.dark [class*="bg-slate-900/80"],
+html.dark [class*="bg-slate-900/90"],
+html.dark [class*="bg-slate-900"],
+html.dark [class*="bg-slate-800/80"],
+html.dark [class*="bg-slate-800/60"],
+html.dark [class*="bg-slate-800/50"] {
+    background-color: #09090b !important;
+    border: 1px solid #27272a !important;
+}
+html.dark .stat-card:hover {
+    border-color: #6366f1 !important;
+}
+
+/* Tables in Pure Black Theme */
+html.dark table th {
+    background-color: #0c0c0e !important;
+    color: #a1a1aa !important;
+    border-bottom: 1px solid #27272a !important;
+}
+html.dark table td {
+    color: #f4f4f5 !important;
+    border-bottom: 1px solid #18181b !important;
+}
+html.dark table tr:hover td {
+    background-color: #121214 !important;
+}
+
+/* Form Inputs in Pure Black Theme */
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+html.dark select,
+html.dark textarea {
+    background-color: #09090b !important;
+    border: 1px solid #27272a !important;
+    color: #ffffff !important;
+}
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+html.dark select:focus,
+html.dark textarea:focus {
+    border-color: #6366f1 !important;
+}
+
+/* Autofill in Pure Black Theme */
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover, 
+html.dark input:-webkit-autofill:focus, 
+html.dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+}
+
+/* Modals & Dropdowns in Pure Black Theme */
+html.dark [class*="border-slate-800"],
+html.dark [class*="border-slate-700"] {
+    border-color: #27272a !important;
+}
+html.dark [x-show="showUserMenu"],
+html.dark [x-show="showNotifPanel"],
+html.dark [x-show="showGlobalSearch"] .relative.w-full {
+    background-color: #09090b !important;
+    border-color: #27272a !important;
+}
+
+/* Scrollbars in Pure Black Theme */
+html.dark ::-webkit-scrollbar-track {
+    background: #000000 !important;
+}
+html.dark ::-webkit-scrollbar-thumb {
+    background: #27272a !important;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+    background: #3f3f46 !important;
+}
+
+/* Login Split in Pure Black Theme */
+html.dark .login-split-container {
+    background-color: #000000 !important;
+    color: #f4f4f5 !important;
+}
+html.dark .login-left-panel {
+    background-color: #050505 !important;
+    border-color: #18181b !important;
+}
+html.dark .login-feature-card {
+    background-color: #09090b !important;
+    border-color: #27272a !important;
+}
+html.dark .login-right-panel {
+    background-color: #000000 !important;
+}
+html.dark .login-submit-btn {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+html.dark .login-submit-btn:hover {
+    background-color: #f4f4f5 !important;
+}
     </style>
+    <!-- Early theme initializer to prevent flash of unstyled theme -->
+    <script>
+    (function() {
+        try {
+            var saved = localStorage.getItem('edugate_admin_theme');
+            var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+            if (theme === 'light') {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            }
+        } catch(e) {}
+    })();
+    </script>
 </head>
 
-<body class="bg-slate-950 text-slate-200 antialiased" x-data="adminApp()" x-init="initApp()">
+<body class="antialiased selection:bg-indigo-500/20 selection:text-indigo-400 transition-colors duration-200" :class="theme === 'light' ? 'theme-light' : 'theme-dark'" x-data="adminApp()" x-init="initApp()">
 
     <!-- LOGIN MODAL -->
     <!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
-<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
+<div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#08090d] text-slate-100 select-none">
     
     <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
-    <div class="relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
+    <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-[#0a0c13] border-b lg:border-b-0 lg:border-r border-[#1a1f2e] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
         <!-- Ambient background glows -->
         <div class="absolute -top-32 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none"></div>
