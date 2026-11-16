@@ -284,6 +284,22 @@ function adminApp() {
         _prevStatsJson: '',
         _visibilityBound: false,
 
+        // ===== PROFILE & SECURITY SETTINGS =====
+        currentUser: null,
+        profileForm: {
+            full_name: '',
+            email: ''
+        },
+        passwordForm: {
+            current_password: '',
+            new_password: '',
+            confirm_password: '',
+            show_current: false,
+            show_new: false
+        },
+        isUpdatingProfile: false,
+        isUpdatingPassword: false,
+
         // ===== DEVICES & PARENTS =====
         devices: [],
         parents: [],
@@ -437,6 +453,7 @@ function adminApp() {
 
             if (this.token) {
                 await this.refreshAllData();
+                this.fetchCurrentUser();
                 this.startRealtimeEngine();
             } else {
                 // Ensure zero autofill on login modal
@@ -649,6 +666,67 @@ function adminApp() {
             this.stopRealtimeEngine();
             if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
+        },
+
+        // ===== PROFILE & SECURITY SETTINGS METHODS =====
+        openProfileSettings() {
+            this.activeTab = 'profile';
+            this.fetchCurrentUser();
+        },
+
+        async fetchCurrentUser() {
+            if (!this.token) return;
+            try {
+                const user = await EdugateAPI.getMe();
+                if (user) {
+                    this.currentUser = user;
+                    this.profileForm.full_name = user.full_name || '';
+                    this.profileForm.email = user.email || '';
+                }
+            } catch (err) {
+                console.warn('Foydalanuvchi ma\'lumotlarini yuklashda xatolik:', err);
+            }
+        },
+
+        async saveProfile() {
+            this.isUpdatingProfile = true;
+            try {
+                const updated = await EdugateAPI.updateProfile(this.profileForm.full_name, this.profileForm.email);
+                this.currentUser = updated;
+                this.showToast('Profil ma\'lumotlari muvaffaqiyatli saqlandi', 'success');
+            } catch (err) {
+                this.showToast(err.message || 'Profilni saqlashda xatolik', 'error');
+            } finally {
+                this.isUpdatingProfile = false;
+            }
+        },
+
+        async savePassword() {
+            if (!this.passwordForm.current_password) {
+                this.showToast('Hozirgi parolingizni kiriting', 'error');
+                return;
+            }
+            if (!this.passwordForm.new_password || this.passwordForm.new_password.length < 6) {
+                this.showToast('Yangi parol kamida 6 ta belgidan iborat bo\'lishi kerak', 'error');
+                return;
+            }
+            if (this.passwordForm.new_password !== this.passwordForm.confirm_password) {
+                this.showToast('Yangi parollar bir-biriga mos kelmadi', 'error');
+                return;
+            }
+
+            this.isUpdatingPassword = true;
+            try {
+                await EdugateAPI.changePassword(this.passwordForm.current_password, this.passwordForm.new_password);
+                this.passwordForm.current_password = '';
+                this.passwordForm.new_password = '';
+                this.passwordForm.confirm_password = '';
+                this.showToast('Maxfiy parol muvaffaqiyatli yangilandi!', 'success');
+            } catch (err) {
+                this.showToast(err.message || 'Parolni yangilashda xatolik', 'error');
+            } finally {
+                this.isUpdatingPassword = false;
+            }
         },
 
         // ===== DATA FETCH METHODS =====
