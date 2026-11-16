@@ -726,8 +726,21 @@ function adminApp() {
             try {
                 const res = await EdugateAPI.login(this.loginForm.username, this.loginForm.password);
                 this.token = res.access_token;
+
+                // Auto switch portalMode based on returned user role
+                const role = (res.role || '').toUpperCase();
+                if (role === 'SCHOOL_ADMIN') {
+                    this.portalMode = 'school';
+                } else if (role === 'MINISTRY_VIEWER') {
+                    this.portalMode = 'monitoring';
+                } else if (role === 'SUPERADMIN') {
+                    if (this.portalMode !== 'school') {
+                        this.portalMode = 'admin';
+                    }
+                }
+
                 this.showToast('Hush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.', 'success');
-                this.initApp();
+                await this.initApp();
             } catch (err) {
                 this.authError = err.message;
             } finally {
@@ -758,9 +771,82 @@ function adminApp() {
                     this.currentUser = user;
                     this.profileForm.full_name = user.full_name || '';
                     this.profileForm.email = user.email || '';
+
+                    const role = (user.role || '').toUpperCase();
+                    if (role === 'SCHOOL_ADMIN') {
+                        this.portalMode = 'school';
+                        if (user.school_id) {
+                            this.studentForm.school_id = user.school_id;
+                            this.teacherForm.school_id = user.school_id;
+                            this.deviceForm.school_id = user.school_id;
+                            this.studentsFilter.school_id = user.school_id;
+                            this.teachersFilter.school_id = user.school_id;
+                            this.attendanceFilter.school_id = user.school_id;
+                        }
+                        if (this.activeTab === 'schools' || this.activeTab === 'settings') {
+                            this.activeTab = 'dashboard';
+                        }
+                    } else if (role === 'MINISTRY_VIEWER') {
+                        this.portalMode = 'monitoring';
+                        if (this.activeTab === 'settings') {
+                            this.activeTab = 'dashboard';
+                        }
+                    }
                 }
             } catch (err) {
                 console.warn('Foydalanuvchi ma\'lumotlarini yuklashda xatolik:', err);
+            }
+        },
+
+        // ===== 1 MAKTAB = 1 LOGIN BOSHQARUV USULLARI (SUPERADMIN UCHUN) =====
+        onSchoolCodeChange() {
+            if (!this.editSchoolForm.id && this.schoolForm.code) {
+                const cleanCode = this.schoolForm.code.trim().toLowerCase();
+                this.schoolForm.admin_username = 'maktab_' + cleanCode;
+                if (!this.schoolForm.admin_password) {
+                    this.schoolForm.admin_password = 'Maktab_' + this.schoolForm.code.trim() + '2026!';
+                }
+            }
+        },
+
+        async openSchoolAccountModal(school) {
+            this.schoolAccountForm.school_id = school.id;
+            this.schoolAccountForm.school_name = school.name;
+            this.schoolAccountForm.username = school.admin_username || ('maktab_' + (school.code || '').toLowerCase());
+            this.schoolAccountForm.password = '';
+            this.schoolAccountForm.full_name = school.admin_full_name || (school.name + " Ma'muri");
+            this.schoolAccountForm.has_account = !!school.has_login;
+            this.showSchoolAccountModal = true;
+            try {
+                const acc = await EdugateAPI.getSchoolAccount(school.id);
+                if (acc && acc.has_account) {
+                    this.schoolAccountForm.username = acc.username;
+                    this.schoolAccountForm.full_name = acc.full_name || this.schoolAccountForm.full_name;
+                    this.schoolAccountForm.has_account = true;
+                }
+            } catch (e) {}
+        },
+
+        async saveSchoolAccount() {
+            if (!this.schoolAccountForm.username) {
+                this.showToast('Login nomini kiriting', 'error');
+                return;
+            }
+            if (!this.schoolAccountForm.has_account && (!this.schoolAccountForm.password || this.schoolAccountForm.password.length < 6)) {
+                this.showToast('Parol kamida 6 ta belgidan iborat bo\'lishi shart', 'error');
+                return;
+            }
+            try {
+                const res = await EdugateAPI.saveSchoolAccount(this.schoolAccountForm.school_id, {
+                    username: this.schoolAccountForm.username,
+                    password: this.schoolAccountForm.password || undefined,
+                    full_name: this.schoolAccountForm.full_name
+                });
+                this.showToast(res.message || 'Maktab logini saqlandi! (1 maktab = 1 login)', 'success');
+                this.showSchoolAccountModal = false;
+                this.fetchSchoolsDetailed();
+            } catch (e) {
+                this.showToast(e.message || 'Xatolik yuz berdi', 'error');
             }
         },
 
