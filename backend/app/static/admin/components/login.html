@@ -1,140 +1,174 @@
-<!-- TWO-PANEL SPLIT SCREEN LOGIN (ZERO SCROLL, NO FLICKER) -->
-<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#070b14] text-slate-100 select-none">
+<!-- TWO-PANEL SPLIT SCREEN LOGIN (INFINITETV STYLE - ZERO SCROLL) -->
+<div x-show="!token" class="fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-[#0b0d13] text-slate-100 select-none">
     
-    <!-- LEFT PANEL (~58%): BRAND & 3 KEY HIGHLIGHTS -->
-    <div class="w-full lg:w-[58%] h-full bg-[#070b14] border-b lg:border-b-0 lg:border-r border-slate-800/80 flex flex-col justify-between p-8 sm:p-12 xl:p-16 overflow-hidden">
+    <!-- LEFT PANEL: BRAND, BADGE, HEADLINE & 3 CARDS IN A ROW -->
+    <div class="w-full lg:w-3/5 h-full bg-[#0a0a0c] border-b lg:border-b-0 lg:border-r border-[#1a1e29] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
-        <!-- Top: Brand Logo -->
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-sm">
-                <i class="fas fa-building-columns text-base"></i>
+        <!-- Top: Logo & Production Pill -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                    <i class="fas fa-building-columns text-sm"></i>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-white">EDUGATE</span>
             </div>
-            <div>
-                <span class="text-base font-extrabold tracking-wider text-white">EDUGATE</span>
-                <span class="block text-[10px] text-slate-500 font-medium uppercase tracking-widest">Maktab Ekotizimi</span>
+
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#131c15] text-[#22c55e] border border-[#1b3a24] text-xs font-mono font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse"></span>
+                <span>Production v5.4</span>
             </div>
         </div>
 
-        <!-- Center: Headline & 3 Clean Highlights -->
-        <div class="space-y-8 my-auto max-w-xl">
+        <!-- Center: Enterprise Badge, Headline & 3 Horizontal Feature Cards -->
+        <div class="space-y-6 my-auto max-w-2xl">
             <div class="space-y-3">
-                <span class="inline-block px-3 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
-                    Boshqaruv Tizimi
-                </span>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider">
+                    <i class="fas fa-crown text-[11px]"></i> ENTERPRISE BOSHQARUV MARKAZI
+                </div>
                 <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Maktab davomati va xavfsizlik nazorati platformasi
+                    Maktab Davomati, Face ID & Xavfsizlik Ekotizimi
                 </h1>
-                <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-lg">
-                    Face ID kameralari, turniketlar va ota-onalar xabarnoma tizimining yagona markaziy boshqaruv paneli.
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl">
+                    Kameralar, aqlli turniketlar, Telegram bot va markaziy ma'lumotlar bazasini xavfsiz va markazlashgan boshqaruv portali.
                 </p>
             </div>
 
-            <!-- 3 Clean Minimal Highlights -->
-            <div class="space-y-4 pt-2">
-                <div class="flex items-start gap-4">
-                    <div class="w-11 h-11 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 shadow-sm mt-0.5">
-                        <i class="fas fa-camera text-base"></i>
+            <!-- 3 Horizontal Cards in a row -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs">
+                        <i class="fas fa-shield-halved"></i>
                     </div>
-                    <div>
-                        <h4 class="text-base font-bold text-white">Face ID va Turniket nazorati</h4>
-                        <p class="text-sm text-slate-400 mt-0.5">O'quvchilar va xodimlar kirish-chiqishini real vaqtda aniqlash</p>
-                    </div>
+                    <h3 class="text-sm font-bold text-white">Face ID & Turniket</h3>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        0.2s tezlikda yuzni aniqlash, Anti-Passback spam filtri va avtomatik ochilish.
+                    </p>
                 </div>
 
-                <div class="flex items-start gap-4">
-                    <div class="w-11 h-11 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                        <i class="fab fa-telegram text-base"></i>
+                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center text-xs">
+                        <i class="fab fa-telegram"></i>
                     </div>
-                    <div>
-                        <h4 class="text-base font-bold text-white">Ota-onalar xabarnomasi</h4>
-                        <p class="text-sm text-slate-400 mt-0.5">Telegram bot orqali kirish, chiqish va kechikishlar haqida tezkor xabar</p>
-                    </div>
+                    <h3 class="text-sm font-bold text-white">Telegram Xabarnoma</h3>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        Ota-onalarga kirish, chiqish va kechikishlar haqida zudlik bilan avto-bildirishnoma.
+                    </p>
                 </div>
 
-                <div class="flex items-start gap-4">
-                    <div class="w-11 h-11 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-indigo-400 shrink-0 mt-0.5">
-                        <i class="fas fa-chart-simple text-base"></i>
+                <div class="bg-[#12141c]/90 border border-[#1e2230] rounded-2xl p-4 space-y-2 hover:border-[#2e344a] transition">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xs">
+                        <i class="fas fa-database"></i>
                     </div>
-                    <div>
-                        <h4 class="text-base font-bold text-white">Statistika va Hisobotlar</h4>
-                        <p class="text-sm text-slate-400 mt-0.5">Kunlik davomat tahlili va Excel/CSV formatida yuklab olish</p>
-                    </div>
+                    <h3 class="text-sm font-bold text-white">Yagona Baza & Tahlil</h3>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        Barcha maktablar va sinflar davomatini to'liq nazorat qilish hamda Excel eksport.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Bottom: Subtle Footer -->
-        <div class="text-xs text-slate-500">
-            <span>EDUGATE © 2026. Barcha huquqlar himoyalangan.</span>
+        <!-- Bottom: DeveloperX Footer -->
+        <div class="flex items-center justify-between text-xs text-zinc-500">
+            <span>DeveloperX Agency • Toshkent, O'zbekiston</span>
+            <div class="flex items-center gap-1.5">
+                <i class="fas fa-server text-[10px]"></i>
+                <span>Hetzner Cloud VPS</span>
+            </div>
         </div>
     </div>
 
-    <!-- RIGHT PANEL (~42%): UMUMIY RAMKASIZ, KATTALASHTIRILGAN VA CHIROYLI LOGIN FORMASI -->
-    <div class="w-full lg:w-[42%] h-full bg-[#0c1220] flex flex-col justify-between p-8 sm:p-12 xl:p-16 overflow-hidden relative">
+    <!-- RIGHT PANEL: INFINITETV STYLE CLEAN LOGIN CONSOLE -->
+    <div class="w-full lg:w-2/5 h-full bg-[#0b0d13] flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
-        <!-- Subtle Ambient Glow -->
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
         <!-- Top Spacer -->
         <div class="h-6"></div>
 
-        <!-- Center: Umumiy ramkasiz, toza va kattalashtirilgan Forma -->
-        <div class="w-full max-w-[420px] mx-auto my-auto relative z-10 space-y-7">
-            
+        <!-- Center: Clean Borderless Form -->
+        <div class="w-full max-w-[380px] mx-auto my-auto space-y-6">
             <div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Tizimga kirish</h2>
-                <p class="text-sm text-slate-400 mt-2 leading-relaxed">Boshqaruv paneliga kirish uchun ma'lumotlarni kiriting</p>
+                <h2 class="text-3xl font-bold text-white tracking-tight">Tizimga Kirish</h2>
+                <p class="text-xs text-zinc-400 mt-1.5">Boshqaruv paneliga kirish uchun hisob ma'lumotlarini kiriting</p>
             </div>
 
-            <form @submit.prevent="login()" class="space-y-5">
+            <form @submit.prevent="login()" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Foydalanuvchi nomi</label>
+                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                        <i class="fas fa-user text-[10px]"></i> FOYDALANUVCHI NOMI
+                    </label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                            <i class="fas fa-user text-sm"></i>
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
+                            <i class="fas fa-user text-xs"></i>
                         </span>
-                        <input type="text" x-model="loginForm.username" required placeholder="admin"
-                               class="w-full pl-12 pr-4 py-3.5 bg-slate-900/60 hover:bg-slate-900/80 border border-slate-800 hover:border-slate-700 rounded-2xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-medium">
+                        <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
+                               class="w-full pl-9 pr-4 py-3 bg-[#131620] border border-[#1f2433] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-medium">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Parol</label>
+                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5 mb-2 mt-4">
+                        <i class="fas fa-lock text-[10px]"></i> MAXFIY PAROL
+                    </label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                            <i class="fas fa-lock text-sm"></i>
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
+                            <i class="fas fa-key text-xs"></i>
                         </span>
-                        <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="••••••••"
-                               class="w-full pl-12 pr-12 py-3.5 bg-slate-900/60 hover:bg-slate-900/80 border border-slate-800 hover:border-slate-700 rounded-2xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all font-mono">
-                        <button type="button" @click="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition cursor-pointer">
-                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-sm"></i>
+                        <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
+                               class="w-full pl-9 pr-10 py-3 bg-[#131620] border border-[#1f2433] rounded-xl text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-indigo-500 transition font-mono">
+                        <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
+                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
                     </div>
                 </div>
 
+                <!-- TLS Badge -->
+                <div class="flex justify-end pt-1">
+                    <span class="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
+                        <i class="fas fa-shield-halved text-[10px]"></i> TLS 256-bit
+                    </span>
+                </div>
+
                 <!-- Error Alert -->
-                <div x-show="authError" class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
-                    <i class="fas fa-circle-exclamation text-sm"></i>
+                <div x-show="authError" class="p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs flex items-center gap-2" x-cloak>
+                    <i class="fas fa-circle-exclamation text-xs"></i>
                     <span x-text="authError"></span>
                 </div>
 
-                <!-- Login Button -->
+                <!-- Primary White Button -->
                 <button type="submit" :disabled="loading"
-                        class="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 text-sm disabled:opacity-50 cursor-pointer shadow-xl shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 mt-3">
-                    <i x-show="loading" class="fas fa-circle-notch fa-spin text-sm"></i>
-                    <span x-show="!loading">Kirish</span>
-                    <i x-show="!loading" class="fas fa-arrow-right text-xs"></i>
+                        class="w-full py-3.5 px-4 bg-white hover:bg-zinc-100 text-zinc-950 font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-3 disabled:opacity-50">
+                    <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
+                    <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
+                    <span>Tizimga Kirish</span>
                 </button>
+
+                <!-- Divider -->
+                <div class="relative my-5">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-[#1f2433]"></div>
+                    </div>
+                    <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-zinc-500">
+                        <span class="bg-[#0b0d13] px-3">MA'LUMOTLAR BAZASI</span>
+                    </div>
+                </div>
+
+                <!-- Secondary Database Hub Button -->
+                <a href="/docs" target="_blank"
+                   class="w-full py-3 px-4 bg-[#141824] hover:bg-[#1a2030] border border-[#22293d] rounded-xl text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition cursor-pointer">
+                    <i class="fas fa-database text-indigo-400 text-xs"></i>
+                    <span>Edugate Database & API Hub</span>
+                    <i class="fas fa-arrow-up-right-from-square text-[10px] text-zinc-500"></i>
+                </a>
             </form>
 
+            <!-- Bottom Sub-footer -->
+            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-3">
+                <i class="fas fa-shield text-[10px]"></i>
+                <span>Xavfsiz Shifrlangan Tizim • DeveloperX 2026</span>
+            </div>
         </div>
 
-        <!-- Bottom: Muted Connection Status -->
-        <div class="flex items-center justify-center sm:justify-end text-xs text-slate-500 gap-2 relative z-10">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Xavfsiz boshqaruv shlyuzi</span>
-        </div>
+        <!-- Bottom Spacer -->
+        <div class="h-6"></div>
     </div>
 
 </div>
