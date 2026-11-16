@@ -61,8 +61,9 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     description="EDUGATE — Maktablar uchun Face ID, Kameralar va Turniketlar bilan ishlovchi aqlli davomat tizimi yadrosi.",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
     root_path=root_path,
     lifespan=lifespan
 )
@@ -237,6 +238,21 @@ async def serve_pwa_icon(icon_name: str):
     if os.path.exists(icon_path):
         return FileResponse(icon_path, media_type="image/png", headers=CACHE_HEADERS)
     return Response(status_code=404)
+
+
+# Block and disable all documentation endpoints for confidential security
+@app.api_route("/docs", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/docs/{rest_of_path:path}", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/edugate/docs", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/edugate/docs/{rest_of_path:path}", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/redoc", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/redoc/{rest_of_path:path}", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/edugate/redoc", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/edugate/redoc/{rest_of_path:path}", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/openapi.json", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+@app.api_route("/edugate/openapi.json", methods=["GET", "HEAD", "POST"], include_in_schema=False)
+async def block_docs(rest_of_path: str = ""):
+    raise HTTPException(status_code=404, detail="Not Found")
 
 
 @app.api_route("/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
