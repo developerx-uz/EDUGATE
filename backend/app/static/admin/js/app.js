@@ -150,32 +150,45 @@ function adminApp() {
 
         // ===== NAVIGATION =====
         activeTab: 'dashboard',
-        sidebarCollapsed: (() => {
+        sidebarMode: (() => {
             try {
-                const saved = localStorage.getItem('edugate_sidebar_collapsed');
-                if (saved !== null) return saved === 'true';
-                return false;
+                const saved = localStorage.getItem('edugate_sidebar_mode');
+                if (saved === 'expanded' || saved === 'collapsed' || saved === 'hover') return saved;
+                return 'collapsed'; // Default to collapsed as Supabase style
             } catch (e) {
-                return false;
+                return 'collapsed';
             }
         })(),
+        sidebarHoverActive: false,
+        showSidebarControl: false,
         sidebarOpenMobile: false,
         searchQuery: '',
         showNotifPanel: false,
         showUserMenu: false,
         isFullscreen: false,
 
+        get isSidebarCollapsed() {
+            if (this.sidebarMode === 'expanded') return false;
+            if (this.sidebarMode === 'hover') return !this.sidebarHoverActive;
+            return true; // 'collapsed'
+        },
+
+        setSidebarMode(mode) {
+            this.sidebarMode = mode;
+            this.showSidebarControl = false;
+            try {
+                localStorage.setItem('edugate_sidebar_mode', mode);
+            } catch (e) {}
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 250);
+        },
+
         toggleSidebar() {
             if (window.innerWidth < 768) {
                 this.sidebarOpenMobile = !this.sidebarOpenMobile;
             } else {
-                this.sidebarCollapsed = !this.sidebarCollapsed;
-                try {
-                    localStorage.setItem('edugate_sidebar_collapsed', this.sidebarCollapsed ? 'true' : 'false');
-                } catch (e) {}
-                setTimeout(() => {
-                    window.dispatchEvent(new Event('resize'));
-                }, 310);
+                this.showSidebarControl = !this.showSidebarControl;
             }
         },
 

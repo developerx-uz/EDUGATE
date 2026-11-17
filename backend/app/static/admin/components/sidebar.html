@@ -1,115 +1,192 @@
-<!-- SIDEBAR COMPONENT (Supabase Style Slim Icon Rail) -->
-<aside :class="[sidebarCollapsed ? 'collapsed w-[60px]' : 'w-[230px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="sidebar-container fixed md:relative left-0 top-[54px] md:top-0 h-[calc(100vh-54px)] md:h-full bg-black border-r border-neutral-800/80 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0 transition-all duration-300">
+<!-- SIDEBAR COMPONENT (Supabase Style Slim Rail & Sidebar Control Popover) -->
+<aside :class="[isSidebarCollapsed ? 'collapsed w-[52px]' : 'w-[220px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
+       @mouseenter="if (sidebarMode === 'hover') sidebarHoverActive = true"
+       @mouseleave="if (sidebarMode === 'hover') sidebarHoverActive = false"
+       class="sidebar-container fixed md:relative left-0 top-[54px] md:top-0 h-[calc(100vh-54px)] md:h-full bg-black border-r border-neutral-800/80 z-30 flex flex-col select-none overflow-visible flex-shrink-0 transition-all duration-200">
 
-    <!-- Navigation Menu (Direct from top, clean & centered icons) -->
-    <nav class="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-1.5 no-scrollbar">
+    <!-- Navigation Menu (Direct from top, Supabase centered rail items) -->
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden p-1.5 space-y-1.5 no-scrollbar">
         <!-- Dashboard -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'dashboard' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Dashboard' : ''">
+             :class="[
+                activeTab === 'dashboard' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Dashboard' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-house text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Dashboard</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Dashboard</span>
         </div>
 
         <!-- Statistika -->
         <div @click="activeTab = 'stats'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'stats' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Statistika' : ''">
+             :class="[
+                activeTab === 'stats' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Statistika' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-chart-line text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Statistika</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Statistika</span>
         </div>
 
         <!-- Maktablar -->
         <div x-show="!isSchoolAdmin" @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'schools' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Maktablar' : ''">
+             :class="[
+                activeTab === 'schools' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Maktablar' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-school text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Maktablar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Maktablar</span>
         </div>
 
-        <div class="border-t border-neutral-800/80 my-2 mx-1"></div>
+        <!-- Thin Divider (Image 2 style) -->
+        <div class="my-2 border-t border-neutral-800/80" :class="isSidebarCollapsed ? 'w-6 mx-auto' : 'mx-2'"></div>
 
         <!-- Kameralar -->
         <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'devices' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Kameralar' : ''">
+             :class="[
+                activeTab === 'devices' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Kameralar' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-video text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Kameralar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Kameralar</span>
         </div>
 
         <!-- Hisobotlar -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'reports' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Hisobotlar' : ''">
+             :class="[
+                activeTab === 'reports' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Hisobotlar' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-chart-bar text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Hisobotlar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Hisobotlar</span>
         </div>
 
-        <!-- Bildirishnomalar -->
+        <!-- Bildirishnomalar (Image 2 Orange notification dot) -->
         <div @click="activeTab = 'notifications'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'notifications' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Bildirishnomalar' : ''">
-            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+             :class="[
+                activeTab === 'notifications' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Bildirishnomalar' : ''">
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0 relative">
                 <i class="fas fa-bell text-sm"></i>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-black"></span>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Bildirishnomalar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Bildirishnomalar</span>
         </div>
 
-        <div class="border-t border-neutral-800/80 my-2 mx-1"></div>
+        <!-- Thin Divider -->
+        <div class="my-2 border-t border-neutral-800/80" :class="isSidebarCollapsed ? 'w-6 mx-auto' : 'mx-2'"></div>
 
         <!-- Sozlamalar -->
         <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
-             :class="activeTab === 'settings' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
-             :title="sidebarCollapsed ? 'Sozlamalar' : ''">
+             :class="[
+                activeTab === 'settings' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Sozlamalar' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-gear text-sm"></i>
             </div>
-            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Sozlamalar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Sozlamalar</span>
         </div>
     </nav>
 
-    <!-- Bottom: Pinned Stationary Toggle Button (Maydalashtirilgan, Bir burchakda qotib turadi) -->
-    <div class="mt-auto border-t border-neutral-800/80 h-11 flex items-center flex-shrink-0 bg-black overflow-hidden">
-        <!-- Pinned Corner Anchor (Exactly 60px wide, center stays at x=30px permanently) -->
-        <div class="w-[60px] h-full flex items-center justify-center flex-shrink-0">
-            <button @click="toggleSidebar()" 
-                    class="flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition cursor-pointer flex-shrink-0 select-none group"
-                    :title="sidebarCollapsed ? 'Panelni kengaytirish' : 'Panelni yig\'ish'">
-                <svg class="w-3.5 h-3.5 text-neutral-400 group-hover:text-white transition-transform duration-300 ease-in-out"
-                     :style="sidebarCollapsed ? 'transform: rotateY(180deg);' : 'transform: rotateY(0deg);'"
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Bottom: Supabase "Sidebar control" Pinned Trigger & Popover (Image 1) -->
+    <div class="mt-auto border-t border-neutral-800/80 h-12 flex items-center flex-shrink-0 bg-black relative px-1.5">
+        <!-- Pinned Corner Trigger (Always at x=26px in 52px rail) -->
+        <div class="w-[40px] h-full flex items-center justify-center flex-shrink-0">
+            <button @click="showSidebarControl = !showSidebarControl" 
+                    class="flex items-center justify-center w-8 h-8 rounded-lg transition cursor-pointer select-none"
+                    :class="showSidebarControl ? 'bg-[#242424] text-white border border-neutral-700/80' : 'text-neutral-400 hover:text-white hover:bg-neutral-900 border border-transparent'"
+                    title="Sidebar control">
+                <svg class="w-4 h-4 text-neutral-300"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="4" />
                     <line x1="8.5" y1="3" x2="8.5" y2="21" stroke-dasharray="2 1.5" />
                 </svg>
             </button>
         </div>
 
-        <!-- Optional subtle label when expanded -->
-        <div x-show="!sidebarCollapsed" 
+        <!-- Expanded hint text -->
+        <div x-show="!isSidebarCollapsed" 
+             @click="showSidebarControl = !showSidebarControl"
              x-transition:enter="transition ease-out duration-150"
              x-transition:enter-start="opacity-0 -translate-x-1"
              x-transition:enter-end="opacity-100 translate-x-0"
-             class="text-[11px] text-neutral-500 font-mono select-none truncate cursor-pointer hover:text-neutral-300 transition"
-             @click="toggleSidebar()">
-            Yig'ish
+             class="text-[11px] text-neutral-400 font-mono select-none truncate cursor-pointer hover:text-white transition ml-1">
+            Boshqarish
+        </div>
+
+        <!-- EXACT POPUP POPOVER FROM IMAGE 1: "Sidebar control" -->
+        <div x-show="showSidebarControl" 
+             @click.outside="showSidebarControl = false" 
+             x-cloak
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+             class="absolute bottom-12 left-1 z-50 mb-1 w-44 rounded-xl bg-[#1c1c1c] border border-neutral-800 shadow-2xl p-1 text-xs select-none">
+            
+            <!-- Popover Header -->
+            <div class="px-3 py-2 text-[11px] font-medium text-neutral-400 border-b border-neutral-800/80">
+                Sidebar control
+            </div>
+
+            <!-- Popover Options -->
+            <div class="p-1 space-y-0.5">
+                <!-- 1. Expanded -->
+                <button @click="setSidebarMode('expanded')" 
+                        class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
+                        :class="sidebarMode === 'expanded' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">
+                    <span class="w-2.5 h-2.5 flex items-center justify-center flex-shrink-0">
+                        <span x-show="sidebarMode === 'expanded'" class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    </span>
+                    <span class="text-xs">Expanded</span>
+                </button>
+
+                <!-- 2. Collapsed (Shows white dot when active as in Image 1) -->
+                <button @click="setSidebarMode('collapsed')" 
+                        class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
+                        :class="sidebarMode === 'collapsed' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">
+                    <span class="w-2.5 h-2.5 flex items-center justify-center flex-shrink-0">
+                        <span x-show="sidebarMode === 'collapsed'" class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    </span>
+                    <span class="text-xs">Collapsed</span>
+                </button>
+
+                <!-- 3. Expand on hover -->
+                <button @click="setSidebarMode('hover')" 
+                        class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
+                        :class="sidebarMode === 'hover' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">
+                    <span class="w-2.5 h-2.5 flex items-center justify-center flex-shrink-0">
+                        <span x-show="sidebarMode === 'hover'" class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                    </span>
+                    <span class="text-xs">Expand on hover</span>
+                </button>
+            </div>
         </div>
     </div>
 </aside>
