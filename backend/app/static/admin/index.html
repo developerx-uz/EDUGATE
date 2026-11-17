@@ -857,8 +857,13 @@ aside.sidebar-container.collapsed {
 }
 
 .sidebar-brand-area {
-    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    will-change: opacity, max-width;
+    transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease !important;
+    will-change: max-width, opacity;
+}
+
+.sidebar-item-label {
+    transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, transform 0.2s ease !important;
+    will-change: max-width, opacity, transform;
 }
 
 .btn-refresh-fixed:active,
@@ -867,73 +872,11 @@ header button:active {
     transform: scale(0.96) !important;
 }
 
-.sidebar-item-label {
-    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease !important;
-    will-change: opacity, max-width, transform;
-}
-
 /* ==========================================================================
-   MARKAZLASHGAN TIZIM: COLLAPSED SIDEBAR ITEMS & INDICATORS
+   MARKAZLASHGAN TIZIM: COLLAPSED SIDEBAR ITEMS & SMOOTH TRANSITIONS
    ========================================================================== */
-aside.sidebar-container.collapsed nav {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item {
-    width: 58px !important;
-    min-width: 58px !important;
-    max-width: 58px !important;
-    height: 32px !important;
-    min-height: 32px !important;
-    max-height: 32px !important;
-    padding: 0 !important;
-    margin: 2px auto !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    border-radius: 9px !important;
-    box-sizing: border-box !important;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item:active {
-    transform: scale(0.97) !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-icon-box {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-icon-box i {
-    font-size: 14px !important;
-    text-align: center !important;
-    margin: 0 !important;
-    display: inline-block !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item-label,
-aside.sidebar-container.collapsed kbd {
-    display: none !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    max-width: 0 !important;
-    pointer-events: none !important;
-}
-
 aside.sidebar-container.collapsed .sidebar-separator {
-    width: 44px !important;
-    margin: 6px auto !important;
+    width: 100% !important;
 }
 
 /* Oddiy va Silliq Hover & Active Ranglari */
@@ -1265,11 +1208,10 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
        class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0">
 
     <!-- Header: Logo, Brand Text, and Toggle Button -->
-    <div class="flex items-center h-[52px] border-b border-neutral-800 flex-shrink-0 px-3.5 overflow-hidden"
-         :class="sidebarCollapsed ? 'justify-center px-0' : 'justify-between'">
+    <div class="flex items-center h-[52px] border-b border-neutral-800 flex-shrink-0 px-3.5 overflow-hidden">
         <!-- Brand Area (Logo + Text) -->
-        <div x-show="!sidebarCollapsed"
-             class="sidebar-brand-area flex items-center gap-2.5 min-w-0 overflow-hidden">
+        <div class="sidebar-brand-area flex items-center gap-2.5 min-w-0 overflow-hidden"
+             :class="sidebarCollapsed ? 'opacity-0 max-w-0 pointer-events-none' : 'opacity-100 max-w-[170px]'">
             <div class="flex-shrink-0 w-7 h-7 bg-neutral-900 rounded-lg flex items-center justify-center border border-neutral-800">
                 <span class="text-white font-extrabold text-xs">E</span>
             </div>
@@ -1279,15 +1221,19 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             </div>
         </div>
 
-        <!-- Toggle Button (Standard, Clean, No Animation) -->
-        <button @click="toggleSidebar()" 
-                class="flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition-colors cursor-pointer flex-shrink-0 select-none"
-                :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
-            <svg class="w-4.5 h-4.5 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-        </button>
+        <!-- Toggle Button Container -->
+        <div class="flex-1 flex" :class="sidebarCollapsed ? 'justify-center' : 'justify-end'">
+            <button @click="toggleSidebar()" 
+                    class="flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition-colors cursor-pointer flex-shrink-0 select-none"
+                    :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
+                <svg class="w-4.5 h-4.5 text-neutral-300 transition-transform duration-300 ease-in-out"
+                     :class="sidebarCollapsed ? 'rotate-180' : 'rotate-0'"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- Navigation Menu (Scrollbar Completely Disabled) -->
@@ -1432,7 +1378,9 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             <button @click="toggleSidebar()" 
                     class="md:hidden flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0 select-none"
                     title="Menyu">
-                <svg class="w-4 h-4 text-neutral-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-4 h-4 text-neutral-300 transition-transform duration-300 ease-in-out"
+                     :class="sidebarOpenMobile ? 'rotate-180' : 'rotate-0'"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="5" />
                     <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
                 </svg>

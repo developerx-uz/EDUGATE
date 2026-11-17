@@ -806,8 +806,13 @@ aside.sidebar-container.collapsed {
 }
 
 .sidebar-brand-area {
-    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    will-change: opacity, max-width;
+    transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease !important;
+    will-change: max-width, opacity;
+}
+
+.sidebar-item-label {
+    transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, transform 0.2s ease !important;
+    will-change: max-width, opacity, transform;
 }
 
 .btn-refresh-fixed:active,
@@ -816,73 +821,11 @@ header button:active {
     transform: scale(0.96) !important;
 }
 
-.sidebar-item-label {
-    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease !important;
-    will-change: opacity, max-width, transform;
-}
-
 /* ==========================================================================
-   MARKAZLASHGAN TIZIM: COLLAPSED SIDEBAR ITEMS & INDICATORS
+   MARKAZLASHGAN TIZIM: COLLAPSED SIDEBAR ITEMS & SMOOTH TRANSITIONS
    ========================================================================== */
-aside.sidebar-container.collapsed nav {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item {
-    width: 58px !important;
-    min-width: 58px !important;
-    max-width: 58px !important;
-    height: 32px !important;
-    min-height: 32px !important;
-    max-height: 32px !important;
-    padding: 0 !important;
-    margin: 2px auto !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    border-radius: 9px !important;
-    box-sizing: border-box !important;
-    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item:active {
-    transform: scale(0.97) !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-icon-box {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-icon-box i {
-    font-size: 14px !important;
-    text-align: center !important;
-    margin: 0 !important;
-    display: inline-block !important;
-}
-
-aside.sidebar-container.collapsed .sidebar-item-label,
-aside.sidebar-container.collapsed kbd {
-    display: none !important;
-    opacity: 0 !important;
-    width: 0 !important;
-    max-width: 0 !important;
-    pointer-events: none !important;
-}
-
 aside.sidebar-container.collapsed .sidebar-separator {
-    width: 44px !important;
-    margin: 6px auto !important;
+    width: 100% !important;
 }
 
 /* Oddiy va Silliq Hover & Active Ranglari */
