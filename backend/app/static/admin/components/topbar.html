@@ -32,27 +32,18 @@
 
         <!-- Right: Actions & Notifications -->
         <div class="flex items-center gap-2">
-            <!-- Yangilash Tugmasi (Aylana / Pill Ramka - Faqat Iconka Aylanadi) -->
-            <button @click="triggerManualRefresh()" 
-                    :disabled="isRefreshing"
-                    class="btn-refresh-fixed flex items-center justify-center gap-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 flex-shrink-0 select-none overflow-hidden"
-                    title="Ma'lumotlarni yangilash">
-                <i class="fas fa-arrows-rotate text-xs text-indigo-400 flex-shrink-0"
-                   :class="isRefreshing ? 'fa-spin' : ''"></i>
-                <span class="hidden sm:inline text-center">Yangilash</span>
-            </button>
-
-            <!-- Notifications Bell -->
+            <!-- Notifications Bell (Yangilash tugmasi chap tarafiga ko'chirildi) -->
             <div class="relative">
                 <button @click="showNotifPanel = !showNotifPanel"
-                        class="relative w-7 h-7 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-lg transition cursor-pointer">
+                        class="relative w-8 h-8 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-full transition cursor-pointer"
+                        title="Bildirishnomalar">
                     <i class="fas fa-bell text-xs"></i>
-                    <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-black"></span>
                 </button>
 
                 <!-- Notifications Dropdown Panel -->
                 <div x-show="showNotifPanel" @click.outside="showNotifPanel = false" x-cloak
-                     class="absolute right-0 mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-neutral-800 space-y-3">
+                     class="absolute right-0 sm:left-0 sm:right-auto mt-2 w-80 glass-card rounded-2xl p-4 shadow-2xl z-50 border border-neutral-800 space-y-3">
                     <div class="flex items-center justify-between pb-2 border-b border-neutral-800">
                         <span class="text-xs font-bold text-white uppercase tracking-wider">Bildirishnomalar</span>
                         <span class="text-[10px] text-indigo-400 font-semibold cursor-pointer" @click="showNotifPanel = false">Yopish</span>
@@ -71,31 +62,15 @@
                 </div>
             </div>
 
-            <!-- Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙 Ramkalari) -->
-            <div class="theme-switch-pill inline-flex items-center p-0.5 rounded-lg border transition-all duration-200"
-                 :class="theme === 'light' ? 'bg-neutral-100 border-neutral-300' : 'bg-neutral-900 border-neutral-800'">
-                <!-- Oq Mavzu Ramkasi (Sun Icon ☀️) -->
-                <button type="button" 
-                        @click="applyTheme('light')" 
-                        class="theme-btn-light flex items-center justify-center w-6 h-6 rounded-md transition-all duration-200 cursor-pointer"
-                        :class="theme === 'light' 
-                            ? 'bg-white text-amber-500 shadow-sm border border-neutral-300 font-bold scale-105' 
-                            : 'text-neutral-500 hover:text-neutral-300 hover:bg-neutral-800/60'"
-                        title="Oq mavzu (Yorug')">
-                    <i class="fas fa-sun text-[11px]"></i>
-                </button>
-                
-                <!-- Qora Mavzu Ramkasi (Moon Icon 🌙) -->
-                <button type="button" 
-                        @click="applyTheme('dark')" 
-                        class="theme-btn-dark flex items-center justify-center w-6 h-6 rounded-md transition-all duration-200 cursor-pointer"
-                        :class="theme === 'dark' 
-                            ? 'bg-neutral-800 text-white shadow-sm border border-neutral-700 font-bold scale-105' 
-                            : 'text-neutral-400 hover:text-neutral-800 hover:bg-neutral-200'"
-                        title="Qora mavzu (OLED Qorong'u)">
-                    <i class="fas fa-moon text-[11px]"></i>
-                </button>
-            </div>
+            <!-- Yangilash Tugmasi (Aylana / Pill Ramka - Faqat Iconka Aylanadi) -->
+            <button @click="triggerManualRefresh()" 
+                    :disabled="isRefreshing"
+                    class="btn-refresh-fixed flex items-center justify-center gap-1.5 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 transition-colors cursor-pointer text-xs font-semibold shadow-sm disabled:opacity-60 flex-shrink-0 select-none overflow-hidden"
+                    title="Ma'lumotlarni yangilash">
+                <i class="fas fa-arrows-rotate text-xs text-indigo-400 flex-shrink-0"
+                   :class="isRefreshing ? 'fa-spin' : ''"></i>
+                <span class="hidden sm:inline text-center">Yangilash</span>
+            </button>
 
             <!-- Foydalanuvchi Ramkasi (Aylana / Pill Ramka) -->
             <div class="relative">
