@@ -1,111 +1,89 @@
 <!-- TWO-PANEL SPLIT SCREEN LOGIN (EDUGATE ENTERPRISE) -->
 <div x-show="!token" class="login-split-container fixed inset-0 z-50 h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-black text-slate-100 select-none">
     
-    <!-- LEFT PANEL: BRAND, HEADLINE & ADAPTIVE FEATURE CARDS -->
+    <!-- LEFT PANEL: BRAND, HEADLINE & REDESIGNED MODERN FEATURE CARDS -->
     <div class="login-left-panel relative w-full lg:w-3/5 h-full bg-black border-b lg:border-b-0 lg:border-r border-neutral-900 flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden">
         
-        <!-- Top: Logo & Current Portal Badge -->
+        <!-- Top: Logo -->
         <div class="relative z-10 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg ring-1 ring-white/20"
-                     :class="portalMode === 'school' ? 'bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-gradient-to-tr from-amber-500 to-yellow-400 text-black shadow-amber-500/25' : 'bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-indigo-500/25')">
-                    <i :class="portalMode === 'school' ? 'fas fa-school' : (portalMode === 'monitoring' ? 'fas fa-landmark' : 'fas fa-server')" class="text-base"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 ring-1 ring-white/20">
+                    <i class="fas fa-building-columns text-base"></i>
                 </div>
                 <div>
                     <span class="text-xl font-black tracking-tight text-white block leading-none">EDUGATE</span>
-                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase"
-                          x-text="portalMode === 'school' ? 'Elektron Jurnal & Maktab Portali' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi Monitoring Portali' : 'Server & Tizim Boshqaruvi')"></span>
+                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase">Yagona Boshqaruv Markazi</span>
                 </div>
-            </div>
-
-            <!-- Direct URL hint badge -->
-            <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-[11px] font-mono text-zinc-400">
-                <i class="fas fa-globe text-[10px] text-indigo-400"></i>
-                <span x-text="portalMode === 'school' ? 'journal.domain.com' : (portalMode === 'monitoring' ? 'edu.domain.uz' : 'admin.domain.uz')"></span>
             </div>
         </div>
 
-        <!-- Center: Enterprise Headline & Redesigned Feature Cards -->
+        <!-- Center: Enterprise Headline & Feature Cards -->
         <div class="relative z-10 space-y-6 my-auto max-w-2xl">
             <div class="space-y-3">
-                <!-- Dynamic Pill -->
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border"
-                     :class="portalMode === 'school' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400')">
-                    <span class="w-1.5 h-1.5 rounded-full animate-pulse"
-                          :class="portalMode === 'school' ? 'bg-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-400' : 'bg-indigo-400')"></span>
-                    <span x-text="portalMode === 'school' ? '1 MAKTAB = 1 LOGIN • QAT\'IY MAKTAB ISOLYATSIYASI' : (portalMode === 'monitoring' ? 'XALQ TA\'LIMI • FAQAT KO\'RISH (READ-ONLY)' : 'ENTERPRISE SERVER & DEVOPS BOSHQARUVI')"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold tracking-wide">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                    <span>ENTERPRISE BOSHQARUV PORTALI</span>
                 </div>
-
-                <!-- Dynamic Title -->
-                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight"
-                    x-text="portalMode === 'school' ? 'Maktab Davomati, O\'quvchilar & Shaxsiy Kameralar' : (portalMode === 'monitoring' ? 'Hududiy Maktablar Monitoring & Nazorat Markazi' : 'Serverlar, Maktablar & Markaziy Tizim Infratuzilmasi')"></h1>
-
-                <!-- Dynamic Description -->
-                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl"
-                   x-text="portalMode === 'school' ? 'Har bir maktab uchun bitta yagona login ta\'minlangan. Faqat o\'z o\'quvchilaringizni qo\'shing, o\'z kameralaringizni kuzating va o\'z statistikangizni tahlil qiling.' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi Vazirligi va Hokimlik uchun monitoring tizimi. Barcha maktablar davomati va kameralarini shaffof ko\'ring (ma\'lumotlarni o\'chirish huquqi mavjud emas).' : 'DevOps va texnik ma\'murlar uchun serverlar, ma\'lumotlar bazasi, tizim sozlamalari hamda barcha maktablar loginlarini boshqarish markazi.')"></p>
+                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                    Maktab Davomati, Face ID & Xavfsizlik Ekotizimi
+                </h1>
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-xl">
+                    Kameralar, aqlli turniketlar, Telegram bot va markaziy ma'lumotlar bazasini xavfsiz va markazlashgan boshqaruv portali.
+                </p>
             </div>
 
-            <!-- REDESIGNED FEATURE CARDS (OLED TRUE BLACK) -->
+            <!-- FEATURE CARDS (OLED TRUE BLACK) -->
             <div class="flex flex-col gap-3 pt-2">
-                <!-- Card 1 -->
+                <!-- Card 1: Face ID -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
-                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border border-indigo-500/25 text-indigo-400')">
-                            <i :class="portalMode === 'school' ? 'fas fa-user-graduate' : (portalMode === 'monitoring' ? 'fas fa-chart-line' : 'fas fa-server')" class="text-lg"></i>
+                        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-indigo-500/20 transition-all duration-300">
+                            <i class="fas fa-shield-halved text-lg"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white transition-colors"
-                                    x-text="portalMode === 'school' ? 'O\'quvchilarni Qo\'shish & Boshqarish' : (portalMode === 'monitoring' ? 'Barcha Maktablar Shaffof Reytingi' : 'Serverlar & VPS Infratuzilmasi')"></h3>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-indigo-500/15 text-indigo-400 border-indigo-500/25')"
-                                      x-text="portalMode === 'school' ? 'O\'z Maktabingiz' : (portalMode === 'monitoring' ? 'Monitoring' : 'DevOps')"></span>
+                                <h3 class="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Face ID & Turniket Nazorati</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 text-[10px] font-semibold border border-indigo-500/25">0.2s Aniqlik</span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
-                               x-text="portalMode === 'school' ? 'Siz faqat o\'z maktabingiz o\'quvchilarini kiritasiz, tahrirlaysiz va sinflar bo\'yicha shakllantirasiz.' : (portalMode === 'monitoring' ? 'Respublika, viloyat va tuman kesimida davomat foizlari, o\'quvchilar va o\'qituvchilar soni.' : 'Hetzner Cloud serverlari, Docker konteynerlar va PostgreSQL ma\'lumotlar bazasi boshqaruvi.')"></p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                0.2s tezlikda yuzni aniqlash, Anti-Passback spam filtri va turniketlarni avtomatik boshqarish.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2 -->
+                <!-- Card 2: Telegram Bot -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
-                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-sky-500/10 border border-sky-500/25 text-sky-400' : 'bg-sky-500/10 border border-sky-500/25 text-sky-400')">
-                            <i :class="portalMode === 'school' ? 'fas fa-video' : (portalMode === 'monitoring' ? 'fas fa-video' : 'fas fa-key')" class="text-lg"></i>
+                        <div class="w-11 h-11 rounded-xl bg-sky-500/10 border border-sky-500/25 text-sky-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all duration-300">
+                            <i class="fab fa-telegram text-xl"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white transition-colors"
-                                    x-text="portalMode === 'school' ? 'Faqat O\'z Kameralaringizni Kuzatish' : (portalMode === 'monitoring' ? 'Jonli AI Kameralar & Turniketlar' : '1 Maktab = 1 Login Boshqaruvi')"></h3>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-sky-500/15 text-sky-400 border-sky-500/25' : 'bg-sky-500/15 text-sky-400 border-sky-500/25')"
-                                      x-text="portalMode === 'school' ? 'Maxfiy Oqim' : (portalMode === 'monitoring' ? 'Jonli Oqim' : 'Xavfsizlik')"></span>
+                                <h3 class="text-sm font-bold text-white group-hover:text-sky-300 transition-colors">Telegram Xabarnoma Tizimi</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-400 text-[10px] font-semibold border border-sky-500/25">Real-Vaqt</span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
-                               x-text="portalMode === 'school' ? 'Boshqa maktablar kameralariga kirish taqiqlangan. Faqat o\'z binoingizdagi turniket va Face ID kameralarini ko\'rasiz.' : (portalMode === 'monitoring' ? 'Barcha maktablardagi kirish-chiqish nuqtalaridagi jonli Face ID va turniket hodisalarini kuzatish.' : 'Har bir maktab uchun aniq 1 ta login yaratish va parolini xavfsiz boshqarish (2-login mumkin emas).')"></p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                O'quvchi maktabga kirishi va chiqishi bilan ota-onasining Telegram botiga fotosuratli xabarnoma yuboriladi.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3 -->
+                <!-- Card 3: Central Security -->
                 <div class="login-feature-card group relative overflow-hidden rounded-2xl bg-neutral-950 border border-neutral-800 hover:border-neutral-600 p-4 transition-all duration-300">
                     <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all duration-300"
-                             :class="portalMode === 'school' ? 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border border-amber-500/25 text-amber-400' : 'bg-emerald-500/10 border border-emerald-500/25 text-emerald-400')">
-                            <i :class="portalMode === 'school' ? 'fas fa-chart-pie' : (portalMode === 'monitoring' ? 'fas fa-lock' : 'fas fa-sliders')" class="text-lg"></i>
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all duration-300">
+                            <i class="fas fa-server text-lg"></i>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2.5">
-                                <h3 class="text-sm font-bold text-white transition-colors"
-                                    x-text="portalMode === 'school' ? 'Faqat O\'z Statistikangiz & Hisobotlar' : (portalMode === 'monitoring' ? 'Qat\'iy Read-Only (O\'chirib Bo\'lmaydi)' : 'Tizim Sozlamalari & API Shlyuz')"></h3>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold border"
-                                      :class="portalMode === 'school' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : (portalMode === 'monitoring' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25')"
-                                      x-text="portalMode === 'school' ? 'Shaxsiy Tahlil' : (portalMode === 'monitoring' ? 'Himoyalangan' : 'Markaziy')"></span>
+                                <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Markaziy Xavfsizlik & Monitoring</h3>
+                                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[10px] font-semibold border border-emerald-500/25">24/7 Nazorat</span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
-                               x-text="portalMode === 'school' ? 'Bugungi kelganlar, kechikkanlar, ota-onalarga yuborilgan bildirishnomalar va Excel hisobot eksporti.' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi portali foydalanuvchilari ma\'lumotlarni o\'chira olmaydi yoki tahrirlay olmaydi — faqat nazorat.' : 'Telegram bot tokenlari, global vaqt parametrlari va tashqi e-Maktab tizim integratsiyalari.')"></p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                                Serverlar, ma'lumotlar bazasi va kameralar aloqasi uzluksiz markaziy xavfsizlik nazoratida.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -117,26 +95,19 @@
             <span>DeveloperX Agency • Toshkent, O'zbekiston</span>
             <div class="flex items-center gap-1.5 font-mono text-[11px]">
                 <i class="fas fa-shield text-[10px]"></i>
-                <span x-text="portalMode === 'school' ? '1 Maktab = 1 Login' : (portalMode === 'monitoring' ? 'Read-Only Nazorat' : 'Superadmin Hub')"></span>
+                <span>Xavfsiz Markaziy Tizim</span>
             </div>
         </div>
     </div>
 
-    <!-- RIGHT PANEL: DEDICATED LOGIN CONSOLE -->
+    <!-- RIGHT PANEL: CLEAN DEDICATED LOGIN CONSOLE -->
     <div class="login-right-panel w-full lg:w-2/5 h-full bg-black flex flex-col justify-between p-8 sm:p-12 xl:p-14 overflow-hidden relative">
         
-        <!-- Top Controls: Portal Switcher Pill & Dual Theme Switcher -->
-        <div class="flex items-center justify-between w-full gap-2">
-            <!-- Dedicated Portal Tag -->
-            <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl border text-xs font-bold"
-                 :class="portalMode === 'school' ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' : (portalMode === 'monitoring' ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' : 'bg-indigo-500/10 border-indigo-500/25 text-indigo-400')">
-                <i :class="portalMode === 'school' ? 'fas fa-school' : (portalMode === 'monitoring' ? 'fas fa-landmark' : 'fas fa-server')"></i>
-                <span x-text="portalMode === 'school' ? 'Maktab Portali' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi' : 'Server / Admin')"></span>
-            </div>
-
-            <!-- Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙) -->
+        <!-- Top Controls: Dual Theme Switcher (Oq Mavzu ☀️ / Qora Mavzu 🌙 Ramkalari) -->
+        <div class="h-10 flex items-center justify-end w-full">
             <div class="theme-switch-pill inline-flex items-center p-1 rounded-xl border transition-all duration-200"
                  :class="theme === 'light' ? 'bg-neutral-100 border-neutral-300' : 'bg-neutral-900 border-neutral-800'">
+                <!-- Oq Mavzu Ramkasi (Sun Icon ☀️) -->
                 <button type="button" 
                         @click="applyTheme('light')" 
                         class="theme-btn-light flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 cursor-pointer"
@@ -147,6 +118,7 @@
                     <i class="fas fa-sun text-sm"></i>
                 </button>
                 
+                <!-- Qora Mavzu Ramkasi (Moon Icon 🌙) -->
                 <button type="button" 
                         @click="applyTheme('dark')" 
                         class="theme-btn-dark flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 cursor-pointer"
@@ -159,61 +131,30 @@
             </div>
         </div>
 
-        <!-- Center: Portal Selector Switcher & Clean Login Form -->
-        <div class="w-full max-w-[390px] mx-auto my-auto space-y-5">
-            
-            <!-- PORTAL SWITCHER TABS (User switches portals directly) -->
-            <div class="p-1 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center gap-1 text-[11px] font-semibold">
-                <button type="button" @click="setPortalMode('admin')"
-                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
-                        :class="portalMode === 'admin' ? 'bg-white text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
-                    <i class="fas fa-server text-[10px]"></i>
-                    <span>Admin</span>
-                </button>
-                <button type="button" @click="setPortalMode('monitoring')"
-                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
-                        :class="portalMode === 'monitoring' ? 'bg-amber-400 text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
-                    <i class="fas fa-landmark text-[10px]"></i>
-                    <span>Xalq Ta'limi</span>
-                </button>
-                <button type="button" @click="setPortalMode('school')"
-                        class="flex-1 py-2 px-2 rounded-xl text-center transition flex items-center justify-center gap-1.5 cursor-pointer"
-                        :class="portalMode === 'school' ? 'bg-emerald-500 text-black shadow-md font-bold' : 'text-zinc-400 hover:text-white'">
-                    <i class="fas fa-school text-[10px]"></i>
-                    <span>Maktab</span>
-                </button>
-            </div>
-
-            <!-- Header Titles based on selected portal -->
+        <!-- Center: Clean Borderless Form -->
+        <div class="w-full max-w-[380px] mx-auto my-auto space-y-6">
             <div>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight"
-                    x-text="portalMode === 'school' ? 'Maktab Kabineti' : (portalMode === 'monitoring' ? 'MMTV Monitoring' : 'Server Administratsiyasi')"></h2>
-                <p class="text-xs text-zinc-400 mt-1 leading-relaxed"
-                   x-text="portalMode === 'school' ? 'Maktabingizning yagona logini va paroli orqali kiring (1 maktab = 1 login)' : (portalMode === 'monitoring' ? 'Xalq Ta\'limi nazorat tizimiga kirish (Faqat ko\'rish / Read-Only)' : 'Serverlar, maktablar va tizimni boshqarish uchun hisobga kiring')"></p>
+                <h2 class="text-3xl font-bold text-white tracking-tight">Tizimga Kirish</h2>
+                <p class="text-xs text-zinc-400 mt-1.5">Boshqaruv paneliga kirish uchun hisob ma'lumotlarini kiriting</p>
             </div>
 
-            <!-- Login Form -->
             <form @submit.prevent="login()" class="space-y-4" autocomplete="off" data-lpignore="true">
+                <!-- Anti-autofill dummy hidden fields to absorb browser auto-fill heuristics -->
                 <input type="text" name="prevent_autofill_username" style="display:none" autocomplete="off" tabindex="-1">
                 <input type="password" name="prevent_autofill_password" style="display:none" autocomplete="new-password" tabindex="-1">
 
                 <div>
-                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center justify-between mb-2">
-                        <span class="flex items-center gap-1.5">
-                            <i class="fas fa-user text-[10px]"></i>
-                            <span x-text="portalMode === 'school' ? 'MAKTAB YAGONA LOGINI' : (portalMode === 'monitoring' ? 'INSPEKSIYA XODIMI LOGINI' : 'SUPERADMIN LOGINI')"></span>
-                        </span>
-                        <span class="text-[9px] font-mono text-zinc-500" x-text="portalMode === 'school' ? '1 maktab = 1 login' : ''"></span>
+                    <label class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                        <i class="fas fa-user text-[10px]"></i> FOYDALANUVCHI NOMI
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
                             <i class="fas fa-user text-xs"></i>
                         </span>
-                        <input type="text" x-model="loginForm.username" required 
-                               :placeholder="portalMode === 'school' ? 'Masalan: maktab_21 yoki login' : (portalMode === 'monitoring' ? 'xalq_talimi' : 'admin')"
+                        <input type="text" x-model="loginForm.username" required placeholder="Foydalanuvchi nomini kiriting"
                                autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-4 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-neutral-500 transition font-medium">
+                               class="w-full pl-9 pr-4 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-medium">
                     </div>
                 </div>
 
@@ -228,7 +169,7 @@
                         <input :type="showPassword ? 'text' : 'password'" x-model="loginForm.password" required placeholder="Parolni kiriting"
                                autocomplete="new-password" autocorrect="off" autocapitalize="none" spellcheck="false"
                                readonly onfocus="this.removeAttribute('readonly');"
-                               class="w-full pl-9 pr-10 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-600 text-sm focus:outline-none focus:border-neutral-500 transition font-mono">
+                               class="w-full pl-9 pr-10 py-3 bg-black border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-neutral-500 transition font-mono">
                         <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition cursor-pointer">
                             <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
@@ -241,25 +182,24 @@
                     <span x-text="authError"></span>
                 </div>
 
-                <!-- Primary Action Button with Dynamic Color -->
+                <!-- Primary Action Button -->
                 <button type="submit" :disabled="loading"
-                        class="login-submit-btn w-full py-3.5 px-4 font-extrabold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50"
-                        :class="portalMode === 'school' ? 'bg-emerald-500 hover:bg-emerald-400 text-black' : (portalMode === 'monitoring' ? 'bg-amber-400 hover:bg-amber-300 text-black' : 'bg-white hover:bg-neutral-200 text-black')">
+                        class="login-submit-btn w-full py-3.5 px-4 bg-white hover:bg-neutral-200 text-black font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md cursor-pointer mt-4 disabled:opacity-50">
                     <i x-show="loading" class="fas fa-circle-notch fa-spin text-xs"></i>
                     <i x-show="!loading" class="fas fa-arrow-right-to-bracket text-xs"></i>
-                    <span x-text="portalMode === 'school' ? 'Maktab Kabinetiga Kirish' : (portalMode === 'monitoring' ? 'Monitoring Paneliga Kirish' : 'Server Paneliga Kirish')"></span>
+                    <span>Tizimga Kirish</span>
                 </button>
             </form>
 
             <!-- Bottom Sub-footer -->
-            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-2">
+            <div class="flex items-center justify-center text-[11px] text-zinc-500 gap-1.5 pt-4">
                 <i class="fas fa-shield text-[10px]"></i>
-                <span x-text="portalMode === 'school' ? 'Faqat o\'z maktabingiz o\'quvchilari va kameralari' : (portalMode === 'monitoring' ? 'Faqat ko\'rish huquqi bilan himoyalangan' : 'Superadmin to\'liq boshqaruv huquqlari')"></span>
+                <span>Xavfsiz Shifrlangan Tizim • DeveloperX 2026</span>
             </div>
         </div>
 
         <!-- Bottom Spacer -->
-        <div class="h-4"></div>
+        <div class="h-6"></div>
     </div>
 
 </div>
