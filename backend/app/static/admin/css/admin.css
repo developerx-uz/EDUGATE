@@ -773,7 +773,7 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
 /* Perfect Supabase Style Sleek Sidebar */
 aside.sidebar-container {
     width: 230px;
-    height: 100vh;
+    height: 100% !important;
     flex-shrink: 0;
     transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: width;
@@ -783,21 +783,13 @@ aside.sidebar-container.collapsed {
     width: 60px !important;
 }
 
-.main-content-wrapper {
-    flex: 1 1 0% !important;
-    min-width: 0 !important;
-    height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    margin-left: 0 !important;
-}
-
 @media (max-width: 767.98px) {
     aside.sidebar-container {
         position: fixed !important;
+        top: 54px !important;
+        bottom: 0 !important;
         width: 230px !important;
-        height: 100vh !important;
+        height: calc(100vh - 54px) !important;
         z-index: 30 !important;
     }
     aside.sidebar-container.collapsed {

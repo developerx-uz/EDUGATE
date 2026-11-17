@@ -75,23 +75,23 @@
     <!-- include: components/login.html -->
 
     <!-- MAIN APP LAYOUT (When Logged In) -->
-    <div x-show="token" x-cloak style="display: none;" class="flex h-screen overflow-hidden" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
+    <div x-show="token" x-cloak style="display: none;" class="flex flex-col h-screen overflow-hidden" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
 
-        <!-- MOBILE OVERLAY BACKDROP -->
-        <div x-show="sidebarOpenMobile" @click="sidebarOpenMobile = false"
-             class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
+        <!-- TOPBAR (Full-Width Permanent Header) -->
+        <!-- include: components/topbar.html -->
 
-        <!-- SIDEBAR -->
-        <!-- include: components/sidebar.html -->
+        <!-- BODY WRAPPER (Sidebar + Main View Container) -->
+        <div class="flex flex-1 overflow-hidden min-h-0 relative">
 
-        <!-- MAIN CONTENT WRAPPER -->
-        <div class="main-content-wrapper flex-1 flex flex-col overflow-hidden min-w-0">
+            <!-- MOBILE OVERLAY BACKDROP -->
+            <div x-show="sidebarOpenMobile" @click="sidebarOpenMobile = false"
+                 class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
 
-            <!-- TOPBAR -->
-            <!-- include: components/topbar.html -->
+            <!-- SIDEBAR -->
+            <!-- include: components/sidebar.html -->
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
-            <main class="flex-1 overflow-y-auto p-6 space-y-6" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
+            <main class="flex-1 overflow-y-auto p-6 space-y-6 min-w-0" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
                 <!-- include: views/dashboard.html -->
                 <!-- include: views/stats.html -->
                 <!-- include: views/schools.html -->
