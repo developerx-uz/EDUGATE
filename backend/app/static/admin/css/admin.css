@@ -770,17 +770,6 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     }
 }
 
-/* Sidebar Toggle Line Rotation (Smooth 180deg Spin on Click) */
-.sidebar-toggle-line {
-    transform-box: view-box;
-    transform-origin: 12px 12px;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sidebar-toggle-svg {
-    overflow: visible;
-}
-
 /* Perfect Synchronized 1-Tekisda Sidebar & Content Transitions */
 aside.sidebar-container {
     width: 260px;
@@ -816,12 +805,11 @@ aside.sidebar-container.collapsed {
     }
 }
 
-.sidebar-toggle-btn {
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease, transform 0.1s ease !important;
-    will-change: left, transform;
+.sidebar-brand-area {
+    transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: opacity, max-width;
 }
 
-.sidebar-toggle-btn:active,
 .btn-refresh-fixed:active,
 .sidebar-search-btn:active,
 header button:active {
