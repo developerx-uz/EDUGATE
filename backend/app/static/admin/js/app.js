@@ -306,6 +306,8 @@ function adminApp() {
         stats: {
             schools_count: 0,
             students_count: 0,
+            boys_count: 0,
+            girls_count: 0,
             teachers_count: 0,
             devices_count: 0,
             parents_count: 0,
