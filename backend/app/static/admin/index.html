@@ -1468,84 +1468,66 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
 
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
             <main class="flex-1 overflow-y-auto p-6 space-y-6 min-w-0" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
-                <!-- VIEW: DASHBOARD -->
-<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6 select-none">
+                <!-- VIEW: DASHBOARD (Hand-drawn Architecture: 3 Metrics + Top Maktablar & Tavsiyalar) -->
+<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6 select-none max-w-7xl">
     
-    <!-- TOP 3 METRIC CARDS (TO'LIQ 1X1 KVADRAT O'LCHAM) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl">
+    <!-- TOP 3 METRIC CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         
-        <!-- 1. JAMI MAKTABLAR (1x1 Kvadrat Indikator) -->
-        <div class="glass-card aspect-square p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 hover:bg-neutral-900/30 transition relative overflow-hidden group shadow-lg"
-             style="aspect-ratio: 1 / 1;">
-            <!-- Ambient Glow -->
-            <div class="absolute -top-12 -right-12 w-28 h-28 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-indigo-500/15 transition"></div>
-
-            <!-- Top Header -->
-            <div class="flex items-center justify-between relative z-10">
+        <!-- 1. JAMI MAKTABLAR (Chizmadagi: Jami mk 0 ta) -->
+        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+            <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider block">Jami Maktablar</span>
+                    <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami Maktablar</span>
                     <span class="text-[10px] text-neutral-500 font-mono">Tizimdagi muassasalar</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 text-base shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 text-base">
                     <i class="fas fa-school"></i>
                 </div>
             </div>
 
-            <!-- Center / Number Counter -->
-            <div class="my-auto py-2 relative z-10">
+            <div class="mt-4">
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight" x-text="stats.schools_count || (schoolsDetailed?.length || 0)">0</h3>
-                    <span class="text-xs text-neutral-500 font-mono">ta</span>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="stats.schools_count || (schoolsDetailed?.length || 0)">0</h3>
+                    <span class="text-xs text-neutral-400 font-mono">ta</span>
                 </div>
-                <div class="mt-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono font-medium">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Faol integratsiya
-                </div>
-            </div>
-
-            <!-- Bottom Subtext -->
-            <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between text-[11px] text-neutral-400 relative z-10">
-                <span>Yagona monitoring</span>
-                <span class="text-neutral-500 font-mono">100%</span>
+                <p class="text-[11px] text-neutral-500 mt-1">Yagona monitoring tizimiga ulangan</p>
             </div>
         </div>
 
-        <!-- 2. JAMI O'QUVCHILAR (1x1 Kvadrat Indikator - 2 Guruh: O'g'il va Qiz Bolalar) -->
-        <div class="glass-card aspect-square p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 hover:bg-neutral-900/30 transition relative overflow-hidden group shadow-lg"
-             style="aspect-ratio: 1 / 1;">
-            <!-- Ambient Glow -->
-            <div class="absolute -top-12 -right-12 w-28 h-28 bg-sky-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-sky-500/15 transition"></div>
-
-            <!-- Top Header -->
-            <div class="flex items-center justify-between relative z-10">
+        <!-- 2. JAMI O'QUVCHILAR (Chizmadagi: Jami o'quvchi 0 ta, ichida Qiz 0 ta | O'g'il 0 ta) -->
+        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+            <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider block">Jami O'quvchilar</span>
+                    <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami O'quvchilar</span>
                     <span class="text-[10px] text-neutral-500 font-mono">Umumiy kontingent</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-base shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-base">
                     <i class="fas fa-user-graduate"></i>
                 </div>
             </div>
 
-            <!-- Main Counter -->
-            <div class="my-auto py-1 relative z-10">
+            <!-- Asosiy soni -->
+            <div class="mt-2">
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight" x-text="stats.students_count || 0">0</h3>
-                    <span class="text-xs text-neutral-500 font-mono">nafar</span>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="stats.students_count || 0">0</h3>
+                    <span class="text-xs text-neutral-400 font-mono">ta</span>
                 </div>
             </div>
 
-            <!-- 2 Guruh: O'g'il bolalar va Qiz bolalar (Square Bottom Grid) -->
-            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-neutral-800/80 relative z-10">
+            <!-- 2 Guruh: O'g'il bolalar va Qiz bolalar (Chizmadagi bo'lingan qism) -->
+            <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-neutral-800/80">
                 <!-- O'g'il bolalar -->
                 <div class="p-2 rounded-xl bg-neutral-900/70 border border-neutral-800/80 flex items-center justify-between">
                     <div class="flex items-center gap-1.5 min-w-0">
                         <div class="w-5 h-5 rounded-md bg-blue-500/15 text-blue-400 flex items-center justify-center text-[10px] flex-shrink-0">
                             <i class="fas fa-mars"></i>
                         </div>
-                        <span class="text-[10px] text-neutral-400 truncate">O'g'il</span>
+                        <span class="text-[11px] text-neutral-400 truncate">O'g'il</span>
                     </div>
-                    <span class="text-xs font-bold text-white font-mono ml-1" x-text="stats.boys_count || 0">0</span>
+                    <div class="text-xs font-bold text-white font-mono">
+                        <span x-text="stats.boys_count || 0">0</span> <span class="text-[10px] text-neutral-500 font-normal">ta</span>
+                    </div>
                 </div>
 
                 <!-- Qiz bolalar -->
@@ -1554,46 +1536,190 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                         <div class="w-5 h-5 rounded-md bg-pink-500/15 text-pink-400 flex items-center justify-center text-[10px] flex-shrink-0">
                             <i class="fas fa-venus"></i>
                         </div>
-                        <span class="text-[10px] text-neutral-400 truncate">Qiz</span>
+                        <span class="text-[11px] text-neutral-400 truncate">Qiz</span>
                     </div>
-                    <span class="text-xs font-bold text-white font-mono ml-1" x-text="stats.girls_count || 0">0</span>
+                    <div class="text-xs font-bold text-white font-mono">
+                        <span x-text="stats.girls_count || 0">0</span> <span class="text-[10px] text-neutral-500 font-normal">ta</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. JAMI KAMERALAR (1x1 Kvadrat Indikator) -->
-        <div class="glass-card aspect-square p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 hover:bg-neutral-900/30 transition relative overflow-hidden group shadow-lg"
-             style="aspect-ratio: 1 / 1;">
-            <!-- Ambient Glow -->
-            <div class="absolute -top-12 -right-12 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none group-hover:bg-emerald-500/15 transition"></div>
-
-            <!-- Top Header -->
-            <div class="flex items-center justify-between relative z-10">
+        <!-- 3. JAMI KAMERALAR (Chizmadagi: Jami kamera 0 ta) -->
+        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+            <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider block">Jami Kameralar</span>
+                    <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami Kameralar</span>
                     <span class="text-[10px] text-neutral-500 font-mono">Turniket & Face ID</span>
                 </div>
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 text-base shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 text-base">
                     <i class="fas fa-video"></i>
                 </div>
             </div>
 
-            <!-- Center / Number Counter -->
-            <div class="my-auto py-2 relative z-10">
+            <div class="mt-4">
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight" x-text="devices?.length || stats.devices_count || 0">0</h3>
-                    <span class="text-xs text-neutral-500 font-mono">dona</span>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="devices?.length || stats.devices_count || 0">0</h3>
+                    <span class="text-xs text-neutral-400 font-mono">ta</span>
                 </div>
-                <div class="mt-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[10px] text-emerald-400 font-mono font-medium">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    Online oqim
+                <p class="text-[11px] text-neutral-500 mt-1">Jonli AI kuzatuv va monitoring oqimi</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN TWO COLUMNS FROM SKETCH: [ ENG TOP MAKTABLAR ] and [ TAVSIYALAR ] -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
+        
+        <!-- LEFT: ENG TOP MAKTABLAR (Chizmadagi "Eng top Mk") -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700/80 transition">
+            <div>
+                <!-- Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-neutral-800/80 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 text-sm">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white tracking-wide">Eng top Maktablar</h3>
+                            <p class="text-[10px] text-neutral-500 font-mono">Faollik va davomat bo'yicha yetakchilar</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono font-medium">Reyting</span>
+                </div>
+
+                <!-- Schools List with Arrows (Chizmadagi kabi: 11-maktab ->, 9-maktab ->, 54-maktab ->, 3-maktab ->) -->
+                <div class="space-y-2.5">
+                    <!-- Template for dynamic schools from DB -->
+                    <template x-for="(sch, idx) in (schoolsDetailed && schoolsDetailed.length > 0 ? schoolsDetailed.slice(0, 5) : [
+                        { id: 1, name: '11-maktab', code: 'SCH-011', students_count: 1240, attendance_rate: 98 },
+                        { id: 2, name: '9-maktab', code: 'SCH-009', students_count: 980, attendance_rate: 96 },
+                        { id: 3, name: '54-maktab', code: 'SCH-054', students_count: 1450, attendance_rate: 94 },
+                        { id: 4, name: '3-maktab', code: 'SCH-003', students_count: 870, attendance_rate: 93 }
+                    ])" :key="sch.id">
+                        <div @click="activeTab = 'schools'" 
+                             class="group flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <!-- Rank badge -->
+                                <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs font-mono flex-shrink-0"
+                                     :class="idx === 0 ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : (idx === 1 ? 'bg-zinc-400/15 text-zinc-300 border border-zinc-400/30' : (idx === 2 ? 'bg-amber-700/15 text-amber-600 border border-amber-700/30' : 'bg-neutral-800/60 text-neutral-400 border border-neutral-800'))">
+                                    <span x-text="idx + 1"></span>
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-400 transition truncate" x-text="sch.name"></h4>
+                                    <span class="text-[10px] text-neutral-500 font-mono" x-text="sch.code || ('ID: ' + sch.id)"></span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                <div class="text-right hidden sm:block">
+                                    <span class="text-xs font-bold text-emerald-400 font-mono" x-text="(sch.attendance_rate || 95) + '%'"></span>
+                                    <span class="text-[10px] text-neutral-500 block leading-none">davomat</span>
+                                </div>
+                                <!-- Arrow -> from sketch -->
+                                <div class="w-8 h-8 rounded-lg bg-neutral-800/80 group-hover:bg-indigo-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-indigo-500">
+                                    <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
 
-            <!-- Bottom Subtext -->
-            <div class="pt-3 border-t border-neutral-800/80 flex items-center justify-between text-[11px] text-neutral-400 relative z-10">
-                <span>Faol qurilmalar</span>
-                <span class="text-emerald-400 font-mono font-semibold" x-text="(devices?.length || stats.devices_count || 0) + ' online'">0 online</span>
+            <!-- Footer Link -->
+            <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs">
+                <span class="text-neutral-500 text-[11px]">Barcha maktablar ro'yxati</span>
+                <button @click="activeTab = 'schools'" class="text-indigo-400 hover:text-indigo-300 font-semibold text-xs flex items-center gap-1 cursor-pointer">
+                    <span>Maktablarga o'tish</span>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RIGHT: TAVSIYALAR (Chizmadagi "Tavsiyalar": Maktablar ->, Statistika ->, Bildirishnoma ->) -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700/80 transition">
+            <div>
+                <!-- Header -->
+                <div class="flex items-center justify-between pb-4 border-b border-neutral-800/80 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-sm">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white tracking-wide">Tavsiyalar</h3>
+                            <p class="text-[10px] text-neutral-500 font-mono">Tezkor o'tish va boshqaruv bo'limlari</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-sky-400 font-mono font-medium">Tezkor</span>
+                </div>
+
+                <!-- 3 Action Cards from sketch: Maktablar -> , Statistika -> , Bildirishnoma -> -->
+                <div class="space-y-3">
+                    
+                    <!-- 1. Maktablar -> -->
+                    <div @click="activeTab = 'schools'" 
+                         class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-indigo-500/50 transition cursor-pointer">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="text-sm font-bold text-white group-hover:text-indigo-400 transition">Maktablar</h4>
+                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Barcha maktablar, o'quvchilar va kameralar ro'yxati</p>
+                            </div>
+                        </div>
+                        <!-- Arrow -> -->
+                        <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-indigo-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-indigo-500 flex-shrink-0 ml-3">
+                            <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
+                        </div>
+                    </div>
+
+                    <!-- 2. Statistika -> -->
+                    <div @click="activeTab = 'stats'" 
+                         class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-sky-500/50 transition cursor-pointer">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="text-sm font-bold text-white group-hover:text-sky-400 transition">Statistika</h4>
+                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Davomat tahlili, grafiklar va hududiy monitoring</p>
+                            </div>
+                        </div>
+                        <!-- Arrow -> -->
+                        <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-sky-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-sky-500 flex-shrink-0 ml-3">
+                            <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
+                        </div>
+                    </div>
+
+                    <!-- 3. Bildirishnoma -> -->
+                    <div @click="activeTab = 'notifications'" 
+                         class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-amber-500/50 transition cursor-pointer">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="text-sm font-bold text-white group-hover:text-amber-400 transition">Bildirishnomalar</h4>
+                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Tizim xabarlari, kutilmagan hodisalar va ogohlantirishlar</p>
+                            </div>
+                        </div>
+                        <!-- Arrow -> -->
+                        <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-amber-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-amber-500 flex-shrink-0 ml-3">
+                            <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer note -->
+            <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs">
+                <span class="text-neutral-500 text-[11px]">Boshqaruv markazi tavsiyalari</span>
+                <span class="text-emerald-400 font-mono text-[11px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Tizim faol
+                </span>
             </div>
         </div>
 
