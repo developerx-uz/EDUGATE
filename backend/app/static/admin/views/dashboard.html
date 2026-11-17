@@ -45,7 +45,7 @@
     <!-- 2. SURVEILLANCE KPI MATRIX (REAL DATABASE COUNTS) -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Card 1: Jami O'quvchilar -->
-        <div class="stat-card" @click="activeTab = 'students'">
+        <div class="stat-card" @click="activeTab = 'schools'">
             <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-xl font-bold border border-sky-500/20 flex-shrink-0">
                 <i class="fas fa-user-graduate"></i>
             </div>
@@ -59,7 +59,7 @@
         </div>
 
         <!-- Card 2: Bugungi Kirishlar (Face ID) -->
-        <div class="stat-card" @click="activeTab = 'attendance'">
+        <div class="stat-card" @click="activeTab = 'reports'">
             <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/20 flex-shrink-0">
                 <i class="fas fa-arrow-right-to-bracket"></i>
             </div>
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Card 3: O'z Vaqtida Kelganlar -->
-        <div class="stat-card" @click="activeTab = 'attendance'">
+        <div class="stat-card" @click="activeTab = 'reports'">
             <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl font-bold border border-indigo-500/20 flex-shrink-0">
                 <i class="fas fa-clock-check"></i>
             </div>
@@ -87,7 +87,7 @@
         </div>
 
         <!-- Card 4: Kechikkanlar -->
-        <div class="stat-card" @click="activeTab = 'attendance'">
+        <div class="stat-card" @click="activeTab = 'reports'">
             <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl font-bold border border-amber-500/20 flex-shrink-0">
                 <i class="fas fa-clock"></i>
             </div>
@@ -306,7 +306,7 @@
                         <i class="fab fa-telegram text-sky-400 text-xs"></i>
                         <span>Telegram Xabarnomalar: Faol</span>
                     </span>
-                    <button @click="activeTab = 'attendance'" class="text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer">Barchasi →</button>
+                    <button @click="activeTab = 'reports'" class="text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer">Barchasi →</button>
                 </div>
             </div>
         </div>

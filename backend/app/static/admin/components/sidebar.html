@@ -47,6 +47,7 @@
             </span>
         </div>
 
+        <!-- Maktablar -->
         <div x-show="!isSchoolAdmin" @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'schools'}"
@@ -60,19 +61,7 @@
             </span>
         </div>
 
-        <div @click="activeTab = 'students'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'students'}"
-             :title="sidebarCollapsed ? 'O\'quvchilar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-user-graduate text-sm text-center"></i>
-            </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                O'quvchilar
-            </span>
-        </div>
-
+        <!-- O'qituvchilar -->
         <div @click="activeTab = 'teachers'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'teachers'}"
@@ -88,20 +77,7 @@
 
         <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
 
-        <!-- Monitoring Group -->
-        <div @click="activeTab = 'attendance'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'attendance'}"
-             :title="sidebarCollapsed ? 'Davomat' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-clipboard-check text-sm text-center"></i>
-            </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Davomat
-            </span>
-        </div>
-
+        <!-- Kameralar -->
         <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'devices'}"
@@ -115,22 +91,7 @@
             </span>
         </div>
 
-        <div @click="activeTab = 'parents'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'parents'}"
-             :title="sidebarCollapsed ? 'Ota-onalar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-users text-sm text-center"></i>
-            </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Ota-onalar
-            </span>
-        </div>
-
-        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
-
-        <!-- Reports & Settings Group -->
+        <!-- Hisobotlar -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'reports'}"
@@ -141,19 +102,6 @@
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
                 Hisobotlar
-            </span>
-        </div>
-
-        <div x-show="isSuperadmin" @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'settings'}"
-             :title="sidebarCollapsed ? 'Sozlamalar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-gear text-sm text-center"></i>
-            </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Sozlamalar
             </span>
         </div>
     </nav>
