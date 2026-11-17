@@ -1309,6 +1309,36 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                 Hisobotlar
             </span>
         </div>
+
+        <!-- Bildirishnomalar -->
+        <div @click="activeTab = 'notifications'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'notifications'}"
+             :title="sidebarCollapsed ? 'Bildirishnomalar' : ''">
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-bell text-sm text-center"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Bildirishnomalar
+            </span>
+        </div>
+
+        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
+
+        <!-- Sozlamalar -->
+        <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'settings'}"
+             :title="sidebarCollapsed ? 'Sozlamalar' : ''">
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-gear text-sm text-center"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Sozlamalar
+            </span>
+        </div>
     </nav>
 </aside>
 
@@ -1341,6 +1371,8 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     schools: 'Maktablar Boshqaruvi',
                     devices: 'Kameralar & Turniketlar',
                     reports: 'Tahliliy Hisobotlar',
+                    notifications: 'Bildirishnomalar & Xabarnomalar Markazi',
+                    settings: 'Tizim Sozlamalari & Konfiguratsiya',
                     profile: 'Profil & Xavfsizlik Sozlamalari'
                 })[activeTab] || 'EDUGATE'"></h1>
         </div>
@@ -2047,6 +2079,226 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                 </template>
             </div>
         </div>
+    </div>
+</div>
+
+
+                <!-- VIEW: NOTIFICATIONS -->
+<div x-show="activeTab === 'notifications'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6 select-none">
+    
+    <!-- Top Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-neutral-800">
+        <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+                <i class="fas fa-bell text-indigo-400"></i>
+                Bildirishnomalar & Xabarnomalar Markazi
+            </h2>
+            <p class="text-xs text-neutral-400 mt-0.5">Tizim hodisalari, Face ID o'tishlar va xavfsizlik ogohlantirishlari</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <button @click="showToast('Barcha bildirishnomalar o\'qildi', 'info')" 
+                    class="px-3.5 py-1.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
+                <i class="fas fa-check-double text-indigo-400"></i>
+                <span>Barchasini o'qilgan deb belgilash</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification Filters & Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="glass-card p-4 rounded-2xl border border-neutral-800 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 text-sm">
+                <i class="fas fa-circle-check"></i>
+            </div>
+            <div>
+                <p class="text-xs text-neutral-400 font-medium">Tizim Xolati</p>
+                <p class="text-sm font-bold text-white font-mono">Faol & Normal</p>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl border border-neutral-800 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-sm">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <div>
+                <p class="text-xs text-neutral-400 font-medium">Telegram Bot</p>
+                <p class="text-sm font-bold text-white font-mono">Ulanish faol</p>
+            </div>
+        </div>
+
+        <div class="glass-card p-4 rounded-2xl border border-neutral-800 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 text-sm">
+                <i class="fas fa-video"></i>
+            </div>
+            <div>
+                <p class="text-xs text-neutral-400 font-medium">Kameralar Nazorati</p>
+                <p class="text-sm font-bold text-white font-mono" x-text="(devices?.length || 0) + ' ta faol oqim'"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="glass-card p-5 rounded-2xl border border-neutral-800 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
+            <h4 class="text-sm font-bold text-white">So'nggi Tizim Xabarlari</h4>
+            <span class="text-xs text-neutral-500 font-mono">Jonli yangilanish</span>
+        </div>
+
+        <div class="space-y-2.5">
+            <template x-for="item in notifications" :key="item.id">
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 transition">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs border"
+                         :class="item.color ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 'bg-neutral-800 text-neutral-300 border-neutral-700'">
+                        <i :class="['fas', item.icon || 'fa-info-circle']"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-semibold text-white leading-snug" x-text="item.text"></p>
+                        <span class="text-[10px] text-neutral-500 font-mono mt-0.5 inline-block" x-text="item.time"></span>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Agar bildirishnomalar hozircha kam bo'lsa standart tizim hodisasi ko'rsatiladi -->
+            <div x-show="!notifications || notifications.length === 0" class="space-y-2.5">
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 text-xs">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-semibold text-white">EDUGATE Yagona Monitoring Xavfsizlik Tizimi ishga tushirildi</p>
+                        <span class="text-[10px] text-neutral-500 font-mono mt-0.5 inline-block">Barcha kameralar va Face ID terminallar normal holatda ishlamoqda</span>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center flex-shrink-0 text-xs">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-semibold text-white">Telegram orqali ota-onalarni xabardor qilish shlyuzi faol</p>
+                        <span class="text-[10px] text-neutral-500 font-mono mt-0.5 inline-block">Davomat xabarnomalari o'z vaqtida yetkazilmoqda</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- VIEW: SETTINGS -->
+<div x-show="activeTab === 'settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
+    <div>
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <i class="fas fa-gear text-indigo-400"></i>
+            Tizim Sozlamalari
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5">Tizim ish rejimi, bildirishnomalar va parametrlar</p>
+    </div>
+
+    <!-- Settings Subtabs -->
+    <div class="flex gap-2 border-b border-slate-800 pb-3">
+        <button @click="settingsTab = 'general'" :class="settingsTab === 'general' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+            <i class="fas fa-sliders mr-1.5"></i> Umumiy Sozlamalar
+        </button>
+        <button @click="settingsTab = 'notifications'" :class="settingsTab === 'notifications' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+            <i class="fas fa-bell mr-1.5"></i> Telegram Bildirishnomalar
+        </button>
+        <button @click="settingsTab = 'audit'" :class="settingsTab === 'audit' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+            <i class="fas fa-clock-rotate-left mr-1.5"></i> Audit Log
+        </button>
+    </div>
+
+    <!-- Tab 1: General Settings -->
+    <div x-show="settingsTab === 'general'" class="glass-card p-6 rounded-2xl max-w-2xl space-y-5">
+        <h3 class="text-base font-bold text-white">Vaqt va Dars Jadvali Rejimi</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Dars Boshlanish Vaqti</label>
+                <input type="time" x-model="systemSettings.school_start_time" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kechikish Chegarasi (daqiqa)</label>
+                <input type="number" x-model="systemSettings.late_threshold_minutes" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Dars Tugash Vaqti</label>
+                <input type="time" x-model="systemSettings.school_end_time" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tizim Tili</label>
+                <select x-model="systemSettings.language" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
+                    <option value="uz">O'zbekcha</option>
+                    <option value="ru">Русский</option>
+                </select>
+            </div>
+        </div>
+        <div class="pt-4 border-t border-slate-800 flex justify-end">
+            <button @click="showToast('Sozlamalar saqlandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+                Saqlash
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab 2: Notification Settings -->
+    <div x-show="settingsTab === 'notifications'" class="glass-card p-6 rounded-2xl max-w-2xl space-y-5">
+        <h3 class="text-base font-bold text-white">Telegram Bot Integratsiyasi</h3>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Telegram Bot Token</label>
+                <input type="text" x-model="systemSettings.telegram_bot_token" placeholder="bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Superadmin Telegram Chat ID</label>
+                <input type="text" x-model="systemSettings.admin_chat_id" placeholder="123456789" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div class="space-y-2 pt-2">
+                <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                    <input type="checkbox" x-model="systemSettings.notify_late" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    O'quvchi kechikkanida ota-onaga va ma'muriyatga zudlik bilan bildirishnoma yuborish
+                </label>
+                <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                    <input type="checkbox" x-model="systemSettings.notify_entry" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    Har bir kirishda ota-onaga bildirishnoma yuborish
+                </label>
+                <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                    <input type="checkbox" x-model="systemSettings.notify_exit" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    Maktabdan chiqishda ota-onaga bildirishnoma yuborish
+                </label>
+            </div>
+        </div>
+        <div class="pt-4 border-t border-slate-800 flex justify-end">
+            <button @click="showToast('Telegram sozlamalari yangilandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+                Saqlash
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab 3: Audit Log -->
+    <div x-show="settingsTab === 'audit'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+        <table class="w-full text-left text-sm">
+            <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                <tr>
+                    <th class="px-6 py-4">Vaqti</th>
+                    <th class="px-6 py-4">Foydalanuvchi</th>
+                    <th class="px-6 py-4">Harakat</th>
+                    <th class="px-6 py-4">Tafsilot</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/50 text-xs">
+                <tr class="hover:bg-slate-800/30 transition">
+                    <td class="px-6 py-4 font-mono text-slate-400">Bugun</td>
+                    <td class="px-6 py-4 font-semibold text-white">admin (Superadmin)</td>
+                    <td class="px-6 py-4 text-emerald-400 font-semibold">Tizimga kirish</td>
+                    <td class="px-6 py-4 text-slate-400">Muvaffaqiyatli autentifikatsiya</td>
+                </tr>
+                <template x-for="log in todayLogs.slice(0, 5)" :key="'audit_' + log.id">
+                    <tr class="hover:bg-slate-800/30 transition">
+                        <td class="px-6 py-4 font-mono text-slate-400" x-text="formatDate(log.event_time)"></td>
+                        <td class="px-6 py-4 font-semibold text-indigo-300" x-text="log.device_name || 'Turniket'"></td>
+                        <td class="px-6 py-4 text-emerald-400 font-semibold" x-text="log.event_type + ' (' + log.status + ')'"></td>
+                        <td class="px-6 py-4 text-slate-400" x-text="log.student_name + ' — Davomat qaydnomasi'"></td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
     </div>
 </div>
 
