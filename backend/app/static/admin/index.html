@@ -821,17 +821,17 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     }
 }
 
-/* Perfect Synchronized 1-Tekisda Sidebar & Content Transitions */
+/* Perfect Supabase Style Sleek Sidebar */
 aside.sidebar-container {
-    width: 260px;
+    width: 230px;
     height: 100vh;
     flex-shrink: 0;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: width;
 }
 
 aside.sidebar-container.collapsed {
-    width: 80px !important;
+    width: 60px !important;
 }
 
 .main-content-wrapper {
@@ -847,12 +847,12 @@ aside.sidebar-container.collapsed {
 @media (max-width: 767.98px) {
     aside.sidebar-container {
         position: fixed !important;
-        width: 260px !important;
+        width: 230px !important;
         height: 100vh !important;
         z-index: 30 !important;
     }
     aside.sidebar-container.collapsed {
-        width: 260px !important;
+        width: 230px !important;
     }
 }
 
@@ -1203,143 +1203,125 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
              class="fixed inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm" x-cloak></div>
 
         <!-- SIDEBAR -->
-        <!-- SIDEBAR COMPONENT -->
-<aside :class="[sidebarCollapsed ? 'collapsed w-20' : 'w-[260px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
-       class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0">
+        <!-- SIDEBAR COMPONENT (Supabase Style Slim & Elegant) -->
+<aside :class="[sidebarCollapsed ? 'collapsed w-[60px]' : 'w-[230px]', sidebarOpenMobile ? 'translate-x-0' : '-translate-x-full md:translate-x-0']"
+       class="sidebar-container fixed md:relative left-0 top-0 h-screen bg-black border-r border-neutral-800/80 z-30 flex flex-col select-none overflow-hidden no-scrollbar flex-shrink-0 transition-all duration-300">
 
-    <!-- Header: Logo, Brand Text, and Toggle Button -->
-    <div class="flex items-center h-[52px] border-b border-neutral-800 flex-shrink-0 px-3.5 overflow-hidden">
-        <!-- Brand Area (Logo + Text) -->
-        <div class="sidebar-brand-area flex items-center gap-2.5 min-w-0 overflow-hidden"
-             :class="sidebarCollapsed ? 'opacity-0 max-w-0 pointer-events-none' : 'opacity-100 max-w-[170px]'">
-            <div class="flex-shrink-0 w-7 h-7 bg-neutral-900 rounded-lg flex items-center justify-center border border-neutral-800">
-                <span class="text-white font-extrabold text-xs">E</span>
-            </div>
-            <div class="min-w-0 whitespace-nowrap overflow-hidden">
-                <h2 class="text-white font-extrabold text-xs leading-tight truncate" x-text="portalTitle">EDUGATE</h2>
-                <p class="text-neutral-500 text-[9px] leading-tight truncate" x-text="portalSubtitle">Boshqaruv Markazi</p>
-            </div>
+    <!-- Top Brand Logo -->
+    <div class="flex items-center h-[54px] border-b border-neutral-800/80 flex-shrink-0 px-3 overflow-hidden"
+         :class="sidebarCollapsed ? 'justify-center' : 'justify-start gap-3'">
+        <!-- Logo Icon (Supabase Emerald / Gradient style) -->
+        <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-extrabold text-sm shadow-sm shadow-emerald-500/10">
+            <span>E</span>
         </div>
-
-        <!-- Toggle Button Container -->
-        <div class="flex-1 flex" :class="sidebarCollapsed ? 'justify-center' : 'justify-end'">
-            <button @click="toggleSidebar()" 
-                    class="flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition-colors cursor-pointer flex-shrink-0 select-none"
-                    :title="sidebarCollapsed ? 'Yon panelni ochish' : 'Yon panelni yopish'">
-                <svg class="w-4.5 h-4.5 text-neutral-300 transition-transform duration-300 ease-in-out"
-                     :class="sidebarCollapsed ? 'rotate-180' : 'rotate-0'"
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="5" />
-                    <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
-                </svg>
-            </button>
+        <!-- Brand Title (when expanded) -->
+        <div x-show="!sidebarCollapsed"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-x-2"
+             x-transition:enter-end="opacity-100 translate-x-0"
+             class="min-w-0 whitespace-nowrap overflow-hidden">
+            <h2 class="text-white font-extrabold text-xs tracking-wider leading-tight truncate">EDUGATE</h2>
+            <p class="text-neutral-500 text-[9px] leading-tight truncate font-mono">Boshqaruv Markazi</p>
         </div>
     </div>
 
-    <!-- Navigation Menu (Scrollbar Completely Disabled) -->
-    <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-2.5 space-y-1 no-scrollbar">
-        <!-- Main Group: Dashboard -->
+    <!-- Navigation Menu (Centered Icons like Supabase) -->
+    <nav class="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-1.5 no-scrollbar">
+        <!-- Dashboard -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'dashboard'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'dashboard' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Dashboard' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chart-pie text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-house text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Dashboard
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Dashboard</span>
         </div>
 
         <!-- Statistika -->
         <div @click="activeTab = 'stats'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'stats'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'stats' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Statistika' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chart-line text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-line text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Statistika
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Statistika</span>
         </div>
 
         <!-- Maktablar -->
         <div x-show="!isSchoolAdmin" @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'schools'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'schools' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Maktablar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-school text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-school text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Maktablar
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Maktablar</span>
         </div>
 
-        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
+        <div class="border-t border-neutral-800/80 my-2 mx-1"></div>
 
         <!-- Kameralar -->
         <div @click="activeTab = 'devices'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'devices'}"
-             :title="sidebarCollapsed ? 'Kameralar & Turniketlar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-video text-sm text-center"></i>
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'devices' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
+             :title="sidebarCollapsed ? 'Kameralar' : ''">
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-video text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Kameralar
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Kameralar</span>
         </div>
 
         <!-- Hisobotlar -->
         <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'reports'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'reports' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Hisobotlar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-chart-bar text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-bar text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Hisobotlar
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Hisobotlar</span>
         </div>
 
         <!-- Bildirishnomalar -->
         <div @click="activeTab = 'notifications'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'notifications'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'notifications' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Bildirishnomalar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-bell text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-bell text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Bildirishnomalar
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Bildirishnomalar</span>
         </div>
 
-        <div class="sidebar-separator border-t border-neutral-800/80 my-1.5"></div>
+        <div class="border-t border-neutral-800/80 my-2 mx-1"></div>
 
         <!-- Sozlamalar -->
         <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
-             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
-             :class="{'active': activeTab === 'settings'}"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="activeTab === 'settings' ? 'bg-neutral-900 text-white border border-neutral-800 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900/60 border border-transparent'"
              :title="sidebarCollapsed ? 'Sozlamalar' : ''">
-            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-gear text-sm text-center"></i>
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-gear text-sm"></i>
             </div>
-            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
-                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
-                Sozlamalar
-            </span>
+            <span x-show="!sidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden">Sozlamalar</span>
         </div>
     </nav>
+
+    <!-- Bottom: Supabase Style Pinned Toggle Button -->
+    <div class="mt-auto border-t border-neutral-800/80 p-2 flex items-center justify-center flex-shrink-0 bg-black">
+        <button @click="toggleSidebar()" 
+                class="flex items-center justify-center w-9 h-9 rounded-xl text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0 select-none"
+                :title="sidebarCollapsed ? 'Panelni kengaytirish' : 'Panelni yig\'ish'">
+            <svg class="w-4.5 h-4.5 text-neutral-300 transition-transform duration-300 ease-in-out"
+                 :style="sidebarCollapsed ? 'transform: rotateY(180deg);' : 'transform: rotateY(0deg);'"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
 </aside>
 
 
@@ -1357,7 +1339,7 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
                     class="md:hidden flex items-center justify-center w-7 h-7 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer flex-shrink-0 select-none"
                     title="Menyu">
                 <svg class="w-4 h-4 text-neutral-300 transition-transform duration-300 ease-in-out"
-                     :class="sidebarOpenMobile ? 'rotate-180' : 'rotate-0'"
+                     :style="sidebarOpenMobile ? 'transform: rotateY(180deg);' : 'transform: rotateY(0deg);'"
                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="5" />
                     <line x1="8.5" y1="7.5" x2="8.5" y2="16.5" stroke-width="2.5" stroke-linecap="round" />
@@ -1489,8 +1471,88 @@ html.light aside.sidebar-container.collapsed .sidebar-search-btn:hover {
             <!-- MAIN SCROLLABLE VIEW CONTAINER -->
             <main class="flex-1 overflow-y-auto p-6 space-y-6" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
                 <!-- VIEW: DASHBOARD -->
-<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="min-h-[400px]">
-    <!-- Dashboard to'liq tozalandi. Yangi ko'rinish uchun tayyor. -->
+<div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6 select-none">
+    
+    <!-- TOP 3 METRIC CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        
+        <!-- 1. JAMI MAKTABLAR -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800 flex flex-col justify-between hover:border-neutral-700 transition">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Jami Maktablar</span>
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 text-base">
+                    <i class="fas fa-school"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-white font-mono" x-text="stats.schools_count || (schoolsDetailed?.length || 0)">0</h3>
+                    <span class="text-xs text-neutral-500 font-mono">muassasa</span>
+                </div>
+                <p class="text-[11px] text-neutral-400 mt-1">Yagona monitoring tizimiga ulangan</p>
+            </div>
+        </div>
+
+        <!-- 2. JAMI O'QUVCHILAR (2 GURUHGA BO'LINGAN: O'G'IL VA QIZ BOLALAR) -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800 flex flex-col justify-between hover:border-neutral-700 transition">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Jami O'quvchilar</span>
+                <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-base">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+            </div>
+
+            <!-- Asosiy Jami Soni -->
+            <div class="mt-2 flex items-baseline gap-2">
+                <h3 class="text-3xl font-extrabold text-white font-mono" x-text="stats.students_count || 0">0</h3>
+                <span class="text-xs text-neutral-500 font-mono">kontingent</span>
+            </div>
+
+            <!-- 2 Guruh: O'g'il bolalar va Qiz bolalar -->
+            <div class="grid grid-cols-2 gap-2.5 mt-3 pt-3 border-t border-neutral-800/80">
+                <!-- O'g'il bolalar -->
+                <div class="p-2.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-md bg-blue-500/10 text-blue-400 flex items-center justify-center text-xs">
+                            <i class="fas fa-mars"></i>
+                        </div>
+                        <span class="text-xs text-neutral-300 font-medium">O'g'il bolalar</span>
+                    </div>
+                    <span class="text-sm font-bold text-white font-mono" x-text="stats.boys_count || 0">0</span>
+                </div>
+
+                <!-- Qiz bolalar -->
+                <div class="p-2.5 rounded-xl bg-neutral-900/60 border border-neutral-800/80 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-md bg-pink-500/10 text-pink-400 flex items-center justify-center text-xs">
+                            <i class="fas fa-venus"></i>
+                        </div>
+                        <span class="text-xs text-neutral-300 font-medium">Qiz bolalar</span>
+                    </div>
+                    <span class="text-sm font-bold text-white font-mono" x-text="stats.girls_count || 0">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. JAMI KAMERALAR -->
+        <div class="glass-card p-6 rounded-2xl border border-neutral-800 flex flex-col justify-between hover:border-neutral-700 transition">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Jami Kameralar</span>
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 text-base">
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-3xl font-extrabold text-white font-mono" x-text="devices?.length || stats.devices_count || 0">0</h3>
+                    <span class="text-xs text-emerald-400 font-mono">faol qurilma</span>
+                </div>
+                <p class="text-[11px] text-neutral-400 mt-1">Turniket & Face ID terminallar monitoringi</p>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
                 <!-- VIEW: STATISTIKA -->
@@ -3825,6 +3887,8 @@ function adminApp() {
         stats: {
             schools_count: 0,
             students_count: 0,
+            boys_count: 0,
+            girls_count: 0,
             teachers_count: 0,
             devices_count: 0,
             parents_count: 0,

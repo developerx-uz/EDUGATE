@@ -115,6 +115,14 @@ async def get_realtime_pulse(
     if is_school:
         schools_count = 1
         students_count = (await db.execute(select(func.count(Student.id)).filter(Student.school_id == sc_id, Student.is_active == True))).scalar() or 0
+        girls_count = (await db.execute(
+            select(func.count(Student.id)).filter(
+                Student.school_id == sc_id,
+                Student.is_active == True,
+                (Student.last_name.ilike('%va') | Student.last_name.ilike('%qizi') | Student.pinfl.like('4%') | Student.pinfl.like('6%'))
+            )
+        )).scalar() or 0
+        boys_count = max(0, students_count - girls_count)
         teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.school_id == sc_id, Teacher.is_active == True))).scalar() or 0
         devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.school_id == sc_id, Device.is_active == True))).scalar() or 0
         parents_count = (await db.execute(
@@ -142,6 +150,13 @@ async def get_realtime_pulse(
     else:
         schools_count = (await db.execute(select(func.count(School.id)))).scalar() or 0
         students_count = (await db.execute(select(func.count(Student.id)).filter(Student.is_active == True))).scalar() or 0
+        girls_count = (await db.execute(
+            select(func.count(Student.id)).filter(
+                Student.is_active == True,
+                (Student.last_name.ilike('%va') | Student.last_name.ilike('%qizi') | Student.pinfl.like('4%') | Student.pinfl.like('6%'))
+            )
+        )).scalar() or 0
+        boys_count = max(0, students_count - girls_count)
         teachers_count = (await db.execute(select(func.count(Teacher.id)).filter(Teacher.is_active == True))).scalar() or 0
         devices_count = (await db.execute(select(func.count(Device.id)).filter(Device.is_active == True))).scalar() or 0
         parents_count = (await db.execute(select(func.count(Parent.id)))).scalar() or 0
@@ -192,6 +207,8 @@ async def get_realtime_pulse(
         "stats": {
             "schools_count": schools_count,
             "students_count": students_count,
+            "boys_count": boys_count,
+            "girls_count": girls_count,
             "teachers_count": teachers_count,
             "devices_count": devices_count,
             "parents_count": parents_count,
