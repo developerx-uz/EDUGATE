@@ -770,17 +770,17 @@ body.theme-light .theme-switch-pill .theme-btn-dark:hover {
     }
 }
 
-/* Perfect Synchronized 1-Tekisda Sidebar & Content Transitions */
+/* Perfect Supabase Style Sleek Sidebar */
 aside.sidebar-container {
-    width: 260px;
+    width: 230px;
     height: 100vh;
     flex-shrink: 0;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     will-change: width;
 }
 
 aside.sidebar-container.collapsed {
-    width: 80px !important;
+    width: 60px !important;
 }
 
 .main-content-wrapper {
@@ -796,12 +796,12 @@ aside.sidebar-container.collapsed {
 @media (max-width: 767.98px) {
     aside.sidebar-container {
         position: fixed !important;
-        width: 260px !important;
+        width: 230px !important;
         height: 100vh !important;
         z-index: 30 !important;
     }
     aside.sidebar-container.collapsed {
-        width: 260px !important;
+        width: 230px !important;
     }
 }
 
