@@ -33,7 +33,7 @@
 
     <!-- Navigation Menu (Scrollbar Completely Disabled) -->
     <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-2.5 space-y-1 no-scrollbar">
-        <!-- Main Group -->
+        <!-- Main Group: Dashboard -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
              :class="{'active': activeTab === 'dashboard'}"
@@ -44,6 +44,20 @@
             <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
                   :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
                 Dashboard
+            </span>
+        </div>
+
+        <!-- Statistika -->
+        <div @click="activeTab = 'stats'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item flex items-center h-9 px-2.5 rounded-xl cursor-pointer transition-colors overflow-hidden"
+             :class="{'active': activeTab === 'stats'}"
+             :title="sidebarCollapsed ? 'Statistika' : ''">
+            <div class="sidebar-icon-box w-8 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-chart-line text-sm text-center"></i>
+            </div>
+            <span class="sidebar-item-label ml-2 text-xs font-medium whitespace-nowrap overflow-hidden"
+                  :class="sidebarCollapsed ? 'opacity-0 max-w-0 -translate-x-2' : 'opacity-100 max-w-[160px] translate-x-0'">
+                Statistika
             </span>
         </div>
 
