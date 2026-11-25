@@ -1,10 +1,6 @@
-import os
-import uuid
-import base64
-import random
-import httpx
 from typing import List, Optional, Any
-from fastapi import APIRouter, Depends, HTTPException, status
+import httpx
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
 from sqlalchemy import select, or_
 from sqlalchemy.orm import selectinload
@@ -12,10 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db
+from app.models.school import School
 from app.models.student import Student
 from app.models.user import User, UserRole
 from app.schemas.student import StudentCreate, StudentOut
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_not_read_only
+from app.services.audit_service import record_audit
+from app.services.image_utils import save_base64_image
 
 router = APIRouter()
 
@@ -37,26 +36,44 @@ class GovVerifyResponse(BaseModel):
     source: str = "EDUGATE Database & e-Gov API"
 
 
-@router.post("/verify-gov-id", response_model=GovVerifyResponse, summary="Hujjat seriyasi va Tug'ilgan sana bo'yicha o'quvchi ma'lumotlarini aniq olish")
+class PhotoUploadRequest(BaseModel):
+    student_id: str
+    image_base64: str
+
+
+@router.post(
+    "/verify-gov-id",
+    response_model=GovVerifyResponse,
+    summary="Hujjat seriyasi va Tug'ilgan sana bo'yicha o'quvchi ma'lumotlarini olish",
+)
 async def verify_government_id(
     req: GovVerifyRequest,
-    db: AsyncSession = Depends(get_db)
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ) -> Any:
     doc = req.doc_number.strip().upper().replace(" ", "")
     bdate = req.birth_date.strip() if req.birth_date else None
 
     if len(doc) < 3:
-        raise HTTPException(status_code=400, detail="Hujjat seriyasi, guvohnoma yoki JSHSHIR kodi noto'g'ri.")
+        raise HTTPException(
+            status_code=400, detail="Hujjat seriyasi, guvohnoma yoki JSHSHIR kodi noto'g'ri."
+        )
 
-    # 1. BAZADAN ANIQ QIDIRUV (Database Search)
-    query = select(Student).options(selectinload(Student.parents)).filter(
-        or_(
-            Student.pinfl == doc,
-            Student.birth_cert_number == doc,
-            Student.student_code == doc,
-            Student.rfid_card_id == doc
+    query = (
+        select(Student)
+        .options(selectinload(Student.parents))
+        .filter(
+            or_(
+                Student.pinfl == doc,
+                Student.birth_cert_number == doc,
+                Student.student_code == doc,
+                Student.rfid_card_id == doc,
+            )
         )
     )
+    if current_user.role == UserRole.SCHOOL_ADMIN and current_user.school_id:
+        query = query.filter(Student.school_id == current_user.school_id)
+
     result = await db.execute(query)
     existing_student = result.scalar_one_or_none()
 
@@ -70,17 +87,16 @@ async def verify_government_id(
             birth_cert_number=existing_student.birth_cert_number,
             suggested_class=existing_student.class_name,
             message=f"O'quvchi ma'lumotlari bazadan aniq topildi. (Sana: {bdate or 'Kiritilgan'})",
-            source="EDUGATE Ma'lumotlar Bazasi (Aniq Natija)"
+            source="EDUGATE Ma'lumotlar Bazasi (Aniq Natija)",
         )
 
-    # 2. TASHQI E-MAKTAB / E-GOV REAL API INTEGRATSIYASI
     if settings.EMAKTAB_API_TOKEN:
         try:
             async with httpx.AsyncClient(timeout=5.0) as client:
                 res = await client.post(
                     f"{settings.EMAKTAB_API_URL}/students/verify-identity",
                     json={"doc_number": doc, "birth_date": bdate},
-                    headers={"Authorization": f"Bearer {settings.EMAKTAB_API_TOKEN}"}
+                    headers={"Authorization": f"Bearer {settings.EMAKTAB_API_TOKEN}"},
                 )
                 if res.status_code == 200:
                     data = res.json()
@@ -95,95 +111,138 @@ async def verify_government_id(
                             birth_cert_number=st_data.get("birth_cert_number"),
                             suggested_class=st_data.get("class_name"),
                             message="Ma'lumotlar e-Maktab rasmiy tizimidan muvaffaqiyatli olindi.",
-                            source="MMTV e-Maktab Rasmiy API"
+                            source="MMTV e-Maktab Rasmiy API",
                         )
         except Exception:
             pass
 
-    # 3. IF NOT FOUND
     return GovVerifyResponse(
         found=False,
         doc_number=req.doc_number,
-        message=f"Ushbu hujjat ({doc}) va tug'ilgan sana ({bdate or 'kiritilmagan'}) bo'yicha ma'lumot bazada yo'q. O'quvchi ismi-familiyasini kiritishingiz mumkin.",
-        source="Tizim Qidiruv Natijasi"
+        message=(
+            f"Ushbu hujjat ({doc}) va tug'ilgan sana ({bdate or 'kiritilmagan'}) bo'yicha "
+            "ma'lumot bazada yo'q. O'quvchi ismi-familiyasini kiritishingiz mumkin."
+        ),
+        source="Tizim Qidiruv Natijasi",
     )
 
 
-class PhotoUploadRequest(BaseModel):
-    student_id: str
-    image_base64: str
-
-
-@router.post("/upload-photo-base64", summary="O'quvchining yuz fotosuratini yuklash (Base64 yoki WebCam)")
+@router.post(
+    "/upload-photo-base64",
+    summary="O'quvchining yuz fotosuratini yuklash (Base64)",
+)
 async def upload_student_photo_base64(
+    request: Request,
     req: PhotoUploadRequest,
-    db: AsyncSession = Depends(get_db)
+    current_user: User = Depends(require_not_read_only),
+    db: AsyncSession = Depends(get_db),
 ) -> Any:
     result = await db.execute(select(Student).filter(Student.id == req.student_id))
     student = result.scalar_one_or_none()
     if not student:
         raise HTTPException(status_code=404, detail="O'quvchi topilmadi")
 
+    if current_user.role == UserRole.SCHOOL_ADMIN and student.school_id != current_user.school_id:
+        raise HTTPException(
+            status_code=403, detail="Boshqa maktab o'quvchisi rasmini yangilash taqiqlangan."
+        )
+
     try:
-        img_str = req.image_base64
-        if "base64," in img_str:
-            img_str = img_str.split("base64,")[1]
+        rel_path, descriptor = save_base64_image(
+            req.image_base64,
+            subfolder="students",
+            filename_prefix=f"student_{student.id}",
+        )
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
 
-        img_bytes = base64.b64decode(img_str)
-        filename = f"student_{student.id}_{int(random.random()*10000)}.jpg"
-        upload_dir = os.path.join(os.path.dirname(__file__), "..", "..", "static", "uploads", "students")
-        os.makedirs(upload_dir, exist_ok=True)
-        file_path = os.path.join(upload_dir, filename)
+    student.photo_path = rel_path
+    student.face_encoding = descriptor
+    await record_audit(
+        db,
+        user=current_user,
+        action="STUDENT_PHOTO_UPLOAD",
+        target_type="STUDENT",
+        target_id=student.id,
+        details=f"{student.full_name} uchun Face ID rasmi yuklandi",
+        request=request,
+    )
+    await db.commit()
 
-        with open(file_path, "wb") as f:
-            f.write(img_bytes)
-
-        rel_path = f"/static/uploads/students/{filename}"
-        mock_face_vector = f"vector_512_dim_{uuid.uuid4().hex}"
-
-        student.photo_path = rel_path
-        student.face_encoding = mock_face_vector
-        await db.commit()
-
-        return {
-            "message": "O'quvchining yuz rasmi va AI Vektori muvaffaqiyatli saqlandi!",
-            "photo_path": rel_path,
-            "has_face_encoding": True
-        }
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Rasm ishlov berishda xatolik: {str(e)}")
+    return {
+        "message": "O'quvchining yuz rasmi va Face ID belgisi muvaffaqiyatli saqlandi!",
+        "photo_path": rel_path,
+        "has_face_encoding": True,
+    }
 
 
 @router.post("/", response_model=StudentOut, status_code=status.HTTP_201_CREATED, summary="Yangi o'quvchi qo'shish")
 async def create_student(
+    request: Request,
     student_in: StudentCreate,
-    current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    current_user: User = Depends(require_not_read_only),
+    db: AsyncSession = Depends(get_db),
 ):
-    if current_user.role == UserRole.MINISTRY_VIEWER:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Xalq Ta'limi portali faqat monitoring (ko'rish) uchun. Yangi o'quvchi qo'shish taqiqlangan."
-        )
-
-    # Qat'iy: maktab o'zining maktabidan boshqa maktabga o'quvchi qo'sha olmaydi
-    effective_school_id = current_user.school_id if current_user.role == UserRole.SCHOOL_ADMIN else (student_in.school_id or current_user.school_id)
+    effective_school_id = (
+        current_user.school_id
+        if current_user.role == UserRole.SCHOOL_ADMIN
+        else (student_in.school_id or current_user.school_id)
+    )
     if not effective_school_id:
         raise HTTPException(status_code=400, detail="Maktab tanlanishi shart")
 
+    school_exists = (
+        await db.execute(select(School.id).filter(School.id == effective_school_id))
+    ).scalar_one_or_none()
+    if not school_exists:
+        raise HTTPException(status_code=404, detail="Tanlangan maktab topilmadi")
+
+    code_clean = student_in.student_code.strip()
+    dup = (
+        await db.execute(select(Student.id).filter(Student.student_code == code_clean))
+    ).scalar_one_or_none()
+    if dup:
+        raise HTTPException(
+            status_code=400, detail=f"'{code_clean}' o'quvchi kodi allaqachon ro'yxatdan o'tgan."
+        )
+
+    photo_path = student_in.photo_path
+    face_encoding = student_in.face_encoding
+    if face_encoding and face_encoding.startswith("data:image/"):
+        try:
+            photo_path, face_encoding = save_base64_image(
+                face_encoding,
+                subfolder="students",
+                filename_prefix=f"student_{code_clean}",
+            )
+        except ValueError as ve:
+            raise HTTPException(status_code=400, detail=str(ve))
+
     student = Student(
         school_id=effective_school_id,
-        first_name=student_in.first_name,
-        last_name=student_in.last_name,
-        student_code=student_in.student_code,
-        class_name=student_in.class_name,
-        pinfl=student_in.pinfl,
-        birth_cert_number=student_in.birth_cert_number,
-        rfid_card_id=student_in.rfid_card_id,
-        face_encoding=student_in.face_encoding,
-        photo_path=student_in.photo_path
+        first_name=student_in.first_name.strip(),
+        last_name=student_in.last_name.strip(),
+        student_code=code_clean,
+        class_name=student_in.class_name.strip(),
+        pinfl=student_in.pinfl.strip() if student_in.pinfl else None,
+        birth_cert_number=student_in.birth_cert_number.strip() if student_in.birth_cert_number else None,
+        gender=student_in.gender,
+        rfid_card_id=student_in.rfid_card_id.strip() if student_in.rfid_card_id else None,
+        face_encoding=face_encoding,
+        photo_path=photo_path,
     )
     db.add(student)
+    await db.flush()
+
+    await record_audit(
+        db,
+        user=current_user,
+        action="STUDENT_CREATE",
+        target_type="STUDENT",
+        target_id=student.id,
+        details=f"{student.full_name} ({student.class_name}, {student.student_code}) qo'shildi",
+        request=request,
+    )
     await db.commit()
     await db.refresh(student)
     return student
@@ -194,9 +253,13 @@ async def list_students(
     school_id: Optional[str] = None,
     class_name: Optional[str] = None,
     current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
 ):
-    effective_school_id = current_user.school_id if current_user.role == UserRole.SCHOOL_ADMIN else (school_id or current_user.school_id)
+    effective_school_id = (
+        current_user.school_id
+        if current_user.role == UserRole.SCHOOL_ADMIN
+        else (school_id or current_user.school_id)
+    )
     query = select(Student).filter(Student.is_active == True)
     if effective_school_id:
         query = query.filter(Student.school_id == effective_school_id)
