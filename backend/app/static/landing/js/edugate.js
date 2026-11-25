@@ -557,18 +557,26 @@ class EdugateApp {
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>YUBORILMOQDA...</span>';
             }
 
+            const prefix = window.location.pathname.startsWith('/edugate') ? '/edugate' : '';
             try {
-                await fetch('/api/contact', {
+                const res = await fetch(prefix + '/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                }).catch(() => null);
-            } catch (err) {}
-
-            setTimeout(() => {
+                });
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.detail || 'Ariza yuborishda xatolik yuz berdi');
+                }
                 form.classList.add('hidden');
                 if (successMsg) successMsg.classList.remove('hidden');
-            }, 600);
+            } catch (err) {
+                alert(err.message || "Tarmoq xatosi. Iltimos, qayta urinib ko'ring.");
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane text-xs"></i> <span>ARIZA YUBORISH VA BEPUL SMETA OLISH</span>';
+                }
+            }
         });
     }
 

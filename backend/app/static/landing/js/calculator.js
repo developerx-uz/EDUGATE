@@ -162,11 +162,16 @@ class SchoolCalculator {
                 source: "landing_calculator"
             };
 
-            await fetch('/api/v1/orders/new', {
+            const prefix = window.location.pathname.startsWith('/edugate') ? '/edugate' : '';
+            const res = await fetch(prefix + '/api/v1/orders/new', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).catch(() => null);
+            });
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.detail || "Buyurtmani saqlashda xatolik");
+            }
 
             alert(`✅ Qabul qilindi!\n\nHurmatli ${contactName}, ${schoolName} uchun buyurtma so'rovingiz tizimga muvaffaqiyatli kiritildi.\nMutaxassislarimiz 15 daqiqa ichida (${phone}) raqami orqali bog'lanib, to'liq texnik-smeta loyihasini taqdim etadilar.`);
             form.reset();

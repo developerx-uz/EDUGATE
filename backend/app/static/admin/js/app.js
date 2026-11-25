@@ -13,7 +13,7 @@ function adminApp() {
         liveTime: '',
         liveDate: '',
 
-        // ===== 3-PORTAL ARCHITECTURE (SUPERADMIN, XALQ TA'LIMI, MAKTABLAR) =====
+        // ===== 3-PORTAL ARCHITECTURE =====
         portalMode: (() => {
             if (window.EDUGATE_INITIAL_PORTAL) return window.EDUGATE_INITIAL_PORTAL;
             const host = window.location.hostname.toLowerCase();
@@ -88,19 +88,7 @@ function adminApp() {
             this.liveDate = now.toLocaleDateString('uz-UZ', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
         },
 
-        async loginFullscreen() {
-            if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-                try {
-                    await document.documentElement.requestFullscreen();
-                    this.isFullscreen = true;
-                } catch (e) {
-                    console.warn('Fullscreen request failed:', e);
-                }
-            }
-            await this.login();
-        },
-
-        // ===== THEME MANAGEMENT (TO'LIQ OQ & TO'LIQ QORA) =====
+        // ===== THEME MANAGEMENT =====
         theme: (() => {
             try {
                 return localStorage.getItem('edugate_admin_theme') || 'dark';
@@ -140,8 +128,7 @@ function adminApp() {
         },
 
         toggleTheme() {
-            const nextTheme = this.theme === 'light' ? 'dark' : 'light';
-            this.applyTheme(nextTheme);
+            this.applyTheme(this.theme === 'light' ? 'dark' : 'light');
         },
 
         setTheme(t) {
@@ -154,7 +141,7 @@ function adminApp() {
             try {
                 const saved = localStorage.getItem('edugate_sidebar_mode');
                 if (saved === 'expanded' || saved === 'collapsed' || saved === 'hover') return saved;
-                return 'collapsed'; // Default to collapsed as Supabase style
+                return 'collapsed';
             } catch (e) {
                 return 'collapsed';
             }
@@ -162,7 +149,6 @@ function adminApp() {
         sidebarHoverActive: false,
         showSidebarControl: false,
         sidebarOpenMobile: false,
-        searchQuery: '',
         showNotifPanel: false,
         showUserMenu: false,
         isFullscreen: false,
@@ -170,7 +156,7 @@ function adminApp() {
         get isSidebarCollapsed() {
             if (this.sidebarMode === 'expanded') return false;
             if (this.sidebarMode === 'hover') return !this.sidebarHoverActive;
-            return true; // 'collapsed'
+            return true;
         },
 
         setSidebarMode(mode) {
@@ -192,6 +178,15 @@ function adminApp() {
             }
         },
 
+        openSchoolsSection() {
+            this.activeTab = 'schools';
+            if (this.isSchoolAdmin && this.schoolsDetailed.length > 0) {
+                this.selectSchool(this.schoolsDetailed[0]);
+            } else {
+                this.schoolsView = 'schools_list';
+            }
+        },
+
         // ===== GLOBAL SEARCH / COMMAND PALETTE =====
         showGlobalSearch: false,
         globalSearchQuery: '',
@@ -199,7 +194,6 @@ function adminApp() {
         openGlobalSearch() {
             this.showGlobalSearch = true;
             this.globalSearchQuery = '';
-            if (this.sidebarOpen) this.sidebarOpen = false;
             setTimeout(() => {
                 const el = this.$refs.globalSearchInput;
                 if (el) el.focus();
@@ -209,14 +203,21 @@ function adminApp() {
         selectSearchResult(item) {
             this.showGlobalSearch = false;
             if (item.tab) {
-                this.activeTab = item.tab;
+                if (item.tab === 'schools' && this.isSchoolAdmin && this.schoolsDetailed.length > 0) {
+                    this.openSchoolsSection();
+                } else {
+                    this.activeTab = item.tab;
+                }
             }
             if (item.filterKey && item.filterVal) {
-                if (item.tab === 'schools') {
+                if (item.tab === 'schools' && !this.isSchoolAdmin) {
                     this.schoolSearchQuery = item.filterVal;
                 } else if (item.tab === 'students') {
                     this.studentsFilter.search = item.filterVal;
                 }
+            }
+            if (item.tab === 'stats') {
+                this.$nextTick(() => EdugateCharts.init(this.stats, this.weeklyStats));
             }
         },
 
@@ -224,14 +225,16 @@ function adminApp() {
             const q = (this.globalSearchQuery || '').trim().toLowerCase();
             const pages = [
                 { id: 'p-dash', title: "Dashboard Markazi", subtitle: "Tizim umumiy ko'rsatkichlari va tahlili", tab: 'dashboard', type: "Bo'lim", icon: 'fas fa-chart-pie', bgClass: 'bg-indigo-600/20 text-indigo-400' },
-                { id: 'p-sch', title: "Maktablar Boshqaruvi", subtitle: "Barcha ulangan maktablar ro'yxati", tab: 'schools', type: "Bo'lim", icon: 'fas fa-school', bgClass: 'bg-blue-600/20 text-blue-400' },
+                { id: 'p-stats', title: "Statistika & Grafiklar", subtitle: "Haftalik dinamika va davomat balansi", tab: 'stats', type: "Bo'lim", icon: 'fas fa-chart-line', bgClass: 'bg-sky-600/20 text-sky-400' },
+                { id: 'p-att', title: "Davomat Monitoringi", subtitle: "Real-vaqt rejimida jonli davomat", tab: 'attendance', type: "Bo'lim", icon: 'fas fa-clipboard-check', bgClass: 'bg-sky-600/20 text-sky-400' },
+                { id: 'p-sch', title: this.isSchoolAdmin ? "Maktabim & Sinflar" : "Maktablar Boshqaruvi", subtitle: "Sinflar, o'quvchilar va o'qituvchilar", tab: 'schools', type: "Bo'lim", icon: 'fas fa-school', bgClass: 'bg-blue-600/20 text-blue-400' },
                 { id: 'p-stu', title: "O'quvchilar Kontingenti", subtitle: "Sinflar va o'quvchilar bazasi", tab: 'students', type: "Bo'lim", icon: 'fas fa-user-graduate', bgClass: 'bg-emerald-600/20 text-emerald-400' },
                 { id: 'p-tea', title: "O'qituvchilar Tarkibi", subtitle: "Pedagog xodimlar va fanlar", tab: 'teachers', type: "Bo'lim", icon: 'fas fa-chalkboard-user', bgClass: 'bg-purple-600/20 text-purple-400' },
-                { id: 'p-att', title: "Davomat Monitoringi", subtitle: "Real-vaqt rejimida jonli davomat", tab: 'attendance', type: "Bo'lim", icon: 'fas fa-clipboard-check', bgClass: 'bg-sky-600/20 text-sky-400' },
                 { id: 'p-dev', title: "Kameralar & Turniketlar", subtitle: "Face ID va qurilmalar holati", tab: 'devices', type: "Bo'lim", icon: 'fas fa-video', bgClass: 'bg-amber-600/20 text-amber-400' },
                 { id: 'p-par', title: "Ota-onalar Ro'yxati", subtitle: "Telegram botga ulangan profil egalari", tab: 'parents', type: "Bo'lim", icon: 'fas fa-users', bgClass: 'bg-teal-600/20 text-teal-400' },
-                { id: 'p-rep', title: "Tahliliy Hisobotlar", subtitle: "Kunlik, oylik hisobotlar va eksport", tab: 'reports', type: "Bo'lim", icon: 'fas fa-chart-bar', bgClass: 'bg-rose-600/20 text-rose-400' },
-                { id: 'p-set', title: "Tizim Sozlamalari", subtitle: "Vaqt parametrlari va Telegram sozlamalari", tab: 'settings', type: "Bo'lim", icon: 'fas fa-gear', bgClass: 'bg-slate-700 text-slate-300' }
+                { id: 'p-rep', title: "Tahliliy Hisobotlar", subtitle: "Kunlik, haftalik, oylik va CSV eksport", tab: 'reports', type: "Bo'lim", icon: 'fas fa-chart-bar', bgClass: 'bg-rose-600/20 text-rose-400' },
+                { id: 'p-not', title: "Bildirishnomalar & Arizalar", subtitle: "Kechikishlar va sababli arizalar", tab: 'notifications', type: "Bo'lim", icon: 'fas fa-bell', bgClass: 'bg-amber-600/20 text-amber-400' },
+                { id: 'p-set', title: "Tizim Sozlamalari", subtitle: "Vaqt parametrlari va Audit log", tab: 'settings', type: "Bo'lim", icon: 'fas fa-gear', bgClass: 'bg-slate-700 text-slate-300' }
             ];
 
             if (!q) return pages;
@@ -243,7 +246,7 @@ function adminApp() {
                 }
             });
 
-            if (Array.isArray(this.schoolsDetailed)) {
+            if (Array.isArray(this.schoolsDetailed) && !this.isSchoolAdmin) {
                 this.schoolsDetailed.forEach(s => {
                     if ((s.name && s.name.toLowerCase().includes(q)) || (s.code && s.code.toLowerCase().includes(q))) {
                         res.push({
@@ -261,8 +264,8 @@ function adminApp() {
                 });
             }
 
-            if (Array.isArray(this.students)) {
-                this.students.forEach(st => {
+            if (Array.isArray(this.allStudents)) {
+                this.allStudents.forEach(st => {
                     const fullName = ((st.first_name || '') + ' ' + (st.last_name || '')).toLowerCase();
                     if (fullName.includes(q) || (st.student_code && st.student_code.toLowerCase().includes(q)) || (st.class_name && st.class_name.toLowerCase().includes(q))) {
                         res.push({
@@ -299,22 +302,6 @@ function adminApp() {
             return res.slice(0, 15);
         },
 
-        toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().then(() => {
-                    this.isFullscreen = true;
-                }).catch(err => {
-                    console.warn('Fullscreen request failed:', err);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen().then(() => {
-                        this.isFullscreen = false;
-                    });
-                }
-            }
-        },
-
         // ===== STATS & DASHBOARD =====
         stats: {
             schools_count: 0,
@@ -323,14 +310,48 @@ function adminApp() {
             girls_count: 0,
             teachers_count: 0,
             devices_count: 0,
+            online_devices_count: 0,
             parents_count: 0,
             today_entries: 0,
             today_exits: 0,
             today_lates: 0,
-            today_ontime: 0
+            today_ontime: 0,
+            today_early_leaves: 0,
+            unique_present_today: 0
         },
         weeklyStats: [],
         notifications: [],
+        readNotificationIds: (() => {
+            try {
+                return JSON.parse(localStorage.getItem('edugate_read_notifs') || '[]');
+            } catch (e) {
+                return [];
+            }
+        })(),
+        absenceReasons: [],
+        auditLogs: [],
+        leadOrders: [],
+
+        get unreadNotificationsCount() {
+            const readSet = new Set(this.readNotificationIds || []);
+            return (this.notifications || []).filter(n => !readSet.has(n.id)).length;
+        },
+
+        markAllNotificationsRead() {
+            const ids = (this.notifications || []).map(n => n.id);
+            this.readNotificationIds = ids;
+            try {
+                localStorage.setItem('edugate_read_notifs', JSON.stringify(ids.slice(0, 100)));
+            } catch (e) {}
+            this.showToast("Barcha bildirishnomalar o'qilgan deb belgilandi", 'info');
+        },
+
+        get topSchools() {
+            if (!Array.isArray(this.schoolsDetailed) || this.schoolsDetailed.length === 0) return [];
+            return [...this.schoolsDetailed]
+                .sort((a, b) => (b.attendance_rate || 0) - (a.attendance_rate || 0) || (b.students_count || 0) - (a.students_count || 0))
+                .slice(0, 5);
+        },
 
         // ===== SCHOOLS MODULE =====
         schoolsView: 'schools_list',
@@ -353,19 +374,17 @@ function adminApp() {
         allTeachers: [],
         teachersFilter: { search: '', school_id: '' },
 
-        // ===== ATTENDANCE MODULE & CCTV HUD =====
+        // ===== ATTENDANCE MODULE =====
         todayLogs: [],
-        camViewMode: '2x2',
         liveClock: new Date().toLocaleTimeString('uz-UZ'),
         autoRefresh: true,
-        refreshInterval: null,
         attendanceDate: new Date().toISOString().split('T')[0],
         attendanceFilter: { school_id: '', class_name: '', status: '' },
 
-        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE =====
         isSyncing: false,
         isRefreshing: false,
-        realtimeStatus: 'online', // 'online' | 'syncing' | 'offline'
+        realtimeStatus: 'online',
         realtimeTimer: null,
         lastPulseHash: '',
         syncFailures: 0,
@@ -375,10 +394,7 @@ function adminApp() {
 
         // ===== PROFILE & SECURITY SETTINGS =====
         currentUser: null,
-        profileForm: {
-            full_name: '',
-            email: ''
-        },
+        profileForm: { full_name: '', email: '' },
         passwordForm: {
             current_password: '',
             new_password: '',
@@ -395,19 +411,22 @@ function adminApp() {
 
         // ===== REPORTS =====
         reportType: 'daily',
+        reportSummary: null,
 
         // ===== SETTINGS =====
         settingsTab: 'general',
+        isSavingSettings: false,
         systemSettings: {
             school_start_time: '08:00',
             late_threshold_minutes: 15,
             school_end_time: '14:00',
+            debounce_minutes: 15,
             language: 'uz',
-            telegram_bot_token: '',
             admin_chat_id: '',
             notify_late: true,
             notify_entry: true,
-            notify_exit: false
+            notify_exit: false,
+            bot_token_configured: false
         },
 
         // ===== MODALS & DIALOGS =====
@@ -415,6 +434,7 @@ function adminApp() {
         showSchoolAccountModal: false,
         showAddStudentModal: false,
         showEditStudentModal: false,
+        showParentLinkModal: false,
         showAddTeacherModal: false,
         showAddDeviceModal: false,
         showConfirmDialog: false,
@@ -426,8 +446,9 @@ function adminApp() {
         schoolForm: { name: '', code: '', address: '', phone: '', admin_username: '', admin_password: '' },
         editSchoolForm: { id: null },
         schoolAccountForm: { school_id: null, school_name: '', username: '', password: '', full_name: '', has_account: false },
-        studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '', face_encoding: '', photo_path: '' },
-        editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', rfid_card_id: '', pinfl: '' },
+        studentForm: { school_id: '', first_name: '', last_name: '', class_name: '', student_code: '', gender: '', rfid_card_id: '', pinfl: '', face_encoding: '', photo_path: '' },
+        editStudentForm: { id: null, school_id: '', first_name: '', last_name: '', class_name: '', gender: 'M', student_code: '', rfid_card_id: '', pinfl: '' },
+        parentLinkForm: { student_id: '', full_name: '', phone_number: '' },
         teacherForm: { school_id: '', first_name: '', last_name: '', phone_number: '', subject: '', class_name: '' },
         deviceForm: { school_id: '', name: '', device_type: 'AI_CAMERA', direction: 'IN', ip_address: '', location_description: '' },
 
@@ -445,8 +466,8 @@ function adminApp() {
         get filteredSchools() {
             if (!this.schoolSearchQuery) return this.schoolsDetailed;
             const q = this.schoolSearchQuery.toLowerCase();
-            return this.schoolsDetailed.filter(s => 
-                (s.name || '').toLowerCase().includes(q) || 
+            return this.schoolsDetailed.filter(s =>
+                (s.name || '').toLowerCase().includes(q) ||
                 (s.code || '').toLowerCase().includes(q) ||
                 (s.address || '').toLowerCase().includes(q)
             );
@@ -456,8 +477,8 @@ function adminApp() {
             let list = this.allStudents || [];
             if (this.studentsFilter.search) {
                 const q = this.studentsFilter.search.toLowerCase();
-                list = list.filter(s => 
-                    (s.full_name || (s.first_name + ' ' + s.last_name) || '').toLowerCase().includes(q) || 
+                list = list.filter(s =>
+                    (s.full_name || (s.first_name + ' ' + s.last_name) || '').toLowerCase().includes(q) ||
                     (s.student_code || '').toLowerCase().includes(q) ||
                     (s.pinfl || '').includes(q) ||
                     (s.rfid_card_id || '').toLowerCase().includes(q)
@@ -481,7 +502,7 @@ function adminApp() {
             let list = this.allTeachers || [];
             if (this.teachersFilter.search) {
                 const q = this.teachersFilter.search.toLowerCase();
-                list = list.filter(t => 
+                list = list.filter(t =>
                     (t.full_name || (t.first_name + ' ' + t.last_name) || '').toLowerCase().includes(q) ||
                     (t.subject || '').toLowerCase().includes(q)
                 );
@@ -507,31 +528,33 @@ function adminApp() {
         },
 
         get onTimeCount() {
-            return (this.todayLogs || []).filter(l => l.status === 'ON_TIME').length;
+            return (this.filteredLogs || []).filter(l => l.status === 'ON_TIME').length;
         },
         get lateCount() {
-            return (this.todayLogs || []).filter(l => l.status === 'LATE').length;
+            return (this.filteredLogs || []).filter(l => l.status === 'LATE').length;
         },
         get exitCount() {
-            return (this.todayLogs || []).filter(l => l.event_type === 'EXIT').length;
+            return (this.filteredLogs || []).filter(l => l.event_type === 'EXIT').length;
         },
 
         // ===== INITIALIZATION =====
         async initApp() {
             this.applyTheme(this.theme);
 
-            document.addEventListener('keydown', (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-                    e.preventDefault();
-                    if (this.token) {
-                        this.openGlobalSearch();
+            if (!this._keysBound) {
+                document.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        if (this.token) {
+                            this.openGlobalSearch();
+                        }
                     }
-                }
-            });
-
-            document.addEventListener('fullscreenchange', () => {
-                this.isFullscreen = !!document.fullscreenElement;
-            });
+                });
+                document.addEventListener('fullscreenchange', () => {
+                    this.isFullscreen = !!document.fullscreenElement;
+                });
+                this._keysBound = true;
+            }
 
             this.updateClock();
             this.liveClock = new Date().toLocaleTimeString('uz-UZ');
@@ -543,28 +566,20 @@ function adminApp() {
             }
 
             if (this.token) {
+                await this.fetchCurrentUser();
                 await this.refreshAllData();
-                this.fetchCurrentUser();
                 this.startRealtimeEngine();
             } else {
-                // Ensure zero autofill on login modal
                 this.loginForm = { username: '', password: '' };
-                setTimeout(() => {
-                    this.loginForm = { username: '', password: '' };
-                }, 50);
-                setTimeout(() => {
-                    this.loginForm = { username: '', password: '' };
-                }, 250);
+                setTimeout(() => { this.loginForm = { username: '', password: '' }; }, 50);
             }
         },
 
-        // ===== REAL-TIME 1-SECOND PULSE ENGINE (PHONE ANTI-FREEZE & SERVER DRIVEN) =====
+        // ===== REAL-TIME 1-SECOND PULSE ENGINE =====
         startRealtimeEngine() {
             this.stopRealtimeEngine();
-            // Boshlanishida birinchi tick
             this.scheduleNextPulse(800);
 
-            // Brauzer yoki telefon ekrani o'chirilganda/yoqilganda avtomatik sezish
             if (!this._visibilityBound) {
                 document.addEventListener('visibilitychange', () => {
                     if (!document.hidden && this.token) {
@@ -583,28 +598,15 @@ function adminApp() {
         },
 
         scheduleNextPulse(delayMs = 1000) {
-            if (this.realtimeTimer) {
-                clearTimeout(this.realtimeTimer);
-            }
+            if (this.realtimeTimer) clearTimeout(this.realtimeTimer);
             this.realtimeTimer = setTimeout(() => {
                 this.performRealtimePulse();
             }, delayMs);
         },
 
         async performRealtimePulse() {
-            // 1. Foydalanuvchi tizimga kirmagan bo'lsa, davom etmaymiz
-            if (!this.token) {
-                return;
-            }
+            if (!this.token || this.isSyncing) return;
 
-            // 2. QAT'IY BACKPRESSURE: Agar oldingi so'rov hali serverdan javob olmagan bo'lsa ("yetib kelmagan bo'lsa"),
-            // yangi so'rov HECH QACHON jo'natilmaydi! Bu telefon qotishlarini va brauzer osilishini 100% oldini oladi.
-            if (this.isSyncing) {
-                return;
-            }
-
-            // 3. Agar foydalanuvchi telefon ekranini qulflagan yoki boshqa ilovaga o'tgan bo'lsa,
-            // telefon qizib ketmasligi va batareya tejalishi uchun kechiktiramiz
             if (document.hidden) {
                 this.scheduleNextPulse(3000);
                 return;
@@ -614,12 +616,8 @@ function adminApp() {
             this.realtimeStatus = 'syncing';
 
             try {
-                // Serverdan yagona tezkor puls so'rovi (faqat va faqat server o'zi beradi)
                 const pulse = await EdugateAPI.getPulse();
-
-                // FOYDALANUVCHIGA SERVERDAN JAVOB YETIB KELDI ("OK")
                 if (pulse && pulse.status === 'ok') {
-                    // Statistika va grafiklar yangilanishi
                     if (pulse.stats) {
                         const sJson = JSON.stringify(pulse.stats);
                         if (this._prevStatsJson !== sJson) {
@@ -631,13 +629,13 @@ function adminApp() {
                         }
                     }
 
-                    // Jonli davomat loglari (real-time CCTV va jadval)
-                    if (Array.isArray(pulse.today_logs)) {
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    if (Array.isArray(pulse.today_logs) && this.autoRefresh && this.attendanceDate === todayStr) {
                         this.todayLogs = pulse.today_logs;
                     }
 
-                    // Versiya tekshiruvi: Agar ma'lumotlar bazasida o'zgarish bo'lgan bo'lsa (maktab, o'quvchi va h.k.)
                     if (pulse.version_hash && this.lastPulseHash && pulse.version_hash !== this.lastPulseHash) {
+                        this.fetchNotifications();
                         if (this.activeTab === 'schools') this.fetchSchoolsDetailed();
                         else if (this.activeTab === 'students') this.fetchAllStudents();
                         else if (this.activeTab === 'teachers') this.fetchAllTeachers();
@@ -653,13 +651,10 @@ function adminApp() {
                     this.realtimeStatus = 'offline';
                 }
             } catch (err) {
-                // Agar server javob bermasa yoki internet uzilsa ("yo'q")
                 this.syncFailures++;
                 this.realtimeStatus = this.syncFailures > 2 ? 'offline' : 'syncing';
             } finally {
                 this.isSyncing = false;
-                // SERVERDAN JAVOB OLINGANDAN SO'NG GINA (foydalanuvchi qabul qilib olgach), 
-                // AYNAN 1 SEKUND (1000ms) KUTIB KEYINGI TICK YUBORILADI!
                 const nextDelay = this.syncFailures > 3 ? 3000 : 1000;
                 this.scheduleNextPulse(nextDelay);
             }
@@ -669,16 +664,7 @@ function adminApp() {
             if (this.isRefreshing) return;
             this.isRefreshing = true;
             try {
-                await Promise.all([
-                    this.fetchStats(),
-                    this.fetchWeeklyStats(),
-                    this.fetchSchoolsDetailed(),
-                    this.fetchAllStudents(),
-                    this.fetchAllTeachers(),
-                    this.fetchDevices(),
-                    this.fetchParents(),
-                    this.fetchTodayLogs()
-                ]);
+                await this.refreshAllData();
                 this.lastSyncTime = new Date().toLocaleTimeString('uz-UZ');
                 this.realtimeStatus = 'online';
                 this.showToast("Barcha ma'lumotlar muvaffaqiyatli yangilandi", 'success');
@@ -699,7 +685,10 @@ function adminApp() {
                     this.fetchAllTeachers(),
                     this.fetchDevices(),
                     this.fetchParents(),
-                    this.fetchTodayLogs()
+                    this.fetchTodayLogs(),
+                    this.fetchNotifications(),
+                    this.fetchSystemSettings(),
+                    this.fetchReportSummary(this.reportType)
                 ]);
 
                 this.$nextTick(() => {
@@ -742,16 +731,13 @@ function adminApp() {
                 const res = await EdugateAPI.login(this.loginForm.username, this.loginForm.password);
                 this.token = res.access_token;
 
-                // Auto switch portalMode based on returned user role
                 const role = (res.role || '').toUpperCase();
                 if (role === 'SCHOOL_ADMIN') {
                     this.portalMode = 'school';
                 } else if (role === 'MINISTRY_VIEWER') {
                     this.portalMode = 'monitoring';
                 } else if (role === 'SUPERADMIN') {
-                    if (this.portalMode !== 'school') {
-                        this.portalMode = 'admin';
-                    }
+                    this.portalMode = 'admin';
                 }
 
                 this.showToast('Hush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.', 'success');
@@ -765,19 +751,14 @@ function adminApp() {
 
         logout() {
             this.token = '';
+            this.currentUser = null;
             EdugateAPI.setToken('');
             this.loginForm = { username: '', password: '' };
             this.stopRealtimeEngine();
-            if (this.refreshInterval) clearInterval(this.refreshInterval);
             this.showToast('Tizimdan chiqildi', 'info');
         },
 
-        // ===== PROFILE & SECURITY SETTINGS METHODS =====
-        openProfileSettings() {
-            this.activeTab = 'profile';
-            this.fetchCurrentUser();
-        },
-
+        // ===== PROFILE & SECURITY =====
         async fetchCurrentUser() {
             if (!this.token) return;
             try {
@@ -798,22 +779,18 @@ function adminApp() {
                             this.teachersFilter.school_id = user.school_id;
                             this.attendanceFilter.school_id = user.school_id;
                         }
-                        if (this.activeTab === 'schools' || this.activeTab === 'settings') {
-                            this.activeTab = 'dashboard';
-                        }
                     } else if (role === 'MINISTRY_VIEWER') {
                         this.portalMode = 'monitoring';
-                        if (this.activeTab === 'settings') {
-                            this.activeTab = 'dashboard';
-                        }
                     }
                 }
             } catch (err) {
                 console.warn('Foydalanuvchi ma\'lumotlarini yuklashda xatolik:', err);
+                if (err.message && err.message.includes('Sessiya muddati tugadi')) {
+                    this.logout();
+                }
             }
         },
 
-        // ===== 1 MAKTAB = 1 LOGIN BOSHQARUV USULLARI (SUPERADMIN UCHUN) =====
         onSchoolCodeChange() {
             if (!this.editSchoolForm.id && this.schoolForm.code) {
                 const cleanCode = this.schoolForm.code.trim().toLowerCase();
@@ -923,7 +900,12 @@ function adminApp() {
 
         async fetchTodayLogs() {
             try {
-                this.todayLogs = await EdugateAPI.getTodayLogs();
+                this.todayLogs = await EdugateAPI.getTodayLogs({
+                    date: this.attendanceDate,
+                    school_id: this.attendanceFilter.school_id,
+                    class_name: this.attendanceFilter.class_name,
+                    status: this.attendanceFilter.status
+                });
             } catch (e) {}
         },
 
@@ -965,8 +947,75 @@ function adminApp() {
             } catch (e) {}
         },
 
+        async fetchNotifications() {
+            try {
+                this.notifications = await EdugateAPI.getNotifications();
+            } catch (e) {}
+        },
+
+        async fetchAbsenceReasons() {
+            try {
+                this.absenceReasons = await EdugateAPI.getAbsenceReasons();
+            } catch (e) {}
+        },
+
+        async fetchAuditLogs() {
+            try {
+                this.auditLogs = await EdugateAPI.getAuditLogs();
+            } catch (e) {}
+        },
+
+        async fetchOrders() {
+            if (this.isSchoolAdmin) return;
+            try {
+                this.leadOrders = await EdugateAPI.getOrders();
+            } catch (e) {}
+        },
+
+        async fetchSystemSettings() {
+            try {
+                const s = await EdugateAPI.getSettings();
+                if (s) this.systemSettings = s;
+            } catch (e) {}
+        },
+
+        async saveSystemSettings() {
+            this.isSavingSettings = true;
+            try {
+                const payload = {
+                    school_start_time: this.systemSettings.school_start_time,
+                    late_threshold_minutes: parseInt(this.systemSettings.late_threshold_minutes || 15, 10),
+                    school_end_time: this.systemSettings.school_end_time,
+                    debounce_minutes: parseInt(this.systemSettings.debounce_minutes || 15, 10),
+                    language: this.systemSettings.language,
+                    admin_chat_id: this.systemSettings.admin_chat_id || null,
+                    notify_late: !!this.systemSettings.notify_late,
+                    notify_entry: !!this.systemSettings.notify_entry,
+                    notify_exit: !!this.systemSettings.notify_exit
+                };
+                this.systemSettings = await EdugateAPI.saveSettings(payload);
+                this.showToast('Sozlamalar ma\'lumotlar bazasiga saqlandi!', 'success');
+            } catch (e) {
+                this.showToast(e.message || 'Sozlamalarni saqlashda xatolik', 'error');
+            } finally {
+                this.isSavingSettings = false;
+            }
+        },
+
+        async fetchReportSummary(period = 'daily') {
+            try {
+                this.reportSummary = await EdugateAPI.getReportSummary(period);
+            } catch (e) {}
+        },
+
+        setReportType(type) {
+            this.reportType = type;
+            this.fetchReportSummary(type);
+        },
+
         // ===== NAVIGATION HELPERS =====
         selectSchool(school) {
+            if (!school) return;
             this.selectedSchool = school;
             this.studentForm.school_id = school.id;
             this.teacherForm.school_id = school.id;
@@ -997,8 +1046,8 @@ function adminApp() {
         async fetchClassTeachers() {
             if (!this.selectedSchool || !this.selectedClass) return;
             try {
-                this.classTeachers = await EdugateAPI.getTeachers(this.selectedSchool.id);
-                this.classTeachers = this.classTeachers.filter(t => t.class_name === this.selectedClass);
+                const teachers = await EdugateAPI.getTeachers(this.selectedSchool.id);
+                this.classTeachers = teachers.filter(t => t.class_name === this.selectedClass);
             } catch (e) {}
         },
 
@@ -1029,17 +1078,11 @@ function adminApp() {
             this.studentForm.first_name = '';
             this.studentForm.last_name = '';
             this.studentForm.student_code = '';
+            this.studentForm.gender = '';
             this.studentForm.pinfl = '';
             this.studentForm.rfid_card_id = '';
+            this.studentForm.face_encoding = '';
             this.studentPhotoPreview = null;
-            this.showAddStudentModal = true;
-        },
-
-        openClassModal() {
-            if (this.currentUser && this.currentUser.school_id) {
-                this.studentForm.school_id = this.currentUser.school_id;
-            }
-            this.studentForm.class_name = '';
             this.showAddStudentModal = true;
         },
 
@@ -1051,7 +1094,9 @@ function adminApp() {
             this.teacherForm.last_name = '';
             this.teacherForm.subject = '';
             this.teacherForm.phone_number = '';
-            this.teacherForm.class_name = '';
+            if (this.schoolsView !== 'class_detail') {
+                this.teacherForm.class_name = '';
+            }
             this.showAddTeacherModal = true;
         },
 
@@ -1072,11 +1117,21 @@ function adminApp() {
                 first_name: st.first_name || (st.full_name ? st.full_name.split(' ')[0] : ''),
                 last_name: st.last_name || (st.full_name ? st.full_name.split(' ').slice(1).join(' ') : ''),
                 class_name: st.class_name,
+                gender: st.gender || 'M',
                 student_code: st.student_code,
                 rfid_card_id: st.rfid_card_id || '',
                 pinfl: st.pinfl || ''
             };
             this.showEditStudentModal = true;
+        },
+
+        openParentLinkModal(student = null) {
+            this.parentLinkForm = {
+                student_id: student ? student.id : (this.allStudents[0]?.id || ''),
+                full_name: '',
+                phone_number: ''
+            };
+            this.showParentLinkModal = true;
         },
 
         // ===== CREATE / UPDATE ACTIONS =====
@@ -1099,7 +1154,9 @@ function adminApp() {
 
         async createStudent() {
             try {
-                await EdugateAPI.createStudent(this.studentForm);
+                const payload = { ...this.studentForm };
+                if (!payload.gender) delete payload.gender;
+                await EdugateAPI.createStudent(payload);
                 this.showToast("O'quvchi muvaffaqiyatli qo'shildi!", 'success');
                 this.showAddStudentModal = false;
                 this.studentForm.first_name = '';
@@ -1107,12 +1164,14 @@ function adminApp() {
                 this.studentForm.student_code = '';
                 this.studentForm.rfid_card_id = '';
                 this.studentForm.pinfl = '';
+                this.studentForm.gender = '';
                 this.studentPhotoPreview = null;
                 this.studentForm.face_encoding = '';
 
                 if (this.schoolsView === 'class_detail') this.fetchClassStudents();
                 if (this.selectedSchool) this.selectSchool(this.selectedSchool);
                 this.fetchAllStudents();
+                this.fetchSchoolsDetailed();
                 this.fetchStats();
             } catch (e) {
                 this.showToast(e.message, 'error');
@@ -1126,6 +1185,19 @@ function adminApp() {
                 this.showEditStudentModal = false;
                 if (this.schoolsView === 'class_detail') this.fetchClassStudents();
                 this.fetchAllStudents();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async saveParentLink() {
+            try {
+                await EdugateAPI.linkParentStudent(this.parentLinkForm);
+                this.showToast("Ota-ona o'quvchiga biriktirildi!", 'success');
+                this.showParentLinkModal = false;
+                this.fetchParents();
+                this.fetchStats();
             } catch (e) {
                 this.showToast(e.message, 'error');
             }
@@ -1140,6 +1212,7 @@ function adminApp() {
                 this.teacherForm.last_name = '';
                 this.teacherForm.phone_number = '';
                 if (this.schoolsView === 'class_detail') this.fetchClassTeachers();
+                if (this.selectedSchool) this.selectSchool(this.selectedSchool);
                 this.fetchAllTeachers();
                 this.fetchStats();
             } catch (e) {
@@ -1161,6 +1234,38 @@ function adminApp() {
             }
         },
 
+        async toggleDeviceActive(dev) {
+            try {
+                await EdugateAPI.updateDevice(dev.id, { is_active: !dev.is_active });
+                this.showToast(dev.is_active ? "Qurilma vaqtincha to'xtatildi" : "Qurilma faollashtirildi", 'info');
+                this.fetchDevices();
+                this.fetchStats();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async updateAbsenceStatus(reqId, status) {
+            try {
+                await EdugateAPI.updateAbsenceStatus(reqId, status);
+                this.showToast("Ariza holati yangilandi", 'success');
+                this.fetchAbsenceReasons();
+                this.fetchNotifications();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
+        async updateOrderStatus(orderId, status) {
+            try {
+                await EdugateAPI.updateOrderStatus(orderId, status);
+                this.showToast("Buyurtma holati yangilandi", 'success');
+                this.fetchOrders();
+            } catch (e) {
+                this.showToast(e.message, 'error');
+            }
+        },
+
         // ===== DELETE ACTIONS =====
         deleteStudent(id) {
             this.confirm("O'quvchini o'chirish", "Haqiqatan ham ushbu o'quvchini tizimdan o'chirmoqchimisiz?", async () => {
@@ -1169,6 +1274,7 @@ function adminApp() {
                     this.showToast("O'quvchi o'chirildi", 'success');
                     if (this.schoolsView === 'class_detail') this.fetchClassStudents();
                     this.fetchAllStudents();
+                    this.fetchSchoolsDetailed();
                     this.fetchStats();
                 } catch (e) {
                     this.showToast(e.message, 'error');
@@ -1209,6 +1315,7 @@ function adminApp() {
                     await EdugateAPI.deleteSchool(id);
                     this.showToast("Maktab o'chirildi", 'success');
                     this.schoolsView = 'schools_list';
+                    this.selectedSchool = null;
                     this.fetchSchoolsDetailed();
                     this.fetchStats();
                 } catch (e) {
@@ -1232,7 +1339,7 @@ function adminApp() {
                     this.studentForm.class_name = data.suggested_class || this.studentForm.class_name || '7-A';
                     this.studentForm.pinfl = data.pinfl || '';
                     if (!this.studentForm.student_code) {
-                        this.studentForm.student_code = (this.selectedSchool ? this.selectedSchool.code : 'SCH') + '-' + Math.floor(1000 + Math.random()*9000);
+                        this.studentForm.student_code = (this.selectedSchool ? this.selectedSchool.code : 'SCH') + '-' + Math.floor(1000 + Math.random() * 9000);
                     }
                     this.showToast("Topildi: " + data.first_name + " " + data.last_name, 'success');
                 } else {
@@ -1248,26 +1355,35 @@ function adminApp() {
         handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
+            if (file.size > 5 * 1024 * 1024) {
+                this.showToast("Rasm hajmi 5 MB dan oshmasligi kerak", 'error');
+                return;
+            }
             const reader = new FileReader();
             reader.onload = (e) => {
                 this.studentPhotoPreview = e.target.result;
-                // Real base64 payload stored for verification & Face ID recognition
                 this.studentForm.face_encoding = e.target.result;
             };
             reader.readAsDataURL(file);
         },
 
-        // ===== EXPORT REAL REPORT (CSV/EXCEL) =====
-        exportReport(type) {
+        // ===== EXPORT REAL REPORT (AUTHENTICATED BLOB DOWNLOAD) =====
+        async exportReport(type) {
             if (type === 'excel' || type === 'csv') {
-                const url = EdugateAPI.getExportUrl();
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `edugate_hisobot_${new Date().toISOString().split('T')[0]}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                this.showToast('Haqiqiy Excel/CSV hisoboti yuklab olinmoqda...', 'success');
+                try {
+                    const blob = await EdugateAPI.exportReportCsv();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = `edugate_hisobot_${new Date().toISOString().split('T')[0]}.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(blobUrl);
+                    this.showToast('Haqiqiy Excel/CSV hisoboti yuklab olinmoqda...', 'success');
+                } catch (e) {
+                    this.showToast(e.message || 'Hisobotni yuklab olishda xatolik', 'error');
+                }
             } else if (type === 'pdf') {
                 window.print();
             }
@@ -1282,10 +1398,17 @@ function adminApp() {
         formatDate(dateStr) {
             if (!dateStr) return '';
             const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
             return d.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        },
+
+        formatDateTime(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleString('uz-UZ', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
         }
     };
 }
 
 window.adminApp = adminApp;
-

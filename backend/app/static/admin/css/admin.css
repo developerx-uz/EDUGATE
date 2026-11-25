@@ -525,10 +525,18 @@ html.light [class*="bg-slate-900/60"],
 html.light [class*="bg-slate-900/70"],
 html.light [class*="bg-slate-900/80"],
 html.light [class*="bg-slate-900"],
-html.light [class*="bg-slate-800"] {
+html.light [class*="bg-slate-800"],
+html.light [class*="bg-neutral-900"],
+html.light [class*="bg-neutral-950"] {
     background-color: #ffffff !important;
     border: 1px solid #e5e5e5 !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light [class*="bg-indigo-950"],
+html.light [class*="bg-emerald-950"] {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
 }
 
 html.light .stat-card:hover {
