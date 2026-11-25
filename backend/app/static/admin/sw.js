@@ -1,7 +1,6 @@
 // EDUGATE Service Worker (PWA)
-const CACHE_NAME = 'edugate-cache-v1';
+const CACHE_NAME = 'edugate-cache-v2';
 const CORE_ASSETS = [
-  '/edugate/admin',
   '/edugate/manifest.json',
   '/edugate/static/admin/icons/icon-192.png',
   '/edugate/static/admin/icons/icon-512.png'
@@ -33,17 +32,15 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
-  // Network-first strategy with cache fallback
+  const url = new URL(event.request.url);
+  // API so'rovlari hech qachon keshlanmaydi
+  if (url.pathname.includes('/api/')) return;
+
   event.respondWith(
     fetch(event.request)
-      .then((networkResponse) => {
-        return networkResponse;
-      })
-      .catch(() => {
-        return caches.match(event.request);
-      })
+      .then((networkResponse) => networkResponse)
+      .catch(() => caches.match(event.request))
   );
 });

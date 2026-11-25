@@ -4,12 +4,12 @@
     <!-- TOP 3 METRIC CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         
-        <!-- 1. JAMI MAKTABLAR (Chizmadagi: Jami mk 0 ta) -->
-        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+        <!-- 1. JAMI MAKTABLAR -->
+        <div @click="openSchoolsSection()" class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group cursor-pointer">
             <div class="flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami Maktablar</span>
-                    <span class="text-[10px] text-neutral-500 font-mono">Tizimdagi muassasalar</span>
+                    <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block" x-text="isSchoolAdmin ? 'Maktab Sinflari' : 'Jami Maktablar'">Jami Maktablar</span>
+                    <span class="text-[10px] text-neutral-500 font-mono" x-text="isSchoolAdmin ? (currentUser?.school_name || 'Maktab kabineti') : 'Tizimdagi muassasalar'">Tizimdagi muassasalar</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 text-base">
                     <i class="fas fa-school"></i>
@@ -18,15 +18,15 @@
 
             <div class="mt-4">
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="stats.schools_count || (schoolsDetailed?.length || 0)">0</h3>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="isSchoolAdmin ? (schoolsDetailed[0]?.classes_count || 0) : (stats.schools_count || 0)">0</h3>
                     <span class="text-xs text-neutral-400 font-mono">ta</span>
                 </div>
-                <p class="text-[11px] text-neutral-500 mt-1">Yagona monitoring tizimiga ulangan</p>
+                <p class="text-[11px] text-neutral-500 mt-1" x-text="isSchoolAdmin ? 'Faol sinflar soni' : 'Yagona monitoring tizimiga ulangan'">Yagona monitoring tizimiga ulangan</p>
             </div>
         </div>
 
-        <!-- 2. JAMI O'QUVCHILAR (Chizmadagi: Jami o'quvchi 0 ta, ichida Qiz 0 ta | O'g'il 0 ta) -->
-        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+        <!-- 2. JAMI O'QUVCHILAR (O'g'il / Qiz split) -->
+        <div @click="activeTab = 'students'" class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group cursor-pointer">
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami O'quvchilar</span>
@@ -37,7 +37,6 @@
                 </div>
             </div>
 
-            <!-- Asosiy soni -->
             <div class="mt-2">
                 <div class="flex items-baseline gap-2">
                     <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="stats.students_count || 0">0</h3>
@@ -45,9 +44,7 @@
                 </div>
             </div>
 
-            <!-- 2 Guruh: O'g'il bolalar va Qiz bolalar (Chizmadagi bo'lingan qism) -->
             <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-neutral-800/80">
-                <!-- O'g'il bolalar -->
                 <div class="p-2 rounded-xl bg-neutral-900/70 border border-neutral-800/80 flex items-center justify-between">
                     <div class="flex items-center gap-1.5 min-w-0">
                         <div class="w-5 h-5 rounded-md bg-blue-500/15 text-blue-400 flex items-center justify-center text-[10px] flex-shrink-0">
@@ -60,7 +57,6 @@
                     </div>
                 </div>
 
-                <!-- Qiz bolalar -->
                 <div class="p-2 rounded-xl bg-neutral-900/70 border border-neutral-800/80 flex items-center justify-between">
                     <div class="flex items-center gap-1.5 min-w-0">
                         <div class="w-5 h-5 rounded-md bg-pink-500/15 text-pink-400 flex items-center justify-center text-[10px] flex-shrink-0">
@@ -75,8 +71,8 @@
             </div>
         </div>
 
-        <!-- 3. JAMI KAMERALAR (Chizmadagi: Jami kamera 0 ta) -->
-        <div class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group">
+        <!-- 3. JAMI KAMERALAR -->
+        <div @click="activeTab = 'devices'" class="glass-card p-5 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700 transition relative overflow-hidden group cursor-pointer">
             <div class="flex items-center justify-between">
                 <div>
                     <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider block">Jami Kameralar</span>
@@ -89,10 +85,10 @@
 
             <div class="mt-4">
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="devices?.length || stats.devices_count || 0">0</h3>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white font-mono" x-text="stats.devices_count || (devices?.length || 0)">0</h3>
                     <span class="text-xs text-neutral-400 font-mono">ta</span>
                 </div>
-                <p class="text-[11px] text-neutral-500 mt-1">Jonli AI kuzatuv va monitoring oqimi</p>
+                <p class="text-[11px] text-neutral-500 mt-1" x-text="(stats.online_devices_count || 0) + ' ta onlayn • Jonli AI monitoring'">Jonli AI kuzatuv va monitoring oqimi</p>
             </div>
         </div>
 
@@ -101,10 +97,9 @@
     <!-- MAIN TWO COLUMNS FROM SKETCH: [ ENG TOP MAKTABLAR ] and [ TAVSIYALAR ] -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
         
-        <!-- LEFT: ENG TOP MAKTABLAR (Chizmadagi "Eng top Mk") -->
+        <!-- LEFT: ENG TOP MAKTABLAR -->
         <div class="glass-card p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700/80 transition">
             <div>
-                <!-- Header -->
                 <div class="flex items-center justify-between pb-4 border-b border-neutral-800/80 mb-4">
                     <div class="flex items-center gap-2.5">
                         <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 text-sm">
@@ -112,64 +107,61 @@
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white tracking-wide">Eng top Maktablar</h3>
-                            <p class="text-[10px] text-neutral-500 font-mono">Faollik va davomat bo'yicha yetakchilar</p>
+                            <p class="text-[10px] text-neutral-500 font-mono">Haqiqiy davomat foizi bo'yicha reyting</p>
                         </div>
                     </div>
                     <span class="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 font-mono font-medium">Reyting</span>
                 </div>
 
-                <!-- Schools List with Arrows (Chizmadagi kabi: 11-maktab ->, 9-maktab ->, 54-maktab ->, 3-maktab ->) -->
                 <div class="space-y-2.5">
-                    <!-- Template for dynamic schools from DB -->
-                    <template x-for="(sch, idx) in (schoolsDetailed && schoolsDetailed.length > 0 ? schoolsDetailed.slice(0, 5) : [
-                        { id: 1, name: '11-maktab', code: 'SCH-011', students_count: 1240, attendance_rate: 98 },
-                        { id: 2, name: '9-maktab', code: 'SCH-009', students_count: 980, attendance_rate: 96 },
-                        { id: 3, name: '54-maktab', code: 'SCH-054', students_count: 1450, attendance_rate: 94 },
-                        { id: 4, name: '3-maktab', code: 'SCH-003', students_count: 870, attendance_rate: 93 }
-                    ])" :key="sch.id">
-                        <div @click="activeTab = 'schools'" 
+                    <template x-for="(sch, idx) in topSchools" :key="sch.id">
+                        <div @click="activeTab = 'schools'; selectSchool(sch)" 
                              class="group flex items-center justify-between p-3 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-neutral-700 transition cursor-pointer">
                             <div class="flex items-center gap-3 min-w-0">
-                                <!-- Rank badge -->
                                 <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs font-mono flex-shrink-0"
                                      :class="idx === 0 ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : (idx === 1 ? 'bg-zinc-400/15 text-zinc-300 border border-zinc-400/30' : (idx === 2 ? 'bg-amber-700/15 text-amber-600 border border-amber-700/30' : 'bg-neutral-800/60 text-neutral-400 border border-neutral-800'))">
                                     <span x-text="idx + 1"></span>
                                 </div>
                                 <div class="min-w-0">
                                     <h4 class="text-xs sm:text-sm font-bold text-white group-hover:text-indigo-400 transition truncate" x-text="sch.name"></h4>
-                                    <span class="text-[10px] text-neutral-500 font-mono" x-text="sch.code || ('ID: ' + sch.id)"></span>
+                                    <span class="text-[10px] text-neutral-500 font-mono" x-text="(sch.code || '') + ' • ' + (sch.students_count || 0) + ' o\'quvchi'"></span>
                                 </div>
                             </div>
 
                             <div class="flex items-center gap-3 flex-shrink-0">
                                 <div class="text-right hidden sm:block">
-                                    <span class="text-xs font-bold text-emerald-400 font-mono" x-text="(sch.attendance_rate || 95) + '%'"></span>
+                                    <span class="text-xs font-bold font-mono" :class="(sch.attendance_rate || 0) >= 80 ? 'text-emerald-400' : 'text-amber-400'" x-text="(sch.attendance_rate ?? 0) + '%'"></span>
                                     <span class="text-[10px] text-neutral-500 block leading-none">davomat</span>
                                 </div>
-                                <!-- Arrow -> from sketch -->
                                 <div class="w-8 h-8 rounded-lg bg-neutral-800/80 group-hover:bg-indigo-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-indigo-500">
                                     <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
                                 </div>
                             </div>
                         </div>
                     </template>
+
+                    <div x-show="topSchools.length === 0" class="p-6 rounded-xl bg-neutral-900/40 border border-neutral-800/80 text-center space-y-2">
+                        <i class="fas fa-school text-neutral-600 text-2xl"></i>
+                        <p class="text-xs text-neutral-400">Hozircha tizimga maktablar qo'shilmagan.</p>
+                        <button x-show="isSuperadmin && !isReadOnly" @click="activeTab = 'schools'; openSchoolModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition cursor-pointer">
+                            + Birinchi maktabni qo'shish
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Footer Link -->
             <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs">
-                <span class="text-neutral-500 text-[11px]">Barcha maktablar ro'yxati</span>
-                <button @click="activeTab = 'schools'" class="text-indigo-400 hover:text-indigo-300 font-semibold text-xs flex items-center gap-1 cursor-pointer">
-                    <span>Maktablarga o'tish</span>
+                <span class="text-neutral-500 text-[11px]" x-text="isSchoolAdmin ? 'Maktab bo\'limiga o\'tish' : 'Barcha maktablar ro\'yxati'"></span>
+                <button @click="openSchoolsSection()" class="text-indigo-400 hover:text-indigo-300 font-semibold text-xs flex items-center gap-1 cursor-pointer">
+                    <span x-text="isSchoolAdmin ? 'Maktabimga o\'tish' : 'Maktablarga o\'tish'">Maktablarga o'tish</span>
                     <i class="fas fa-chevron-right text-[10px]"></i>
                 </button>
             </div>
         </div>
 
-        <!-- RIGHT: TAVSIYALAR (Chizmadagi "Tavsiyalar": Maktablar ->, Statistika ->, Bildirishnoma ->) -->
+        <!-- RIGHT: TAVSIYALAR -->
         <div class="glass-card p-6 rounded-2xl border border-neutral-800/80 bg-neutral-950/40 flex flex-col justify-between hover:border-neutral-700/80 transition">
             <div>
-                <!-- Header -->
                 <div class="flex items-center justify-between pb-4 border-b border-neutral-800/80 mb-4">
                     <div class="flex items-center gap-2.5">
                         <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center border border-sky-500/20 text-sm">
@@ -183,29 +175,24 @@
                     <span class="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-sky-400 font-mono font-medium">Tezkor</span>
                 </div>
 
-                <!-- 3 Action Cards from sketch: Maktablar -> , Statistika -> , Bildirishnoma -> -->
                 <div class="space-y-3">
-                    
-                    <!-- 1. Maktablar -> -->
-                    <div @click="activeTab = 'schools'" 
+                    <div @click="openSchoolsSection()" 
                          class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-indigo-500/50 transition cursor-pointer">
                         <div class="flex items-center gap-3.5 min-w-0">
                             <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
                                 <i class="fas fa-school"></i>
                             </div>
                             <div class="min-w-0">
-                                <h4 class="text-sm font-bold text-white group-hover:text-indigo-400 transition">Maktablar</h4>
-                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Barcha maktablar, o'quvchilar va kameralar ro'yxati</p>
+                                <h4 class="text-sm font-bold text-white group-hover:text-indigo-400 transition" x-text="isSchoolAdmin ? 'Sinflar & O\'quvchilar' : 'Maktablar'">Maktablar</h4>
+                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Barcha maktablar, sinflar va o'quvchilar ro'yxati</p>
                             </div>
                         </div>
-                        <!-- Arrow -> -->
                         <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-indigo-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-indigo-500 flex-shrink-0 ml-3">
                             <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
                         </div>
                     </div>
 
-                    <!-- 2. Statistika -> -->
-                    <div @click="activeTab = 'stats'" 
+                    <div @click="activeTab = 'stats'; $nextTick(() => EdugateCharts.init(stats, weeklyStats))" 
                          class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-sky-500/50 transition cursor-pointer">
                         <div class="flex items-center gap-3.5 min-w-0">
                             <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
@@ -216,14 +203,12 @@
                                 <p class="text-xs text-neutral-400 mt-0.5 truncate">Davomat tahlili, grafiklar va hududiy monitoring</p>
                             </div>
                         </div>
-                        <!-- Arrow -> -->
                         <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-sky-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-sky-500 flex-shrink-0 ml-3">
                             <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
                         </div>
                     </div>
 
-                    <!-- 3. Bildirishnoma -> -->
-                    <div @click="activeTab = 'notifications'" 
+                    <div @click="activeTab = 'notifications'; fetchNotifications(); fetchAbsenceReasons()" 
                          class="group flex items-center justify-between p-4 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 hover:border-amber-500/50 transition cursor-pointer">
                         <div class="flex items-center gap-3.5 min-w-0">
                             <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 transition">
@@ -231,19 +216,16 @@
                             </div>
                             <div class="min-w-0">
                                 <h4 class="text-sm font-bold text-white group-hover:text-amber-400 transition">Bildirishnomalar</h4>
-                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Tizim xabarlari, kutilmagan hodisalar va ogohlantirishlar</p>
+                                <p class="text-xs text-neutral-400 mt-0.5 truncate">Tizim xabarlari, kechikishlar va sababli arizalar</p>
                             </div>
                         </div>
-                        <!-- Arrow -> -->
                         <div class="w-9 h-9 rounded-xl bg-neutral-800/80 group-hover:bg-amber-600 group-hover:text-white text-neutral-400 flex items-center justify-center transition border border-neutral-700/50 group-hover:border-amber-500 flex-shrink-0 ml-3">
                             <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5"></i>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Footer note -->
             <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs">
                 <span class="text-neutral-500 text-[11px]">Boshqaruv markazi tavsiyalari</span>
                 <span class="text-emerald-400 font-mono text-[11px] flex items-center gap-1">

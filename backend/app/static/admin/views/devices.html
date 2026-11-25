@@ -8,22 +8,33 @@
             </h2>
             <p class="text-xs text-slate-400 mt-0.5">AI Face ID kameralar, turniket kontrollerlari va Edge mini-PC lar</p>
         </div>
-        <button x-show="!isReadOnly" @click="openDeviceModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition">
+        <button x-show="!isReadOnly" @click="openDeviceModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 flex items-center gap-2 transition cursor-pointer">
             <i class="fas fa-plus"></i> Yangi Qurilma Qo'shish
         </button>
     </div>
 
-    <!-- Devices Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <template x-for="dev in devices" :key="dev.id">
             <div class="glass-card p-6 rounded-2xl space-y-4 hover:border-indigo-500/40 transition">
                 <div class="flex items-center justify-between">
-                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
+                    <span x-show="dev.is_online" class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
                     </span>
+                    <span x-show="!dev.is_online && dev.is_active" class="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span> KUTILMOQDA
+                    </span>
+                    <span x-show="!dev.is_active" class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-bold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-rose-400"></span> O'CHIRILGAN
+                    </span>
+
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-indigo-400 font-semibold" x-text="dev.school_name || getSchoolName(dev.school_id)"></span>
-                        <button x-show="!isReadOnly" @click="deleteDevice(dev.id)" class="p-1.5 text-slate-500 hover:text-rose-400 transition" title="O'chirish">
+                        <button x-show="!isReadOnly" @click="toggleDeviceActive(dev)"
+                                class="p-1.5 text-slate-400 hover:text-amber-400 transition cursor-pointer"
+                                :title="dev.is_active ? 'Qurilmani to\'xtatish' : 'Qurilmani yoqish'">
+                            <i :class="dev.is_active ? 'fas fa-pause' : 'fas fa-play'" class="text-xs"></i>
+                        </button>
+                        <button x-show="!isReadOnly" @click="deleteDevice(dev.id)" class="p-1.5 text-slate-500 hover:text-rose-400 transition cursor-pointer" title="O'chirish">
                             <i class="fas fa-trash-can text-xs"></i>
                         </button>
                     </div>
@@ -36,10 +47,11 @@
                     <div class="min-w-0 flex-1">
                         <h3 class="text-base font-bold text-white truncate" x-text="dev.name"></h3>
                         <p class="text-xs text-slate-400 mt-0.5" x-text="dev.location_description || 'Joylashuv ko\'rsatilmagan'"></p>
+                        <p class="text-[10px] text-slate-500 font-mono mt-1" x-text="'Oxirgi signal: ' + (dev.last_heartbeat ? formatDateTime(dev.last_heartbeat) : 'Hali ulanmagan')"></p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="grid grid-cols-3 gap-2 text-xs">
                     <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800">
                         <span class="text-slate-500 block text-[10px] uppercase font-semibold">Turi</span>
                         <span class="text-slate-200 font-semibold" x-text="dev.device_type"></span>
@@ -48,12 +60,16 @@
                         <span class="text-slate-500 block text-[10px] uppercase font-semibold">Yo'nalish</span>
                         <span class="text-indigo-400 font-semibold" x-text="dev.direction || 'IN'"></span>
                     </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800">
+                        <span class="text-slate-500 block text-[10px] uppercase font-semibold">IP Manzil</span>
+                        <span class="text-slate-300 font-mono" x-text="dev.ip_address || '-'"></span>
+                    </div>
                 </div>
 
                 <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800/80 space-y-1">
                     <div class="flex items-center justify-between text-[10px] text-slate-500 uppercase font-bold tracking-wider">
                         <span>Device Token (X-Device-Token)</span>
-                        <button @click="navigator.clipboard.writeText(dev.device_token); showToast('Token nusxalandi!', 'success')" class="text-indigo-400 hover:text-indigo-300 lowercase">nusxalash</button>
+                        <button @click="navigator.clipboard.writeText(dev.device_token); showToast('Token nusxalandi!', 'success')" class="text-indigo-400 hover:text-indigo-300 lowercase cursor-pointer">nusxalash</button>
                     </div>
                     <p class="text-xs font-mono text-indigo-300 select-all break-all" x-text="dev.device_token"></p>
                 </div>
@@ -67,4 +83,3 @@
         </div>
     </div>
 </div>
-

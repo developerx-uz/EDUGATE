@@ -42,6 +42,7 @@ const EdugateCharts = {
     },
 
     init(todayStats = {}, weeklyData = []) {
+        if (typeof Chart === 'undefined') return;
         this.initAttendanceChart(todayStats);
         this.initWeeklyChart(weeklyData);
     },

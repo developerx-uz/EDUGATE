@@ -912,7 +912,7 @@ async def delete_school(
 async def update_student(
     student_id: str,
     request: Request,
-    payload: dict,
+    payload: StudentUpdate,
     current_user: User = Depends(require_not_read_only),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -920,13 +920,14 @@ async def update_student(
     if not student:
         raise HTTPException(status_code=404, detail="O'quvchi topilmadi")
 
+    data = payload.model_dump(exclude_unset=True)
     if get_role_str(current_user) == UserRole.SCHOOL_ADMIN.value:
         if student.school_id != current_user.school_id:
             raise HTTPException(status_code=403, detail="Boshqa maktab o'quvchisini tahrirlash huquqi mavjud emas.")
-        payload.pop("school_id", None)
+        data.pop("school_id", None)
 
-    if "student_code" in payload and payload["student_code"]:
-        new_code = str(payload["student_code"]).strip()
+    if data.get("student_code"):
+        new_code = str(data["student_code"]).strip()
         if new_code != student.student_code:
             dup = (
                 await db.execute(select(Student.id).filter(Student.student_code == new_code, Student.id != student.id))
@@ -934,13 +935,11 @@ async def update_student(
             if dup:
                 raise HTTPException(status_code=400, detail=f"'{new_code}' o'quvchi kodi band.")
 
-    for field in ["first_name", "last_name", "class_name", "student_code", "pinfl", "birth_cert_number", "rfid_card_id", "gender"]:
-        if field in payload and payload[field] is not None:
-            val = payload[field]
+    for field, val in data.items():
+        if field == "school_id" and get_role_str(current_user) != UserRole.SUPERADMIN.value:
+            continue
+        if val is not None:
             setattr(student, field, val.strip() if isinstance(val, str) else val)
-
-    if get_role_str(current_user) == UserRole.SUPERADMIN.value and payload.get("school_id"):
-        student.school_id = payload["school_id"]
 
     await record_audit(
         db,
@@ -969,7 +968,7 @@ async def update_student(
 async def update_school(
     school_id: str,
     request: Request,
-    payload: dict,
+    payload: SchoolUpdate,
     current_user: User = Depends(require_superadmin),
     db: AsyncSession = Depends(get_db),
 ) -> Any:
@@ -977,16 +976,17 @@ async def update_school(
     if not school:
         raise HTTPException(status_code=404, detail="Maktab topilmadi")
 
-    if payload.get("code") and payload["code"].strip() != school.code:
+    data = payload.model_dump(exclude_unset=True)
+    if data.get("code") and data["code"].strip() != school.code:
         dup = (
-            await db.execute(select(School.id).filter(School.code == payload["code"].strip(), School.id != school.id))
+            await db.execute(select(School.id).filter(School.code == data["code"].strip(), School.id != school.id))
         ).scalar_one_or_none()
         if dup:
-            raise HTTPException(status_code=400, detail=f"'{payload['code']}' kodi allaqachon band.")
+            raise HTTPException(status_code=400, detail=f"'{data['code']}' kodi allaqachon band.")
 
-    for field in ["name", "code", "address", "phone"]:
-        if field in payload and payload[field] is not None:
-            setattr(school, field, str(payload[field]).strip())
+    for field, val in data.items():
+        if val is not None:
+            setattr(school, field, val.strip() if isinstance(val, str) else val)
 
     await record_audit(
         db,

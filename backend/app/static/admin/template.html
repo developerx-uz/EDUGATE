@@ -94,7 +94,11 @@
             <main class="flex-1 overflow-y-auto p-6 space-y-6 min-w-0" :class="theme === 'light' ? 'bg-[#fafafa]' : 'bg-black'">
                 <!-- include: views/dashboard.html -->
                 <!-- include: views/stats.html -->
+                <!-- include: views/attendance.html -->
                 <!-- include: views/schools.html -->
+                <!-- include: views/students.html -->
+                <!-- include: views/teachers.html -->
+                <!-- include: views/parents.html -->
                 <!-- include: views/devices.html -->
                 <!-- include: views/reports.html -->
                 <!-- include: views/notifications.html -->
@@ -120,7 +124,7 @@
     <script>
     <!-- include: js/app.js -->
     </script>
-    <!-- Register Service Worker for Native Chrome PWA install (no UI button) -->
+    <!-- Register Service Worker for Native Chrome PWA install -->
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -135,5 +139,3 @@
     </script>
 </body>
 </html>
-
-

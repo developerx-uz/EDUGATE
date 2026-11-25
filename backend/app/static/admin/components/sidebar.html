@@ -4,7 +4,7 @@
        @mouseleave="if (sidebarMode === 'hover') sidebarHoverActive = false"
        class="sidebar-container fixed md:relative left-0 top-[54px] md:top-0 h-[calc(100vh-54px)] md:h-full bg-black border-r border-neutral-800/80 z-30 flex flex-col select-none overflow-visible flex-shrink-0 transition-all duration-200">
 
-    <!-- Navigation Menu (Direct from top, Supabase centered rail items) -->
+    <!-- Navigation Menu -->
     <nav class="flex-1 overflow-y-auto overflow-x-hidden p-1.5 space-y-1.5 no-scrollbar">
         <!-- Dashboard -->
         <div @click="activeTab = 'dashboard'; if (window.innerWidth < 768) sidebarOpenMobile = false"
@@ -21,7 +21,7 @@
         </div>
 
         <!-- Statistika -->
-        <div @click="activeTab = 'stats'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'stats'; $nextTick(() => EdugateCharts.init(stats, weeklyStats)); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
              :class="[
                 activeTab === 'stats' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
@@ -34,21 +34,35 @@
             <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Statistika</span>
         </div>
 
-        <!-- Maktablar -->
-        <div x-show="!isSchoolAdmin" @click="activeTab = 'schools'; schoolsView = 'schools_list'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <!-- Jonli Davomat -->
+        <div @click="activeTab = 'attendance'; fetchTodayLogs(); if (window.innerWidth < 768) sidebarOpenMobile = false"
+             class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
+             :class="[
+                activeTab === 'attendance' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
+                isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
+             ]"
+             :title="isSidebarCollapsed ? 'Jonli Davomat' : ''">
+            <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clipboard-check text-sm"></i>
+            </div>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Jonli Davomat</span>
+        </div>
+
+        <!-- Maktablar / Maktabim -->
+        <div @click="openSchoolsSection(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
              :class="[
                 activeTab === 'schools' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
                 isSidebarCollapsed ? 'w-9 mx-auto justify-center' : 'w-full px-2'
              ]"
-             :title="isSidebarCollapsed ? 'Maktablar' : ''">
+             :title="isSidebarCollapsed ? (isSchoolAdmin ? 'Maktabim & Sinflar' : 'Maktablar') : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-school text-sm"></i>
             </div>
-            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Maktablar</span>
+            <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium" x-text="isSchoolAdmin ? 'Maktabim & Sinflar' : 'Maktablar'">Maktablar</span>
         </div>
 
-        <!-- Thin Divider (Image 2 style) -->
+        <!-- Thin Divider -->
         <div class="my-2 border-t border-neutral-800/80" :class="isSidebarCollapsed ? 'w-6 mx-auto' : 'mx-2'"></div>
 
         <!-- Kameralar -->
@@ -66,7 +80,7 @@
         </div>
 
         <!-- Hisobotlar -->
-        <div @click="activeTab = 'reports'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'reports'; fetchReportSummary(reportType); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
              :class="[
                 activeTab === 'reports' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
@@ -79,8 +93,8 @@
             <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Hisobotlar</span>
         </div>
 
-        <!-- Bildirishnomalar (Image 2 Orange notification dot) -->
-        <div @click="activeTab = 'notifications'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <!-- Bildirishnomalar -->
+        <div @click="activeTab = 'notifications'; fetchNotifications(); fetchAbsenceReasons(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
              :class="[
                 activeTab === 'notifications' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
@@ -89,7 +103,7 @@
              :title="isSidebarCollapsed ? 'Bildirishnomalar' : ''">
             <div class="w-9 h-9 flex items-center justify-center flex-shrink-0 relative">
                 <i class="fas fa-bell text-sm"></i>
-                <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-black"></span>
+                <span x-show="unreadNotificationsCount > 0" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-black"></span>
             </div>
             <span x-show="!isSidebarCollapsed" class="ml-2 text-xs whitespace-nowrap overflow-hidden font-medium">Bildirishnomalar</span>
         </div>
@@ -98,7 +112,7 @@
         <div class="my-2 border-t border-neutral-800/80" :class="isSidebarCollapsed ? 'w-6 mx-auto' : 'mx-2'"></div>
 
         <!-- Sozlamalar -->
-        <div @click="activeTab = 'settings'; if (window.innerWidth < 768) sidebarOpenMobile = false"
+        <div @click="activeTab = 'settings'; fetchSystemSettings(); fetchAuditLogs(); if (!isSchoolAdmin) fetchOrders(); if (window.innerWidth < 768) sidebarOpenMobile = false"
              class="sidebar-item flex items-center h-9 rounded-xl cursor-pointer transition-all duration-150 overflow-hidden"
              :class="[
                 activeTab === 'settings' ? 'bg-[#242424] text-white border border-neutral-700/60 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50 border border-transparent',
@@ -112,9 +126,8 @@
         </div>
     </nav>
 
-    <!-- Bottom: Supabase "Sidebar control" Pinned Trigger & Popover (Image 1) -->
+    <!-- Bottom: Supabase "Sidebar control" Pinned Trigger & Popover -->
     <div class="mt-auto border-t border-neutral-800/80 h-12 flex items-center flex-shrink-0 bg-black relative px-1.5">
-        <!-- Pinned Corner Trigger (Always at x=26px in 52px rail) -->
         <div class="w-[40px] h-full flex items-center justify-center flex-shrink-0">
             <button @click="showSidebarControl = !showSidebarControl" 
                     class="flex items-center justify-center w-8 h-8 rounded-lg transition cursor-pointer select-none"
@@ -128,36 +141,20 @@
             </button>
         </div>
 
-        <!-- Expanded hint text -->
         <div x-show="!isSidebarCollapsed" 
              @click="showSidebarControl = !showSidebarControl"
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 -translate-x-1"
-             x-transition:enter-end="opacity-100 translate-x-0"
              class="text-[11px] text-neutral-400 font-mono select-none truncate cursor-pointer hover:text-white transition ml-1">
             Boshqarish
         </div>
 
-        <!-- EXACT POPUP POPOVER FROM IMAGE 1: "Sidebar control" -->
         <div x-show="showSidebarControl" 
              @click.outside="showSidebarControl = false" 
              x-cloak
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
              class="absolute bottom-12 left-1 z-50 mb-1 w-44 rounded-xl bg-[#1c1c1c] border border-neutral-800 shadow-2xl p-1 text-xs select-none">
-            
-            <!-- Popover Header -->
             <div class="px-3 py-2 text-[11px] font-medium text-neutral-400 border-b border-neutral-800/80">
                 Sidebar control
             </div>
-
-            <!-- Popover Options -->
             <div class="p-1 space-y-0.5">
-                <!-- 1. Expanded -->
                 <button @click="setSidebarMode('expanded')" 
                         class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
                         :class="sidebarMode === 'expanded' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">
@@ -166,8 +163,6 @@
                     </span>
                     <span class="text-xs">Expanded</span>
                 </button>
-
-                <!-- 2. Collapsed (Shows white dot when active as in Image 1) -->
                 <button @click="setSidebarMode('collapsed')" 
                         class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
                         :class="sidebarMode === 'collapsed' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">
@@ -176,8 +171,6 @@
                     </span>
                     <span class="text-xs">Collapsed</span>
                 </button>
-
-                <!-- 3. Expand on hover -->
                 <button @click="setSidebarMode('hover')" 
                         class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition text-left cursor-pointer"
                         :class="sidebarMode === 'hover' ? 'text-white font-medium bg-neutral-800/60' : 'text-neutral-300 hover:text-white hover:bg-neutral-800/40'">

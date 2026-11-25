@@ -19,11 +19,9 @@ const EdugateAPI = {
         if (window.EDUGATE_API_BASE) {
             return window.EDUGATE_API_BASE;
         }
-        // Agar mahalliy backend portida (8000 yoki 8010) ochilgan bo'lsa
         if (window.location.port === '8000' || window.location.port === '8010') {
             return window.location.pathname.startsWith('/edugate') ? '/edugate' : '';
         }
-        // Agar fayl orqali yoki boshqa port (masalan Live Server 5500) orqali ochilgan bo'lsa
         if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '8000' && window.location.port !== '8010')) {
             return 'https://developerx.uz/edugate';
         }
@@ -39,7 +37,7 @@ const EdugateAPI = {
             fullUrl = this.getPrefix() + endpoint;
         }
 
-        const headers = options.headers || {};
+        const headers = options.headers ? { ...options.headers } : {};
         const token = this.getToken();
         if (token) {
             headers['Authorization'] = 'Bearer ' + token;
@@ -110,8 +108,69 @@ const EdugateAPI = {
         return await this.request('/api/v1/admin/stats/weekly');
     },
 
-    getExportUrl() {
-        return this.getPrefix() + '/api/v1/admin/reports/export-csv';
+    async getReportSummary(period = 'daily') {
+        return await this.request('/api/v1/admin/reports/summary?period=' + encodeURIComponent(period));
+    },
+
+    async exportReportCsv() {
+        const fullUrl = this.getPrefix() + '/api/v1/admin/reports/export-csv';
+        const token = this.getToken();
+        const res = await fetch(fullUrl, {
+            headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        });
+        if (res.status === 401) {
+            this.setToken('');
+            throw new Error('Sessiya muddati tugadi. Iltimos, qayta kiring.');
+        }
+        if (!res.ok) {
+            throw new Error('CSV hisobotni yuklab olishda xatolik');
+        }
+        return await res.blob();
+    },
+
+    // Notifications, Audit, Settings & Leads
+    async getNotifications() {
+        return await this.request('/api/v1/admin/notifications');
+    },
+
+    async getAuditLogs() {
+        return await this.request('/api/v1/admin/audit-logs');
+    },
+
+    async getSettings() {
+        return await this.request('/api/v1/admin/settings');
+    },
+
+    async saveSettings(payload) {
+        return await this.request('/api/v1/admin/settings', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    },
+
+    async getOrders() {
+        return await this.request('/api/v1/orders/');
+    },
+
+    async updateOrderStatus(orderId, status) {
+        return await this.request('/api/v1/orders/' + orderId, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+    },
+
+    async getAbsenceReasons() {
+        return await this.request('/api/v1/attendance/absence-reasons');
+    },
+
+    async updateAbsenceStatus(reqId, status) {
+        return await this.request('/api/v1/attendance/absence-reasons/' + reqId, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
     },
 
     // Schools
@@ -162,7 +221,7 @@ const EdugateAPI = {
     async getStudents(schoolId = '', className = '') {
         let url = '/api/v1/admin/students/all';
         const params = [];
-        if (schoolId) params.push('school_id=' + schoolId);
+        if (schoolId) params.push('school_id=' + encodeURIComponent(schoolId));
         if (className) params.push('class_name=' + encodeURIComponent(className));
         if (params.length) url += '?' + params.join('&');
         return await this.request(url);
@@ -204,7 +263,7 @@ const EdugateAPI = {
     // Teachers
     async getTeachers(schoolId = '') {
         let url = '/api/v1/teachers/';
-        if (schoolId) url += '?school_id=' + schoolId;
+        if (schoolId) url += '?school_id=' + encodeURIComponent(schoolId);
         return await this.request(url);
     },
 
@@ -235,6 +294,14 @@ const EdugateAPI = {
         });
     },
 
+    async updateDevice(deviceId, deviceData) {
+        return await this.request('/api/v1/devices/' + deviceId, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(deviceData)
+        });
+    },
+
     async deleteDevice(deviceId) {
         return await this.request('/api/v1/admin/devices/' + deviceId, {
             method: 'DELETE'
@@ -246,9 +313,24 @@ const EdugateAPI = {
         return await this.request('/api/v1/admin/parents');
     },
 
+    async linkParentStudent(payload) {
+        return await this.request('/api/v1/parents/link-student', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    },
+
     // Attendance
-    async getTodayLogs() {
-        return await this.request('/api/v1/attendance/today');
+    async getTodayLogs(filters = {}) {
+        let url = '/api/v1/attendance/today';
+        const params = [];
+        if (filters.date) params.push('date=' + encodeURIComponent(filters.date));
+        if (filters.school_id) params.push('school_id=' + encodeURIComponent(filters.school_id));
+        if (filters.class_name) params.push('class_name=' + encodeURIComponent(filters.class_name));
+        if (filters.status) params.push('status=' + encodeURIComponent(filters.status));
+        if (params.length) url += '?' + params.join('&');
+        return await this.request(url);
     }
 };
 
