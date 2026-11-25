@@ -20,14 +20,19 @@ sys.path.insert(0, str(ROOT_DIR / "backend"))
 sys.path.insert(0, str(ROOT_DIR))
 
 from app.main import app  # noqa: E402
-from app.core.config import get_local_now  # noqa: E402
+from app.core.config import get_local_now, settings  # noqa: E402
+from app.core.database import AsyncSessionLocal  # noqa: E402
 from app.core.redis import debounce_manager  # noqa: E402
 from app.core.security import get_password_hash, verify_password, needs_password_rehash  # noqa: E402
+from app.models.user import User, UserRole  # noqa: E402
+from app.services import image_utils  # noqa: E402
 from edge_device.camera_client import EdugateEdgeClient  # noqa: E402
 
 
 @pytest.fixture(scope="session", autouse=True)
-def cleanup_test_db():
+def cleanup_test_db(tmp_path_factory):
+    upload_tmp = tmp_path_factory.mktemp("edugate_static")
+    image_utils.STATIC_DIR = str(upload_tmp)
     if TEST_DB_PATH.exists():
         TEST_DB_PATH.unlink()
     yield
@@ -388,3 +393,66 @@ def test_edge_client_offline_buffer_and_flush(tmp_path):
         flushed = edge.flush_offline_buffer()
         assert flushed == 1
         assert edge.pending_offline_count() == 0
+
+
+def test_portal_pages_and_legacy_hash_upgrade_and_bot_secret(client: TestClient):
+    # All portal entry points render cleanly with expected initial portal injection
+    for route, expected_marker in [
+        ("/", "EDUGATE"),
+        ("/admin", 'window.EDUGATE_INITIAL_PORTAL = "admin"'),
+        ("/edu", 'window.EDUGATE_INITIAL_PORTAL = "monitoring"'),
+        ("/school", 'window.EDUGATE_INITIAL_PORTAL = "school"'),
+        ("/presentation", "EDUGATE"),
+    ]:
+        r = client.get(route)
+        assert r.status_code == 200, route
+        assert expected_marker in r.text
+
+    # Legacy SHA-256 password hash verifies and upgrades transparently to bcrypt on login
+    import asyncio
+    import hashlib
+    from sqlalchemy import select
+
+    legacy_hash = hashlib.sha256(f"{settings.SECRET_KEY}:LegacyPass2026!".encode()).hexdigest()
+
+    async def _seed_and_check():
+        async with AsyncSessionLocal() as session:
+            u = User(
+                username="legacy_tester",
+                email="legacy@edugate.uz",
+                full_name="Legacy Tester",
+                hashed_password=legacy_hash,
+                role=UserRole.SUPERADMIN,
+                is_superadmin=True,
+                is_active=True,
+            )
+            session.add(u)
+            await session.commit()
+
+    asyncio.run(_seed_and_check())
+    token = _login(client, "legacy_tester", "LegacyPass2026!")
+    assert token
+
+    async def _verify_upgraded():
+        async with AsyncSessionLocal() as session:
+            u = (await session.execute(select(User).filter(User.username == "legacy_tester"))).scalar_one()
+            return u.hashed_password
+
+    new_hash = asyncio.run(_verify_upgraded())
+    assert new_hash.startswith("$2")
+    assert not needs_password_rehash(new_hash)
+
+    # Optional BOT_API_SECRET enforcement
+    prev_secret = settings.BOT_API_SECRET
+    settings.BOT_API_SECRET = "super_bot_secret_2026"
+    try:
+        assert client.get("/api/v1/parents/123/children").status_code == 403
+        assert (
+            client.get(
+                "/api/v1/parents/123/children",
+                headers={"X-Bot-Secret": "super_bot_secret_2026"},
+            ).status_code
+            == 200
+        )
+    finally:
+        settings.BOT_API_SECRET = prev_secret

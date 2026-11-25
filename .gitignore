@@ -45,6 +45,7 @@ pgdata/
 scratch_*
 *.tmp
 temp/
+backend/app/static/uploads/
 
 # Node / Frontend
 node_modules/
