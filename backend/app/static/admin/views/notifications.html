@@ -6,12 +6,12 @@
         <div>
             <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
                 <i class="fas fa-bell text-indigo-400"></i>
-                Bildirishnomalar & Xabarnomalar Markazi
+                Bildirishnomalar & Sababli Arizalar Markazi
             </h2>
-            <p class="text-xs text-neutral-400 mt-0.5">Tizim hodisalari, Face ID o'tishlar va xavfsizlik ogohlantirishlari</p>
+            <p class="text-xs text-neutral-400 mt-0.5">Tizim hodisalari, kechikishlar, qurilma ogohlantirishlari va ota-ona arizalari</p>
         </div>
         <div class="flex items-center gap-2">
-            <button @click="showToast('Barcha bildirishnomalar o\'qildi', 'info')" 
+            <button @click="markAllNotificationsRead()" 
                     class="px-3.5 py-1.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white border border-neutral-800 hover:border-neutral-700 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
                 <i class="fas fa-check-double text-indigo-400"></i>
                 <span>Barchasini o'qilgan deb belgilash</span>
@@ -19,15 +19,15 @@
         </div>
     </div>
 
-    <!-- Notification Filters & Summary Cards -->
+    <!-- Summary Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="glass-card p-4 rounded-2xl border border-neutral-800 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20 text-sm">
                 <i class="fas fa-circle-check"></i>
             </div>
             <div>
-                <p class="text-xs text-neutral-400 font-medium">Tizim Xolati</p>
-                <p class="text-sm font-bold text-white font-mono">Faol & Normal</p>
+                <p class="text-xs text-neutral-400 font-medium">Real-Vaqt Aloqa</p>
+                <p class="text-sm font-bold text-white font-mono" x-text="realtimeStatus === 'offline' ? 'Uzilgan' : 'Faol & Normal'"></p>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
             </div>
             <div>
                 <p class="text-xs text-neutral-400 font-medium">Telegram Bot</p>
-                <p class="text-sm font-bold text-white font-mono">Ulanish faol</p>
+                <p class="text-sm font-bold text-white font-mono" x-text="systemSettings.bot_token_configured ? 'Shlyuz ulangan' : 'Simulyatsiya rejimi'"></p>
             </div>
         </div>
 
@@ -47,24 +47,24 @@
             </div>
             <div>
                 <p class="text-xs text-neutral-400 font-medium">Kameralar Nazorati</p>
-                <p class="text-sm font-bold text-white font-mono" x-text="(devices?.length || 0) + ' ta faol oqim'"></p>
+                <p class="text-sm font-bold text-white font-mono" x-text="(stats.online_devices_count || 0) + ' / ' + (stats.devices_count || devices.length || 0) + ' onlayn'"></p>
             </div>
         </div>
     </div>
 
-    <!-- Notifications List -->
+    <!-- Live Notifications List -->
     <div class="glass-card p-5 rounded-2xl border border-neutral-800 space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
             <h4 class="text-sm font-bold text-white">So'nggi Tizim Xabarlari</h4>
-            <span class="text-xs text-neutral-500 font-mono">Jonli yangilanish</span>
+            <span class="text-xs text-neutral-500 font-mono" x-text="(notifications?.length || 0) + ' ta xabar'"></span>
         </div>
 
         <div class="space-y-2.5">
             <template x-for="item in notifications" :key="item.id">
                 <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800/80 transition">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs border"
-                         :class="item.color ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' : 'bg-neutral-800 text-neutral-300 border-neutral-700'">
-                        <i :class="['fas', item.icon || 'fa-info-circle']"></i>
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs border bg-neutral-800/80 border-neutral-700"
+                         :class="item.color || 'text-indigo-400'">
+                        <i :class="['fas', item.icon || 'fa-circle-info']"></i>
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-xs font-semibold text-white leading-snug" x-text="item.text"></p>
@@ -73,26 +73,49 @@
                 </div>
             </template>
 
-            <!-- Agar bildirishnomalar hozircha kam bo'lsa standart tizim hodisasi ko'rsatiladi -->
-            <div x-show="!notifications || notifications.length === 0" class="space-y-2.5">
-                <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 text-xs">
-                        <i class="fas fa-shield-halved"></i>
+            <div x-show="!notifications || notifications.length === 0" class="p-6 text-center rounded-xl bg-neutral-900/40 border border-neutral-800/80 text-xs text-neutral-400">
+                <i class="fas fa-shield-halved text-emerald-400 text-xl mb-2 block"></i>
+                Hozircha ogohlantirishlar yo'q — barcha tizimlar barqaror ishlamoqda.
+            </div>
+        </div>
+    </div>
+
+    <!-- Parent Absence Requests -->
+    <div class="glass-card p-5 rounded-2xl border border-neutral-800 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-neutral-800">
+            <div>
+                <h4 class="text-sm font-bold text-white">Ota-onalardan Sababli Dars Qoldirish Arizalari</h4>
+                <p class="text-[11px] text-neutral-400">Telegram bot orqali yuborilgan arizalar</p>
+            </div>
+            <span class="text-xs font-mono text-sky-400" x-text="(absenceReasons?.length || 0) + ' ta ariza'"></span>
+        </div>
+
+        <div class="space-y-2.5">
+            <template x-for="abs in absenceReasons" :key="abs.id">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                    <div class="space-y-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-white" x-text="abs.student_name || 'O\'quvchi'"></span>
+                            <span class="px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 text-[10px] font-mono font-bold" x-text="abs.class_name || ''"></span>
+                            <span class="text-[10px] text-neutral-500 font-mono" x-text="abs.absence_date"></span>
+                        </div>
+                        <p class="text-xs text-neutral-300" x-text="abs.reason"></p>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-semibold text-white">EDUGATE Yagona Monitoring Xavfsizlik Tizimi ishga tushirildi</p>
-                        <span class="text-[10px] text-neutral-500 font-mono mt-0.5 inline-block">Barcha kameralar va Face ID terminallar normal holatda ishlamoqda</span>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border"
+                              :class="abs.status === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : (abs.status === 'REJECTED' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20')"
+                              x-text="abs.status === 'APPROVED' ? 'Tasdiqlandi' : (abs.status === 'REJECTED' ? 'Rad etildi' : 'Kutilmoqda')"></span>
+                        <template x-if="!isReadOnly && abs.status === 'PENDING'">
+                            <div class="flex items-center gap-1.5">
+                                <button @click="updateAbsenceStatus(abs.id, 'APPROVED')" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-[11px] font-semibold cursor-pointer">Tasdiqlash</button>
+                                <button @click="updateAbsenceStatus(abs.id, 'REJECTED')" class="px-2.5 py-1 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-500/30 text-[11px] font-semibold cursor-pointer">Rad etish</button>
+                            </div>
+                        </template>
                     </div>
                 </div>
-                <div class="flex items-start gap-3 p-3 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
-                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center flex-shrink-0 text-xs">
-                        <i class="fab fa-telegram"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-semibold text-white">Telegram orqali ota-onalarni xabardor qilish shlyuzi faol</p>
-                        <span class="text-[10px] text-neutral-500 font-mono mt-0.5 inline-block">Davomat xabarnomalari o'z vaqtida yetkazilmoqda</span>
-                    </div>
-                </div>
+            </template>
+            <div x-show="!absenceReasons || absenceReasons.length === 0" class="py-6 text-center text-xs text-neutral-500">
+                Sababli dars qoldirish arizalari hozircha yo'q
             </div>
         </div>
     </div>

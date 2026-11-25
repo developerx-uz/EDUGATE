@@ -12,7 +12,7 @@
                 <i class="fas fa-id-badge text-indigo-400"></i>
                 <span>Profil & Xavfsizlik Sozlamalari</span>
             </h2>
-            <p class="text-xs text-neutral-400 mt-0.5">Superadmin shaxsiy hisob ma'lumotlari, xavfsizlik va parolni boshqarish</p>
+            <p class="text-xs text-neutral-400 mt-0.5">Shaxsiy hisob ma'lumotlari, xavfsizlik va parolni boshqarish</p>
         </div>
 
         <button @click="fetchCurrentUser(); showToast('Profil ma\'lumotlari yangilandi', 'info')" 
@@ -22,14 +22,12 @@
         </button>
     </div>
 
-    <!-- 1. Superadmin Identity Card -->
+    <!-- 1. Identity Card -->
     <div class="glass-card p-6 rounded-3xl border border-neutral-800 relative overflow-hidden">
-        <!-- Ambient subtle glow -->
         <div class="absolute -right-16 -top-16 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div class="flex items-center gap-4">
-                <!-- Avatar -->
                 <div class="relative flex-shrink-0">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 text-white flex items-center justify-center text-2xl font-bold shadow-xl shadow-indigo-600/20 border-2 border-neutral-800">
                         <i class="fas fa-user-shield text-xl"></i>
@@ -37,26 +35,22 @@
                     <span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-400 ring-4 ring-black" title="Faol online holatda"></span>
                 </div>
 
-                <!-- Info -->
                 <div class="min-w-0 space-y-1">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <h3 class="text-lg font-bold text-white tracking-tight" x-text="currentUser?.full_name || 'Superadmin'">Superadmin</h3>
-                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-wider font-mono">
-                            SUPERADMIN
+                        <h3 class="text-lg font-bold text-white tracking-tight" x-text="currentUser?.full_name || 'Foydalanuvchi'"></h3>
+                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-wider font-mono"
+                              x-text="currentUser?.role || 'USER'">
                         </span>
                     </div>
                     <p class="text-xs text-neutral-400 flex items-center gap-2">
-                        <span>Foydalanuvchi: <strong class="text-neutral-200 font-mono" x-text="'@' + (currentUser?.username || 'admin')">@admin</strong></span>
+                        <span>Foydalanuvchi: <strong class="text-neutral-200 font-mono" x-text="'@' + (currentUser?.username || '')"></strong></span>
                         <span>•</span>
-                        <span class="text-neutral-500" x-text="currentUser?.email || 'admin@edugate.uz'">admin@edugate.uz</span>
+                        <span class="text-neutral-500" x-text="currentUser?.email || '-'"></span>
                     </p>
-                    <p class="text-[11px] text-neutral-500 font-mono">
-                        Yagona Hokimlik & MMTV Markaziy Boshqaruv Portali
-                    </p>
+                    <p class="text-[11px] text-neutral-500 font-mono" x-text="currentUser?.school_name ? ('Maktab: ' + currentUser.school_name) : 'Yagona Hokimlik & MMTV Markaziy Boshqaruv Portali'"></p>
                 </div>
             </div>
 
-            <!-- Status Badges -->
             <div class="flex flex-wrap items-center gap-2.5">
                 <div class="px-3 py-1.5 rounded-2xl bg-neutral-900 border border-neutral-800 text-xs">
                     <span class="text-neutral-500 text-[10px] block font-semibold uppercase">Seans Holati</span>
@@ -67,16 +61,15 @@
                 </div>
                 <div class="px-3 py-1.5 rounded-2xl bg-neutral-900 border border-neutral-800 text-xs">
                     <span class="text-neutral-500 text-[10px] block font-semibold uppercase">Kirish Huquqi</span>
-                    <span class="text-white font-mono font-bold mt-0.5 block">CHEKLANMAGAN</span>
+                    <span class="text-white font-mono font-bold mt-0.5 block"
+                          x-text="isSuperadmin ? 'CHEKLANMAGAN' : (isMinistryViewer ? 'FAQAT KO\'RISH' : 'MAKTAB KABINETI')"></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. Dual Form Grid: Profile Edit & Password Change -->
+    <!-- 2. Dual Form Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-        <!-- Column A: Profil Ma'lumotlarini Tahrirlash -->
         <div class="glass-card p-6 rounded-3xl border border-neutral-800 space-y-5">
             <div class="border-b border-neutral-800 pb-3 flex items-center justify-between">
                 <div>
@@ -90,19 +83,15 @@
             </div>
 
             <form @submit.prevent="saveProfile()" class="space-y-4 text-xs">
-                <!-- F.I.SH -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">To'liq Ism (F.I.SH.)</label>
                     <div class="relative">
                         <i class="fas fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input type="text" 
-                               x-model="profileForm.full_name" 
-                               placeholder="Masalan: Azizbek Rahimov"
+                        <input type="text" x-model="profileForm.full_name" placeholder="Masalan: Azizbek Rahimov"
                                class="w-full pl-9 pr-3 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-indigo-500 transition">
                     </div>
                 </div>
 
-                <!-- Username (Readonly) -->
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
                         <label class="block font-semibold text-neutral-300">Foydalanuvchi Nomi (Login)</label>
@@ -110,48 +99,39 @@
                     </div>
                     <div class="relative">
                         <i class="fas fa-at absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input type="text" 
-                               :value="currentUser?.username || 'admin'" 
-                               disabled 
+                        <input type="text" :value="currentUser?.username || ''" disabled
                                class="w-full pl-9 pr-3 py-2.5 bg-neutral-950/80 border border-neutral-800/80 rounded-xl text-neutral-400 text-xs font-mono cursor-not-allowed">
                     </div>
                 </div>
 
-                <!-- Email -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">Elektron Pochta</label>
                     <div class="relative">
                         <i class="fas fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input type="email" 
-                               x-model="profileForm.email" 
-                               placeholder="admin@edugate.uz"
+                        <input type="email" x-model="profileForm.email" placeholder="admin@edugate.uz"
                                class="w-full pl-9 pr-3 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-indigo-500 transition font-mono">
                     </div>
                 </div>
 
-                <!-- Rol -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">Tizimdagi Lavozim & Huquq</label>
-                    <input type="text" 
-                           value="MMTV & Hokimlik Bosh Nazoratchisi (SUPERADMIN)" 
-                           disabled 
+                    <input type="text"
+                           :value="isSuperadmin ? 'MMTV & Hokimlik Bosh Nazoratchisi (SUPERADMIN)' : (isMinistryViewer ? 'Xalq Ta\'limi Monitoringi (MINISTRY_VIEWER)' : 'Maktab Ma\'muri (SCHOOL_ADMIN)')"
+                           disabled
                            class="w-full px-3.5 py-2.5 bg-neutral-950/80 border border-neutral-800/80 rounded-xl text-neutral-400 text-xs font-semibold cursor-not-allowed">
                 </div>
 
-                <!-- Submit Button -->
                 <div class="pt-2 flex justify-end">
-                    <button type="submit" 
-                            :disabled="isUpdatingProfile"
+                    <button type="submit" :disabled="isUpdatingProfile"
                             class="px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition cursor-pointer flex items-center gap-2 shadow-lg shadow-indigo-600/30 disabled:opacity-60">
                         <i x-show="isUpdatingProfile" class="fas fa-circle-notch fa-spin text-xs"></i>
                         <i x-show="!isUpdatingProfile" class="fas fa-check text-xs"></i>
-                        <span x-text="isUpdatingProfile ? 'Saqlanmoqda...' : 'Ma\'lumotlarni Saqlash'">Ma'lumotlarni Saqlash</span>
+                        <span x-text="isUpdatingProfile ? 'Saqlanmoqda...' : 'Ma\'lumotlarni Saqlash'"></span>
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- Column B: Xavfsizlik & Parolni Yangilash -->
         <div class="glass-card p-6 rounded-3xl border border-neutral-800 space-y-5">
             <div class="border-b border-neutral-800 pb-3 flex items-center justify-between">
                 <div>
@@ -165,81 +145,62 @@
             </div>
 
             <form @submit.prevent="savePassword()" class="space-y-4 text-xs">
-                <!-- Current Password -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">Hozirgi Amaldagi Parol</label>
                     <div class="relative">
                         <i class="fas fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input :type="passwordForm.show_current ? 'text' : 'password'" 
-                               x-model="passwordForm.current_password" 
-                               required
-                               placeholder="Amaldagi parolni kiriting"
+                        <input :type="passwordForm.show_current ? 'text' : 'password'" x-model="passwordForm.current_password" required placeholder="Amaldagi parolni kiriting"
                                class="w-full pl-9 pr-10 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-rose-500 transition">
-                        <button type="button" 
-                                @click="passwordForm.show_current = !passwordForm.show_current"
+                        <button type="button" @click="passwordForm.show_current = !passwordForm.show_current"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white cursor-pointer transition">
                             <i :class="passwordForm.show_current ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- New Password -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">Yangi Maxfiy Parol</label>
                     <div class="relative">
                         <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input :type="passwordForm.show_new ? 'text' : 'password'" 
-                               x-model="passwordForm.new_password" 
-                               required
-                               minlength="6"
-                               placeholder="Yangi kuchli parolni kiriting (kamida 6 ta belgi)"
+                        <input :type="passwordForm.show_new ? 'text' : 'password'" x-model="passwordForm.new_password" required minlength="6" placeholder="Kamida 6 ta belgi"
                                class="w-full pl-9 pr-10 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-rose-500 transition">
-                        <button type="button" 
-                                @click="passwordForm.show_new = !passwordForm.show_new"
+                        <button type="button" @click="passwordForm.show_new = !passwordForm.show_new"
                                 class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white cursor-pointer transition">
                             <i :class="passwordForm.show_new ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Confirm New Password -->
                 <div class="space-y-1.5">
                     <label class="block font-semibold text-neutral-300">Yangi Parolni Qayta Tasdiqlang</label>
                     <div class="relative">
-                        <i class="fas fa-shield-check absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
-                        <input type="password" 
-                               x-model="passwordForm.confirm_password" 
-                               required
-                               placeholder="Yangi parolni takroran kiriting"
+                        <i class="fas fa-shield-halved absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500 text-xs"></i>
+                        <input type="password" x-model="passwordForm.confirm_password" required placeholder="Yangi parolni takroran kiriting"
                                class="w-full pl-9 pr-3 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-rose-500 transition">
                     </div>
                 </div>
 
-                <!-- Security Guidance Note -->
                 <div class="p-3 rounded-xl bg-neutral-950 border border-neutral-800 text-[11px] text-neutral-400 space-y-1">
                     <div class="flex items-center gap-1.5 text-neutral-300 font-semibold">
                         <i class="fas fa-circle-info text-indigo-400 text-xs"></i>
                         <span>Xavfsizlik talabi:</span>
                     </div>
-                    <p class="leading-relaxed">Parol xeshlangan holda (SHA-256) serverda saqlanadi. Parol o'zgargandan so'ng yangi parol bilan tizimga kirishingiz lozim.</p>
+                    <p class="leading-relaxed">Parol bcrypt yordamida xeshlangan holda serverda saqlanadi. Parol yangilangach yangi parol bilan kirishingiz lozim.</p>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="pt-2 flex justify-end">
-                    <button type="submit" 
-                            :disabled="isUpdatingPassword"
+                    <button type="submit" :disabled="isUpdatingPassword"
                             class="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs transition cursor-pointer flex items-center gap-2 shadow-lg shadow-rose-600/30 disabled:opacity-60">
                         <i x-show="isUpdatingPassword" class="fas fa-circle-notch fa-spin text-xs"></i>
                         <i x-show="!isUpdatingPassword" class="fas fa-shield-halved text-xs"></i>
-                        <span x-text="isUpdatingPassword ? 'Yangilanmoqda...' : 'Parolni Yangilash'">Parolni Yangilash</span>
+                        <span x-text="isUpdatingPassword ? 'Yangilanmoqda...' : 'Parolni Yangilash'"></span>
                     </button>
                 </div>
             </form>
         </div>
-
     </div>
 
-    <!-- 3. Security Telemetry & Sessions Card -->
+    <!-- 3. Security Telemetry -->
     <div class="glass-card p-6 rounded-3xl border border-neutral-800 space-y-4">
         <div class="flex items-center justify-between border-b border-neutral-800 pb-3">
             <div>
@@ -258,16 +219,16 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div class="p-3.5 bg-neutral-900 rounded-2xl border border-neutral-800 space-y-1">
-                <span class="text-[10px] text-neutral-500 uppercase font-semibold block">Protokol</span>
+                <span class="text-[10px] text-neutral-500 uppercase font-semibold block">Parol Himoyasi</span>
                 <p class="text-neutral-200 font-mono font-bold flex items-center gap-1.5">
                     <i class="fas fa-lock text-emerald-400 text-xs"></i>
-                    <span>HTTPS / TLS 256-bit</span>
+                    <span>Bcrypt Salt + HTTPS</span>
                 </p>
             </div>
             <div class="p-3.5 bg-neutral-900 rounded-2xl border border-neutral-800 space-y-1">
                 <span class="text-[10px] text-neutral-500 uppercase font-semibold block">Autentifikatsiya</span>
                 <p class="text-neutral-200 font-mono font-bold flex items-center gap-1.5">
-                    <i class="fas fa-shield text-indigo-400 text-xs"></i>
+                    <i class="fas fa-shield-halved text-indigo-400 text-xs"></i>
                     <span>HMAC-SHA256 JWT Token</span>
                 </p>
             </div>
@@ -275,10 +236,9 @@
                 <span class="text-[10px] text-neutral-500 uppercase font-semibold block">Boshqaruv Darajasi</span>
                 <p class="text-neutral-200 font-mono font-bold flex items-center gap-1.5">
                     <i class="fas fa-crown text-amber-400 text-xs"></i>
-                    <span>Superadmin Root Access</span>
+                    <span x-text="isSuperadmin ? 'Superadmin Access' : (isMinistryViewer ? 'Ministry Read-Only' : 'School Admin')"></span>
                 </p>
             </div>
         </div>
     </div>
-
 </div>

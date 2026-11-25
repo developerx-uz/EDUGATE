@@ -1,23 +1,38 @@
 <!-- VIEW: SETTINGS -->
 <div x-show="activeTab === 'settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="space-y-6">
-    <div>
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fas fa-gear text-indigo-400"></i>
-            Tizim Sozlamalari
-        </h2>
-        <p class="text-xs text-slate-400 mt-0.5">Tizim ish rejimi, bildirishnomalar va parametrlar</p>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fas fa-gear text-indigo-400"></i>
+                Tizim Sozlamalari
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Dars jadvali, bildirishnoma qoidalari, ko'rinish mavzusi va audit jurnali</p>
+        </div>
+
+        <!-- Theme Switcher Pill inside Settings -->
+        <div class="theme-switch-pill inline-flex items-center p-1 rounded-xl border self-start sm:self-auto">
+            <button type="button" @click="applyTheme('light')" class="theme-btn-light w-8 h-8 rounded-lg flex items-center justify-center" title="Oq mavzu">
+                <i class="fas fa-sun text-xs"></i>
+            </button>
+            <button type="button" @click="applyTheme('dark')" class="theme-btn-dark w-8 h-8 rounded-lg flex items-center justify-center" title="Qora mavzu">
+                <i class="fas fa-moon text-xs"></i>
+            </button>
+        </div>
     </div>
 
     <!-- Settings Subtabs -->
-    <div class="flex gap-2 border-b border-slate-800 pb-3">
-        <button @click="settingsTab = 'general'" :class="settingsTab === 'general' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+    <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+        <button @click="settingsTab = 'general'" :class="settingsTab === 'general' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
             <i class="fas fa-sliders mr-1.5"></i> Umumiy Sozlamalar
         </button>
-        <button @click="settingsTab = 'notifications'" :class="settingsTab === 'notifications' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+        <button @click="settingsTab = 'notifications'" :class="settingsTab === 'notifications' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
             <i class="fas fa-bell mr-1.5"></i> Telegram Bildirishnomalar
         </button>
-        <button @click="settingsTab = 'audit'" :class="settingsTab === 'audit' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition">
+        <button @click="settingsTab = 'audit'; fetchAuditLogs()" :class="settingsTab === 'audit' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
             <i class="fas fa-clock-rotate-left mr-1.5"></i> Audit Log
+        </button>
+        <button x-show="!isSchoolAdmin" @click="settingsTab = 'leads'; fetchOrders()" :class="settingsTab === 'leads' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-400 hover:text-white'" class="px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
+            <i class="fas fa-inbox mr-1.5"></i> Kelgan Arizalar (<span x-text="leadOrders.length"></span>)
         </button>
     </div>
 
@@ -27,26 +42,32 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5">Dars Boshlanish Vaqti</label>
-                <input type="time" x-model="systemSettings.school_start_time" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                <input type="time" x-model="systemSettings.school_start_time" :disabled="isReadOnly" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
             </div>
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kechikish Chegarasi (daqiqa)</label>
-                <input type="number" x-model="systemSettings.late_threshold_minutes" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                <input type="number" min="0" max="180" x-model.number="systemSettings.late_threshold_minutes" :disabled="isReadOnly" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
             </div>
             <div>
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5">Dars Tugash Vaqti</label>
-                <input type="time" x-model="systemSettings.school_end_time" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+                <input type="time" x-model="systemSettings.school_end_time" :disabled="isReadOnly" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
             </div>
             <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Anti-Passback Debounce (daqiqa)</label>
+                <input type="number" min="1" max="120" x-model.number="systemSettings.debounce_minutes" :disabled="isReadOnly" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            </div>
+            <div class="sm:col-span-2">
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tizim Tili</label>
-                <select x-model="systemSettings.language" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
+                <select x-model="systemSettings.language" :disabled="isReadOnly" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs">
                     <option value="uz">O'zbekcha</option>
                     <option value="ru">Русский</option>
+                    <option value="en">English</option>
                 </select>
             </div>
         </div>
-        <div class="pt-4 border-t border-slate-800 flex justify-end">
-            <button @click="showToast('Sozlamalar saqlandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+        <div x-show="!isReadOnly" class="pt-4 border-t border-slate-800 flex justify-end">
+            <button @click="saveSystemSettings()" :disabled="isSavingSettings" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition cursor-pointer disabled:opacity-50">
+                <i x-show="isSavingSettings" class="fas fa-circle-notch fa-spin mr-1"></i>
                 Saqlash
             </button>
         </div>
@@ -54,33 +75,34 @@
 
     <!-- Tab 2: Notification Settings -->
     <div x-show="settingsTab === 'notifications'" class="glass-card p-6 rounded-2xl max-w-2xl space-y-5">
-        <h3 class="text-base font-bold text-white">Telegram Bot Integratsiyasi</h3>
+        <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-white">Telegram Bot Integratsiyasi</h3>
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border"
+                  :class="systemSettings.bot_token_configured ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'"
+                  x-text="systemSettings.bot_token_configured ? 'Bot Token Faol' : 'Token .env da sozlanadi'"></span>
+        </div>
         <div class="space-y-4">
-            <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Telegram Bot Token</label>
-                <input type="text" x-model="systemSettings.telegram_bot_token" placeholder="bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Superadmin Telegram Chat ID</label>
-                <input type="text" x-model="systemSettings.admin_chat_id" placeholder="123456789" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
+            <div x-show="isSuperadmin">
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Superadmin Telegram Chat ID (Buyurtma va ogohlantirishlar uchun)</label>
+                <input type="text" x-model="systemSettings.admin_chat_id" :disabled="isReadOnly" placeholder="123456789" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-white text-xs font-mono">
             </div>
             <div class="space-y-2 pt-2">
                 <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-                    <input type="checkbox" x-model="systemSettings.notify_late" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
-                    O'quvchi kechikkanida ota-onaga va ma'muriyatga zudlik bilan bildirishnoma yuborish
+                    <input type="checkbox" x-model="systemSettings.notify_late" :disabled="isReadOnly" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    O'quvchi kechikkanida ota-onaga zudlik bilan bildirishnoma yuborish
                 </label>
                 <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-                    <input type="checkbox" x-model="systemSettings.notify_entry" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    <input type="checkbox" x-model="systemSettings.notify_entry" :disabled="isReadOnly" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
                     Har bir kirishda ota-onaga bildirishnoma yuborish
                 </label>
                 <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
-                    <input type="checkbox" x-model="systemSettings.notify_exit" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
+                    <input type="checkbox" x-model="systemSettings.notify_exit" :disabled="isReadOnly" class="rounded bg-slate-800 border-slate-700 text-indigo-600 focus:ring-indigo-500">
                     Maktabdan chiqishda ota-onaga bildirishnoma yuborish
                 </label>
             </div>
         </div>
-        <div class="pt-4 border-t border-slate-800 flex justify-end">
-            <button @click="showToast('Telegram sozlamalari yangilandi!', 'success')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+        <div x-show="!isReadOnly" class="pt-4 border-t border-slate-800 flex justify-end">
+            <button @click="saveSystemSettings()" :disabled="isSavingSettings" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-600/30 transition cursor-pointer disabled:opacity-50">
                 Saqlash
             </button>
         </div>
@@ -88,32 +110,73 @@
 
     <!-- Tab 3: Audit Log -->
     <div x-show="settingsTab === 'audit'" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
-        <table class="w-full text-left text-sm">
-            <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
-                <tr>
-                    <th class="px-6 py-4">Vaqti</th>
-                    <th class="px-6 py-4">Foydalanuvchi</th>
-                    <th class="px-6 py-4">Harakat</th>
-                    <th class="px-6 py-4">Tafsilot</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/50 text-xs">
-                <tr class="hover:bg-slate-800/30 transition">
-                    <td class="px-6 py-4 font-mono text-slate-400">Bugun</td>
-                    <td class="px-6 py-4 font-semibold text-white">admin (Superadmin)</td>
-                    <td class="px-6 py-4 text-emerald-400 font-semibold">Tizimga kirish</td>
-                    <td class="px-6 py-4 text-slate-400">Muvaffaqiyatli autentifikatsiya</td>
-                </tr>
-                <template x-for="log in todayLogs.slice(0, 5)" :key="'audit_' + log.id">
-                    <tr class="hover:bg-slate-800/30 transition">
-                        <td class="px-6 py-4 font-mono text-slate-400" x-text="formatDate(log.event_time)"></td>
-                        <td class="px-6 py-4 font-semibold text-indigo-300" x-text="log.device_name || 'Turniket'"></td>
-                        <td class="px-6 py-4 text-emerald-400 font-semibold" x-text="log.event_type + ' (' + log.status + ')'"></td>
-                        <td class="px-6 py-4 text-slate-400" x-text="log.student_name + ' — Davomat qaydnomasi'"></td>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Vaqti</th>
+                        <th class="px-6 py-4">Foydalanuvchi</th>
+                        <th class="px-6 py-4">Harakat</th>
+                        <th class="px-6 py-4">Tafsilot</th>
                     </tr>
-                </template>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50 text-xs">
+                    <template x-for="a in auditLogs" :key="a.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-mono text-slate-400" x-text="formatDateTime(a.created_at)"></td>
+                            <td class="px-6 py-4 font-semibold text-white">
+                                <span x-text="a.username"></span>
+                                <span class="ml-1 text-[10px] text-slate-500 font-mono" x-text="'(' + a.role + ')'"></span>
+                            </td>
+                            <td class="px-6 py-4 font-mono text-indigo-400 font-semibold" x-text="a.action"></td>
+                            <td class="px-6 py-4 text-slate-400" x-text="a.details || '-'"></td>
+                        </tr>
+                    </template>
+                    <tr x-show="auditLogs.length === 0">
+                        <td colspan="4" class="px-6 py-8 text-center text-slate-500">Audit yozuvlari hali mavjud emas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tab 4: Incoming Leads / Orders -->
+    <div x-show="settingsTab === 'leads' && !isSchoolAdmin" class="glass-card rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-800/80 text-slate-400 text-xs uppercase font-semibold border-b border-slate-800">
+                    <tr>
+                        <th class="px-6 py-4">Sana</th>
+                        <th class="px-6 py-4">Murojaatchi</th>
+                        <th class="px-6 py-4">Telefon</th>
+                        <th class="px-6 py-4">Maktab / Hudud</th>
+                        <th class="px-6 py-4">Manba</th>
+                        <th class="px-6 py-4 text-right">Holat</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/50 text-xs">
+                    <template x-for="ld in leadOrders" :key="ld.id">
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="px-6 py-4 font-mono text-slate-400" x-text="formatDateTime(ld.created_at)"></td>
+                            <td class="px-6 py-4 font-semibold text-white" x-text="ld.full_name"></td>
+                            <td class="px-6 py-4 font-mono text-indigo-400" x-text="ld.phone"></td>
+                            <td class="px-6 py-4 text-slate-300" x-text="(ld.school_info || '-') + (ld.region ? ' • ' + ld.region : '')"></td>
+                            <td class="px-6 py-4 font-mono text-slate-400" x-text="ld.source"></td>
+                            <td class="px-6 py-4 text-right">
+                                <select :disabled="!isSuperadmin" :value="ld.status" @change="updateOrderStatus(ld.id, $event.target.value)"
+                                        class="px-2 py-1 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono">
+                                    <option value="NEW">YANGI</option>
+                                    <option value="CONTACTED">BOG'LANILDI</option>
+                                    <option value="COMPLETED">YAKUNLANDI</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </template>
+                    <tr x-show="leadOrders.length === 0">
+                        <td colspan="6" class="px-6 py-8 text-center text-slate-500">Hozircha kelgan arizalar yo'q</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
