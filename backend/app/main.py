@@ -69,9 +69,6 @@ async def lifespan(app: FastAPI):
         await _run_auto_migrations(conn)
 
     # Initial foydalanuvchilar: Superadmin va Xalq Ta'limi
-    async with engine.connect() as _:
-        pass
-
     from app.core.database import AsyncSessionLocal
     async with AsyncSessionLocal() as session:
         res = await session.execute(select(User).filter(User.username == "admin"))

@@ -25,6 +25,8 @@ from app.models.user import User, UserRole
 from app.core.security import get_password_hash
 from app.api.deps import get_current_user, require_superadmin, require_not_read_only
 from app.schemas.parent_order import SystemSettingsOut, SystemSettingsUpdate
+from app.schemas.school import SchoolUpdate
+from app.schemas.student import StudentUpdate
 from app.services.audit_service import record_audit, get_role_str
 from app.services.settings_service import get_effective_settings
 
