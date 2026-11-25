@@ -1,76 +1,111 @@
+import logging
 import os
 import re
 import time
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, JSONResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.database import engine, Base
+from app.core.database import engine, Base, get_db
 from app.core.redis import debounce_manager
 from app.core.security import get_password_hash
 from app.models.user import User, UserRole
 from app.api.v1.api import api_router
+from app.api.v1.endpoints.orders import create_lead_order_record
+from app.schemas.parent_order import LeadOrderCreate
+
+logger = logging.getLogger("edugate.main")
+
+
+async def _run_auto_migrations(conn):
+    """Dialect-safe column migrations for both SQLite and PostgreSQL."""
+    dialect = conn.dialect.name
+    migrations = [
+        ("students", "pinfl", "VARCHAR(14)"),
+        ("students", "birth_cert_number", "VARCHAR(50)"),
+        ("students", "gender", "VARCHAR(1)"),
+        ("users", "role", "VARCHAR(50) DEFAULT 'SUPERADMIN'"),
+        ("users", "school_id", "VARCHAR(36)"),
+    ]
+
+    for table, col, col_def in migrations:
+        try:
+            if dialect == "sqlite":
+                rows = (await conn.execute(text(f"PRAGMA table_info({table})"))).all()
+                existing_cols = {r[1] for r in rows}
+                if col not in existing_cols:
+                    await conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {col_def};"))
+            else:
+                await conn.execute(
+                    text(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {col_def};")
+                )
+        except Exception as exc:
+            logger.warning(f"Auto-migration skipped ({table}.{col}): {exc}")
+
+    try:
+        await conn.execute(
+            text(
+                "CREATE UNIQUE INDEX IF NOT EXISTS uq_users_school_id "
+                "ON users (school_id) WHERE school_id IS NOT NULL;"
+            )
+        )
+    except Exception as exc:
+        logger.warning(f"Index uq_users_school_id creation skipped: {exc}")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    if not settings.DEBUG and "super-secret" in settings.SECRET_KEY:
+        logger.warning("XAVFSIZLIK OGOHLANTIRISHI: Production rejimida standart SECRET_KEY ishlatilmoqda!")
+
     # Dastur ishga tushganda: Baza jadvallarini tekshirish/yaratish
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-        # Avto-migratsiya
-        try:
-            await conn.execute(text("ALTER TABLE students ADD COLUMN IF NOT EXISTS pinfl VARCHAR(14);"))
-            await conn.execute(text("ALTER TABLE students ADD COLUMN IF NOT EXISTS birth_cert_number VARCHAR(50);"))
-            await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'SUPERADMIN';"))
-            await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS school_id VARCHAR(36);"))
-            # 1 maktab = 1 login qat'iy cheklov indeksi (NULL bo'lmagan maktablar uchun yagona)
-            await conn.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_users_school_id ON users (school_id) WHERE school_id IS NOT NULL;"))
-        except Exception:
-            pass
+        await _run_auto_migrations(conn)
 
     # Initial foydalanuvchilar: Superadmin va Xalq Ta'limi
-    async with AsyncSession(engine) as session:
-        # 1. Superadmin (Server & Tizim Boshqaruvi)
+    async with engine.connect() as _:
+        pass
+
+    from app.core.database import AsyncSessionLocal
+    async with AsyncSessionLocal() as session:
         res = await session.execute(select(User).filter(User.username == "admin"))
-        user = res.scalar_one_or_none()
-        if not user:
-            superadmin = User(
-                username="admin",
-                email="admin@edugate.uz",
-                full_name="Viloyat va Shahar Hokimligi Superadmini",
-                hashed_password=get_password_hash("Daminol007$"),
-                role=UserRole.SUPERADMIN,
-                is_superadmin=True,
-                is_active=True
+        if not res.scalar_one_or_none():
+            session.add(
+                User(
+                    username="admin",
+                    email="admin@edugate.uz",
+                    full_name="Viloyat va Shahar Hokimligi Superadmini",
+                    hashed_password=get_password_hash(settings.INITIAL_ADMIN_PASSWORD),
+                    role=UserRole.SUPERADMIN,
+                    is_superadmin=True,
+                    is_active=True,
+                )
             )
-            session.add(superadmin)
             await session.commit()
 
-        # 2. Xalq Ta'limi (MMTV / Hokimlik Monitoring - Read-Only)
         res_xt = await session.execute(select(User).filter(User.username == "xalq_talimi"))
-        user_xt = res_xt.scalar_one_or_none()
-        if not user_xt:
-            xt_user = User(
-                username="xalq_talimi",
-                email="monitoring@edugate.uz",
-                full_name="Xalq Ta'limi Vazirligi (Monitoring Inspeksiya)",
-                hashed_password=get_password_hash("XalqTalimi2026!"),
-                role=UserRole.MINISTRY_VIEWER,
-                is_superadmin=False,
-                is_active=True
+        if not res_xt.scalar_one_or_none():
+            session.add(
+                User(
+                    username="xalq_talimi",
+                    email="monitoring@edugate.uz",
+                    full_name="Xalq Ta'limi Vazirligi (Monitoring Inspeksiya)",
+                    hashed_password=get_password_hash(settings.INITIAL_MINISTRY_PASSWORD),
+                    role=UserRole.MINISTRY_VIEWER,
+                    is_superadmin=False,
+                    is_active=True,
+                )
             )
-            session.add(xt_user)
             await session.commit()
 
-    # Redis keshini ishga tushirish
     await debounce_manager.initialize()
     yield
-    # Dastur to'xtaganda
     await engine.dispose()
 
 
@@ -84,10 +119,9 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
     root_path=root_path,
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
-# CORS (Frontend Web Admin va Mobil ilova uchun)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -96,7 +130,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Static fayllar
+
+@app.middleware("http")
+async def security_headers_middleware(request: Request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    return response
+
+
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
@@ -105,12 +148,21 @@ if os.path.exists(static_dir):
 landing_dir = os.path.join(os.path.dirname(__file__), "static", "landing")
 landing_assets_dir = os.path.join(landing_dir, "assets")
 
-# Anti-Cache global headers for all static files and assets
 CACHE_HEADERS = {
     "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
     "Pragma": "no-cache",
-    "Expires": "0"
+    "Expires": "0",
 }
+
+
+def _resolve_safe_path(base_dir: str, rel_path: str) -> str | None:
+    real_base = os.path.realpath(base_dir)
+    real_target = os.path.realpath(os.path.join(real_base, rel_path))
+    if os.path.commonpath([real_base, real_target]) != real_base:
+        return None
+    if os.path.exists(real_target) and os.path.isfile(real_target):
+        return real_target
+    return None
 
 
 # Marshrutlar
@@ -125,40 +177,29 @@ if not settings.API_V1_STR.startswith("/edugate"):
 @app.api_route("/edugate/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
 @app.api_route("/edugate/index.html", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Public Portal"])
 async def serve_landing(request: Request):
-    # Subdomain orqali kelgan so'rovlarni o'z portaliga to'g'ridan-to'g'ri ulash
     host = request.headers.get("host", "").lower()
     if host.startswith(("journal.", "school.", "maktab.")):
-        content = render_admin_html(portal_mode="school")
-        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+        return HTMLResponse(content=render_admin_html(portal_mode="school"), headers=CACHE_HEADERS)
     if host.startswith(("edu.", "monitoring.", "mmtv.")):
-        content = render_admin_html(portal_mode="monitoring")
-        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+        return HTMLResponse(content=render_admin_html(portal_mode="monitoring"), headers=CACHE_HEADERS)
     if host.startswith("admin."):
-        content = render_admin_html(portal_mode="admin")
-        return HTMLResponse(content=content, headers=CACHE_HEADERS)
+        return HTMLResponse(content=render_admin_html(portal_mode="admin"), headers=CACHE_HEADERS)
 
-    landing_index = os.path.join(os.path.dirname(__file__), "static", "landing", "index.html")
+    landing_index = os.path.join(landing_dir, "index.html")
     if os.path.exists(landing_index):
         with open(landing_index, "r", encoding="utf-8") as f:
             content = f.read()
-        
-        # Har safar sahifa ochilganda yoki refresh qilinganda avtomatik yangi timestamp qo'yish
-        import time, re
         ts = str(int(time.time()))
         content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
-        
-        response = HTMLResponse(content=content)
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-        return response
+        return HTMLResponse(content=content, headers=CACHE_HEADERS)
     return HTMLResponse("<h1>EDUGATE — Davomat va Xavfsizlik Ekotizimi</h1>")
 
 
 @app.get("/Orlan-logo.png", tags=["Public Portal"])
+@app.get("/edugate/Orlan-logo.png", tags=["Public Portal"])
 async def serve_landing_logo():
-    logo_file = os.path.join(os.path.dirname(__file__), "static", "landing", "Orlan-logo.png")
-    if os.path.exists(logo_file):
+    logo_file = _resolve_safe_path(landing_dir, "Orlan-logo.png")
+    if logo_file:
         return FileResponse(logo_file, media_type="image/png", headers=CACHE_HEADERS)
     return HTMLResponse(status_code=404)
 
@@ -166,14 +207,13 @@ async def serve_landing_logo():
 @app.get("/assets/{file_path:path}", tags=["Public Portal"])
 @app.get("/edugate/assets/{file_path:path}", tags=["Public Portal"])
 async def serve_landing_asset(file_path: str):
-    landing_assets = os.path.join(os.path.dirname(__file__), "static", "landing", "assets")
-    full_path = os.path.join(landing_assets, file_path)
-    if os.path.exists(full_path) and os.path.isfile(full_path):
+    full_path = _resolve_safe_path(landing_assets_dir, file_path)
+    if full_path:
         media_type = None
-        if full_path.endswith('.css'):
-            media_type = 'text/css; charset=utf-8'
-        elif full_path.endswith('.js'):
-            media_type = 'application/javascript; charset=utf-8'
+        if full_path.endswith(".css"):
+            media_type = "text/css; charset=utf-8"
+        elif full_path.endswith(".js"):
+            media_type = "application/javascript; charset=utf-8"
         return FileResponse(full_path, media_type=media_type, headers=CACHE_HEADERS)
     raise HTTPException(status_code=404, detail="Asset not found")
 
@@ -181,24 +221,20 @@ async def serve_landing_asset(file_path: str):
 @app.get("/css/{file_path:path}", tags=["Static"])
 @app.get("/edugate/css/{file_path:path}", tags=["Static"])
 async def serve_css(file_path: str):
-    landing_css = os.path.join(os.path.dirname(__file__), "static", "landing", "css", file_path)
-    admin_css = os.path.join(os.path.dirname(__file__), "static", "admin", "css", file_path)
-    if os.path.exists(landing_css) and os.path.isfile(landing_css):
-        return FileResponse(landing_css, media_type="text/css; charset=utf-8", headers=CACHE_HEADERS)
-    if os.path.exists(admin_css) and os.path.isfile(admin_css):
-        return FileResponse(admin_css, media_type="text/css; charset=utf-8", headers=CACHE_HEADERS)
+    for root in (os.path.join(landing_dir, "css"), os.path.join(static_dir, "admin", "css")):
+        full_path = _resolve_safe_path(root, file_path)
+        if full_path:
+            return FileResponse(full_path, media_type="text/css; charset=utf-8", headers=CACHE_HEADERS)
     raise HTTPException(status_code=404, detail="CSS not found")
 
 
 @app.get("/js/{file_path:path}", tags=["Static"])
 @app.get("/edugate/js/{file_path:path}", tags=["Static"])
 async def serve_js(file_path: str):
-    landing_js = os.path.join(os.path.dirname(__file__), "static", "landing", "js", file_path)
-    admin_js = os.path.join(os.path.dirname(__file__), "static", "admin", "js", file_path)
-    if os.path.exists(landing_js) and os.path.isfile(landing_js):
-        return FileResponse(landing_js, media_type="application/javascript; charset=utf-8", headers=CACHE_HEADERS)
-    if os.path.exists(admin_js) and os.path.isfile(admin_js):
-        return FileResponse(admin_js, media_type="application/javascript; charset=utf-8", headers=CACHE_HEADERS)
+    for root in (os.path.join(landing_dir, "js"), os.path.join(static_dir, "admin", "js")):
+        full_path = _resolve_safe_path(root, file_path)
+        if full_path:
+            return FileResponse(full_path, media_type="application/javascript; charset=utf-8", headers=CACHE_HEADERS)
     raise HTTPException(status_code=404, detail="JS not found")
 
 
@@ -207,18 +243,16 @@ async def serve_js(file_path: str):
 @app.get("/edugate/presentation", response_class=HTMLResponse, tags=["Presentation"])
 @app.get("/edugate/presentation.html", response_class=HTMLResponse, tags=["Presentation"])
 async def serve_presentation():
-    pres_file = os.path.join(os.path.dirname(__file__), "static", "landing", "presentation.html")
-    if os.path.exists(pres_file):
+    pres_file = _resolve_safe_path(landing_dir, "presentation.html")
+    if pres_file:
         with open(pres_file, "r", encoding="utf-8") as f:
             content = f.read()
-        response = HTMLResponse(content=content)
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-        return response
+        return HTMLResponse(content=content, headers=CACHE_HEADERS)
     return HTMLResponse("<h1>Prezentatsiya topilmadi</h1>", status_code=404)
 
 
 def render_admin_html(portal_mode: str = "admin") -> str:
-    admin_dir = os.path.join(os.path.dirname(__file__), "static", "admin")
+    admin_dir = os.path.join(static_dir, "admin")
     template_path = os.path.join(admin_dir, "template.html")
     if os.path.exists(template_path):
         with open(template_path, "r", encoding="utf-8") as f:
@@ -226,8 +260,8 @@ def render_admin_html(portal_mode: str = "admin") -> str:
 
         def replacer(match):
             inc_file = match.group(1).strip()
-            full_path = os.path.join(admin_dir, inc_file)
-            if os.path.exists(full_path):
+            full_path = _resolve_safe_path(admin_dir, inc_file)
+            if full_path:
                 with open(full_path, "r", encoding="utf-8") as inc_f:
                     return inc_f.read()
             return f"<!-- missing {inc_file} -->"
@@ -235,8 +269,7 @@ def render_admin_html(portal_mode: str = "admin") -> str:
         content = re.sub(r"<!--\s*include:\s*([^\s>]+)\s*-->", replacer, template)
         ts = str(int(time.time()))
         content = re.sub(r"(\.(?:css|js))\?[tv]=[^\"\'\s>]+", r"\g<1>?t=" + ts, content)
-        
-        # Inject initial portal mode script
+
         portal_script = f'<script>window.EDUGATE_INITIAL_PORTAL = "{portal_mode}";</script>'
         if "</head>" in content:
             content = content.replace("</head>", f"    {portal_script}\n</head>")
@@ -252,8 +285,8 @@ def render_admin_html(portal_mode: str = "admin") -> str:
 @app.api_route("/manifest.json", methods=["GET", "HEAD"], tags=["PWA"])
 @app.api_route("/edugate/manifest.json", methods=["GET", "HEAD"], tags=["PWA"])
 async def serve_manifest():
-    manifest_file = os.path.join(os.path.dirname(__file__), "static", "admin", "manifest.json")
-    if os.path.exists(manifest_file):
+    manifest_file = _resolve_safe_path(os.path.join(static_dir, "admin"), "manifest.json")
+    if manifest_file:
         return FileResponse(manifest_file, media_type="application/manifest+json", headers=CACHE_HEADERS)
     return JSONResponse({"name": "EDUGATE", "short_name": "EDUGATE"})
 
@@ -261,8 +294,8 @@ async def serve_manifest():
 @app.api_route("/sw.js", methods=["GET", "HEAD"], tags=["PWA"])
 @app.api_route("/edugate/sw.js", methods=["GET", "HEAD"], tags=["PWA"])
 async def serve_service_worker():
-    sw_file = os.path.join(os.path.dirname(__file__), "static", "admin", "sw.js")
-    if os.path.exists(sw_file):
+    sw_file = _resolve_safe_path(os.path.join(static_dir, "admin"), "sw.js")
+    if sw_file:
         headers = dict(CACHE_HEADERS)
         headers["Service-Worker-Allowed"] = "/"
         return FileResponse(sw_file, media_type="application/javascript", headers=headers)
@@ -272,8 +305,8 @@ async def serve_service_worker():
 @app.api_route("/static/admin/icons/{icon_name}", methods=["GET", "HEAD"], tags=["PWA"])
 @app.api_route("/edugate/static/admin/icons/{icon_name}", methods=["GET", "HEAD"], tags=["PWA"])
 async def serve_pwa_icon(icon_name: str):
-    icon_path = os.path.join(os.path.dirname(__file__), "static", "admin", "icons", icon_name)
-    if os.path.exists(icon_path):
+    icon_path = _resolve_safe_path(os.path.join(static_dir, "admin", "icons"), icon_name)
+    if icon_path:
         return FileResponse(icon_path, media_type="image/png", headers=CACHE_HEADERS)
     return Response(status_code=404)
 
@@ -293,17 +326,14 @@ async def block_docs(rest_of_path: str = ""):
     raise HTTPException(status_code=404, detail="Not Found")
 
 
-# 1. SUPERADMIN PORTAL (Sayt & Server Boshqaruvi / DevOps)
 @app.api_route("/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/edugate/admin", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 @app.api_route("/edugate/admin/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Admin Portal"])
 async def serve_admin(request: Request):
-    content = render_admin_html(portal_mode="admin")
-    return HTMLResponse(content=content, headers=CACHE_HEADERS)
+    return HTMLResponse(content=render_admin_html(portal_mode="admin"), headers=CACHE_HEADERS)
 
 
-# 2. XALQ TA'LIMI PORTALI (MMTV / Hokimlik Monitoring - Faqat Ko'rish / Read-Only)
 @app.api_route("/edu", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
 @app.api_route("/edu/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
 @app.api_route("/monitoring", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
@@ -317,11 +347,9 @@ async def serve_admin(request: Request):
 @app.api_route("/edugate/mmtv", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
 @app.api_route("/edugate/mmtv/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["Ministry Portal"])
 async def serve_ministry(request: Request):
-    content = render_admin_html(portal_mode="monitoring")
-    return HTMLResponse(content=content, headers=CACHE_HEADERS)
+    return HTMLResponse(content=render_admin_html(portal_mode="monitoring"), headers=CACHE_HEADERS)
 
 
-# 3. MAKTABLAR PORTALI (Elektron Jurnal & Maktab Kabineti - 1 Maktab = 1 Login)
 @app.api_route("/journal", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
 @app.api_route("/journal/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
 @app.api_route("/school", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
@@ -335,30 +363,56 @@ async def serve_ministry(request: Request):
 @app.api_route("/edugate/maktab", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
 @app.api_route("/edugate/maktab/", methods=["GET", "HEAD"], response_class=HTMLResponse, tags=["School Portal"])
 async def serve_school(request: Request):
-    content = render_admin_html(portal_mode="school")
-    return HTMLResponse(content=content, headers=CACHE_HEADERS)
-
+    return HTMLResponse(content=render_admin_html(portal_mode="school"), headers=CACHE_HEADERS)
 
 
 @app.post("/api/contact", tags=["Contact"])
 @app.post("/edugate/api/contact", tags=["Contact"])
-async def submit_contact_lead(request: Request):
+async def submit_contact_lead(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
     try:
         data = await request.json()
     except Exception:
         data = {}
-    return {
-        "status": "success",
-        "message": "Arizangiz qabul qilindi! Tez orada mutaxassisimiz bog'lanadi.",
-        "data": data
-    }
+
+    if data.get("phone") or data.get("phone_number"):
+        lead_payload = LeadOrderCreate(
+            full_name=data.get("full_name") or data.get("contact_name"),
+            phone=data.get("phone") or data.get("phone_number"),
+            region=data.get("region"),
+            school_info=data.get("school_info") or data.get("school_name"),
+            message=data.get("message"),
+            source="landing_contact",
+        )
+        lead = await create_lead_order_record(db, lead_payload, background_tasks)
+        return {
+            "status": "success",
+            "id": lead.id,
+            "message": "Arizangiz qabul qilindi! Tez orada mutaxassisimiz bog'lanadi.",
+        }
+
+    raise HTTPException(status_code=400, detail="Telefon raqami kiritilishi shart.")
 
 
 @app.get("/health", tags=["Health"])
-async def health_check():
+@app.get("/edugate/health", tags=["Health"])
+async def health_check(db: AsyncSession = Depends(get_db)):
+    db_ok = True
+    try:
+        await db.execute(text("SELECT 1"))
+    except Exception:
+        db_ok = False
+
     return {
-        "status": "online",
+        "status": "online" if db_ok else "degraded",
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
-        "database": "sqlite" if settings.USE_SQLITE else "postgresql"
+        "database": {
+            "type": "sqlite" if settings.USE_SQLITE else "postgresql",
+            "connected": db_ok,
+        },
+        "cache": debounce_manager.get_status(),
     }
