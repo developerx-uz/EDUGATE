@@ -1,6 +1,6 @@
 import time
 import asyncio
-from typing import Optional
+from typing import Optional, Dict, Any
 from app.core.config import settings
 
 try:
@@ -12,8 +12,20 @@ except ImportError:
 
 class InMemoryDebounceCache:
     """Redis yo'q bo'lsa yoki lokal sinovda ishlaydigan xotira kesh mexanizmi"""
-    def __init__(self):
-        self._cache = {}
+    def __init__(self, max_entries: int = 10000):
+        self._cache: Dict[str, tuple[float, str]] = {}
+        self._max_entries = max_entries
+
+    def _prune_if_needed(self, now: float):
+        if len(self._cache) >= self._max_entries:
+            expired = [k for k, (exp, _) in self._cache.items() if now > exp]
+            for k in expired:
+                del self._cache[k]
+            if len(self._cache) >= self._max_entries:
+                # Evict oldest quarter
+                oldest = sorted(self._cache.items(), key=lambda item: item[1][0])[: self._max_entries // 4]
+                for k, _ in oldest:
+                    self._cache.pop(k, None)
 
     async def get(self, key: str) -> Optional[str]:
         now = time.time()
@@ -27,8 +39,13 @@ class InMemoryDebounceCache:
         return data
 
     async def set(self, key: str, value: str, ex: int = 900) -> bool:
-        self._cache[key] = (time.time() + ex, value)
+        now = time.time()
+        self._prune_if_needed(now)
+        self._cache[key] = (now + ex, value)
         return True
+
+    async def clear(self):
+        self._cache.clear()
 
 
 class DebounceManager:
@@ -52,10 +69,16 @@ class DebounceManager:
             except Exception:
                 self.redis_client = None
 
+    def get_status(self) -> Dict[str, Any]:
+        return {
+            "backend": "redis" if self.redis_client is not None else "memory",
+            "connected": self.redis_client is not None,
+        }
+
     async def is_debounced(self, student_id: str, direction: str) -> bool:
         """
         Anti-passback & Debounce:
-        O'quvchi oxirgi DEBOUNCE_MINUTES ichida ayni shu eshikdan/yo'nalishdan
+        O'quvchi oxirgi DEBOUNCE_MINUTES ichida ayni shu yo'nalishda
         qayd etilgan bo'lsa True qaytaradi (spam hisoblanadi).
         """
         key = f"debounce:{student_id}:{direction}"
@@ -80,4 +103,3 @@ class DebounceManager:
 
 
 debounce_manager = DebounceManager()
-

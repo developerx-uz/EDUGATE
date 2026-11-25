@@ -29,7 +29,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
     role: str = "SUPERADMIN"
-    full_name: Optional[str] = "Hokimlik Bosh Superadmini"
+    full_name: Optional[str] = None
     school_id: Optional[str] = None
     school_name: Optional[str] = None
 
@@ -47,4 +47,3 @@ class ProfileUpdateRequest(BaseModel):
 class PasswordChangeRequest(BaseModel):
     current_password: str
     new_password: str
-
